@@ -1,5 +1,5 @@
-const express = require('express');
-const router = express.Router();
+const { Router } = require('express');
+const router = Router();
 const rateLimiter = require('express-rate-limit');
 const Sentry = require('@sentry/node');
 const Tracing = require('@sentry/tracing');
@@ -63,24 +63,24 @@ router.use((err, req, res, _) => {
                 }
             );
             break;
-        case 405:
-            // find the allowed methods for the path
-            const { path } = req;
-            const allowedMethods = router.stack
-                .filter(r => r.route && r.route.path === path)
-                .map(r => r.route.stack[0].method.toUpperCase())
-                .join(', ');
-            const methodUsed = req.method.toUpperCase();
-            res.status(405).render(
-                `misc/405.pug`,
-                {
-                    title: '405 - Method Not Allowed',
-                    path,
-                    allowedMethods,
-                    methodUsed
-                }
-            );
-            break;
+        // case 405:
+        //     const allowedMethods = [];
+        //     const methodUsed = req.method.toLowerCase();
+        //     const { path } = req;
+        //     router.stack.forEach((r) => {
+        //         if (r.route && r.route.path === path) {
+        //             allowedMethods.push(r.route.stack[0].method.toLowerCase());
+        //         }
+        //     })
+        //     res.status(405).render(
+        //         `misc/405.pug`,
+        //         {
+        //             title: '405 - Method Not Allowed',
+        //             path,
+        //             allowedMethods: allowedMethods.forEach(m => m.toUpperCase()),
+        //             methodUsed: methodUsed.toUpperCase()
+        //         }
+        //     );
         case 404:
             break;
         default:
