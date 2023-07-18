@@ -1,0 +1,28 @@
+doctype html
+html(lang='en')
+  head
+    include ../defaults/header.pug
+    // JavaScript
+    script(src='/js/fs/website-gen.js')
+    script(src='/js/cg/websiteGenerators.js')
+  body(onload='setup()')
+    include ../defaults/nav.pug
+    lb
+    #button-area
+      h1 Website Generators
+      lb
+      icon(type='1')
+        a(href='javascript:void(genwin(1,600,600))') looks_one
+      icon(type='1')
+        a(href='javascript:void(genwin(2,600,600))') looks_two
+      icon(type='1')
+        a(href='javascript:void(genwin(3,600,600))') looks_3
+      icon(type='1')
+        a(href='javascript:void(genwin(4,600,600))') looks_4
+      icon(type='1')
+        a(href='javascript:void(genwin(5,600,600))') looks_5
+      icon(type='1')
+        a(href='javascript:void(genwin(6,600,600))') looks_6
+    lb
+    include ../defaults/locked.pug
+    include ../defaults/footer.pug

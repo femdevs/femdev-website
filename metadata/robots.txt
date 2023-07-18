@@ -1,0 +1,8 @@
+User-agent: *
+Disallow: /toolbox
+Disallow: /website-generator
+Disallow: /js/
+Disallow: /css/
+Disallow: /f/
+
+Sitemap: https://sparty18.com/sitemap

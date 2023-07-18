@@ -1,0 +1,81 @@
+/* Navigation Management */
+
+.navigation nav {
+    padding-bottom: 10px;
+}
+
+.navigation nav ul {
+    text-align: center;
+    list-style-type: none;
+    background-color: rgba(84, 84, 84, 0.625);
+    color: rgba(4, 4, 4, 1);
+    border: 2px solid rgba(18, 18, 18, 0.625);
+    border-radius: 10px;
+    font-weight: bold;
+    padding: 16px;
+    width: fit-content;
+    margin: auto;
+}
+
+.navigation nav ul li {
+    display: inline;
+    padding: 0 9px;
+}
+
+.navigation nav ul li a {
+    text-decoration: none;
+    color: rgba(18, 18, 18, 1);
+}
+
+.navigation nav li.selected {
+    color: rgba(4, 4, 4, 1);
+    text-decoration: underline;
+}
+
+.navigation nav ul li a:hover {
+    text-decoration: underline;
+}
+
+/* SVG Background */
+
+html {
+    background: linear-gradient(135deg, rgba(0, 0, 255, 0.2), rgba(255, 0, 0, 0.2)) !important;
+    animation: hue_rotate var(--rot-time) linear infinite;
+}
+
+/* Extras */
+
+.title {
+    color: black;
+    font-size: 48px;
+    font-size: bolder;
+    text-decoration: underline red 4px;
+}
+
+strong,
+i,
+strike,
+b,
+del,
+ins,
+dfn,
+em,
+s {
+    font-style: normal;
+    text-decoration: none;
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    padding: 10px;
+    background-color: rgba(84, 84, 84, 0.625);
+    color: rgba(4, 4, 4, 1);
+    border: 2px solid rgba(18, 18, 18, 0.625);
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 0.8em;
+}

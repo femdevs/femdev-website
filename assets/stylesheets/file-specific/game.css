@@ -1,0 +1,45 @@
+html {
+    text-align: center;
+    cursor: unset;
+}
+
+body {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.main {
+    display: flex;
+    justify-content: space-evenly;
+    align-content: space-around;
+}
+
+#typing,
+#clicking {
+    width: 100%;
+    margin: 4px;
+    align-items: center;
+    align-content: center;
+    border: 4px dotted black;
+    border-radius: 16px;
+}
+
+.counter {
+    color: rgb(24, 25, 31);
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+.counter span {
+    color: rgba(84, 84, 84, 0.95);
+}
+
+@media screen and (max-width: 768px) {
+    #typing {
+        display: none;
+    }
+}
