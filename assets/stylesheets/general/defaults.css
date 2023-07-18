@@ -39,17 +39,15 @@
 /* SVG Background */
 
 html {
-    background: linear-gradient(135deg, rgba(0, 0, 255, 0.2), rgba(255, 0, 0, 0.2)) !important;
-    animation: hue_rotate var(--rot-time) linear infinite;
+    background: var(--dark800) !important;
 }
 
 /* Extras */
 
 .title {
-    color: black;
+    color: var(--dark100);
     font-size: 48px;
     font-size: bolder;
-    text-decoration: underline red 4px;
 }
 
 strong,

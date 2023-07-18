@@ -6,3 +6,7 @@ body {
     font-size: 48px;
     font-size: bolder;
 }
+
+h2 {
+    color: var(--dark100)
+}

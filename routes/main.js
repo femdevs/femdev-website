@@ -58,26 +58,10 @@ router.get(`/sitemap`, (req, res) => {
         .sendFile(`${process.cwd()}/metadata/sitemap.xml`)
 });
 
-router.get(`/socials`, (req, res) => {
-    res
-        .redirect(`https://benpai.carrd.co/`)
-});
-
 router.get(`/thumbnail`, (req, res) => {
     res
         .setHeader('Cache-Control', 'no-cache')
         .redirect("https://cdn.discordapp.com/attachments/999266213697945652/1081273691867992124/image.png")
-});
-
-router.get(`/chessthumbnail`, (req, res) => {
-    res
-        .setHeader('Cache-Control', 'no-cache')
-        .redirect("https://cdn.discordapp.com/attachments/999266213697945652/1072217450306883654/image.png")
-});
-
-router.get(`/chess`, (req, res) => {
-    res
-        .redirect('https://sparty18.me/chess')
 });
 
 router.get('/favicon.ico', (req, res) => {
@@ -95,44 +79,13 @@ router.get('/blank', (req, res) => {
     );
 });
 
-router.get('/about-me', (req, res) => {
-    res.render(
-        `main/about-me.pug`,
-        {
-            title: "About Me",
-            page: 2,
-            file: "about-me"
-        }
-    );
-})
-
-router.get('/cornhole', (req, res) => {
-    res.render(
-        `main/cornhole.pug`,
-        {
-            title: "Cornhole Score Keeper",
-            file: "cornhole"
-        }
-    );
-})
-
-router.get('/game', (req, res) => {
-    res.render(
-        `main/game.pug`,
-        {
-            title: "Keyboard and Mouse Game",
-            page: 3,
-            file: "game"
-        }
-    );
-})
-
 router.get('/socials', (req, res) => {
     res.render(
         `main/socials.pug`,
         {
             title: 'Socials',
-            page: 4
+            page: 2,
+            file: 'socials'
         }
     );
 })
@@ -152,7 +105,7 @@ router.get('/web-gen', (req, res) => {
         `main/website-generator.pug`,
         {
             title: 'Website Generator',
-            file: 'website-generator'
+            file: 'website-generator',
         }
     );
 })
