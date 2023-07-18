@@ -1,5 +1,5 @@
 :root {
-    --bg: rgba(24,25,31,1);
+    --bg: #1D4E89;
     --bk: rgba(0,0,0,0.5);
     --lb: rgba(0,114,255,1);
     --gscale: 1;
@@ -30,4 +30,5 @@
     max-width: var(--mvw);
     height: var(--mvh);
     font-family: 'Assistant', 'Comic Sans', sans-serif, monospace, serif;
+    color: rgba(0,0,0,0.7);
 }
