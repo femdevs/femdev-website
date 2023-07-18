@@ -6,8 +6,8 @@ const Tracing = require('@sentry/tracing');
 const Intigrations = require('@sentry/integrations')
 const website = require('./main')
 const cdn = require('./cdn');
-const projects = require('./projects');
 const legal = require('./legal');
+const error = require('./errors')
 
 Sentry.init({
     dsn: "https://90738d20a91d4f169081dfbea05bc8d4@o4504516705058816.ingest.sentry.io/4504771825303552",
@@ -46,8 +46,8 @@ router.use(Sentry.Handlers.requestHandler({ transaction: true }));
 router.use(Sentry.Handlers.tracingHandler());
 router.use(limiter);
 router.use('/cdn', cdn);
-router.use('/projects', projects);
 router.use('/legal', legal);
+router.use('/error', error)
 router.use('/', website);
 
 router.use((err, req, res, _) => {
@@ -85,6 +85,7 @@ router.use((err, req, res, _) => {
             break;
         default:
             const errorId = Sentry.captureException(err);
+            console.log(err)
             res
                 .status(501)
                 .setHeader('X-Error-ID', errorId)

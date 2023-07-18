@@ -8,11 +8,17 @@ html(lang="en")
     include ./errorcss.pug
   body
     h1 405
-    p Method not allowed. Method used: 
-        strong= methodUsed
-    | . Methods allowed: 
-        strong= allowedMethods
-    | . Please use one of the methods allowed.
+    p Method not allowed. 
+      br
+      | Method used: 
+      br
+      strong= methodUsed
+      br
+      | Methods allowed: 
+      br
+      strong= allowedMethods
+      br
+      | Please use one of the methods allowed.
     footer
       h3
         a(href="/") Go Back Home
