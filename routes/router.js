@@ -4,9 +4,7 @@ const rateLimiter = require('express-rate-limit');
 const Sentry = require('@sentry/node');
 const Tracing = require('@sentry/tracing');
 const Intigrations = require('@sentry/integrations')
-
 const website = require('./main')
-const api = require('./api');
 const cdn = require('./cdn');
 const projects = require('./projects');
 const legal = require('./legal');
@@ -47,7 +45,6 @@ const limiter = rateLimiter.rateLimit({
 router.use(Sentry.Handlers.requestHandler({ transaction: true }));
 router.use(Sentry.Handlers.tracingHandler());
 router.use(limiter);
-router.use('/api', api);
 router.use('/cdn', cdn);
 router.use('/projects', projects);
 router.use('/legal', legal);

@@ -5,4 +5,4 @@ Disallow: /js/
 Disallow: /css/
 Disallow: /f/
 
-Sitemap: https://sparty18.com/sitemap
+Sitemap: https://thefemdevs.com/sitemap

@@ -3,32 +3,8 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
    <url>
-      <loc>https://sparty18.com/</loc>
+      <loc>https://thefemdevs.com/</loc>
       <priority>1.0</priority>
-   </url>
-   <url>
-      <loc>https://sparty18.com/about-me</loc>
-      <priority>0.5</priority>
-   </url>
-   <url>
-      <loc>https://sparty18.com/cornhole</loc>
-      <priority>0.5</priority>
-   </url>
-   <url>
-      <loc>https://sparty18.com/game</loc>
-      <priority>0.5</priority>
-   </url>
-   <url>
-      <loc>https://sparty18.com/socials</loc>
-      <priority>0.5</priority>
-   </url>
-   <url>
-      <loc>https://sparty18.com/toolbox</loc>
-      <priority>0.1</priority>
-   </url>
-   <url>
-      <loc>https://sparty18.com/website-generator</loc>
-      <priority>0.1</priority>
    </url>
 
 </urlset> 

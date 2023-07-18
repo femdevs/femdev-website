@@ -9,8 +9,8 @@ const fs = require('fs');
  */
 module.exports = (req, res, next) => {
     res
-        .setHeader('X-Repo','https://github.com/sparty182020/server-site')
-        .setHeader('X-Live-Deploy', 'https://spaty18.com')
+        .setHeader('X-Repo','https://github.com/femdevs/femdev-website')
+        .setHeader('X-Live-Deploy', 'https://thefemdevs.com')
         .setHeader('X-OS-License', 'Affero General Public License v3.0 or newer (AGPL-3.0-or-later)')
         // .setHeader('X-Head', latestHead);
     next();

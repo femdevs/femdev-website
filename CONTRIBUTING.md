@@ -4,6 +4,6 @@ To contribute to this repo:
 2. If you would like to have them merged, make a **pull** request where my repo matches yours.
 3. I will ***review*** your code and pull request information and then decide if I should merge.
 ---
-**For more information, please contact me at [this email address](mailto:support@sparty182020.anonaddy.com) and explain.**
+**For more information, please contact me at [this email address](mailto:support@thefemdevs.com) and explain.**
 
->***Signed, [@sparty182020](github.com/sparty182020)***
+>***Signed, FemDevs Admin Team***
