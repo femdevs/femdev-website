@@ -122,6 +122,7 @@ class Cryptography {
             D,
             E,
             temp,
+            int,
             word_array = new Array();
         for (let i = 0; i < msg.length - 3; i += 4) word_array.push(msg.charCodeAt(i) << 24 | msg.charCodeAt(i + 1) << 16 | msg.charCodeAt(i + 2) << 8 | msg.charCodeAt(i + 3));
         switch (msg.length % 4) {

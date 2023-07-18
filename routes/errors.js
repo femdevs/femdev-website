@@ -2,17 +2,26 @@ const { Router } = require('express')
 
 const router = Router()
 
+router.get('/400', (req, res) => {
+    res.render(
+        'misc/400.pug',
+        {
+            title: `400 - Invalid Request`,
+            path: req.path,
+        }
+    )
+})
+
 router.get('/401', (req, res) => {
     res.render(
         'misc/401.pug',
         {
             title: `401 - Unauthorized`,
             path: req.path,
-            code: err.status
-
         }
     )
 })
+
 router.get('/404', (req, res) => {
     res.render(
         `misc/404.pug`,
@@ -22,6 +31,7 @@ router.get('/404', (req, res) => {
         }
     );
 })
+
 router.get('/405', (req, res) => {
     const { path } = req
     const allowedMethods = router.stack
@@ -39,6 +49,7 @@ router.get('/405', (req, res) => {
         }
     );
 })
+
 router.get('/429', (req, res) => {
     res.render(
         `misc/429.pug`,
@@ -47,12 +58,13 @@ router.get('/429', (req, res) => {
         }
     )
 })
+
 router.get('/501', (req, res) => {
     res.render(
         `misc/501.pug`,
         {
             title: `501 - Internal Server Error`,
-            errorId: '000'
+            errorId: require('../src/util-fuctions').Utils.Crypto.FullHash("Testing Error")
         }
     )
 })
