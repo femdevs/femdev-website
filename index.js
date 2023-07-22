@@ -17,4 +17,4 @@ http
     .createServer(app)
     .listen(3001, () => console.log('http server is up'));
 
-setInterval(() => fetch('https://sparty18.com'), 300000)
+setInterval(() => fetch('https://thefemdevs.com'), 300000)
