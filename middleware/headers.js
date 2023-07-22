@@ -11,7 +11,9 @@ module.exports = (req, res, next) => {
     res
         .setHeader('X-Repo','https://github.com/femdevs/femdev-website')
         .setHeader('X-Live-Deploy', 'https://thefemdevs.com')
-        .setHeader('X-OS-License', 'Affero General Public License v3.0 or newer (AGPL-3.0-or-later)')
+        .setHeader('X-Repository-License', 'Affero General Public License v3.0 or newer (AGPL-3.0-or-later)')
+        .setHeader('X-OS', process.platform)
+        .removeHeader('X-Powered-By')
         // .setHeader('X-Head', latestHead);
     next();
 }

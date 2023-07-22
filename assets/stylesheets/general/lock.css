@@ -1,10 +1,10 @@
 #login {
-    border: 3px solid black;
+    border: 3px solid var(--secondary);
     border-radius: 8px;
     padding: 16px;
     width: 500px;
     height: 200px;
-    background: var(--dark200);
+    background: var(--dark600);
     top: 50%;
     left: 50%;
     position: fixed;
@@ -24,7 +24,7 @@
 
 #login>input {
     height: 20px;
-    border: 2px solid green;
+    border: 2px solid var(--secondary);
     border-radius: 4px;
     bottom: 3px;
     position: relative;
@@ -37,7 +37,7 @@
 }
 
 #login>input:focus {
-    background-color: #4B4B4B;
+    background-color: var(--text);
     border: 2px solid green;
     border-radius: 4px;
 }
@@ -56,6 +56,7 @@
     position: fixed;
     top: 0;
     left: 0;
+    margin: 0;
     background-color: rgba(0, 0, 0, 1);
     display: block;
     visibility: visible;

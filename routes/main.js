@@ -36,8 +36,8 @@ router.get(`/f/:file`, (req, res) => {
 router.get(`/icon`, (req, res) => {
     res
         .setHeader('Cache-Control', 'no-cache')
-        .setHeader(`Content-Type`, `image/x-icon`)
-        .sendFile(`${process.cwd()}/assets/media/images/icon.ico`)
+        .setHeader(`Content-Type`, `image/svg+xml`)
+        .sendFile(`${process.cwd()}/assets/media/images/icon`)
 });
 
 router.get(`/bg`, (req, res) => {
@@ -95,7 +95,8 @@ router.get('/toolbox', (req, res) => {
         `main/toolbox.pug`,
         {
             title: 'Developmental Toolbox',
-            file: 'toolbox'
+            file: 'toolbox',
+            locked: true
         }
     );
 })
@@ -105,7 +106,8 @@ router.get('/web-gen', (req, res) => {
         `main/website-generator.pug`,
         {
             title: 'Website Generator',
-            file: 'website-generator',
+            file: 'website-gen',
+            locked: true
         }
     );
 })

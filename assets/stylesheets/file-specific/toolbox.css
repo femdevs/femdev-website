@@ -1,8 +1,3 @@
-div#toolbox-container {
-    border: 3px solid var(--dark200);
-    border-radius: 6px;
-}
-
 div#toolbox-container>div.innerdiv {
     display: flex;
     justify-content: space-evenly;
@@ -13,10 +8,11 @@ div#toolbox-container>div.innerdiv>button {
     width: 15%;
     margin: 1%;
     margin-bottom: auto;
-    background: transparent;
-    border: 4px solid black;
+    background: var(--secondary);
+    border: 4px solid var(--primary);
     border-radius: 8px;
     font-size: 16px;
+    color: var(--text);
 }
 
 div#toolbox-container>div.innerdiv>button:first-child {

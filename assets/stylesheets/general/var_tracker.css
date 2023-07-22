@@ -1,7 +1,7 @@
 :root {
     --bg: #1D4E89;
-    --bk: rgba(0,0,0,0.5);
-    --lb: rgba(0,114,255,1);
+    --bk: rgba(0, 0, 0, 0.5);
+    --lb: rgba(0, 114, 255, 1);
     --gscale: 1;
     --gts: 125ms;
     --rot-multi: 60;
@@ -25,10 +25,15 @@
     --ma: 100%;
     --ifs: 36px;
     --translatec: translate(-50%, -50%);
+    --text: rgb(242, 248, 237);
+    --background: rgb(5, 5, 5);
+    --primary: rgb(48, 70, 62);
+    --secondary: rgb(9, 42, 30);
+    --accent: rgb(69, 176, 121);
     min-width: var(--mvw);
     width: var(--mvw);
     max-width: var(--mvw);
     height: var(--mvh);
     font-family: 'Assistant', 'Comic Sans', sans-serif, monospace, serif;
-    color: rgba(0,0,0,0.7);
+    color: var(--text);
 }

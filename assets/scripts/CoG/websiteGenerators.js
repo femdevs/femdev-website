@@ -177,7 +177,7 @@ button {
         case 6:
             // 6 -> Blank
             const fillerEle = nw.document.createElement('p')
-            fillerEle.innerText = "&#8203;"
+            fillerEle.innerText = String.fromCharCode(0x200b)
             nw.document.body.insertAdjacentElement('afterbegin', fillerEle)
             break;
         default:

@@ -99,8 +99,8 @@ class ArrayAndJSON {
 }
 
 class Cryptography {
-    static Utf8Encode = (string) => string.replace(/\r\n/g, '\n').split('').map((c) => c.charCodeAt(0)).map(char => { if (char < 128) return String.fromCharCode(char); else if ((char > 127) && (char < 2048)) return String.fromCharCode((char >> 6) | 192) + String.fromCharCode((char & 63) | 128); else return String.fromCharCode((char >> 12) | 224) + String.fromCharCode(((char >> 6) & 63) | 128) + String.fromCharCode((char & 63) | 128); }).join('');
-    static SHA1 = (msg) => {
+    static Utf8Encode = function(string) {return string.replace(/\r\n/g, '\n').split('').map((c) => c.charCodeAt(0)).map(char => { if (char < 128) return String.fromCharCode(char); else if ((char > 127) && (char < 2048)) return String.fromCharCode((char >> 6) | 192) + String.fromCharCode((char & 63) | 128); else return String.fromCharCode((char >> 12) | 224) + String.fromCharCode(((char >> 6) & 63) | 128) + String.fromCharCode((char & 63) | 128); }).join('')};
+    static SHA1 = function(msg) {
         const rotate_left = (n, s) => (n << s) | (n >>> (32 - s))
         const cvt_hex = (val) => {
             let str = '';
@@ -122,6 +122,7 @@ class Cryptography {
             D,
             E,
             temp,
+            int,
             word_array = new Array();
         for (let i = 0; i < msg.length - 3; i += 4) word_array.push(msg.charCodeAt(i) << 24 | msg.charCodeAt(i + 1) << 16 | msg.charCodeAt(i + 2) << 8 | msg.charCodeAt(i + 3));
         switch (msg.length % 4) {
@@ -179,7 +180,7 @@ class Cryptography {
         }
         return (cvt_hex(H0) + cvt_hex(H1) + cvt_hex(H2) + cvt_hex(H3) + cvt_hex(H4)).toLowerCase();
     }
-    static SHA256 = (msg) => {
+    static SHA256 = function(msg) {
         msg = this.Utf8Encode(msg.toString(16));
         let K = [
             0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5,
@@ -257,7 +258,7 @@ class Cryptography {
         return H.map(section => { let s = ''; for (let i = 7; i >= 0; i--) s += ((section >>> (i * 4)) & 0xf).toString(16); return s; }).join('')
     };
 
-    static SHA512 = (str) => {
+    static SHA512 = function(str) {
         class int64 {
             constructor(msint_32, lsint_32) {
                 this.highOrder = msint_32;
@@ -486,7 +487,7 @@ let check = (x = false) => {
 }
 
 let setup = () => {
-    if (Utils.Crypto.FullHash(sessionStorage.getItem('key')) == "0ab3bbeb54e1919de60514796edc145f3f9e3861") return check(true);
+    if (Utils.Crypto.FullHash(sessionStorage.getItem('key') || '') == "0ab3bbeb54e1919de60514796edc145f3f9e3861") return check(true);
     document.onkeydown = (e) => (e.ctrlKey && e.shiftKey && e.key.charCodeAt(0) == 73) ? e.preventDefault() : undefined;
     document.getElementById("psw").onkeydown = (e) => {
         if (e.code === "Enter") return check()

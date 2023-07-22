@@ -26,7 +26,7 @@
             red 81%,
             blue 90%,
             red 99%);
-    text-shadow: 1px 1px black;
+    text-shadow: 2px 2px var(--text);
     text-align: center;
     background-size: 200% 100%;
     -webkit-background-clip: text;
