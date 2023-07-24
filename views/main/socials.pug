@@ -4,7 +4,28 @@ html(lang='en')
     include ../defaults/header.pug
   body
     include ../defaults/nav.pug
-    h1.title Social Links
-    h2 Click Here
-    
+    .container
+      h1.title Check us out, and contact us!
+      .social-links
+        p
+          a(href='https://discord.gg/t5YRPwfECH', target='_blank')
+            img(src='/assets/media/images/discord-icon.png')
+            | Join us on Discord
+        p
+          a(href='https://x.com/officialfemdevs', target='_blank')
+            img(src='/assets/media/images/twitter-icon.png')
+            | Follow us on Twitter
+        p
+          a(href='https://github.com/femdevs', target='_blank')
+            img(src='/assets/media/images/github-icon.png')
+            | Check out our GitHub
+        p
+          a(href='mailto:support@thefemdevs.com', target='_blank')
+            img(src='/assets/media/images/email-icon.png')
+            | Email us for support: support@thefemdevs.com
+        p
+          a(href='mailto:projects@thefemdevs.com', target='_blank')
+            img(src='/assets/media/images/email-icon.png') 
+            | Inquire about projects: inquries@thefemdevs.com
+
     include ../defaults/footer.pug
