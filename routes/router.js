@@ -7,7 +7,8 @@ const Intigrations = require('@sentry/integrations')
 const website = require('./main')
 const cdn = require('./cdn');
 const legal = require('./legal');
-const error = require('./errors')
+const error = require('./errors');
+const assets = require('./assets/router');
 
 Sentry.init({
     dsn: "https://90738d20a91d4f169081dfbea05bc8d4@o4504516705058816.ingest.sentry.io/4504771825303552",
@@ -33,7 +34,16 @@ Sentry.init({
     sendDefaultPii: true
 });
 
-const limiter = rateLimiter.rateLimit({
+const baseLimiter = rateLimiter.rateLimit({
+    windowMs: 1000,
+    max: 10,
+    legacyHeaders: false,
+    standardHeaders: true,
+    handler: (_, res, ...args) => res.status(429).render(`misc/429.pug`, { title: '429 - Too Many Requests' }),
+    skip: (req, _) => req.path.startsWith('/assets')
+});
+
+const assetsLimiter = rateLimiter.rateLimit({
     windowMs: 1000,
     max: 10,
     legacyHeaders: false,
@@ -44,10 +54,12 @@ const limiter = rateLimiter.rateLimit({
 
 router.use(Sentry.Handlers.requestHandler({ transaction: true }));
 router.use(Sentry.Handlers.tracingHandler());
-router.use(limiter);
+router.use(baseLimiter);
+router.use('/asssets', assetsLimiter)
 router.use('/cdn', cdn);
 router.use('/legal', legal);
-router.use('/error', error)
+router.use('/error', error);
+router.use('/assets', assets);
 router.use('/', website);
 
 router.use((err, req, res, _) => {
