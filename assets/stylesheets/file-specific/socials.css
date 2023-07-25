@@ -18,11 +18,15 @@ body {
   transform: translateX(-50%);
   left: 50%;
   position: absolute;
+  list-style: none;
 }
 
-.social-links p {
+.social-links ul {
   display: flex;
   align-items: center;
+}
+
+.social-links li {
   font-size: 18px;
 }
 
