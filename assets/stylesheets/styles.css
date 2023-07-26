@@ -579,7 +579,6 @@ video {
 .underline {
   text-decoration-line: underline;
 }
-
 /* Navigation Management */
 nav {
     padding-bottom: 10px;
@@ -665,7 +664,6 @@ footer {
     padding: 10px 0px 10px 0px;
     margin: 0px;
 }
-
 @font-face {
     font-family: "assistant";
     src: url(../fonts/Assistant1.ttf);
