@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const fs = require('fs');
+const path = require('path');
 const http = require('http');
 const https = require('https');
 const router = require('./routes/router');
@@ -11,6 +12,7 @@ fs.readdirSync(`${__dirname}/middleware`).forEach(file => {
 })
 
 app.set('view engine', 'pug');
+app.use(express.static(path.join(__dirname, 'assets')));
 
 app.use('/', router);
 

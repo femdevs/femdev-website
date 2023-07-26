@@ -1,0 +1,100 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Navigation Management */
+nav {
+    padding-bottom: 10px;
+}
+menu>ul, .drop-menu {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+menu {
+    display: unset;
+    list-style-type: unset;
+    margin-block-start: unset;
+    margin-block-end: unset;
+    margin-inline-start: unset;
+    margin-inline-end: unset;
+    padding-inline-start: unset;
+}
+.menu-item {
+    align-self: center;
+    display: inline-block;
+    background-color: var(--accent);
+    position: absolute;
+    left: 100%;
+    transform: translateX(-120%);
+}
+.main-menu {
+    display: block;
+    padding: 0px 0.5675%;
+    margin: 0;
+    width: max-content;
+    height: max-content;
+    border: 1px solid var(--secondary);
+    border-radius: 5px;
+}
+.menu-item a {
+    text-decoration: none;
+    padding: 10px;
+    color: var(--text);
+    display: block;
+}
+.drop-menu {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    min-width: 100px;
+    right: 0;
+    border: 1px solid var(--secondary);
+    border-radius: 5px;
+}
+.drop-menu-item {
+    width: 100%;
+}
+.drop-menu-item:hover {
+    background-color: #eee;
+}
+.drop-menu-item a {
+    color: #555;
+}
+.menu-item:hover .drop-menu {
+    margin-top: 0px;
+    display: block;
+}
+#menu-icon {
+    transform: translateY(5%);
+    font-size: 24px;
+}
+footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    padding: 10px;
+    background: linear-gradient(135deg, rgba(0, 0, 127, 0.3) 33%, rgba(127, 00, 127, 0.3) 66%, rgba(127, 0, 0, 0.3)) !important;
+    color: var(--text);
+    border: 2px solid var(--secondary);
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 0.8em;
+    padding: 10px 0px 10px 0px;
+    margin: 0px;
+}
+
+@font-face {
+    font-family: "assistant";
+    src: url(../fonts/Assistant1.ttf);
+}
+@font-face {
+    font-family: "tenoriteRegular";
+    src: url(../fonts/tenoriteRegular.ttf);
+}
+@font-face {
+    font-family: "tenoriteBold";
+    src: url(../fonts/tenoriteBold.ttf);
+}
