@@ -2,30 +2,31 @@ doctype html
 html(lang='en')
   head
     include ../defaults/header.pug
-  body
+  body(class="font-assistant bg-zinc-950 text-slate-100 p-[10px] md:px-[30px] md:py-[15px]")
     include ../defaults/nav.pug
-    .container
-      h1.title Check us out, and contact us!
-      ul.social-links
-        li
-          a(href='https://discord.gg/t5YRPwfECH', target='_blank')
-            img(src='/assets/images/static/discord-icon.png')
-            | Join us on Discord
-        li
-          a(href='https://x.com/officialfemdevs', target='_blank')
-            img(src='/assets/images/static/twitter-icon.png')
-            | Follow us on Twitter
-        li
-          a(href='https://github.com/femdevs', target='_blank')
-            img(src='/assets/images/static/github-icon.png')
-            | Check out our GitHub
-        li
-          a(href='mailto:support@thefemdevs.com', target='_blank')
-            img(src='/assets/images/static/email-icon.png')
-            | Email us for support: support@thefemdevs.com
-        li
-          a(href='mailto:projects@thefemdevs.com', target='_blank')
-            img(src='/assets/images/static/email-icon.png') 
-            | Inquire about projects: inquries@thefemdevs.com
+    div(class="p-5 flex flex-col mx-auto gap-3 md:w-[900px] md:gap-5")
+      div
+        h1 Check us out, and contact us!
+        ul(class="flex flex-col gap-4 items-start")
+          li
+            a(href='https://discord.gg/t5YRPwfECH', target='_blank', class="flex items-center gap-4")
+              img(src='/assets/images/static/discord-icon.png', class="overflow-hidden bg-cover w-[50px] rounded-full")
+              p Join us on Discord
+          li
+            a(href='https://x.com/officialfemdevs', target='_blank', class="flex items-center gap-4")
+              img(src='/assets/images/static/twitter-icon.png', class="overflow-hidden bg-cover w-[50px] rounded-lg")
+              p Follow us on Twitter
+          li
+            a(href='https://github.com/femdevs', target='_blank', class="flex items-center gap-4")
+              img(src='/assets/images/static/github-icon.png', class="overflow-hidden bg-cover w-[50px] rounded-full")
+              p Check out our GitHub
+          li
+            a(href='mailto:support@thefemdevs.com', target='_blank', class="flex items-center gap-4")
+              img(src='/assets/images/static/email-icon.png', class="overflow-hidden bg-cover w-[50px] rounded-lg")
+              | Email us for support: support@thefemdevs.com
+          li
+            a(href='mailto:projects@thefemdevs.com', target='_blank', class="flex items-center gap-4")
+              img(src='/assets/images/static/email-icon.png', class="overflow-hidden bg-cover w-[50px] rounded-lg") 
+              p Inquire about projects: inquries@thefemdevs.com
 
     include ../defaults/footer.pug

@@ -43,8 +43,8 @@ script(type='application/ld+json').
     "nationality": "American"
   }
 title= title
-//- if file
-//-   - var filename = '/assets/css/f/' + file
-//-   link(href=filename rel='stylesheet' type='text/css')
+if file
+  - var filename = '/assets/css/f/' + file
+  link(href=filename rel='stylesheet' type='text/css')
 if locked
   script(defer='' src='/assets/js/o/testing.js')

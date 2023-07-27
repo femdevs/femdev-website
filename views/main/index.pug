@@ -4,15 +4,15 @@ html(lang='en')
     include ../defaults/header.pug
   body(class="font-assistant bg-zinc-950 text-slate-100 p-[10px] md:px-[30px] md:py-[15px]")
     include ../defaults/nav.pug
-    div(class="p-5 flex flex-col  mx-auto md:w-[900px]")
+    div(class="p-5 flex flex-col mx-auto gap-3 md:w-[900px] md:gap-5")
       div
-        h1(class="text-4xl font-tenorite-bold text-zinc-50") Welcome to FemDevs!
+        h1(class="font-tenorite-bold") Welcome to FemDevs!
         p
           | We are a passionate team who love creating elegant and powerful web and software solutions. 
           | Our team of skilled and talented developers is ready to take on any project and deliver 
           | top-notch results that exceed your expectations.
       div
-        h2(class="text-3xl font-tenorite-bold text-zinc-50") Our Services
+        h2(class="font-tenorite-bold") Our Services
         ul(class="list-disc pl-6 md:pl-8")
           li Web Development
           li Mobile App Development 
@@ -22,10 +22,10 @@ html(lang='en')
           li 24/7 Hosting 
           li And more!
       div
-        h2(class="text-3xl font-tenorite-bold text-zinc-50") Contact Us
+        h2(class="font-tenorite-bold") Contact Us
         p
           | Ready to start your next project with us? Feel free to 
-          a(href='/socials' class="text-red-300 underline visited:text-purple-300") Get in touch!
+          a(href='/socials') Get in touch!
           |  and we'll be more than happy to discuss your requirements and provide a free quote.
 
     include ../defaults/footer.pug
