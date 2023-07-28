@@ -8,6 +8,7 @@ h1 {
     line-height: 2.5rem/* 40px */;
     --tw-text-opacity: 1;
     color: rgb(250 250 250 / var(--tw-text-opacity));
+    margin-bottom: 4px;
 }
 h2 {
     font-size: 1.875rem/* 30px */;
