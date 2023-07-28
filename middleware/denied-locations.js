@@ -19,7 +19,6 @@ module.exports = async function(req, res, next) {
                 return res.render('misc/location_denial.pug')
             case 'US':
                 if (ipInfo.state_prov === 'California') return res.render('misc/location_denial.pug');
-                break;
             default:
                 return next();
         }
