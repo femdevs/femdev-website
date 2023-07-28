@@ -495,15 +495,6 @@ video {
 .flex {
   display: flex;
 }
-.w-\[50px\] {
-  width: 50px;
-}
-.w-\[30px\] {
-  width: 30px;
-}
-.w-\[40px\] {
-  width: 40px;
-}
 .w-\[35px\] {
   width: 35px;
 }
@@ -683,16 +674,12 @@ footer {
 }
 @media (min-width: 768px) {
 
-  .md\:w-\[900px\] {
-    width: 900px;
-  }
-
-  .md\:w-\[30px\] {
-    width: 30px;
-  }
-
   .md\:w-\[50px\] {
     width: 50px;
+  }
+
+  .md\:w-\[900px\] {
+    width: 900px;
   }
 
   .md\:gap-5 {
