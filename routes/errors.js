@@ -69,6 +69,10 @@ router.get('/501', (req, res) => {
     )
 })
 
+router.get('/location', (req, res) => {
+    return res.render('misc/location_denial.pug');
+})
+
 router.use((req, res, next) => {
     const { path, method } = req;
     const methodUsed = method.toUpperCase();
