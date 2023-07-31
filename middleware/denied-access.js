@@ -30,7 +30,7 @@ module.exports = async function (req, res, next) {
                     .status(451)
                     .render('misc/location_denial.pug')
             case 'US':
-                if (ipInfo.region === 'California') return res
+                if (ipInfo.location.region === 'California') return res
                     .status(451)
                     .render('misc/location_denial.pug');
             default:
