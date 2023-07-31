@@ -73,6 +73,22 @@ router.get('/location', (req, res) => {
     return res.render('misc/location_denial.pug');
 })
 
+router.get('/vpn', (req, res) => {
+    return res.render('misc/vpn_block.pug');
+})
+
+router.get('/proxy', (req, res) => {
+    return res.render('misc/vpn_block.pug');
+})
+
+router.get('/tor', (req, res) => {
+    return res.render('misc/vpn_block.pug');
+})
+
+router.get('/relay', (req, res) => {
+    return res.render('misc/vpn_block.pug');
+})
+
 router.use((req, res, next) => {
     const { path, method } = req;
     const methodUsed = method.toUpperCase();
