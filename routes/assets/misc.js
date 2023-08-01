@@ -8,7 +8,7 @@ router.get(`/robots.txt`, (req, res) => {
 
 router.get(`/sitemap`, (req, res) => {
     res
-        .setHeader(`Content-Type`, `application/xml`)
+        .setHeader(`Content-Type`, `text/xml`)
         .sendFile(`${process.cwd()}/metadata/sitemap.xml`)
 });
 
