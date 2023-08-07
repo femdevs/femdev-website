@@ -2,6 +2,28 @@
 @tailwind components;
 @tailwind utilities;
 
+
+.material-symbols-outlined {
+    font-variation-settings:
+        'FILL' 0,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 48
+}
+
+@font-face {
+    font-family: "assistant";
+    src: url(../fonts/Assistant1.ttf);
+}
+@font-face {
+    font-family: "tenoriteRegular";
+    src: url(../fonts/tenoriteRegular.ttf);
+}
+@font-face {
+    font-family: "tenoriteBold";
+    src: url(../fonts/tenoriteBold.ttf);
+}
+
 /* Default Styles */
 h1 {
     font-size: 2.25rem/* 36px */;
@@ -106,17 +128,4 @@ footer {
     font-size: 0.8em;
     padding: 10px 0px 10px 0px;
     margin: 0px;
-}
-
-@font-face {
-    font-family: "assistant";
-    src: url(../fonts/Assistant1.ttf);
-}
-@font-face {
-    font-family: "tenoriteRegular";
-    src: url(../fonts/tenoriteRegular.ttf);
-}
-@font-face {
-    font-family: "tenoriteBold";
-    src: url(../fonts/tenoriteBold.ttf);
 }
