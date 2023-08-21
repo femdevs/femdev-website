@@ -8,8 +8,8 @@
   padding: 1rem;
   background: var(--light);
   color: var(--dark);
-  min-height: 100dvh;
-  min-width: 100%;
+  /* min-height: 100dvh;
+  min-width: 100%; */
 }
 
 * {
@@ -156,9 +156,8 @@ h1 {
 
 /* effect shows up when destroy button is clicked */
 .destruction-effect {
-  position: fixed;
-  top: 50%;
-  left: 50%;
+  position: absolute;
+  translate: 310% 150%;
   width: 200px;
   height: 200px;
   background-image: url(../../media/explosion.gif);
