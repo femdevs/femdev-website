@@ -1,0 +1,17 @@
+doctype html
+html
+  head
+    link(rel="stylesheet" href="/stylesheets/file-specific/pds.css")
+  body
+    include ../defaults/nav.pug
+    h1 Poland Destruction Simulator
+    .container
+      #map 
+        p#gameOver Game Over!
+      button#startButton Start Game
+      button#destroyButton Destroy!
+      #stats
+        p#score Score: 0
+        p#timeLeft Time Left: 15
+        p#personalBest Personal Best: 0
+    script(src="/scripts/File-Specific/pds.js")

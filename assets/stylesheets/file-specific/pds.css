@@ -1,0 +1,185 @@
+:root {
+  --blue: rgba(0, 123, 255, 1);
+  --danger-red: rgba(255, 0, 0, 1);
+  --dark: #1b1b1d;
+  --light: #f3f1f6;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1.5rem;
+  padding: 1rem;
+  background: var(--light);
+  color: var(--dark);
+  min-height: 100dvh;
+  min-width: 100%;
+}
+
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+  border: 0px;
+}
+*::before {
+  content: '';
+  display: none;
+}
+*::after {
+  content: '';
+  display: none;
+}
+
+button {
+  font-size: 2rem;
+}
+
+h1 {
+  color: var(--blue);
+  text-align: center;
+  line-height: 4rem;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+#stats {
+  text-align: center;
+  background: white;
+  padding: 0.5rem;
+  border-radius: 10px;
+}
+
+#stats > * {
+  margin: 0.25rem;
+}
+
+#map {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 75dvh;
+  height: 52dvh;
+  background-image: url(../../media/poland.png);
+  background-size: cover;
+  border: 5px solid black;
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  transition: background-image 0.3s;
+}
+
+#startButton,
+#destroyButton,
+#tryAgainButton {
+  background-color: var(--blue);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  margin-top: 10px;
+  border-radius: 5px;
+  transition: background-color 0.2s;
+}
+
+#gameOver {
+  display: none;
+  font-size: 2rem;
+  color: white;
+  background-color: red;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+#startButton {
+  display: none;
+}
+
+#tryAgainButton {
+  display: none;
+  margin-top: 20px;
+}
+
+/* Pseudo-classes */
+#startButton:hover,
+#destroyButton:hover,
+#tryAgainButton:hover {
+  background-color: #0056b3;
+}
+
+.countdown {
+  font-size: 72px;
+  color: #007bff;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.notification {
+  font-size: 24px;
+  color: white;
+  background-color: #007bff;
+  padding: 10px 20px;
+  border-radius: 5px;
+  position: absolute;
+  top: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  z-index: 1;
+  opacity: 0;
+  animation: fade-in 0.3s forwards;
+}
+
+/* Media queries */
+@media (prefers-color-scheme: dark) {
+  :root {
+    background: var(--dark);
+    color: var(--light);
+  }
+  #stats {
+    background: #2a2a2b;
+  }
+}
+
+@media only screen and (max-width: 780px) {
+  :root {
+    font-size: 1rem;
+  }
+  h1 {
+    line-height: 2rem;
+  }
+}
+
+/* effect shows up when destroy button is clicked */
+.destruction-effect {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 200px;
+  height: 200px;
+  background-image: url(../../media/explosion.gif);
+  background-size: cover;
+  animation: explosion 2s linear;
+}
+
+/* Animations */
+@keyframes explosion {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(2.5);
+    opacity: 0;
+  }
+}
+
+@keyframes fade-in {
+  to {
+    opacity: 1;
+  }
+}

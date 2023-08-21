@@ -25,6 +25,17 @@ router.get('/socials', (req, res) => {
     );
 })
 
+router.get('/pds', (req, res) => {
+    res.render(
+        `main/poland.pug`,
+        {
+            title: "Poland Destruction Simulator",
+            page: 3,
+            file: 'poland'
+        }
+    )
+})
+
 router.get('/toolbox', (req, res) => {
     res.render(
         `main/toolbox.pug`,
