@@ -21,6 +21,4 @@ https
         key: fs.readFileSync(`/etc/letsencrypt/live/thefemdevs.com/privkey.pem`),
         cert: fs.readFileSync(`/etc/letsencrypt/live/thefemdevs.com/fullchain.pem`)
     }, app)
-    .listen(3001, () => console.log('https server is up'));
-
-setInterval(() => fetch('https://thefemdevs.com'), 300000)
+    .listen(443, () => console.log('https server is up'));
