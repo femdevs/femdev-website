@@ -16,13 +16,10 @@ app.use(express.static(path.join(__dirname, 'assets')));
 
 app.use('/', router);
 
-if (process.env.NODE_ENV === 'production') http
-    .createServer(app)
-    .listen(3001, () => console.log('http server is up'));
-else https
+https
     .createServer({
-        key: fs.readFileSync(`${__dirname}/internalSSL/server.key`),
-        cert: fs.readFileSync(`${__dirname}/internalSSL/server.cert`)
+        key: fs.readFileSync(`/etc/letsencrypt/live/thefemdevs.com/privkey.pem`),
+        cert: fs.readFileSync(`/etc/letsencrypt/live/thefemdevs.com/fullchain.pem`)
     }, app)
     .listen(3001, () => console.log('https server is up'));
 
