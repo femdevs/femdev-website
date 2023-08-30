@@ -1,18 +1,10 @@
 const router = require('express').Router();
+const fs = require('fs');
 
-const css = require('./css');
-const images = require('./images');
-const javascript = require('./javascript');
-const font = require('./font');
-const audio = require('./audio');
-const misc = require('./misc');
-
-router.use('/css', css);
-router.use('/images', images);
-router.use('/js', javascript);
-router.use('/f', font);
-router.use('/audio', audio);
-router.use('/misc', misc);
+router.get('/static/:file', (req, res) => {
+    const file = req.params.file;
+    res.sendFile(`${process.cwd()}/assets/media/audio/${file}`);
+});
 
 router.use((req, res, next) => {
     const { path, method } = req;

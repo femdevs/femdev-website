@@ -61,7 +61,7 @@ h1 {
   align-items: center;
   width: 75dvh;
   height: 52dvh;
-  background-image: url(../../media/poland.png);
+  background-image: url(/assets/images/static/poland.png);
   background-size: cover;
   border: 5px solid black;
   overflow: hidden;
@@ -160,7 +160,7 @@ h1 {
   translate: 310% 150%;
   width: 200px;
   height: 200px;
-  background-image: url(../../media/explosion.gif);
+  background-image: url(/assets/images/static/explosion.gif);
   background-size: cover;
   animation: explosion 2s linear;
 }

@@ -31,7 +31,7 @@ router.get('/pds', (req, res) => {
         {
             title: "Poland Destruction Simulator",
             page: 3,
-            file: 'poland'
+            file: 'pds'
         }
     )
 })

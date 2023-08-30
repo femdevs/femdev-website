@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', function () {
     .getElementById('destroyButton')
     .addEventListener('click', function () {
       if (!isGameOver) {
-        var audio = new Audio('../../media/explosion.mp3');
+        var audio = new Audio('/assets/audio/static/explosion.mp3');
         audio.play();
 
         var destructionEffect = document.createElement('div');
