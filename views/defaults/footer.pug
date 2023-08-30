@@ -1,2 +1,42 @@
-footer
-  p &copy; 2023 FemDevs All rights reserved.
+hero.flex.w-full.justify-center.bg-neutral-900.p-12.text-neutral-100
+  .flex.w-full.max-w-6xl.flex-col.space-y-8.divide-y.divide-brand-primary.divide-neutral-700.px-8
+    .flex.flex-col.justify-between.space-y-4(class='md:flex-row md:space-x-4 md:space-y-0')
+      .flex.flex-col.space-y-2
+        h5.select-none.font-poppins.text-xl.font-medium About
+        .flex.flex-col.space-y-0
+          a.select-none.font-poppins.text-lg.text-neutral-100.transition-all(class='hover:text-neutral-300', href='/about') About
+          a.select-none.font-poppins.text-lg.text-neutral-100.transition-all(class='hover:text-neutral-300', href='/team') Team
+          a.select-none.font-poppins.text-lg.text-neutral-100.transition-all(class='hover:text-neutral-300', href='/products') Products
+      .flex.flex-col.space-y-2
+        h5.select-none.font-poppins.text-xl.font-medium Community
+        .flex.flex-col.space-y-0
+          a.select-none.font-poppins.text-lg.text-neutral-100.transition-all(
+            class='hover:text-neutral-300',
+            href='/community/blog'
+          ) Blog
+          a.select-none.font-poppins.text-lg.text-neutral-100.transition-all(
+            class='hover:text-neutral-300',
+            href='/community/discord'
+          ) Discord
+          a.select-none.font-poppins.text-lg.text-neutral-100.transition-all(
+            class='hover:text-neutral-300',
+            href='/community/twitter'
+          ) Twitter
+      .flex.flex-col.space-y-2
+        h5.select-none.font-poppins.text-xl.font-medium Company
+        .flex.flex-col.space-y-0
+          a.select-none.font-poppins.text-lg.text-neutral-100.transition-all(class='hover:text-neutral-300', href='/branding') Branding
+          a.select-none.font-poppins.text-lg.text-neutral-100.transition-all(class='hover:text-neutral-300', href='/careers') Careers
+          a.select-none.font-poppins.text-lg.text-neutral-100.transition-all(class='hover:text-neutral-300', href='/contact') Contact
+      .flex.flex-col.space-y-2
+        h5.select-none.font-poppins.text-xl.font-medium Legal
+        .flex.flex-col.space-y-0
+          a.select-none.font-poppins.text-lg.text-neutral-100.transition-all(class='hover:text-neutral-300', href='/legal/terms') Terms
+          a.select-none.font-poppins.text-lg.text-neutral-100.transition-all(class='hover:text-neutral-300', href='/legal/privacy') Privacy
+          // a.select-none.font-poppins.text-lg.text-neutral-100.transition-all(class='hover:text-neutral-300', href='/cookies') Cookies
+    .flex.flex-row.items-center.justify-between.pt-8
+      h1.select-none.font-poppins.text-lg FemDevs
+      .flex.flex-row.items-center.justify-center.space-x-4
+        h1.select-none.font-poppins.text-lg Service Status
+        span.relative.flex.h-4.w-4.rounded-full.bg-green-500
+          span.absolute.flex.h-4.w-4.animate-ping.rounded-full.bg-green-500
