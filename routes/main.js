@@ -9,12 +9,48 @@ router.get(`/f/:file`, (req, res) => {
 });
 
 router
+    .get('/team', async (req, res) => {
+        let staffRoles = {};
+        await connection
+            .promise()
+            .query('SELECT * FROM femdevsStaff WHERE staff = 1')
+            .then(([roles, _]) => {
+                roles.forEach((staff, i) => {
+                    if (staffRoles[staff.role] == undefined) { staffRoles[staff.role] = {} }
+                    staffRoles[staff.role][i] = staff
+                })
+                Object.keys(staffRoles).forEach(role => staffRoles[role].title = role)
+            })
+            .catch(console.log)
+        res.render(
+            'main/team',
+            {
+                title: 'Team',
+                staff: staffRoles
+            }
+        );
+    })
+    .get('/carrers', (req, res) => {
+        res.render(
+            `main/carrers.pug`,
+            {
+                title: 'Carrers',
+            }
+        );
+    })
+    .get('/branding', (req, res) => {
+        res.render(
+            `main/branding.pug`,
+            {
+                title: 'Branding',
+            }
+        );
+    })
     .get('/products', (req, res) => {
         res.render(
             `main/products.pug`,
             {
                 title: 'Products',
-                page: 5,
             }
         );
     })
@@ -23,24 +59,17 @@ router
             `main/about.pug`,
             {
                 title: 'About',
-                page: 4,
             }
         );
     })
-    .get('/team', async (req, res) => {
-        let staffRoles = {};
-        await connection
-            .promise()
-            .query('SELECT * FROM femdevsStaff WHERE staff = 1')
-            .then(([roles, _]) => {
-                roles.forEach((staff, i) => {
-                    if (staffRoles[staff.role] == undefined) {staffRoles[staff.role] = {}}
-                    staffRoles[staff.role][i] = staff
-                })
-                Object.keys(staffRoles).forEach(role => staffRoles[role].title = role)
-            })
-            .catch(console.log)
-        res.render('main/team', { title: 'Team', staff: staffRoles });
+    .get('/pds', (req, res) => {
+        res.render(
+            `main/poland.pug`,
+            {
+                title: "Poland Destruction Simulator",
+                file: 'pds'
+            }
+        )
     })
     .get('/socials', (req, res) => {
         res.render(
@@ -51,16 +80,6 @@ router
                 file: 'socials'
             }
         );
-    })
-    .get('/pds', (req, res) => {
-        res.render(
-            `main/poland.pug`,
-            {
-                title: "Poland Destruction Simulator",
-                page: 3,
-                file: 'pds'
-            }
-        )
     })
     .get('/index', (req, res) => {
         res.render(
