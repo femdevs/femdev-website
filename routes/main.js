@@ -9,21 +9,37 @@ router.get(`/f/:file`, (req, res) => {
 });
 
 router
-    .get('/about', (req, res) => { })
+    .get('/products', (req, res) => {
+        res.render(
+            `main/products.pug`,
+            {
+                title: 'Products',
+                page: 5,
+            }
+        );
+    })
+    .get('/about', (req, res) => {
+        res.render(
+            `main/about.pug`,
+            {
+                title: 'About',
+                page: 4,
+            }
+        );
+    })
     .get('/team', async (req, res) => {
         let staffRoles = {};
-        const roles = (await connection
+        await connection
             .promise()
             .query('SELECT * FROM femdevsStaff WHERE staff = 1')
             .then(([roles, _]) => {
-                console.dir(roles)
                 roles.forEach((staff, i) => {
                     if (staffRoles[staff.role] == undefined) {staffRoles[staff.role] = {}}
                     staffRoles[staff.role][i] = staff
                 })
                 Object.keys(staffRoles).forEach(role => staffRoles[role].title = role)
             })
-            .catch(console.log));
+            .catch(console.log)
         res.render('main/team', { title: 'Team', staff: staffRoles });
     })
     .get('/socials', (req, res) => {
