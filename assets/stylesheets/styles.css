@@ -587,6 +587,15 @@ video {
 .h-full {
   height: 100%;
 }
+.h-\[2vw\] {
+  height: 2vw;
+}
+.h-\[5vw\] {
+  height: 5vw;
+}
+.h-\[12px\] {
+  height: 12px;
+}
 .w-4 {
   width: 1rem;
 }
@@ -598,6 +607,15 @@ video {
 }
 .w-full {
   width: 100%;
+}
+.w-\[2vw\] {
+  width: 2vw;
+}
+.w-\[5vw\] {
+  width: 5vw;
+}
+.w-\[12px\] {
+  width: 12px;
 }
 .max-w-2xl {
   max-width: 42rem;
@@ -795,6 +813,10 @@ video {
 .bg-zinc-950 {
   --tw-bg-opacity: 1;
   background-color: rgb(9 9 11 / var(--tw-bg-opacity));
+}
+.bg-green-50 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(240 253 244 / var(--tw-bg-opacity));
 }
 .bg-cover {
   background-size: cover;
