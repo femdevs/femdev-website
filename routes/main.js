@@ -2,32 +2,6 @@ const router = require('express').Router();
 const mysql = require('mysql2')
 const connection = mysql.createConnection('mysql://ksnjpp8wyrrxrswne5k6:pscale_pw_im6VHm18dotzbD8SGnfdQW1pPloWSfFFZMqwJtd1yXJ@aws.connect.psdb.cloud/fembot?ssl={"rejectUnauthorized":true}')
 
-function selectColor() {
-    const options = [
-        'lightred',
-        'red',
-        'darkred',
-        'lightorange',
-        'orange',
-        'darkorange',
-        'yellow',
-        'lightgreen',
-        'green',
-        'darkgreen',
-        'lightblue',
-        'blue',
-        'darkblue',
-        'lightpurple',
-        'purple',
-        'darkpurple',
-        'lightpink',
-        'pink',
-        'darkpink',
-        'default'
-    ]
-    return options[Math.floor(Math.random() * options.length)]
-}
-
 router
     .get('/team', async (req, res) => {
         let staffRoles = {};
@@ -47,7 +21,6 @@ router
             {
                 title: 'Team',
                 staff: staffRoles,
-                color: selectColor()
             }
         );
     })
@@ -56,7 +29,6 @@ router
             `main/carrers.pug`,
             {
                 title: 'Carrers',
-                color: selectColor()
             }
         );
     })
@@ -65,7 +37,6 @@ router
             `main/branding.pug`,
             {
                 title: 'Branding',
-                color: selectColor()
             }
         );
     })
@@ -74,7 +45,6 @@ router
             `main/products.pug`,
             {
                 title: 'Products',
-                color: selectColor()
             }
         );
     })
@@ -83,7 +53,6 @@ router
             `main/about.pug`,
             {
                 title: 'About',
-                color: selectColor()
             }
         );
     })
@@ -93,7 +62,6 @@ router
             {
                 title: "Poland Destruction Simulator",
                 file: 'pds',
-                color: selectColor()
             }
         )
     })
@@ -103,7 +71,6 @@ router
             {
                 title: 'Socials',
                 file: 'socials',
-                color: selectColor()
             }
         );
     })
@@ -113,7 +80,6 @@ router
             {
                 title: 'Homepage',
                 file: 'index',
-                color: selectColor()
             }
         );
     })
@@ -123,7 +89,6 @@ router
             {
                 title: 'Homepage',
                 file: 'index',
-                color: selectColor()
             }
         );
     })
