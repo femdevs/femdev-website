@@ -1,17 +1,14 @@
 const router = require('express').Router();
 const fs = require('fs');
+const icons = require('./icons');
+
+router.use('/icons', icons);
 
 router.get('/favicon.ico', (req, res) => {
     res
         .setHeader('Cache-Control', 'no-cache')
-        .sendFile(`${process.cwd()}/assets/media/images/icon.ico`)
-});
-
-router.get(`/icon`, (req, res) => {
-    res
-        .setHeader('Cache-Control', 'no-cache')
         .setHeader(`Content-Type`, `image/svg+xml`)
-        .sendFile(`${process.cwd()}/assets/media/images/icon`)
+        .sendFile(`${process.cwd()}/assets/media/logos/icon`)
 });
 
 router.get(`/bg`, (req, res) => {

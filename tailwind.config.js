@@ -16,7 +16,8 @@ module.exports = {
         "tenorite-bold": ["tenoriteBold", "sans-serif"],
       },
       colors: {
-        'brand-primary-light': '#88a8ff',
+        'brand-primary-light': '#4486cc',
+        'brand-primary-inactive': '#88a8ff',
         'brand-primary': '#0034F0',
         'brand-primary-dark': '#000088',
         'brand-black': '#1A1A1A',

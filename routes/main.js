@@ -2,11 +2,31 @@ const router = require('express').Router();
 const mysql = require('mysql2')
 const connection = mysql.createConnection('mysql://ksnjpp8wyrrxrswne5k6:pscale_pw_im6VHm18dotzbD8SGnfdQW1pPloWSfFFZMqwJtd1yXJ@aws.connect.psdb.cloud/fembot?ssl={"rejectUnauthorized":true}')
 
-
-router.get(`/f/:file`, (req, res) => {
-    const file = req.params.file;
-    res.sendFile(`${process.cwd()}/assets/fonts/${file}`);
-});
+function selectColor() {
+    const options = [
+        'lightred',
+        'red',
+        'darkred',
+        'lightorange',
+        'orange',
+        'darkorange',
+        'yellow',
+        'lightgreen',
+        'green',
+        'darkgreen',
+        'lightblue',
+        'blue',
+        'darkblue',
+        'lightpurple',
+        'purple',
+        'darkpurple',
+        'lightpink',
+        'pink',
+        'darkpink',
+        'default'
+    ]
+    return options[Math.floor(Math.random() * options.length)]
+}
 
 router
     .get('/team', async (req, res) => {
@@ -26,7 +46,8 @@ router
             'main/team',
             {
                 title: 'Team',
-                staff: staffRoles
+                staff: staffRoles,
+                color: selectColor()
             }
         );
     })
@@ -35,6 +56,7 @@ router
             `main/carrers.pug`,
             {
                 title: 'Carrers',
+                color: selectColor()
             }
         );
     })
@@ -43,6 +65,7 @@ router
             `main/branding.pug`,
             {
                 title: 'Branding',
+                color: selectColor()
             }
         );
     })
@@ -51,6 +74,7 @@ router
             `main/products.pug`,
             {
                 title: 'Products',
+                color: selectColor()
             }
         );
     })
@@ -59,6 +83,7 @@ router
             `main/about.pug`,
             {
                 title: 'About',
+                color: selectColor()
             }
         );
     })
@@ -67,7 +92,8 @@ router
             `main/poland.pug`,
             {
                 title: "Poland Destruction Simulator",
-                file: 'pds'
+                file: 'pds',
+                color: selectColor()
             }
         )
     })
@@ -76,8 +102,8 @@ router
             `main/socials.pug`,
             {
                 title: 'Socials',
-                page: 2,
-                file: 'socials'
+                file: 'socials',
+                color: selectColor()
             }
         );
     })
@@ -86,8 +112,8 @@ router
             `main/index.pug`,
             {
                 title: 'Homepage',
-                page: 1,
-                file: 'index'
+                file: 'index',
+                color: selectColor()
             }
         );
     })
@@ -96,8 +122,8 @@ router
             `main/index.pug`,
             {
                 title: 'Homepage',
-                page: 1,
-                file: 'index'
+                file: 'index',
+                color: selectColor()
             }
         );
     })
@@ -114,9 +140,8 @@ router
         allowedMethods = { ...allowedMethods[0] }
         allowedMethods = allowedMethods.route.methods;
 
-        if (allowedMethods[methodUsed]) {
-            return next();
-        } else {
+        if (allowedMethods[methodUsed]) return next();
+        else {
             res.status(405).render(
                 `misc/405.pug`,
                 {
