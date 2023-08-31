@@ -26,27 +26,21 @@ router
         ]
         const selection = options[Math.floor(Math.random() * options.length)]
         res
-            .setHeader('Cache-Control', 'no-cache')
+            .setHeader('Cache-Control', 'no-store')
             .setHeader(`Content-Type`, `image/svg+xml`)
             .sendFile(`${process.cwd()}/assets/media/logos/${selection}.svg`)
     })
     .get('/deficon', (req, res) => {
         res
-            .setHeader('Cache-Control', 'no-cache')
+            .setHeader('Cache-Control', 'no-store')
             .setHeader(`Content-Type`, `image/svg+xml`)
             .sendFile(`${process.cwd()}/assets/media/logos/default.svg`)
     })
     .get('/favicon.ico', (req, res) => {
         res
-            .setHeader('Cache-Control', 'no-cache')
+            .setHeader('Cache-Control', 'no-store')
             .setHeader(`Content-Type`, `image/svg+xml`)
-            .sendFile(`${process.cwd()}/assets/media/logos/icon`)
-    })
-    .get(`/bg`, (req, res) => {
-        res
-            .setHeader('Cache-Control', 'no-cache')
-            .setHeader(`Content-Type`, `image/svg+xml`)
-            .sendFile(`${process.cwd()}/assets/media/images/background.svg`)
+            .sendFile(`${process.cwd()}/assets/media/logos/default.svg`)
     })
     .get('/static/:file', (req, res) => {
         const file = req.params.file;
