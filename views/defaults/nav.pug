@@ -6,35 +6,3 @@
       a.select-none.font-poppins.text-lg.transition-all(class='hover:text-neutral-800', href='/about') About
       a.select-none.font-poppins.text-lg.transition-all(class='hover:text-neutral-800', href='/products') Products
       a.select-none.font-poppins.text-lg.transition-all(class='hover:text-neutral-800', href='mailto:support@thefemdevs.com' target="_blank") Contact
-
-    button(class='md:hidden', onclick='toggleMobileMenu()' title='Toggle Mobile Menu')
-      i.fas.fa-bars.text-3xl.text-neutral-900
-#mobile-menu.fixed.bottom-0.left-0.right-0.top-0.z-40.-translate-y-full.p-8.backdrop-blur-md.transition-all.duration-700(
-  class='bg-white/75',
-  tabindex='-1'
-)
-  button.absolute.right-0.top-0.mx-8.my-10(tabindex='-1', class='md:hidden', onclick='toggleMobileMenu()' title='Toggle Mobile Menu')
-    i.fas.fa-bars.text-3xl.text-neutral-900
-  .flex.h-full.flex-col.items-start.justify-center.space-y-4
-    a.select-none.font-poppins.text-2xl.transition-all(tabindex='-1', class='hover:text-neutral-800', href='/') Home
-    a.select-none.font-poppins.text-2xl.transition-all(tabindex='-1', class='hover:text-neutral-800', href='/about') About
-    a.select-none.font-poppins.text-2xl.transition-all(tabindex='-1', class='hover:text-neutral-800', href='/products') Products
-    a.select-none.font-poppins.text-2xl.transition-all(tabindex='-1', class='hover:text-neutral-800', href='/community/blog') News
-    a.select-none.font-poppins.text-2xl.transition-all(tabindex='-1', class='hover:text-neutral-800', href='/contact') Contact
-
-script.
-  const mobileMenu = document.getElementById('mobile-menu');
-  let mobileMenuOpen = false;
-  function toggleMobileMenu() {
-    if (mobileMenuOpen) {
-      mobileMenu.classList.remove('translate-y-0');
-      mobileMenu.classList.add('-translate-y-full');
-      document.body.style.overflow = 'auto';
-      mobileMenuOpen = false;
-      return
-    }
-    mobileMenu.classList.add('translate-y-0');
-    mobileMenu.classList.remove('-translate-y-full');
-    document.body.style.overflow = 'hidden';
-    mobileMenuOpen = true;
-  }

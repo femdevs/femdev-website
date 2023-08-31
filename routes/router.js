@@ -55,7 +55,7 @@ const assetsLimiter = rateLimiter.rateLimit({
 router.use(Sentry.Handlers.requestHandler({ transaction: true }));
 router.use(Sentry.Handlers.tracingHandler());
 router.use(baseLimiter);
-router.use('/asssets', assetsLimiter)
+router.use('/assets', assetsLimiter)
 router.use('/cdn', cdn);
 router.use('/legal', legal);
 router.use('/error', error);
