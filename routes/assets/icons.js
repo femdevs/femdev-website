@@ -45,7 +45,7 @@ router
     })
     .get('/darkgreen', (req, res) => {
         res
-            .sendFile(`${process.cwd()}/assets/media/logos/dakrgreen.svg`)
+            .sendFile(`${process.cwd()}/assets/media/logos/darkgreen.svg`)
     })
     .get('/lightblue', (req, res) => {
         res
