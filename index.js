@@ -2,7 +2,6 @@ const express = require('express')
 const app = express();
 const fs = require('fs');
 const path = require('path');
-const http = require('http');
 const https = require('https');
 const router = require('./routes/router');
 require('dotenv').config();
@@ -21,4 +20,4 @@ https
         key: fs.readFileSync(`/etc/letsencrypt/live/thefemdevs.com/privkey.pem`),
         cert: fs.readFileSync(`/etc/letsencrypt/live/thefemdevs.com/fullchain.pem`)
     }, app)
-    .listen(443, () => console.log('https server is up'));
+    .listen(8000, () => console.log('https server is up'));
