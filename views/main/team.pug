@@ -18,8 +18,9 @@ html(lang='en')
                     href=member.website,
                     class='hover:ring-1 hover:ring-brand-black hover:drop-shadow-xl'
                   )
+                    - var userSRCURL = '/assets/images/team/' + member.displayname
                     img.h-32.rounded-t-xl.object-cover.transition-all(
-                      src=member.avatar
+                      src= userSRCURL,
                       loading='lazy'
                     )
                     .space-y-1.p-4

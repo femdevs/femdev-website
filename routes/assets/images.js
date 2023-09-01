@@ -32,7 +32,7 @@ router
     })
     .get('/deficon', (req, res) => {
         res
-            .setHeader('Cache-Control', 'no-store')
+            .setHeader('Cache-Control', 'public; max-age=31536000; immutable')
             .setHeader(`Content-Type`, `image/svg+xml`)
             .sendFile(`${process.cwd()}/assets/media/logos/default.svg`)
     })
@@ -41,6 +41,12 @@ router
             .setHeader('Cache-Control', 'no-store')
             .setHeader(`Content-Type`, `image/svg+xml`)
             .sendFile(`${process.cwd()}/assets/media/logos/default.svg`)
+    })
+    .get('/team/:name', (req, res) => {
+        res
+            .setHeader('Cache-Control', 'public; max-age=31536000')
+            .setHeader(`Content-Type`, `image/png`)
+            .sendFile(`${process.cwd()}/assets/media/team_avatars/${req.params.name.toLowerCase()}.png`)
     })
     .get('/static/:file', (req, res) => {
         const file = req.params.file;

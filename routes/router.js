@@ -45,11 +45,10 @@ const baseLimiter = rateLimiter.rateLimit({
 
 const assetsLimiter = rateLimiter.rateLimit({
     windowMs: 1000,
-    max: 10,
+    max: 25,
     legacyHeaders: false,
     standardHeaders: true,
     handler: (_, res, ...args) => res.status(429).render(`misc/429.pug`, { title: '429 - Too Many Requests' }),
-    skip: (req, _) => ['/css', '/js', '/f', '/icon', '/bg', '/thumbnail'].some(endpoint => req.path.startsWith(endpoint))
 });
 
 router.use(Sentry.Handlers.requestHandler({ transaction: true }));
