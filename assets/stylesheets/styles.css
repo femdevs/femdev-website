@@ -587,11 +587,23 @@ video {
 .h-full {
   height: 100%;
 }
+.h-\[\] {
+  height: ;
+}
+.h-\[2\] {
+  height: 2;
+}
 .h-\[2vw\] {
   height: 2vw;
 }
 .h-\[5vw\] {
   height: 5vw;
+}
+.h-\[12\] {
+  height: 12;
+}
+.h-\[12xp\] {
+  height: 12xp;
 }
 .h-\[12px\] {
   height: 12px;

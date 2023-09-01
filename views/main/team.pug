@@ -18,7 +18,11 @@ html(lang='en')
                     href=member.website,
                     class='hover:ring-1 hover:ring-brand-black hover:drop-shadow-xl'
                   )
-                    img.h-32.rounded-t-xl.object-cover.transition-all(class='', src=member.avatar)
+                    img.h-32.rounded-t-xl.object-cover.transition-all(
+                      class=''
+                      src=member.avatar
+                      loading='lazy'
+                    )
                     .space-y-1.p-4
                       h3.select-none.font-poppins.text-xl.font-medium.text-neutral-900= member.displayname
                       h4.select-none.font-poppins.text-lg.text-neutral-600= member.title
