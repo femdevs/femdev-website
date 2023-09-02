@@ -1,13 +1,13 @@
-const { Router } = require('express');
-const router = Router();
+const router = require('express').Router();
 const rateLimiter = require('express-rate-limit');
 const Sentry = require('@sentry/node');
 const Tracing = require('@sentry/tracing');
-const Intigrations = require('@sentry/integrations')
-const website = require('./main')
+const Intigrations = require('@sentry/integrations');
+const website = require('./main');
 const cdn = require('./cdn');
 const legal = require('./legal');
 const error = require('./errors');
+const ab = require('./ab');
 const assets = require('./assets/router');
 
 Sentry.init({
@@ -59,6 +59,7 @@ router.use('/cdn', cdn);
 router.use('/legal', legal);
 router.use('/error', error);
 router.use('/assets', assets);
+router.use('/ab', ab);
 router.use('/', website);
 
 router.use((err, req, res, _) => {
