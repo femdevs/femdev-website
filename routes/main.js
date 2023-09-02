@@ -9,9 +9,10 @@ const client = new pg.Client({
     host: 'db.xbrshjvntcletdswsxtq.supabase.co',
 })
 
+client.connect()
+
 router
     .get('/team', async (req, res) => {
-        await client.connect()
         let staffRoles = {};
         const { rows: data } = await client.query('SELECT * FROM public.staff')
         data.forEach((staff, i) => {
