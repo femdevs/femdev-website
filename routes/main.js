@@ -1,21 +1,24 @@
 const router = require('express').Router();
-const mysql = require('mysql2')
-const connection = mysql.createConnection('mysql://ksnjpp8wyrrxrswne5k6:pscale_pw_im6VHm18dotzbD8SGnfdQW1pPloWSfFFZMqwJtd1yXJ@aws.connect.psdb.cloud/fembot?ssl={"rejectUnauthorized":true}')
+const pg = require('pg')
+
+const client = new pg.Client({
+    user: 'postgres',
+    password: 'sparty182020RootAccess',
+    database: 'postgres',
+    port: 6543,
+    host: 'db.xbrshjvntcletdswsxtq.supabase.co',
+})
 
 router
     .get('/team', async (req, res) => {
+        await client.connect()
         let staffRoles = {};
-        await connection
-            .promise()
-            .query('SELECT * FROM femdevsStaff WHERE staff = 1')
-            .then(([roles, _]) => {
-                roles.forEach((staff, i) => {
-                    if (staffRoles[staff.role] == undefined) { staffRoles[staff.role] = {} }
-                    staffRoles[staff.role][i] = staff
-                })
-                Object.keys(staffRoles).forEach(role => staffRoles[role].title = role)
-            })
-            .catch(console.log)
+        const { rows: data } = await client.query('SELECT * FROM public.staff')
+        data.forEach((staff, i) => {
+            if (staffRoles[staff.role] == undefined) { staffRoles[staff.role] = {} }
+            staffRoles[staff.role][i] = staff
+        })
+        Object.keys(staffRoles).forEach(role => staffRoles[role].title = role)
         res.render(
             'main/team',
             {
