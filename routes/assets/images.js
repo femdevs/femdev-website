@@ -30,6 +30,12 @@ router
             .setHeader(`Content-Type`, `image/svg+xml`)
             .sendFile(`${process.cwd()}/assets/media/logos/${selection}.svg`)
     })
+    .get('/icon/:name', (req, res) => {
+        res
+            .setHeader('Cache-Control', 'public; max-age=31536000; immutable')
+            .setHeader(`Content-Type`, `image/svg+xml`)
+            .sendFile(`${process.cwd()}/assets/media/logos/${req.params.name.toLowerCase()}.svg`)
+    })
     .get('/deficon', (req, res) => {
         res
             .setHeader('Cache-Control', 'public; max-age=31536000; immutable')
