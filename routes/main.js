@@ -7,6 +7,7 @@ const client = new pg.Client({
     database: 'postgres',
     port: 6543,
     host: 'db.xbrshjvntcletdswsxtq.supabase.co',
+    connectionTimeoutMillis: 5000
 })
 
 client.connect()
@@ -15,10 +16,12 @@ router
     .get('/team', async (req, res) => {
         let staffRoles = {};
         const { rows: data } = await client.query('SELECT * FROM public.staff')
-        data.forEach((staff, i) => {
-            if (staffRoles[staff.role] == undefined) { staffRoles[staff.role] = {} }
-            staffRoles[staff.role][i] = staff
-        })
+        data
+            .filter(staff => staff.isStaff)
+            .forEach((staff, i) => {
+                if (staffRoles[staff.role] == undefined) { staffRoles[staff.role] = {} }
+                staffRoles[staff.role][i] = staff
+            })
         Object.keys(staffRoles).forEach(role => staffRoles[role].title = role)
         res.render(
             'main/team',
