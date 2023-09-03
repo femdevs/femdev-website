@@ -2,11 +2,11 @@ const router = require('express').Router();
 const pg = require('pg')
 
 const client = new pg.Client({
+    host: 'db.xbrshjvntcletdswsxtq.supabase.co',
+    port: 6543,
+    database: 'postgres',
     user: 'postgres',
     password: 'sparty182020RootAccess',
-    database: 'postgres',
-    port: 6543,
-    host: 'db.xbrshjvntcletdswsxtq.supabase.co',
     connectionTimeoutMillis: 5000
 })
 
