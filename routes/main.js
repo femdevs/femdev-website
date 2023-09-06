@@ -10,6 +10,11 @@ const client = new pg.Client({
     connectionTimeoutMillis: 5000
 })
 
+client.on('error', (err) => {
+    if (err.code == 'ECONNRESET') client.connect()
+    console.error(err)
+})
+
 client.connect()
 
 router
