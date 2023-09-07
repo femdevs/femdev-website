@@ -1,25 +1,21 @@
 const router = require('express').Router();
 const pg = require('pg')
 
-const client = new pg.Pool({
+const pool = new pg.Pool({
     max: 5,
     host: 'db.xbrshjvntcletdswsxtq.supabase.co',
     port: 6543,
     database: 'postgres',
     user: 'postgres',
     password: 'sparty182020RootAccess',
-    connectionTimeoutMillis: 5000
+    connectionTimeoutMillis: 5000,
 })
 
-client.on('error', (err) => {
-    if (err.code == 'ECONNRESET') client.connect()
-    console.error(err)
-})
-
-client.connect()
+const newClient = (async () => pool.connect())
 
 router
     .get('/team', async (req, res) => {
+        const client = await newClient();
         let staffRoles = {};
         const { rows: data } = await client.query('SELECT * FROM public.staff')
         data
@@ -36,6 +32,7 @@ router
                 staff: staffRoles,
             }
         );
+        client.release();
     })
     .get('/carrers', (req, res) => {
         res.render(
