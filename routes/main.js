@@ -21,7 +21,7 @@ router
     .get('/team', async (req, res) => {
         const client = await newClient();
         let staffRoles = {};
-        const { rows: data } = await client.query('SELECT * FROM public.staff')
+        const { rows: data } = await client.query('SELECT * FROM public.staff ORDER BY id ASC')
         data
             .filter(staff => staff.isStaff)
             .forEach((staff, i) => {
