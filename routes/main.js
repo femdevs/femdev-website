@@ -2,16 +2,20 @@ const router = require('express').Router();
 const pg = require('pg')
 
 const pool = new pg.Pool({
-    max: 5,
+    max: 10,
     host: 'db.xbrshjvntcletdswsxtq.supabase.co',
     port: 6543,
     database: 'postgres',
     user: 'postgres',
     password: 'sparty182020RootAccess',
-    connectionTimeoutMillis: 5000,
+    idleTimeoutMillis: 30000,
+    connectionTimeoutMillis: 2000,
+    query_timeout: 2000,
+    allowExitOnIdle: true,
 })
 
 const newClient = (async () => pool.connect())
+const closeClient = (async (client) => client.release(true))
 
 router
     .get('/team', async (req, res) => {
@@ -32,7 +36,7 @@ router
                 staff: staffRoles,
             }
         );
-        client.release();
+        closeClient(client)
     })
     .get('/carrers', (req, res) => {
         res.render(
