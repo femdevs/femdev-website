@@ -9,10 +9,6 @@ const {
     getUserAuthenticator,
 } = require('../../functions/passkey');
 
-const challenges = {};
-
-
-const rpName = 'FemDevs OAuth2'
 const rpId = (process.env === "PRODUCTION") ? 'thefemdevs' : 'localhost';
 const origin = (process.env === "PRODUCTION") ? 'https://thefemdevs.com' : 'http://localhost:3001';
 

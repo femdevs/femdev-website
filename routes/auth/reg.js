@@ -64,12 +64,11 @@ router
         res.status(200).json({ verified: verification.verified });
         if (verification.registrationInfo == undefined) throw new Error('Could not get registration info');
 
-        verification.registrationInfo.credentialID
         const newAuthenticator = {
             credentialID: isoUint8Array.toUTF8String(verification.registrationInfo.credentialID),
             credentialPublicKey: isoUint8Array.toUTF8String(verification.registrationInfo.credentialPublicKey),
             counter: verification.registrationInfo.counter,
-            transports: ['ble'],
+            transports: body.response.transports,
             rpid: rpId,
         };
 
