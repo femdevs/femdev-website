@@ -9,6 +9,7 @@ const legal = require('./legal');
 const error = require('./errors');
 const ab = require('./ab');
 const assets = require('./assets/router');
+const auth = require('./auth/router');
 
 Sentry.init({
     dsn: "https://90738d20a91d4f169081dfbea05bc8d4@o4504516705058816.ingest.sentry.io/4504771825303552",
@@ -59,6 +60,7 @@ router.use('/cdn', cdn);
 router.use('/legal', legal);
 router.use('/error', error);
 router.use('/assets', assets);
+router.use('/auth', auth);
 router.use('/ab', ab);
 router.use('/', website);
 
