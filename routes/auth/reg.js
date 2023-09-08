@@ -9,7 +9,7 @@ const {
 } = require('../../functions/passkey');
 
 const rpName = 'FemDevs OAuth2'
-const rpId = (process.env.NODE_ENV.toLowerCase() === "production") ? 'thefemdevs' : 'localhost';
+const rpId = (process.env.NODE_ENV.toLowerCase() === "production") ? 'thefemdevs.com' : 'localhost';
 const origin = (process.env.NODE_ENV.toLowerCase() === "production") ? 'https://thefemdevs.com' : 'http://localhost:3001';
 
 router
