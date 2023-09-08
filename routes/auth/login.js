@@ -1,10 +1,12 @@
 const router = require('express').Router();
 const bodyParser = require('body-parser');
 const SimpleWebAuthnServer = require('@simplewebauthn/server');
+const { isoBase64URL, isoUint8Array } = require('@simplewebauthn/server/helpers');
 const {
     getUser: getUserFromDB,
     getUserAuthenticators,
-    updateAuthCounter: saveUpdatedAuthenticatorCounter
+    updateAuthCounter: saveUpdatedAuthenticatorCounter,
+    getUserAuthenticator,
 } = require('../../functions/passkey');
 
 const challenges = {};
@@ -14,8 +16,8 @@ const setUserCurrentChallenge = (user, challenge) => void (challenges[user.fireb
 const getUserCurrentChallenge = (user) => challenges[user.firebaseUID];
 
 const rpName = 'FemDevs OAuth2'
-const rpId = 'localhost';
-const origin = 'http://localhost:3001';
+const rpId = (process.env === "PRODUCTION") ? 'thefemdevs' : 'localhost';
+const origin = (process.env === "PRODUCTION") ? 'https://thefemdevs.com' : 'http://localhost:3001';
 
 router
     .use(bodyParser.json())
@@ -28,26 +30,19 @@ router
         );
     })
     .get('/get-creds', async (req, res) => {
-        const cookies = req.headers.cookie
-            .split(';')
-            .map(
-                cookie =>
-                    cookie.split('=')
-            )
-            .reduce(
-                (acc, [key, value]) =>
-                    ({ ...acc, [key.trim()]: decodeURIComponent(value) }),
-                {}
-            );
-        const user = await getUserFromDB(cookies['userId']);
-        const userAuthenticators = getUserAuthenticators(user);
+        const user = await getUserFromDB('CgomRVx547O56mqNCQmmo0VqgW72');
+        const userAuthenticators = (await getUserAuthenticators(user)).map(authenticator => ({
+            credentialID: isoBase64URL.fromBuffer(isoUint8Array.fromUTF8String(authenticator.credentialID)),
+            credentialPublicKey: isoBase64URL.fromBuffer(isoUint8Array.fromUTF8String(authenticator.credentialPublicKey)),
+            counter: authenticator.counter,
+            transports: authenticator.transports,
+        }));
 
-        const options = SimpleWebAuthnServer.generateAuthenticationOptions({
+        const options = await SimpleWebAuthnServer.generateAuthenticationOptions({
             // Require users to use a previously-registered authenticator
             allowCredentials: userAuthenticators.map(authenticator => ({
                 id: authenticator.credentialID,
                 type: 'public-key',
-                // Optional
                 transports: authenticator.transports,
             })),
             userVerification: 'preferred',
@@ -60,20 +55,9 @@ router
     })
     .post('/verify', async (req, res) => {
         const { body } = req;
-        const cookies = req.headers.cookie
-            .split(';')
-            .map(
-                cookie =>
-                    cookie.split('=')
-            )
-            .reduce(
-                (acc, [key, value]) =>
-                    ({ ...acc, [key.trim()]: decodeURIComponent(value) }),
-                {}
-            );
-        const user = await getUserFromDB(cookies['userId']);
-        const expectedChallenge = getUserCurrentChallenge(user);
-        const authenticator = getUserAuthenticators(user, body.id);
+        const user = await getUserFromDB('CgomRVx547O56mqNCQmmo0VqgW72');
+        const expectedChallenge = await getUserCurrentChallenge(user);
+        const authenticator = await getUserAuthenticator(user, isoUint8Array.toUTF8String(isoBase64URL.toBuffer(body.id)));
 
         if (!authenticator) throw new Error(`Could not find authenticator ${body.id} for user ${user.id}`);
 
@@ -92,7 +76,7 @@ router
         if (!verified) return res.status(400).send({ error: 'Could not verify authenticator' });
         res.status(200).json({ verified: true });
         const { newCounter } = authenticationInfo;
-        saveUpdatedAuthenticatorCounter(authenticator, newCounter);
+        await saveUpdatedAuthenticatorCounter(authenticator, newCounter);
     })
     .use((req, res, next) => {
         const { path, method } = req;

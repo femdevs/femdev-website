@@ -9,14 +9,14 @@ html(lang='en')
         //- Add a button so that it can be submitted to create a passkey
         //- Create a div with an id of "success"
         //- Create a div with an id of "error"
-        button(type='submit' id='btnBegin') Register
+        button(type='submit' id='btnBegin') Login
         div
           h2#success
         div
           h2#error
     include ../defaults/footer.pug
     script.
-      const { startRegistration } = SimpleWebAuthnBrowser;
+      const { startAuthentication } = SimpleWebAuthnBrowser;
       const elemBegin = document.getElementById('btnBegin');
       const elemSuccess = document.getElementById('success');
       const elemError = document.getElementById('error');
@@ -24,33 +24,28 @@ html(lang='en')
         elemSuccess.innerHTML = '';
         elemError.innerHTML = '';
 
-        // GET registration options from the endpoint that calls
-        // @simplewebauthn/server -> generateRegistrationOptions()
-        const resp = await fetch('/auth/register/get-creds');
+        // GET authentication options from the endpoint that calls
+        // @simplewebauthn/server -> generateAuthenticationOptions()
+        const resp = await fetch('/auth/login/get-creds');
 
-        let attResp;
+        let asseResp;
         try {
-          attResp = await startRegistration(await resp.json());
+          asseResp = await startAuthentication(await resp.json());
         } catch (error) {
-          if (error.name === 'InvalidStateError') elemError.innerText = 'Error: Authenticator was probably already registered by user';
-          else elemError.innerText = error;
+          elemError.innerText = error;
           throw error;
         }
 
         // POST the response to the endpoint that calls
-        // @simplewebauthn/server -> verifyRegistrationResponse()
+        // @simplewebauthn/server -> verifyAuthenticationResponse()
         const verificationResp = await fetch('/auth/login/verify', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify(attResp),
+          body: JSON.stringify(asseResp),
         });
-
-        // Wait for the results of verification
         const verificationJSON = await verificationResp.json();
-
-        // Show UI appropriate for the `verified` status
         if (verificationJSON && verificationJSON.verified) elemSuccess.innerHTML = 'Success!';
         else elemError.innerHTML = `Oh no, something went wrong! Response: <pre>${JSON.stringify(verificationJSON)}</pre>`;
       });

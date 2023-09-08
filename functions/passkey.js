@@ -8,16 +8,24 @@ async function getUser(id) {
 }
 
 async function saveAuthForUser(user, authdata) {
+    const { firebaseUID } = user;
+    const { credentialID, credentialPublicKey, counter, transports } = authdata;
     const connection = await Database.getConnection();
-    await connection.query('INSERT INTO userAuthData (firebaseUID, credentialID, credentialPublicKey, counter) VALUES (?, ?, ?, ?)', [user.firebaseUID, authdata.credentialID, authdata.credentialPublicKey, authdata.counter]);
+    await connection.query('INSERT INTO userAuthData (firebaseUID, credentialID, credentialPublicKey, counter, transports) VALUES (?, ?, ?, ?, ?)', [firebaseUID, credentialID, credentialPublicKey, counter, transports.join(',')]);
     Database.closeConnection(connection);
 }
 
 async function getUserAuthenticators(user) {
     const connection = await Database.getConnection();
-    const [rows] = await connection.query('SELECT credentialID, credentialPublicKey, counter FROM userAuthData WHERE firebaseUID = ?', [user.firebaseUID]);
+    const [rows] = await connection.query('SELECT * FROM userAuthData WHERE firebaseUID = ?', [user.firebaseUID]);
     Database.closeConnection(connection);
-    return rows;
+
+    return rows.map(row => ({
+        credentialID: row.credentialID,
+        credentialPublicKey: row.credentialPublicKey,
+        counter: row.counter,
+        transports: row.transports.split(','),
+    }));
 }
 
 async function updateAuthCounter(user, credentialID, counter) {
@@ -26,9 +34,26 @@ async function updateAuthCounter(user, credentialID, counter) {
     Database.closeConnection(connection);
 }
 
+async function getUserAuthenticator(user, credentialID) {
+    const connection = await Database.getConnection();
+    const [rows] = await connection.query('SELECT * FROM userAuthData WHERE firebaseUID = ? AND credentialID = ?', [user.firebaseUID, credentialID]);
+    Database.closeConnection(connection);
+
+    const row = rows.at(0);
+    if (row == undefined) return undefined;
+
+    return {
+        credentialID: row.credentialID,
+        credentialPublicKey: row.credentialPublicKey,
+        counter: row.counter,
+        transports: row.transports.split(','),
+    };
+}
+
 module.exports = {
     getUser,
     saveAuthForUser,
     getUserAuthenticators,
     updateAuthCounter,
+    getUserAuthenticator,
 };
