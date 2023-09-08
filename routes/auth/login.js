@@ -11,9 +11,6 @@ const {
 
 const challenges = {};
 
-const setUserCurrentChallenge = (user, challenge) => void (challenges[user.firebaseUID] = challenge)
-
-const getUserCurrentChallenge = (user) => challenges[user.firebaseUID];
 
 const rpName = 'FemDevs OAuth2'
 const rpId = (process.env === "PRODUCTION") ? 'thefemdevs' : 'localhost';
@@ -31,20 +28,14 @@ router
     })
     .get('/get-creds', async (req, res) => {
         const user = await getUserFromDB('CgomRVx547O56mqNCQmmo0VqgW72');
-        const userAuthenticators = (await getUserAuthenticators(user)).map(authenticator => ({
-            credentialID: isoBase64URL.fromBuffer(isoUint8Array.fromUTF8String(authenticator.credentialID)),
-            credentialPublicKey: isoBase64URL.fromBuffer(isoUint8Array.fromUTF8String(authenticator.credentialPublicKey)),
-            counter: authenticator.counter,
-            transports: authenticator.transports,
-        }));
+        const userAuthenticators = await getUserAuthenticators(user, rpId);
 
         const options = await SimpleWebAuthnServer.generateAuthenticationOptions({
-            // Require users to use a previously-registered authenticator
-            allowCredentials: userAuthenticators.map(authenticator => ({
-                id: authenticator.credentialID,
-                type: 'public-key',
-                transports: authenticator.transports,
-            })),
+            allowCredentials: userAuthenticators.
+                map(
+                    ({ credentialID, transports }) =>
+                        ({ id: isoUint8Array.fromUTF8String(credentialID), type: 'public-key', transports })
+                ),
             userVerification: 'preferred',
         });
 
@@ -56,8 +47,8 @@ router
     .post('/verify', async (req, res) => {
         const { body } = req;
         const user = await getUserFromDB('CgomRVx547O56mqNCQmmo0VqgW72');
-        const expectedChallenge = await getUserCurrentChallenge(user);
-        const authenticator = await getUserAuthenticator(user, isoUint8Array.toUTF8String(isoBase64URL.toBuffer(body.id)));
+        const expectedChallenge = req.session.challenge;
+        const authenticator = await getUserAuthenticator(user, body.id);
 
         if (!authenticator) throw new Error(`Could not find authenticator ${body.id} for user ${user.id}`);
 
@@ -66,7 +57,12 @@ router
             expectedChallenge,
             expectedOrigin: origin,
             expectedRPID: rpId,
-            authenticator,
+            authenticator: {
+                counter: authenticator.counter,
+                credentialID: authenticator.credentialID,
+                credentialPublicKey: authenticator.credentialPublicKey,
+                transports: authenticator.transports,
+            },
         }).catch((error) => {
             console.error(error);
             return res.status(400).send({ error: error.message });

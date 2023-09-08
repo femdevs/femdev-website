@@ -9,8 +9,8 @@ const {
 } = require('../../functions/passkey');
 
 const rpName = 'FemDevs OAuth2'
-const rpId = (process.env.NODE_ENV.toLowerCase() === "production") ? 'thefemdevs.com' : 'localhost';
-const origin = (process.env.NODE_ENV.toLowerCase() === "production") ? 'https://thefemdevs.com' : 'http://localhost:3001';
+const rpId = (process.env.NODE_ENV?.toLowerCase() === "production") ? 'thefemdevs.com' : 'localhost';
+const origin = (process.env.NODE_ENV?.toLowerCase() === "production") ? 'https://thefemdevs.com' : 'http://localhost:3001';
 
 router
     .use(bodyParser.json())
@@ -23,19 +23,8 @@ router
         );
     })
     .get('/get-creds', async (req, res) => {
-        const cookies = req.headers.cookie
-            .split(';')
-            .map(
-                cookie =>
-                    cookie.split('=')
-            )
-            .reduce(
-                (acc, [key, value]) =>
-                    ({ ...acc, [key.trim()]: decodeURIComponent(value) }),
-                {}
-            );
         const user = await getUserFromDB('CgomRVx547O56mqNCQmmo0VqgW72');
-        const userAuthenticators = await getUserAuthenticators(user);
+        const userAuthenticators = await getUserAuthenticators(user, rpId);
 
         const options = await SimpleWebAuthnServer.generateRegistrationOptions({
             rpName,
@@ -80,7 +69,8 @@ router
             credentialID: isoUint8Array.toUTF8String(verification.registrationInfo.credentialID),
             credentialPublicKey: isoUint8Array.toUTF8String(verification.registrationInfo.credentialPublicKey),
             counter: verification.registrationInfo.counter,
-            transports: ['ble']
+            transports: ['ble'],
+            rpid: rpId,
         };
 
         await saveNewUserAuthenticatorInDB(user, newAuthenticator);

@@ -9,23 +9,28 @@ async function getUser(id) {
 
 async function saveAuthForUser(user, authdata) {
     const { firebaseUID } = user;
-    const { credentialID, credentialPublicKey, counter, transports } = authdata;
+    const { credentialID, credentialPublicKey, counter, transports, rpid } = authdata;
     const connection = await Database.getConnection();
-    await connection.query('INSERT INTO userAuthData (firebaseUID, credentialID, credentialPublicKey, counter, transports) VALUES (?, ?, ?, ?, ?)', [firebaseUID, credentialID, credentialPublicKey, counter, transports.join(',')]);
+    await connection.query('INSERT INTO userAuthData (firebaseUID, credentialID, credentialPublicKey, counter, transports, rpId) VALUES (?, ?, ?, ?, ?, ?)', [firebaseUID, credentialID, credentialPublicKey, counter, transports.join(','), rpid]);
     Database.closeConnection(connection);
 }
 
-async function getUserAuthenticators(user) {
+async function getUserAuthenticators(user, rpid) {
     const connection = await Database.getConnection();
-    const [rows] = await connection.query('SELECT * FROM userAuthData WHERE firebaseUID = ?', [user.firebaseUID]);
+    const [rows] = await connection.query('SELECT * FROM userAuthData WHERE firebaseUID = ? and rpId = ?', [user.firebaseUID, rpid]);
     Database.closeConnection(connection);
+    let returnData = [];
+    for (const row of rows) {
+        returnData.push({
+            credentialID: row.credentialID,
+            credentialPublicKey: row.credentialPublicKey,
+            counter: row.counter,
+            transports: row.transports.split(','),
+            rpid: row.rpId,
+        })
+    }
 
-    return rows.map(row => ({
-        credentialID: row.credentialID,
-        credentialPublicKey: row.credentialPublicKey,
-        counter: row.counter,
-        transports: row.transports.split(','),
-    }));
+    return returnData
 }
 
 async function updateAuthCounter(user, credentialID, counter) {
@@ -47,6 +52,7 @@ async function getUserAuthenticator(user, credentialID) {
         credentialPublicKey: row.credentialPublicKey,
         counter: row.counter,
         transports: row.transports.split(','),
+        rpid: row.rpId,
     };
 }
 
