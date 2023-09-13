@@ -1,0 +1,17 @@
+doctype html
+html
+  head
+    include ../defaults/header.pug
+  body.bg-neutral-200
+    include ../defaults/nav.pug
+    h1#pdstitle &#8238;Poland Destruction Simulator
+    .container
+      #map 
+        p#gameOver &#8238;Game Over!
+      button#startButton &#8238;Start Game
+      button#destroyButton &#8238;Destroy!
+      #stats
+        p#score &#8238;Score: 0
+        p#timeLeft &#8238;Time Left: 15
+        p#personalBest &#8238;Personal Best: 0
+    script(src="/scripts/File-Specific/pds.js")

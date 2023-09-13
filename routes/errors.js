@@ -1,10 +1,10 @@
-const { Router } = require('express')
+const { aprilFools } = require(`../src/util-fuctions`)
 
-const router = Router()
+const router = require('express').Router();
 
-router.get('/400', (req, res) => {
+router.get(`/400`, (req, res) => {
     res.render(
-        'misc/400.pug',
+        `${aprilFools() ? 'april-fools/': ''}misc/400.pug`,
         {
             title: `400 - Invalid Request`,
             path: req.path,
@@ -12,9 +12,9 @@ router.get('/400', (req, res) => {
     )
 })
 
-router.get('/401', (req, res) => {
+router.get(`/401`, (req, res) => {
     res.render(
-        'misc/401.pug',
+        `${aprilFools() ? 'april-fools/': ''}misc/401.pug`,
         {
             title: `401 - Unauthorized`,
             path: req.path,
@@ -22,27 +22,27 @@ router.get('/401', (req, res) => {
     )
 })
 
-router.get('/404', (req, res) => {
+router.get(`/404`, (req, res) => {
     res.render(
-        `misc/404.pug`,
+        `${aprilFools() ? 'april-fools/': ''}misc/404.pug`,
         {
-            title: '404 - Page Not Found',
+            title: `404 - Page Not Found`,
             path: req.path
         }
     );
 })
 
-router.get('/405', (req, res) => {
+router.get(`/405`, (req, res) => {
     const { path } = req
     const allowedMethods = router.stack
         .filter(r => r.route && r.route.path === path)
         .map(r => r.route.stack[0].method.toUpperCase())
-        .join(', ');
+        .join(`, `);
     const methodUsed = req.method.toUpperCase();
     res.render(
-        `misc/405.pug`,
+        `${aprilFools() ? 'april-fools/': ''}misc/405.pug`,
         {
-            title: '405 - Method Not Allowed',
+            title: `405 - Method Not Allowed`,
             path,
             allowedMethods,
             methodUsed
@@ -50,43 +50,43 @@ router.get('/405', (req, res) => {
     );
 })
 
-router.get('/429', (req, res) => {
+router.get(`/429`, (req, res) => {
     res.render(
-        `misc/429.pug`,
+        `${aprilFools() ? 'april-fools/': ''}misc/429.pug`,
         {
-            title: '429 - Too Many Requests'
+            title: `429 - Too Many Requests`
         }
     )
 })
 
-router.get('/501', (req, res) => {
+router.get(`/501`, (req, res) => {
     res.render(
-        `misc/501.pug`,
+        `${aprilFools() ? 'april-fools/': ''}misc/501.pug`,
         {
             title: `501 - Internal Server Error`,
-            errorId: require('../src/util-fuctions').Utils.Crypto.FullHash("Testing Error")
+            errorId: require(`../src/util-fuctions`).Utils.Crypto.FullHash("Testing Error")
         }
     )
 })
 
-router.get('/location', (req, res) => {
-    return res.render('misc/location_denial.pug');
+router.get(`/location`, (req, res) => {
+    return res.render(`${aprilFools() ? 'april-fools/': ''}misc/location_denial.pug`);
 })
 
-router.get('/vpn', (req, res) => {
-    return res.render('misc/vpn_block.pug');
+router.get(`/vpn`, (req, res) => {
+    return res.render(`${aprilFools() ? 'april-fools/': ''}misc/vpn_block.pug`);
 })
 
-router.get('/proxy', (req, res) => {
-    return res.render('misc/vpn_block.pug');
+router.get(`/proxy`, (req, res) => {
+    return res.render(`${aprilFools() ? 'april-fools/': ''}misc/vpn_block.pug`);
 })
 
-router.get('/tor', (req, res) => {
-    return res.render('misc/vpn_block.pug');
+router.get(`/tor`, (req, res) => {
+    return res.render(`${aprilFools() ? 'april-fools/': ''}misc/vpn_block.pug`);
 })
 
-router.get('/relay', (req, res) => {
-    return res.render('misc/vpn_block.pug');
+router.get(`/relay`, (req, res) => {
+    return res.render(`${aprilFools() ? 'april-fools/': ''}misc/vpn_block.pug`);
 })
 
 router.use((req, res, next) => {
@@ -106,11 +106,11 @@ router.use((req, res, next) => {
         return next();
     } else {
         res.status(405).render(
-            `misc/405.pug`,
+            `${aprilFools() ? 'april-fools/': ''}misc/405.pug`,
             {
-                title: '405 - Method Not Allowed',
+                title: `405 - Method Not Allowed`,
                 path,
-                allowedMethods: Object.keys(allowedMethods).map(m => m.toUpperCase()).join(', '),
+                allowedMethods: Object.keys(allowedMethods).map(m => m.toUpperCase()).join(`, `),
                 methodUsed: methodUsed
             }
         );

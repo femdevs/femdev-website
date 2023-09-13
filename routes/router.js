@@ -12,6 +12,7 @@ const error = require('./errors');
 const ab = require('./ab');
 const assets = require('./assets/router');
 const auth = require('./auth');
+const { aprilFools } = require('../functions/utilities');
 
 Sentry.init({
     dsn: "https://90738d20a91d4f169081dfbea05bc8d4@o4504516705058816.ingest.sentry.io/4504771825303552",
@@ -72,7 +73,7 @@ router
             case 401:
             case 403:
                 res.status(err.status).render(
-                    `misc/401.pug`,
+                    `${aprilFools() ? 'april-fools/': ''}misc/401.pug`,
                     {
                         title: `401 - Unauthorized`,
                         path: req.path,
@@ -107,7 +108,7 @@ router
                     .status(501)
                     .setHeader('X-Error-ID', errorId)
                     .render(
-                        `misc/501.pug`,
+                        `${aprilFools() ? 'april-fools/': ''}misc/501.pug`,
                         {
                             title: `501 - Internal Server Error`,
                             errorId
@@ -118,7 +119,7 @@ router
     })
     .use((req, res) => {
         res.status(404).render(
-            `misc/404.pug`,
+            `${aprilFools() ? 'april-fools/': ''}misc/404.pug`,
             {
                 title: '404 - Page Not Found',
                 path: req.path

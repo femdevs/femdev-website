@@ -2,7 +2,7 @@ const router = require('express').Router();
 const bodyParser = require('body-parser');
 
 const SimpleWebAuthnServer = require('@simplewebauthn/server');
-const { isoBase64URL, isoUint8Array } = require('@simplewebauthn/server/helpers');
+const { isoUint8Array } = require('@simplewebauthn/server/helpers');
 const {
     getUser: getUserFromDB,
     saveAuthForUser: saveNewUserAuthenticatorInDB,
@@ -50,6 +50,9 @@ router
             },
             attestationType: 'none',
             excludeCredentials: disallowedCredentials,
+            supportedAlgorithmIDs: [-7, -257],
+            timeout: 60000,
+            attestationType: 'none',
         });
 
         req.session.challenge = options.challenge;
@@ -60,13 +63,13 @@ router
     .post('/register/verify', async (req, res) => {
         const { body } = req;
         const user = await getUserFromDB('CgomRVx547O56mqNCQmmo0VqgW72');
-        const expectedChallenge = req.session.challenge;
 
         let verification = (await SimpleWebAuthnServer.verifyRegistrationResponse({
             response: body,
-            expectedChallenge,
+            expectedChallenge : req.session.challenge,
             expectedOrigin: origin,
             expectedRPID: rpID,
+            supportedAlgorithmIDs: [-7, -257],
         }).catch((error) => {
             console.error(error);
             res.status(400).send({ error: error.message })
@@ -77,7 +80,7 @@ router
         if (verification.registrationInfo == undefined) throw new Error('Could not get registration info');
 
         const newAuthenticator = {
-            credentialID: isoUint8Array.toUTF8String(verification.registrationInfo.credentialID),
+            credentialID: body.id,
             credentialPublicKey: isoUint8Array.toUTF8String(verification.registrationInfo.credentialPublicKey),
             counter: verification.registrationInfo.counter,
             transports: body.response.transports,
@@ -119,14 +122,13 @@ router
     .post('/login/verify', async (req, res) => {
         const { body } = req;
         const user = await getUserFromDB('CgomRVx547O56mqNCQmmo0VqgW72');
-        const expectedChallenge = req.session.challenge;
         const authenticator = await getUserAuthenticator(user, body.id);
 
         if (!authenticator) throw new Error(`Could not find authenticator ${body.id} for user ${user.id}`);
 
         let verification = await SimpleWebAuthnServer.verifyAuthenticationResponse({
             response: body,
-            expectedChallenge,
+            expectedChallenge: req.session.challenge,
             expectedOrigin: origin,
             expectedRPID: rpID,
             authenticator: {
@@ -135,6 +137,9 @@ router
                 credentialPublicKey: authenticator.credentialPublicKey,
                 transports: authenticator.transports,
             },
+            advancedFIDOConfig: {
+                userVerification: 'preferred'
+            }
         }).catch((error) => {
             console.error(error);
             return res.status(400).send({ error: error.message });

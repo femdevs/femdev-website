@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const pg = require('pg')
+const { aprilFools } = require('../functions/utilities');
 
 const pool = new pg.Pool({
     max: 10,
@@ -30,7 +31,7 @@ router
             })
         Object.keys(staffRoles).forEach(role => staffRoles[role].title = role)
         res.render(
-            'main/team',
+            `${aprilFools() ? 'april-fools/': ''}mainmain/team`,
             {
                 title: 'Team',
                 staff: staffRoles,
@@ -40,7 +41,7 @@ router
     })
     .get('/carrers', (req, res) => {
         res.render(
-            `main/carrers.pug`,
+            `${aprilFools() ? 'april-fools/': ''}main/carrers.pug`,
             {
                 title: 'Carrers',
             }
@@ -48,7 +49,7 @@ router
     })
     .get('/branding', (req, res) => {
         res.render(
-            `main/branding.pug`,
+            `${aprilFools() ? 'april-fools/': ''}main/branding.pug`,
             {
                 title: 'Branding',
             }
@@ -56,7 +57,7 @@ router
     })
     .get('/products', (req, res) => {
         res.render(
-            `main/products.pug`,
+            `${aprilFools() ? 'april-fools/': ''}main/products.pug`,
             {
                 title: 'Products',
             }
@@ -64,7 +65,7 @@ router
     })
     .get('/about', (req, res) => {
         res.render(
-            `main/about.pug`,
+            `${aprilFools() ? 'april-fools/': ''}main/about.pug`,
             {
                 title: 'About',
             }
@@ -72,7 +73,7 @@ router
     })
     .get('/pds', (req, res) => {
         res.render(
-            `main/poland.pug`,
+            `${aprilFools() ? 'april-fools/': ''}main/poland.pug`,
             {
                 title: "Poland Destruction Simulator",
                 file: 'pds',
@@ -81,7 +82,7 @@ router
     })
     .get('/socials', (req, res) => {
         res.render(
-            `main/socials.pug`,
+            `${aprilFools() ? 'april-fools/': ''}main/socials.pug`,
             {
                 title: 'Socials',
                 file: 'socials',
@@ -90,7 +91,7 @@ router
     })
     .get('/index', (req, res) => {
         res.render(
-            `main/index.pug`,
+            `${aprilFools() ? 'april-fools/': ''}main/index.pug`,
             {
                 title: 'Homepage',
                 file: 'index',
@@ -99,7 +100,7 @@ router
     })
     .get(`/`, (req, res) => {
         res.render(
-            `main/index.pug`,
+            `${aprilFools() ? 'april-fools/': ''}main/index.pug`,
             {
                 title: 'Homepage',
                 file: 'index',
@@ -122,7 +123,7 @@ router
         if (allowedMethods[methodUsed]) return next();
         else {
             res.status(405).render(
-                `misc/405.pug`,
+                `${aprilFools() ? 'april-fools/': ''}misc/405.pug`,
                 {
                     title: '405 - Method Not Allowed',
                     path,

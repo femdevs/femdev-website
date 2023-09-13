@@ -25,7 +25,7 @@ router
         if (allowedMethods[methodUsed]) return next();
         else {
             res.status(405).render(
-                `misc/405.pug`,
+                `${aprilFools() ? 'april-fools/': ''}misc/405.pug`,
                 {
                     title: '405 - Method Not Allowed',
                     path,

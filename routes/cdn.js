@@ -1,5 +1,5 @@
-const express = require('express');
-const router = express.Router();
+const router = require('express').Router();
+const { aprilFools } = require('../functions/utilities');
 
 router.get('/discord', (req, res) => res.redirect('https://discord.gg/FgQvDW8jtr'))
 
@@ -20,7 +20,7 @@ router.use((req, res, next) => {
         return next();
     } else {
         res.status(405).render(
-            `misc/405.pug`,
+            `${aprilFools() ? 'april-fools/': ''}misc/405.pug`,
             {
                 title: '405 - Method Not Allowed',
                 path,
