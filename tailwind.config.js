@@ -11,7 +11,6 @@ module.exports = {
       fontFamily: {
         poppins: ['Poppins', 'sans-serif'],
         roboto: ['Roboto', 'sans-serif'],
-        "assistant": ["assistant1", "sans-serif"],
         "tenorite-regular": ["tenoriteRegular", "sans-serif"],
         "tenorite-bold": ["tenoriteBold", "sans-serif"],
       },
