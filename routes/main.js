@@ -108,7 +108,6 @@ router
         res.render(
             `${aprilFools() ? 'april-fools/': ''}main/index.pug`,
             {
-                file: 'index',
                 meta: {
                     title: 'FemDevs Home Page',
                     desc: 'The home of the FemDevs!',
@@ -121,7 +120,6 @@ router
         res.render(
             `${aprilFools() ? 'april-fools/': ''}main/index.pug`,
             {
-                file: 'index',
                 meta: {
                     title: 'FemDevs Home Page',
                     desc: 'The home of the FemDevs!',
