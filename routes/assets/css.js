@@ -3,10 +3,7 @@ const { aprilFools } = require('../../functions/utilities');
 
 router
     .get(`/d`, (req, res) => {
-        res.sendFile(`${process.cwd()}/assets/stylesheets/general/combined.css`)
-    })
-    .get(`/c/:file`, (req, res) => {
-        res.sendFile(`${process.cwd()}/assets/stylesheets/general/${req.params.file}.css`);
+        res.sendFile(`${process.cwd()}/assets/stylesheets/styles.css`);
     })
     .get(`/f/:file`, (req, res) => {
         res.sendFile(`${process.cwd()}/assets/stylesheets/file-specific/${req.params.file}.css`);
@@ -28,9 +25,11 @@ router
         res.status(405).render(
             `${aprilFools() ? 'aprilfools/' : ''}misc/405.pug`,
             {
-                path,
-                allowedMethods: Object.keys(allowedMethods).map(m => m.toUpperCase()).join(', '),
-                methodUsed: methodUsed,
+                errData: {
+                    path,
+                    allowedMethods: Object.keys(allowedMethods).map(m => m.toUpperCase()).join(', '),
+                    methodUsed: methodUsed,
+                },
                 meta: {
                     title: '405 - Method Not Allowed',
                     desc: '405 - Method Not Allowed',

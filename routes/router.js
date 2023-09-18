@@ -116,8 +116,10 @@ router
                 res.status(err.status).render(
                     `${aprilFools() ? 'april-fools/' : ''}misc/401.pug`,
                     {
-                        path: req.path,
-                        code: err.status,
+                        errData: {
+                            path: req.path,
+                            code: err.status,
+                        },
                         meta: {
                             title: `401 - Unauthorized`,
                             desc: `401 - Unauthorized`,
@@ -136,17 +138,18 @@ router
             //         }
             //     })
             //     res.status(405).render(
-            //         `misc/405.pug`,
+            //         `${aprilFools() ? 'aprilfools/' : ''}misc/405.pug`,
             //         {
-            //             title: '405 - Method Not Allowed',
-            //             path,
-            //             allowedMethods: allowedMethods.forEach(m => m.toUpperCase()),
-            //             methodUsed: methodUsed.toUpperCase(),
+            //             errData: {
+            //                 path,
+            //                 allowedMethods: Object.keys(allowedMethods).map(m => m.toUpperCase()).join(', '),
+            //                 methodUsed: methodUsed,
+            //             },
             //             meta: {
-            //                title: '405 - Method Not Allowed',
-            //                desc: '405 - Method Not Allowed',
-            //                url: 'https://thefemdevs.com/errors/405',
-            //            }
+            //                 title: '405 - Method Not Allowed',
+            //                 desc: '405 - Method Not Allowed',
+            //                 url: 'https://thefemdevs.com/errors/405',
+            //             }
             //         }
             //     );
             case 404:
@@ -160,7 +163,9 @@ router
                     .render(
                         `${aprilFools() ? 'april-fools/' : ''}misc/501.pug`,
                         {
-                            errorId,
+                            errData: {
+                                errorId
+                            },
                             meta: {
                                 title: `501 - Internal Server Error`,
                                 desc: `501 - Internal Server Error`,
@@ -175,7 +180,9 @@ router
         res.status(404).render(
             `${aprilFools() ? 'april-fools/' : ''}misc/404.pug`,
             {
-                path: req.path,
+                errData: {
+                    path: req.path,
+                },
                 meta: {
                     title: '404 - Page Not Found',
                     desc: '404 - Page Not Found',
