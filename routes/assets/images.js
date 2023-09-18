@@ -52,8 +52,8 @@ router
     .get('/team/:name', (req, res) => {
         res
             .setHeader('Cache-Control', 'public; max-age=31536000')
-            .setHeader(`Content-Type`, `image/png`)
-            .sendFile(`${process.cwd()}/assets/media/team_avatars/${req.params.name.toLowerCase()}.png`)
+            .setHeader(`Content-Type`, `image/webp`)
+            .sendFile(`${process.cwd()}/assets/media/team_avatars/${req.params.name.toLowerCase()}.webp`)
     })
     .get('/static/:file', (req, res) => {
         res.sendFile(`${process.cwd()}/assets/media/images/${req.params.file}`);

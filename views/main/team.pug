@@ -19,9 +19,12 @@ html(lang='en-us')
                     class='hover:ring-1 hover:ring-brand-black hover:drop-shadow-xl'
                   )
                     - var userSRCURL = '/assets/images/team/' + member.displayname
+                    - var imgAlt = member.displayname + "'s profile picture"
                     img.h-32.rounded-t-xl.object-cover.transition-all(
-                      src= userSRCURL,
+                      src= userSRCURL
                       loading='lazy'
+                      alt= imgAlt
+                      type="image/webp"
                     )
                     .space-y-1.p-4
                       h3.select-none.font-poppins.text-xl.font-medium.text-neutral-900= member.displayname
