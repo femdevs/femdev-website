@@ -1,10 +1,13 @@
+//- Packages
 const router = require('express').Router();
 const rateLimiter = require('express-rate-limit');
+const session = require('express-session');
+const MemoryStore = require('memorystore')(session);
 const Sentry = require('@sentry/node');
 const Tracing = require('@sentry/tracing');
 const Intigrations = require('@sentry/integrations');
-const session = require('express-session');
-const MemoryStore = require('memorystore')(session);
+
+//- Routes
 const website = require('./main');
 const cdn = require('./cdn');
 const legal = require('./legal');
@@ -12,8 +15,11 @@ const error = require('./errors');
 const ab = require('./ab');
 const assets = require('./assets/router');
 const auth = require('./auth');
+
+//- Functions
 const { aprilFools } = require('../functions/utilities');
 
+//- Sentry Initalization
 Sentry.init({
     dsn: "https://90738d20a91d4f169081dfbea05bc8d4@o4504516705058816.ingest.sentry.io/4504771825303552",
     sampleRate: 1.0,
@@ -38,6 +44,7 @@ Sentry.init({
     sendDefaultPii: true
 });
 
+//- Rate Limiters
 const baseLimiter = rateLimiter.rateLimit({
     windowMs: 1000,
     max: 10,
@@ -55,6 +62,7 @@ const assetsLimiter = rateLimiter.rateLimit({
     handler: (_, res, ...args) => res.status(429).render(`misc/429.pug`, { title: '429 - Too Many Requests' }),
 });
 
+//- Router setup
 router
     .use(Sentry.Handlers.requestHandler({ transaction: true }))
     .use(Sentry.Handlers.tracingHandler())
@@ -126,5 +134,6 @@ router
             }
         );
     })
+    .use(Sentry.Handlers.errorHandler());
 
 module.exports = router;
