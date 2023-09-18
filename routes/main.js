@@ -104,19 +104,6 @@ router
             }
         )
     })
-    .get('/socials', (req, res) => {
-        res.render(
-            `${aprilFools() ? 'april-fools/': ''}main/socials.pug`,
-            {
-                file: 'socials',
-                meta: {
-                    title: 'FemDev Socials',
-                    desc: 'FemDev Socials',
-                    url: 'https://thefemdevs.com/socials',
-                }
-            }
-        );
-    })
     .get('/index', (req, res) => {
         res.render(
             `${aprilFools() ? 'april-fools/': ''}main/index.pug`,
