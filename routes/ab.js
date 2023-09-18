@@ -6,7 +6,6 @@ router
         res.render(
             'ab-testing/icons',
             {
-                title: 'Icons',
                 meta: {
                     title: 'Icons',
                     desc: 'Icons',

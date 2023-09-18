@@ -116,7 +116,6 @@ router
                 res.status(err.status).render(
                     `${aprilFools() ? 'april-fools/' : ''}misc/401.pug`,
                     {
-                        title: `401 - Unauthorized`,
                         path: req.path,
                         code: err.status,
                         meta: {
@@ -161,7 +160,6 @@ router
                     .render(
                         `${aprilFools() ? 'april-fools/' : ''}misc/501.pug`,
                         {
-                            title: `501 - Internal Server Error`,
                             errorId,
                             meta: {
                                 title: `501 - Internal Server Error`,
@@ -177,7 +175,6 @@ router
         res.status(404).render(
             `${aprilFools() ? 'april-fools/' : ''}misc/404.pug`,
             {
-                title: '404 - Page Not Found',
                 path: req.path,
                 meta: {
                     title: '404 - Page Not Found',

@@ -6,7 +6,6 @@ router.get(`/400`, (req, res) => {
     res.render(
         `${aprilFools() ? 'april-fools/' : ''}misc/400.pug`,
         {
-            title: `400 - Invalid Request`,
             path: req.path,
             meta: {
                 title: `400 - Invalid Request`,
@@ -21,7 +20,6 @@ router.get(`/401`, (req, res) => {
     res.render(
         `${aprilFools() ? 'april-fools/' : ''}misc/401.pug`,
         {
-            title: `401 - Unauthorized`,
             path: req.path,
             meta: {
                 title: `401 - Unauthorized`,
@@ -36,7 +34,6 @@ router.get(`/404`, (req, res) => {
     res.render(
         `${aprilFools() ? 'april-fools/' : ''}misc/404.pug`,
         {
-            title: `404 - Page Not Found`,
             path: req.path,
             meta: {
                 title: `404 - Page Not Found`,
@@ -57,7 +54,6 @@ router.get(`/405`, (req, res) => {
     res.render(
         `${aprilFools() ? 'april-fools/' : ''}misc/405.pug`,
         {
-            title: `405 - Method Not Allowed`,
             path,
             allowedMethods,
             methodUsed,
@@ -74,7 +70,6 @@ router.get(`/429`, (req, res) => {
     res.render(
         `${aprilFools() ? 'april-fools/' : ''}misc/429.pug`,
         {
-            title: `429 - Too Many Requests`,
             meta: {
                 title: `429 - Too Many Requests`,
                 desc: `429 - Too Many Requests`,
@@ -88,7 +83,6 @@ router.get(`/501`, (req, res) => {
     res.render(
         `${aprilFools() ? 'april-fools/' : ''}misc/501.pug`,
         {
-            title: `501 - Internal Server Error`,
             errorId: require(`../src/util-fuctions`).Utils.Crypto.FullHash("Testing Error"),
             meta: {
                 title: `501 - Internal Server Error`,
@@ -103,7 +97,6 @@ router.get(`/location`, (req, res) => {
     return res.render(
         `${aprilFools() ? 'april-fools/' : ''}misc/location_denial.pug`,
         {
-            title: `Location Denied`,
             meta: {
                 title: `Location Denied`,
                 desc: `Location Denied`,
@@ -117,7 +110,6 @@ router.get(`/vpn`, (req, res) => {
     return res.render(
         `${aprilFools() ? 'april-fools/' : ''}misc/vpn_block.pug`,
         {
-            title: `VPN Blocked`,
             meta: {
                 title: `VPN Blocked`,
                 desc: `VPN Blocked`,
@@ -131,7 +123,6 @@ router.get(`/proxy`, (req, res) => {
     return res.render(
         `${aprilFools() ? 'april-fools/' : ''}misc/vpn_block.pug`,
         {
-            title: `VPN Blocked`,
             meta: {
                 title: `VPN Blocked`,
                 desc: `VPN Blocked`,
@@ -145,7 +136,6 @@ router.get(`/tor`, (req, res) => {
     return res.render(
         `${aprilFools() ? 'april-fools/' : ''}misc/vpn_block.pug`,
         {
-            title: `VPN Blocked`,
             meta: {
                 title: `VPN Blocked`,
                 desc: `VPN Blocked`,
@@ -159,7 +149,6 @@ router.get(`/relay`, (req, res) => {
     return res.render(
         `${aprilFools() ? 'april-fools/' : ''}misc/vpn_block.pug`,
         {
-            title: `VPN Blocked`,
             meta: {
                 title: `VPN Blocked`,
                 desc: `VPN Blocked`,
@@ -186,7 +175,6 @@ router.use((req, res, next) => {
         res.status(405).render(
             `${aprilFools() ? 'aprilfools/' : ''}misc/405.pug`,
             {
-                title: '405 - Method Not Allowed',
                 path,
                 allowedMethods: Object.keys(allowedMethods).map(m => m.toUpperCase()).join(', '),
                 methodUsed: methodUsed,

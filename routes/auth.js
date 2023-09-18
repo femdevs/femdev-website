@@ -11,8 +11,6 @@ const {
     getUserAuthenticator,
 } = require('../functions/passkey');
 const { aprilFools } = require('../functions/utilities');
-
-
     
 const rpName = 'FemDevs OAuth2'
 const rpID = (process.env.NODE_ENV?.toLowerCase() === "production") ? 'thefemdevs.com' : 'localhost';
@@ -24,7 +22,6 @@ router
         res.render(
             `auth/register.pug`,
             {
-                title: 'Register',
                 meta: {
                     title: 'Register',
                     desc: 'Register',
@@ -100,7 +97,6 @@ router
         res.render(
             `auth/login.pug`,
             {
-                title: 'Login',
                 meta: {
                     title: 'Login',
                     desc: 'Login',

@@ -12,7 +12,6 @@ router
             .render(
                 `legal/privacy.pug`,
                 {
-                    title: 'Privacy Policy',
                     meta: {
                         title: 'Privacy Policy',
                         desc: 'Privacy Policy',
@@ -29,7 +28,6 @@ router
             .render(
                 `legal/TaC.pug`,
                 {
-                    title: 'Terms and Conditions',
                     meta: {
                         title: 'Terms and Conditions',
                         desc: 'Terms and Conditions',
@@ -46,7 +44,6 @@ router
             .render(
                 `legal/cookies.pug`,
                 {
-                    title: 'Cookie Policy',
                     meta: {
                         title: 'Cookie Policy',
                         desc: 'Cookie Policy',

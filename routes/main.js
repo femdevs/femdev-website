@@ -33,7 +33,6 @@ router
         res.render(
             `${aprilFools() ? 'april-fools/': ''}main/team`,
             {
-                title: 'Team',
                 staff: staffRoles,
                 meta: {
                     title: 'FemDev Staff Team',
@@ -48,7 +47,6 @@ router
         res.render(
             `${aprilFools() ? 'april-fools/': ''}main/carrers.pug`,
             {
-                title: 'Carrers',
                 meta: {
                     title: 'FemDev Carrers',
                     desc: 'Join the FemDev Team!',
@@ -61,7 +59,6 @@ router
         res.render(
             `${aprilFools() ? 'april-fools/': ''}main/branding.pug`,
             {
-                title: 'Branding',
                 meta: {
                     title: 'FemDev Branding',
                     desc: 'FemDev Branding',
@@ -74,7 +71,6 @@ router
         res.render(
             `${aprilFools() ? 'april-fools/': ''}main/products.pug`,
             {
-                title: 'Products',
                 meta: {
                     title: 'FemDev Products',
                     desc: 'FemDev Products',
@@ -87,7 +83,6 @@ router
         res.render(
             `${aprilFools() ? 'april-fools/': ''}main/about.pug`,
             {
-                title: 'About',
                 meta: {
                     title: 'About FemDev',
                     desc: 'About us, the FemDevs!',
@@ -100,7 +95,6 @@ router
         res.render(
             `${aprilFools() ? 'april-fools/': ''}main/poland.pug`,
             {
-                title: "Poland Destruction Simulator",
                 file: 'pds',
                 meta: {
                     title: 'Poland Destruction Simulator',
@@ -114,7 +108,6 @@ router
         res.render(
             `${aprilFools() ? 'april-fools/': ''}main/socials.pug`,
             {
-                title: 'Socials',
                 file: 'socials',
                 meta: {
                     title: 'FemDev Socials',
@@ -128,10 +121,9 @@ router
         res.render(
             `${aprilFools() ? 'april-fools/': ''}main/index.pug`,
             {
-                title: 'Homepage',
                 file: 'index',
                 meta: {
-                    title: 'FemDevs',
+                    title: 'FemDevs Home Page',
                     desc: 'The home of the FemDevs!',
                     url: 'https://thefemdevs.com',
                 }
@@ -142,10 +134,9 @@ router
         res.render(
             `${aprilFools() ? 'april-fools/': ''}main/index.pug`,
             {
-                title: 'Homepage',
                 file: 'index',
                 meta: {
-                    title: 'FemDevs',
+                    title: 'FemDevs Home Page',
                     desc: 'The home of the FemDevs!',
                     url: 'https://thefemdevs.com',
                 }
@@ -169,7 +160,6 @@ router
         res.status(405).render(
             `${aprilFools() ? 'aprilfools/' : ''}misc/405.pug`,
             {
-                title: '405 - Method Not Allowed',
                 path,
                 allowedMethods: Object.keys(allowedMethods).map(m => m.toUpperCase()).join(', '),
                 methodUsed: methodUsed,

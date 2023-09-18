@@ -19,9 +19,10 @@ if meta
   meta(property='twitter:url' content= meta.url)
   meta(property='twitter:title' content= meta.title)
   meta(property='twitter:description' content= meta.desc)
+  title= meta.title
 meta(name='author' content='The FemDevs')
 meta(name='keywords' content='femdevs, femboys, development, sparty18, benpai, oblong, oblong101, alex, auxiliaryfrfr')
-meta(name='language' content='English')
+meta(name='language' content='en-us')
 meta(name='revisit-after' content='2 days')
 meta(property='og:type' content='website')
 meta(property='og:image' content='/assets/misc/thumbnail')
@@ -41,7 +42,6 @@ script(type='application/ld+json').
     "logo": "https://thefemdevs.com/assets/images/deficon",
     "sameAs": "https://github.com/femdevs"
   }
-title= title
 if file
   - var filename = '/assets/css/f/' + file
   link(href=filename rel='stylesheet' type='text/css')

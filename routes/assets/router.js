@@ -32,7 +32,6 @@ router
         res.status(405).render(
             `${aprilFools() ? 'aprilfools/' : ''}misc/405.pug`,
             {
-                title: '405 - Method Not Allowed',
                 path,
                 allowedMethods: Object.keys(allowedMethods).map(m => m.toUpperCase()).join(', '),
                 methodUsed: methodUsed,
