@@ -7,29 +7,27 @@ const font = require('./font');
 const audio = require('./audio');
 const misc = require('./misc');
 
-router.use('/css', css);
-router.use('/images', images);
-router.use('/js', javascript);
-router.use('/f', font);
-router.use('/audio', audio);
-router.use('/misc', misc);
+router
+    .use('/css', css)
+    .use('/images', images)
+    .use('/js', javascript)
+    .use('/f', font)
+    .use('/audio', audio)
+    .use('/misc', misc)
+    .use((req, res, next) => {
+        const { path, method } = req;
+        const methodUsed = method.toUpperCase();
+        let allowedMethods = router.stack
+            .filter(r => r.route && r.route.path === path)
+        if (allowedMethods.length == 0) return next();
 
-router.use((req, res, next) => {
-    const { path, method } = req;
-    const methodUsed = method.toUpperCase();
-    let allowedMethods = router.stack
-        .filter(r => r.route && r.route.path === path)
-    if (allowedMethods.length == 0) return next();
+        // find the allowed methods for the path
+        allowedMethods
+            .map(r => r.route.stack[0])
+        allowedMethods = { ...allowedMethods[0] }
+        allowedMethods = allowedMethods.route.methods;
 
-    // find the allowed methods for the path
-    allowedMethods
-        .map(r => r.route.stack[0])
-    allowedMethods = {...allowedMethods[0]}
-    allowedMethods = allowedMethods.route.methods;
-
-    if (allowedMethods[methodUsed]) {
-        return next();
-    } else {
+        if (allowedMethods[methodUsed]) return next();
         res.status(405).render(
             `misc/405.pug`,
             {
@@ -39,7 +37,6 @@ router.use((req, res, next) => {
                 methodUsed: methodUsed
             }
         );
-    }
-})
+    })
 
 module.exports = router;

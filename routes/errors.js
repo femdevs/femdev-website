@@ -182,24 +182,16 @@ router.use((req, res, next) => {
     allowedMethods = { ...allowedMethods[0] }
     allowedMethods = allowedMethods.route.methods;
 
-    if (allowedMethods[methodUsed]) {
-        return next();
-    } else {
+    if (allowedMethods[methodUsed]) return next();
         res.status(405).render(
-            `${aprilFools() ? 'april-fools/' : ''}misc/405.pug`,
+            `misc/405.pug`,
             {
-                title: `405 - Method Not Allowed`,
+                title: '405 - Method Not Allowed',
                 path,
-                allowedMethods: Object.keys(allowedMethods).map(m => m.toUpperCase()).join(`, `),
-                methodUsed: methodUsed,
-                meta: {
-                    title: `405 - Method Not Allowed`,
-                    desc: `405 - Method Not Allowed`,
-                    url: `https://thefemdevs.com/errors/405`,
-                }
+                allowedMethods: Object.keys(allowedMethods).map(m => m.toUpperCase()).join(', '),
+                methodUsed: methodUsed
             }
         );
-    }
 })
 
 module.exports = router

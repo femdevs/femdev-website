@@ -55,8 +55,7 @@ router
             .sendFile(`${process.cwd()}/assets/media/team_avatars/${req.params.name.toLowerCase()}.png`)
     })
     .get('/static/:file', (req, res) => {
-        const file = req.params.file;
-        res.sendFile(`${process.cwd()}/assets/media/images/${file}`);
+        res.sendFile(`${process.cwd()}/assets/media/images/${req.params.file}`);
     })
     .use((req, res, next) => {
         const { path, method } = req;
@@ -71,19 +70,16 @@ router
         allowedMethods = { ...allowedMethods[0] }
         allowedMethods = allowedMethods.route.methods;
 
-        if (allowedMethods[methodUsed]) {
-            return next();
-        } else {
-            res.status(405).render(
-                `misc/405.pug`,
-                {
-                    title: '405 - Method Not Allowed',
-                    path,
-                    allowedMethods: Object.keys(allowedMethods).map(m => m.toUpperCase()).join(', '),
-                    methodUsed: methodUsed
-                }
-            );
-        }
+        if (allowedMethods[methodUsed]) return next();
+        res.status(405).render(
+            `misc/405.pug`,
+            {
+                title: '405 - Method Not Allowed',
+                path,
+                allowedMethods: Object.keys(allowedMethods).map(m => m.toUpperCase()).join(', '),
+                methodUsed: methodUsed
+            }
+        );
     })
 
 module.exports = router;

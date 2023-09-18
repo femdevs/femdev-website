@@ -28,22 +28,20 @@ router
         allowedMethods = allowedMethods.route.methods;
 
         if (allowedMethods[methodUsed]) return next();
-        else {
-            res.status(405).render(
-                `${aprilFools() ? 'april-fools/': ''}misc/405.pug`,
-                {
+        res.status(405).render(
+            `${aprilFools() ? 'april-fools/' : ''}misc/405.pug`,
+            {
+                title: '405 - Method Not Allowed',
+                path,
+                allowedMethods: Object.keys(allowedMethods).map(m => m.toUpperCase()).join(', '),
+                methodUsed: methodUsed,
+                meta: {
                     title: '405 - Method Not Allowed',
-                    path,
-                    allowedMethods: Object.keys(allowedMethods).map(m => m.toUpperCase()).join(', '),
-                    methodUsed: methodUsed,
-                    meta: {
-                        title: '405 - Method Not Allowed',
-                        desc: '405 - Method Not Allowed',
-                        url: 'https://thefemdevs.com/errors/405',
-                    }
+                    desc: '405 - Method Not Allowed',
+                    url: 'https://thefemdevs.com/errors/405',
                 }
-            );
-        }
+            }
+        );
     })
 
 module.exports = router;

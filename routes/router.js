@@ -100,6 +100,15 @@ router
     .use('/auth', auth)
     .use('/ab', ab)
     .use('/', website)
+    .get(`/robots.txt`, (req, res) => {
+        res
+            .sendFile(`${process.cwd()}/metadata/robots.txt`)
+    })
+    .get(`/sitemap`, (req, res) => {
+        res
+            .setHeader(`Content-Type`, `text/xml`)
+            .sendFile(`${process.cwd()}/metadata/sitemap.xml`)
+    })
     .use((err, req, res, _) => {
         switch (err.status) {
             case 401:

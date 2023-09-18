@@ -1,37 +1,30 @@
 const router = require('express').Router();
 const fs = require('fs');
 
-router.get(`/fs/:file`, (req, res) => {
-    const file = req.params.file;
-    res.sendFile(`${process.cwd()}/assets/scripts/File-Specific/${file}`);
-});
+router
+    .get(`/fs/:file`, (req, res) => {
+        res.sendFile(`${process.cwd()}/assets/scripts/File-Specific/${req.params.file}`);
+    })
+    .get(`/cg/:file`, (req, res) => {
+        res.sendFile(`${process.cwd()}/assets/scripts/CoG/${req.params.file}`);
+    })
+    .get(`/o/:file`, (req, res) => {
+        res.sendFile(`${process.cwd()}/assets/scripts/Other/${req.params.file}`);
+    })
+    .use((req, res, next) => {
+        const { path, method } = req;
+        const methodUsed = method.toUpperCase();
+        let allowedMethods = router.stack
+            .filter(r => r.route && r.route.path === path)
+        if (allowedMethods.length == 0) return next();
 
-router.get(`/cg/:file`, (req, res) => {
-    const file = req.params.file;
-    res.sendFile(`${process.cwd()}/assets/scripts/CoG/${file}`);
-});
+        // find the allowed methods for the path
+        allowedMethods
+            .map(r => r.route.stack[0])
+        allowedMethods = { ...allowedMethods[0] }
+        allowedMethods = allowedMethods.route.methods;
 
-router.get(`/o/:file`, (req, res) => {
-    const file = req.params.file;
-    res.sendFile(`${process.cwd()}/assets/scripts/Other/${file}`);
-});
-
-router.use((req, res, next) => {
-    const { path, method } = req;
-    const methodUsed = method.toUpperCase();
-    let allowedMethods = router.stack
-        .filter(r => r.route && r.route.path === path)
-    if (allowedMethods.length == 0) return next();
-
-    // find the allowed methods for the path
-    allowedMethods
-        .map(r => r.route.stack[0])
-    allowedMethods = {...allowedMethods[0]}
-    allowedMethods = allowedMethods.route.methods;
-
-    if (allowedMethods[methodUsed]) {
-        return next();
-    } else {
+        if (allowedMethods[methodUsed]) return next();
         res.status(405).render(
             `misc/405.pug`,
             {
@@ -41,7 +34,6 @@ router.use((req, res, next) => {
                 methodUsed: methodUsed
             }
         );
-    }
-})
+    })
 
 module.exports = router;

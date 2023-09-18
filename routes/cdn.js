@@ -1,26 +1,24 @@
 const router = require('express').Router();
 const { aprilFools } = require('../functions/utilities');
 
-router.get('/discord', (req, res) => res.redirect('https://discord.gg/FgQvDW8jtr'))
+router
+    .get('/discord', (req, res) => res.redirect('https://discord.gg/FgQvDW8jtr'))
+    .use((req, res, next) => {
+        const { path, method } = req;
+        const methodUsed = method.toUpperCase();
+        let allowedMethods = router.stack
+            .filter(r => r.route && r.route.path === path)
+        if (allowedMethods.length == 0) return next();
 
-router.use((req, res, next) => {
-    const { path, method } = req;
-    const methodUsed = method.toUpperCase();
-    let allowedMethods = router.stack
-        .filter(r => r.route && r.route.path === path)
-    if (allowedMethods.length == 0) return next();
+        // find the allowed methods for the path
+        allowedMethods
+            .map(r => r.route.stack[0])
+        allowedMethods = { ...allowedMethods[0] }
+        allowedMethods = allowedMethods.route.methods;
 
-    // find the allowed methods for the path
-    allowedMethods
-        .map(r => r.route.stack[0])
-    allowedMethods = {...allowedMethods[0]}
-    allowedMethods = allowedMethods.route.methods;
-
-    if (allowedMethods[methodUsed]) {
-        return next();
-    } else {
+        if (allowedMethods[methodUsed]) return next();
         res.status(405).render(
-            `${aprilFools() ? 'april-fools/': ''}misc/405.pug`,
+            `misc/405.pug`,
             {
                 title: '405 - Method Not Allowed',
                 path,
@@ -28,7 +26,6 @@ router.use((req, res, next) => {
                 methodUsed: methodUsed
             }
         );
-    }
-})
+    })
 
 module.exports = router;

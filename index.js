@@ -2,18 +2,23 @@ const express = require('express')
 const app = express();
 const path = require('path');
 const http = require('http')
-const fs = require('fs')
 const router = require('./routes/router');
 require('dotenv').config();
 
-fs.readdirSync(`${__dirname}/middleware`).forEach(file => {
-    app.use(require(`./middleware/${file}`))
-})
-
-app.set('view engine', 'pug');
-app.use(express.static(path.join(__dirname, 'assets')));
-
-app.use('/', router);
+app
+    .set('view engine', 'pug')
+    .use((req, res, next) => {
+        res
+            .setHeader('X-Repo', 'https://github.com/femdevs/femdev-website')
+            .setHeader('X-Live-Deploy', 'https://thefemdevs.com')
+            .setHeader('X-Repository-License', 'Affero General Public License v3.0 or newer (AGPL-3.0-or-later)')
+            .setHeader('X-OS', process.platform)
+            .removeHeader('X-Powered-By')
+        // .setHeader('X-Head', latestHead);
+        next();
+    })
+    .use(express.static(path.join(__dirname, 'assets')))
+    .use('/', router);
 
 http
     .createServer(app)
