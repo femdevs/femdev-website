@@ -31,7 +31,7 @@ router
             })
         Object.keys(staffRoles).forEach(role => staffRoles[role].title = role)
         res.render(
-            `${aprilFools() ? 'april-fools/': ''}mainmain/team`,
+            `${aprilFools() ? 'april-fools/': ''}main/team`,
             {
                 title: 'Team',
                 staff: staffRoles,
