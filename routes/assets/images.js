@@ -33,13 +33,13 @@ router
     })
     .get('/icon/:name', (req, res) => {
         res
-            .setHeader('Cache-Control', 'public; max-age=31536000; immutable')
+            .setHeader('Cache-Control', 'public, max-age 10800, max-stale 10800, stale-if-error 86400, no-transform, immutable')
             .setHeader(`Content-Type`, `image/svg+xml`)
             .sendFile(`${process.cwd()}/assets/media/logos/${req.params.name.toLowerCase()}.svg`)
     })
     .get('/deficon', (req, res) => {
         res
-            .setHeader('Cache-Control', 'public; max-age=31536000; immutable')
+            .setHeader('Cache-Control', 'public, max-age 10800, max-stale 10800, stale-if-error 86400, no-transform, immutable')
             .setHeader(`Content-Type`, `image/svg+xml`)
             .sendFile(`${process.cwd()}/assets/media/logos/default.svg`)
     })
@@ -51,7 +51,7 @@ router
     })
     .get('/team/:name', (req, res) => {
         res
-            .setHeader('Cache-Control', 'public; max-age=31536000')
+            .setHeader('Cache-Control', 'public, max-age 10800, max-stale 10800, stale-if-error 86400, no-transform')
             .setHeader(`Content-Type`, `image/webp`)
             .sendFile(`${process.cwd()}/assets/media/team_avatars/${req.params.name.toLowerCase()}.webp`)
     })
