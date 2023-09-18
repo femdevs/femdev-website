@@ -1,16 +1,17 @@
 doctype html
 html(lang='en-us')
-  include ../defaults/header.pug
+  head
+    include ../defaults/header.pug
   body.bg-neutral-200
     include ../defaults/nav.pug
     content.flex.flex-col.items-center.justify-center
       hero.flex.w-full.max-w-6xl.flex-col.space-y-8.p-8(class='md:my-16')
         .flex.w-full.flex-col.space-y-4
           h1.select-none.font-poppins.text-5xl.font-medium.text-neutral-900 The Team
-          h3.select-none.font-poppins.text-xl.text-neutral-900 FemDevs would not be possible without the help of a number of people. We would like to thank the following people for their contributions to FemDevs.
+          h2.select-none.font-poppins.text-xl.text-neutral-900 FemDevs would not be possible without the help of a number of people. We would like to thank the following people for their contributions to FemDevs.
         each section in staff
           .flex.flex-col.space-y-6
-            h2.select-none.font-poppins.text-3xl.font-medium.text-neutral-900= section.title
+            h3.select-none.font-poppins.text-3xl.font-medium.text-neutral-900= section.title
             .grid.grid-cols-1.gap-4(class='md:grid-cols-2 xl:grid-cols-3')
               each member in section
                 if (typeof(member) == 'object')
@@ -27,7 +28,7 @@ html(lang='en-us')
                       type="image/webp"
                     )
                     .space-y-1.p-4
-                      h3.select-none.font-poppins.text-xl.font-medium.text-neutral-900= member.displayname
-                      h4.select-none.font-poppins.text-lg.text-neutral-600= member.title
+                      h4.select-none.font-poppins.text-xl.font-medium.text-neutral-900= member.displayname
+                      h5.select-none.font-poppins.text-lg.text-neutral-600= member.title
 
     include ../defaults/footer.pug
