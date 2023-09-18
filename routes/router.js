@@ -50,7 +50,19 @@ const baseLimiter = rateLimiter.rateLimit({
     max: 10,
     legacyHeaders: false,
     standardHeaders: true,
-    handler: (_, res, ...args) => res.status(429).render(`misc/429.pug`, { title: '429 - Too Many Requests' }),
+    handler: (_, res, ...args) => res
+        .status(429)
+        .render(
+            `misc/429.pug`,
+            {
+                title: '429 - Too Many Requests',
+                meta: {
+                    title: '429 - Too Many Requests',
+                    desc: '429 - Too Many Requests',
+                    url: 'https://thefemdevs.com/errors/429'
+                }
+            }
+        ),
     skip: (req, _) => req.path.startsWith('/assets')
 });
 
@@ -59,7 +71,19 @@ const assetsLimiter = rateLimiter.rateLimit({
     max: 25,
     legacyHeaders: false,
     standardHeaders: true,
-    handler: (_, res, ...args) => res.status(429).render(`misc/429.pug`, { title: '429 - Too Many Requests' }),
+    handler: (_, res, ...args) => res
+        .status(429)
+        .render(
+            `misc/429.pug`,
+            {
+                title: '429 - Too Many Requests',
+                meta: {
+                    title: '429 - Too Many Requests',
+                    desc: '429 - Too Many Requests',
+                    url: 'https://thefemdevs.com/errors/429'
+                }
+            }
+        ),
 });
 
 //- Router setup
@@ -81,11 +105,16 @@ router
             case 401:
             case 403:
                 res.status(err.status).render(
-                    `${aprilFools() ? 'april-fools/': ''}misc/401.pug`,
+                    `${aprilFools() ? 'april-fools/' : ''}misc/401.pug`,
                     {
                         title: `401 - Unauthorized`,
                         path: req.path,
-                        code: err.status
+                        code: err.status,
+                        meta: {
+                            title: `401 - Unauthorized`,
+                            desc: `401 - Unauthorized`,
+                            url: `https://thefemdevs.com/errors/401`
+                        }
                     }
                 );
                 break;
@@ -116,10 +145,15 @@ router
                     .status(501)
                     .setHeader('X-Error-ID', errorId)
                     .render(
-                        `${aprilFools() ? 'april-fools/': ''}misc/501.pug`,
+                        `${aprilFools() ? 'april-fools/' : ''}misc/501.pug`,
                         {
                             title: `501 - Internal Server Error`,
-                            errorId
+                            errorId,
+                            meta: {
+                                title: `501 - Internal Server Error`,
+                                desc: `501 - Internal Server Error`,
+                                url: `https://thefemdevs.com/errors/501`
+                            }
                         }
                     )
                 break;
@@ -127,10 +161,15 @@ router
     })
     .use((req, res) => {
         res.status(404).render(
-            `${aprilFools() ? 'april-fools/': ''}misc/404.pug`,
+            `${aprilFools() ? 'april-fools/' : ''}misc/404.pug`,
             {
                 title: '404 - Page Not Found',
-                path: req.path
+                path: req.path,
+                meta: {
+                    title: '404 - Page Not Found',
+                    desc: '404 - Page Not Found',
+                    url: 'https://thefemdevs.com/errors/404'
+                }
             }
         );
     })

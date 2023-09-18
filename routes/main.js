@@ -35,6 +35,11 @@ router
             {
                 title: 'Team',
                 staff: staffRoles,
+                meta: {
+                    title: 'FemDev Staff Team',
+                    desc: 'Meet the FemDev Staff Team!',
+                    url: 'https://thefemdevs.com/team',
+                }
             }
         );
         closeClient(client)
@@ -44,6 +49,11 @@ router
             `${aprilFools() ? 'april-fools/': ''}main/carrers.pug`,
             {
                 title: 'Carrers',
+                meta: {
+                    title: 'FemDev Carrers',
+                    desc: 'Join the FemDev Team!',
+                    url: 'https://thefemdevs.com/carrers',
+                }
             }
         );
     })
@@ -52,6 +62,11 @@ router
             `${aprilFools() ? 'april-fools/': ''}main/branding.pug`,
             {
                 title: 'Branding',
+                meta: {
+                    title: 'FemDev Branding',
+                    desc: 'FemDev Branding',
+                    url: 'https://thefemdevs.com/branding',
+                }
             }
         );
     })
@@ -60,6 +75,11 @@ router
             `${aprilFools() ? 'april-fools/': ''}main/products.pug`,
             {
                 title: 'Products',
+                meta: {
+                    title: 'FemDev Products',
+                    desc: 'FemDev Products',
+                    url: 'https://thefemdevs.com/products',
+                }
             }
         );
     })
@@ -68,6 +88,11 @@ router
             `${aprilFools() ? 'april-fools/': ''}main/about.pug`,
             {
                 title: 'About',
+                meta: {
+                    title: 'About FemDev',
+                    desc: 'About us, the FemDevs!',
+                    url: 'https://thefemdevs.com/about',
+                }
             }
         );
     })
@@ -77,6 +102,11 @@ router
             {
                 title: "Poland Destruction Simulator",
                 file: 'pds',
+                meta: {
+                    title: 'Poland Destruction Simulator',
+                    desc: 'Poland Destruction Simulator Game',
+                    url: 'https://thefemdevs.com/pds',
+                }
             }
         )
     })
@@ -86,6 +116,11 @@ router
             {
                 title: 'Socials',
                 file: 'socials',
+                meta: {
+                    title: 'FemDev Socials',
+                    desc: 'FemDev Socials',
+                    url: 'https://thefemdevs.com/socials',
+                }
             }
         );
     })
@@ -95,6 +130,11 @@ router
             {
                 title: 'Homepage',
                 file: 'index',
+                meta: {
+                    title: 'FemDevs',
+                    desc: 'The home of the FemDevs!',
+                    url: 'https://thefemdevs.com',
+                }
             }
         );
     })
@@ -104,6 +144,11 @@ router
             {
                 title: 'Homepage',
                 file: 'index',
+                meta: {
+                    title: 'FemDevs',
+                    desc: 'The home of the FemDevs!',
+                    url: 'https://thefemdevs.com',
+                }
             }
         );
     })
@@ -128,7 +173,12 @@ router
                     title: '405 - Method Not Allowed',
                     path,
                     allowedMethods: Object.keys(allowedMethods).map(m => m.toUpperCase()).join(', '),
-                    methodUsed: methodUsed
+                    methodUsed: methodUsed,
+                    meta: {
+                        title: '405 - Method Not Allowed',
+                        desc: '405 - Method Not Allowed',
+                        url: 'https://thefemdevs.com/errors/405',
+                    }
                 }
             );
         }

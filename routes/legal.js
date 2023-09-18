@@ -8,21 +8,51 @@ router
             .setHeader('Max-Age', 60 * 60 * 24 * 30)
             .setHeader('Cache-Control', 'public')
             .setHeader('Content-Type', 'text/html; charset=utf-8')
-            .render(`legal/privacy.pug`, { title: 'Privacy Policy' });
+            .render(
+                `legal/privacy.pug`,
+                {
+                    title: 'Privacy Policy',
+                    meta: {
+                        title: 'Privacy Policy',
+                        desc: 'Privacy Policy',
+                        url: 'https://thefemdevs.com/legal/privacy',
+                    }
+                }
+            );
     })
     .get('/terms', (req, res) => {
         res
             .setHeader('Max-Age', 60 * 60 * 24 * 30)
             .setHeader('Cache-Control', 'public')
             .setHeader('Content-Type', 'text/html; charset=utf-8')
-            .render(`legal/TaC.pug`, { title: 'Terms and Conditions' });
+            .render(
+                `legal/TaC.pug`,
+                {
+                    title: 'Terms and Conditions',
+                    meta: {
+                        title: 'Terms and Conditions',
+                        desc: 'Terms and Conditions',
+                        url: 'https://thefemdevs.com/legal/terms',
+                    }
+                }
+            );
     })
     .get('/cookies', (req, res) => {
         res
             .setHeader('Max-Age', 60 * 60 * 24 * 30)
             .setHeader('Cache-Control', 'public')
             .setHeader('Content-Type', 'text/html; charset=utf-8')
-            .render(`legal/cookies.pug`, { title: 'Cookie Policy' });
+            .render(
+                `legal/cookies.pug`,
+                {
+                    title: 'Cookie Policy',
+                    meta: {
+                        title: 'Cookie Policy',
+                        desc: 'Cookie Policy',
+                        url: 'https://thefemdevs.com/legal/cookies',
+                    }
+                }
+            );
     })
     .use((req, res, next) => {
         const { path, method } = req;
@@ -46,7 +76,12 @@ router
                     title: '405 - Method Not Allowed',
                     path,
                     allowedMethods: Object.keys(allowedMethods).map(m => m.toUpperCase()).join(', '),
-                    methodUsed: methodUsed
+                    methodUsed: methodUsed,
+                    meta: {
+                        title: '405 - Method Not Allowed',
+                        desc: '405 - Method Not Allowed',
+                        url: 'https://thefemdevs.com/errors/405',
+                    }
                 }
             );
         }

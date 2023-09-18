@@ -23,6 +23,11 @@ router
             `auth/register.pug`,
             {
                 title: 'Register',
+                meta: {
+                    title: 'Register',
+                    desc: 'Register',
+                    url: 'https://thefemdevs.com/auth/register',
+                }
             }
         );
     })
@@ -94,6 +99,11 @@ router
             `auth/login.pug`,
             {
                 title: 'Login',
+                meta: {
+                    title: 'Login',
+                    desc: 'Login',
+                    url: 'https://thefemdevs.com/auth/login',
+                }
             }
         );
     })
@@ -172,7 +182,12 @@ router
                     title: '405 - Method Not Allowed',
                     path,
                     allowedMethods: Object.keys(allowedMethods).map(m => m.toUpperCase()).join(', '),
-                    methodUsed: methodUsed
+                    methodUsed: methodUsed,
+                    meta: {
+                        title: '405 - Method Not Allowed',
+                        desc: '405 - Method Not Allowed',
+                        url: 'https://thefemdevs.com/errors/405',
+                    }
                 }
             );
         }
