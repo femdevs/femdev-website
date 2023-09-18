@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { aprilFools } = require('../functions/utilities');
+const { aprilFools } = require('../../functions/utilities');
 
 router
     .get(`/fs/:file`, (req, res) => {
