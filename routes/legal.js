@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const { aprilFools } = require('../functions/utilities');
 
 // Legal Pages including Privacy Policy and Terms and Conditions
 
@@ -69,7 +70,7 @@ router
 
         if (allowedMethods[methodUsed]) return next();
         res.status(405).render(
-            `misc/405.pug`,
+            `${aprilFools() ? 'aprilfools/' : ''}misc/405.pug`,
             {
                 title: '405 - Method Not Allowed',
                 path,

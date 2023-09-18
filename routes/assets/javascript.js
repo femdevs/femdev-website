@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const fs = require('fs');
+const { aprilFools } = require('../functions/utilities');
 
 router
     .get(`/fs/:file`, (req, res) => {
@@ -26,7 +26,7 @@ router
 
         if (allowedMethods[methodUsed]) return next();
         res.status(405).render(
-            `misc/405.pug`,
+            `${aprilFools() ? 'aprilfools/' : ''}misc/405.pug`,
             {
                 title: '405 - Method Not Allowed',
                 path,

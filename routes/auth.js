@@ -1,8 +1,8 @@
 const router = require('express').Router();
 const bodyParser = require('body-parser');
-
 const SimpleWebAuthnServer = require('@simplewebauthn/server');
 const { isoUint8Array } = require('@simplewebauthn/server/helpers');
+
 const {
     getUser: getUserFromDB,
     saveAuthForUser: saveNewUserAuthenticatorInDB,
@@ -10,6 +10,8 @@ const {
     getUserAuthenticators,
     getUserAuthenticator,
 } = require('../functions/passkey');
+const { aprilFools } = require('../functions/utilities');
+
 
     
 const rpName = 'FemDevs OAuth2'
@@ -176,7 +178,7 @@ router
 
         if (allowedMethods[methodUsed]) return next();
         res.status(405).render(
-            `misc/405.pug`,
+            `${aprilFools() ? 'aprilfools/' : ''}misc/405.pug`,
             {
                 title: '405 - Method Not Allowed',
                 path,

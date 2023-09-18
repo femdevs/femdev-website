@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const { aprilFools } = require('../functions/utilities');
 
 router
     .get('/icons', (req, res) => {
