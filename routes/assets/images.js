@@ -78,7 +78,12 @@ router
                 title: '405 - Method Not Allowed',
                 path,
                 allowedMethods: Object.keys(allowedMethods).map(m => m.toUpperCase()).join(', '),
-                methodUsed: methodUsed
+                methodUsed: methodUsed,
+                meta: {
+                    title: '405 - Method Not Allowed',
+                    desc: '405 - Method Not Allowed',
+                    url: 'https://thefemdevs.com/errors/405',
+                }
             }
         );
     })

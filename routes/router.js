@@ -142,7 +142,12 @@ router
             //             title: '405 - Method Not Allowed',
             //             path,
             //             allowedMethods: allowedMethods.forEach(m => m.toUpperCase()),
-            //             methodUsed: methodUsed.toUpperCase()
+            //             methodUsed: methodUsed.toUpperCase(),
+            //             meta: {
+            //                title: '405 - Method Not Allowed',
+            //                desc: '405 - Method Not Allowed',
+            //                url: 'https://thefemdevs.com/errors/405',
+            //            }
             //         }
             //     );
             case 404:
