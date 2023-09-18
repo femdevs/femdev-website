@@ -1,7 +1,7 @@
 doctype html
 html(lang='en')
-  include ../defaults/header.pug
-  
+  head
+    include ../defaults/header.pug
   body.bg-neutral-200
     include ../defaults/nav.pug
     content.flex.flex-col.items-center.justify-center
@@ -24,8 +24,8 @@ html(lang='en')
         elemSuccess.innerHTML = '';
         elemError.innerHTML = '';
 
-        // GET authentication options from the endpoint that calls
-        // @simplewebauthn/server -> generateAuthenticationOptions()
+        //- GET authentication options from the endpoint that calls
+        //- @simplewebauthn/server -> generateAuthenticationOptions()
         const resp = await fetch('/auth/login/get-creds');
 
         let asseResp;
@@ -36,8 +36,8 @@ html(lang='en')
           throw error;
         }
 
-        // POST the response to the endpoint that calls
-        // @simplewebauthn/server -> verifyAuthenticationResponse()
+        //- POST the response to the endpoint that calls
+        //- @simplewebauthn/server -> verifyAuthenticationResponse()
         const verificationResp = await fetch('/auth/login/verify', {
           method: 'POST',
           headers: {

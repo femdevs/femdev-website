@@ -21,7 +21,6 @@ if meta
   meta(property='twitter:description' content= meta.desc)
 meta(name='author' content='The FemDevs')
 meta(name='keywords' content='femdevs, femboys, development, sparty18, benpai, oblong, oblong101, alex, auxiliaryfrfr')
-meta(name='robots' content='index, follow')
 meta(name='language' content='English')
 meta(name='revisit-after' content='2 days')
 meta(property='og:type' content='website')
@@ -46,8 +45,6 @@ title= title
 if file
   - var filename = '/assets/css/f/' + file
   link(href=filename rel='stylesheet' type='text/css')
-if locked
-  script(defer='' src='/assets/js/o/testing.js')
 script(
   src="https://unpkg.com/@simplewebauthn/browser@8.0.2/dist/bundle/index.umd.min.js"
   integrity="sha512-3/94PiJaIRRPx6AVRXm5PrTPL1Lqdadm6cj1raatDDntz6Z4/VMP0iQdEF9uPP0DtG59sjJipm7i7YNumS9/pQ=="

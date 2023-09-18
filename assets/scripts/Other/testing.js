@@ -475,22 +475,3 @@ class Utils {
     get Crypto() { return Cryptography }
     set Crypto(_) { throw new ReferenceError('Crypto is Read-Only') }
 }
-
-let check = (x = false) => {
-    if (Utils.Crypto.FullHash(document.getElementById("psw").value) !== "3bfbb3af5828ce859fd621b881ce09f253ef2593" && !x) return document.getElementById('pswCheck').removeAttribute('ch')
-    const vf = () => undefined
-    document.getElementById("login").remove()
-    document.getElementById("blocker").remove()
-    document.onkeydown = vf
-    setup = vf
-    check = vf
-}
-
-let setup = () => {
-    if (Utils.Crypto.FullHash(sessionStorage.getItem('key') || '') == "0ab3bbeb54e1919de60514796edc145f3f9e3861") return check(true);
-    document.onkeydown = (e) => (e.ctrlKey && e.shiftKey && e.key.charCodeAt(0) == 73) ? e.preventDefault() : undefined;
-    document.getElementById("psw").onkeydown = (e) => {
-        if (e.code === "Enter") return check()
-        if (!document.getElementById("pswCheck").hasAttribute('ch')) return document.getElementById("pswCheck").setAttribute('ch', "");
-    }
-}

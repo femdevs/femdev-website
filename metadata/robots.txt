@@ -1,8 +1,10 @@
 User-agent: *
-Disallow: /toolbox
-Disallow: /website-generator
-Disallow: /js/
-Disallow: /css/
-Disallow: /f/
+Disallow: /cdn
+Disallow: /assets
+Disallow: /errors
+Allow: /assets/images/icon
+Allow: /assets/images/icon/
+Allow: /assets/images/deficon
+Allow: /assets/images/team/
 
 Sitemap: https://thefemdevs.com/sitemap

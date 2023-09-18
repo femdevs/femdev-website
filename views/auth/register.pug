@@ -1,7 +1,7 @@
 doctype html
 html(lang='en')
-  include ../defaults/header.pug
-  
+  head
+    include ../defaults/header.pug
   body.bg-neutral-200
     include ../defaults/nav.pug
     content.flex.flex-col.items-center.justify-center
@@ -29,14 +29,14 @@ html(lang='en')
         try {
           attResp = await startRegistration(await resp.json());
         } catch (error) {
-          // Some basic error handling
+          //- Some basic error handling
           if (error.name === 'InvalidStateError') elemError.innerText = 'Error: Authenticator was probably already registered by user';
           else elemError.innerText = error;
           throw error;
         }
 
-        // POST the response to the endpoint that calls
-        // @simplewebauthn/server -> verifyRegistrationResponse()
+        //- POST the response to the endpoint that calls
+        //- @simplewebauthn/server -> verifyRegistrationResponse()
         const verificationResp = await fetch('/auth/register/verify', {
           method: 'POST',
           headers: {
@@ -45,10 +45,10 @@ html(lang='en')
           body: JSON.stringify(attResp),
         });
 
-        // Wait for the results of verification
+        //- Wait for the results of verification
         const verificationJSON = await verificationResp.json();
 
-        // Show UI appropriate for the `verified` status
+        //- Show UI appropriate for the `verified` status
         if (verificationJSON && verificationJSON.verified) elemSuccess.innerHTML = 'Success!';
         else elemError.innerHTML = `Oh no, something went wrong! Response: <pre>${JSON.stringify(verificationJSON)}</pre>`;
       });
