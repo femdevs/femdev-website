@@ -28,7 +28,7 @@ const saveAccessLog = async (data) => {
 
 /**
  * @param {string} ip
- * @returns {[boolean, string | null]}
+ * @returns {Promise<[boolean, string | null]>}
  */
 const testIPBlacklisted = async (ip) => {
     const connection = await getConnection();

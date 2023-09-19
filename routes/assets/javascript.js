@@ -2,6 +2,12 @@ const router = require('express').Router();
 const { aprilFools } = require('../../functions/utilities');
 
 router
+    .get('/ga', (req, res) => {
+        res
+            .setHeader('Content-Type', 'application/javascript')
+            .setHeader('Cache-Control', 'public, max-age=31536000')
+            .sendFile(`${process.cwd()}/assets/scripts/Other/GoogleAnalytics.min.js`);
+    })
     .get(`/fs/:file`, (req, res) => {
         res.sendFile(`${process.cwd()}/assets/scripts/File-Specific/${req.params.file}`);
     })

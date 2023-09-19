@@ -476,7 +476,4 @@ class Utils {
     set Crypto(_) { throw new ReferenceError('Crypto is Read-Only') }
 }
 
-module.exports = {
-    Utils,
-    failedStatus: (message, previous_data = {}) => ({ status: 'failed', reason: `${message}`, received: true, ...previous_data })
-}
+module.exports = Utils

@@ -1,5 +1,5 @@
-const router = require('express').Router();
-const bodyParser = require('body-parser');
+const express = require('express')
+const router = express.Router();
 const SimpleWebAuthnServer = require('@simplewebauthn/server');
 const { isoUint8Array } = require('@simplewebauthn/server/helpers');
 
@@ -17,7 +17,7 @@ const rpID = (process.env.NODE_ENV?.toLowerCase() === "production") ? 'thefemdev
 const origin = (process.env.NODE_ENV?.toLowerCase() === "production") ? 'https://thefemdevs.com' : 'http://localhost:3001';
 
 router
-    .use(bodyParser.json())
+    .use(express.json())
     .get('/register', (req, res) => {
         res.render(
             `auth/register.pug`,
