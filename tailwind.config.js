@@ -21,6 +21,7 @@ module.exports = {
         'brand-primary-dark': '#000088',
         'brand-black': '#1A1A1A',
         'brand-black-dark': '#0D0D0D',
+        'white': '#FFFFFF',
       },
       backdropBlur: {
         '10xl': '10rem',

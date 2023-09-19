@@ -42,5 +42,13 @@
       <loc>https://thefemdevs.com/legal/cookies</loc>
       <priority>0.5</priority>
    </url>
+   <url>
+      <loc>https://thefemdevs.com/auth/login</loc>
+      <priority>0.0</priority>
+   </url>
+   <url>
+      <loc>https://thefemdevs.com/auth/register</loc>
+      <priority>0.0</priority>
+   </url>
 
 </urlset> 
