@@ -1,4 +1,5 @@
 const router = require('express').Router();
+
 const { aprilFools } = require('../../functions/utilities');
 
 const css = require('./css');
@@ -16,18 +17,13 @@ router
     .use('/audio', audio)
     .use('/misc', misc)
     .use((req, res, next) => {
-        const { path, method } = req;
-        const methodUsed = method.toUpperCase();
-        let allowedMethods = router.stack
-            .filter(r => r.route && r.route.path === path)
+        const { path } = req;
+        const methodUsed = req.method.toUpperCase();
+        let allowedMethods = router.stack.filter(r => r.route && r.route.path === path)
         if (allowedMethods.length == 0) return next();
-
-        // find the allowed methods for the path
-        allowedMethods
-            .map(r => r.route.stack[0])
+        allowedMethods.map(r => r.route.stack[0])
         allowedMethods = { ...allowedMethods[0] }
         allowedMethods = allowedMethods.route.methods;
-
         if (allowedMethods[methodUsed]) return next();
         res.status(405).render(
             `${aprilFools() ? 'aprilfools/' : ''}misc/405.pug`,
