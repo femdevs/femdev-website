@@ -1,0 +1,23 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    meta(http-equiv="X-UA-Compatible", content="ie=edge")
+    title= meta.title
+    include ./errorcss.pug
+  body
+    h1= errData.code
+    p You have been banned from accessing this website
+      br
+      br
+      | Please contact the webmaster for more information.
+      br
+      br
+    - var reasonText = "Reason: " + errData.reason
+    p= reasonText
+    br
+    br
+    footer
+      h3
+        a(href="/") Go Back Home

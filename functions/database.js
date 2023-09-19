@@ -26,9 +26,25 @@ const saveAccessLog = async (data) => {
     closeConnection(connection);
 }
 
+/**
+ * @param {string} ip
+ * @returns {[boolean, string | null]}
+ */
+const testIPBlacklisted = async (ip) => {
+    const connection = await getConnection();
+    const query = `SELECT ipHash, reason FROM websiteBlacklist WHERE active = 1`;
+    const [rows] = await connection.query(query);
+    closeConnection(connection);
+    for (const row of rows) {
+        if (row.ipHash === ip) return [true, row.reason];
+    }
+    return [false, null];
+}
+
 module.exports = {
     Pool,
     getConnection,
     closeConnection,
     saveAccessLog,
+    testIPBlacklisted,
 };
