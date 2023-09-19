@@ -88,7 +88,7 @@ app
     })
     .use((mreq, mres, mnext) => responseTime((req, res, time) => {
         const data = {
-            ip: chalk.gray(['::1','::ffff:'].includes(mreq.ip) ? 'localhost' : mreq.ip),
+            ip: chalk.gray(mreq.ip == '::1' ? 'localhost' : mreq.ip.replace('::ffff:', '')),
             date: chalk.bold(new Intl.DateTimeFormat('en-us', { year: "numeric", month: "short", day: "numeric", hour: "numeric", minute: "numeric", second: "numeric", weekday: "short", timeZone: "America/Detroit", timeZoneName: undefined }).format(new Date())),
             method: ColorConverter.method(req.method),
             url: ColorConverter.path(mreq.originalUrl),
