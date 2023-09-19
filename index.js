@@ -2,9 +2,11 @@ const app = require('express')()
 const http = require('http');
 require('dotenv').config();
 const responseTime = require('response-time');
+const Chalk = require('chalk')
 
 const router = require('./routes/router');
-const Chalk = require('chalk')
+const { saveAccessLog } = require('./functions/database');
+
 const chalk = new Chalk.Instance({ level: 3 })
 
 class ColorConverter {
@@ -63,11 +65,11 @@ class ColorConverter {
     };
     static bytes(bytes) {
         if (bytes == 0) return chalk.gray(`0 bytes`);
-        if (bytes <= 100_000) return chalk.rgb(0,190,0)(`${bytes} bytes`);
-        if (bytes <= 500_000) return chalk.rgb(0,150,0)(`${bytes} bytes`);
-        if (bytes <= 1_000_000) return chalk.yellow(`${bytes} bytes`);
-        if (bytes <= 5_000_000) return chalk.rgb(250,120,120)(`${bytes} bytes`);
-        if (bytes <= 10_000_000) return chalk.rgb(120,0,0)(`${bytes} bytes`);
+        if (bytes <= 100_000) return chalk.rgb(0,190,0)(`${new Intl.NumberFormat('en-US').format(bytes)} bytes`);
+        if (bytes <= 500_000) return chalk.rgb(0,150,0)(`${new Intl.NumberFormat('en-US').format(bytes)} bytes`);
+        if (bytes <= 1_000_000) return chalk.yellow(`${new Intl.NumberFormat('en-US').format(bytes)} bytes`);
+        if (bytes <= 5_000_000) return chalk.rgb(250,120,120)(`${new Intl.NumberFormat('en-US').format(bytes)} bytes`);
+        if (bytes <= 10_000_000) return chalk.rgb(120,0,0)(`${new Intl.NumberFormat('en-US').format(bytes)} bytes`);
 
     }
 }
@@ -97,6 +99,15 @@ app
             bytes: ColorConverter.bytes(Number(res.getHeader('Content-Length')) | 0),
         }
         console.log(`${data.ip} [${data.date}] ${data.method} ${data.url} ${data.status} ${data.time} (${data.bytes})`)
+        saveAccessLog({
+            ip: mreq.ip == '::1' ? 'localhost' : mreq.ip.replace('::ffff:', ''),
+            date: new Intl.DateTimeFormat('en-us', { year: "numeric", month: "short", day: "numeric", hour: "numeric", minute: "numeric", second: "numeric", weekday: "short", timeZone: "America/Detroit", timeZoneName: undefined }).format(new Date()),
+            method: req.method,
+            url: mreq.originalUrl,
+            status: res.statusCode,
+            time: parseFloat(time.toFixed(2)),
+            bytes: Number(res.getHeader('Content-Length')) | 0,
+        });
     })(mreq, mres, mnext))
     .use('/', router);
 
