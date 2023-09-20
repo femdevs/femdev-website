@@ -3,6 +3,7 @@ const router = require('express').Router();
 const Sentry = require('@sentry/node');
 const Tracing = require('@sentry/tracing');
 const Intigrations = require('@sentry/integrations');
+require('dotenv').config();
 
 //- Routes
 const website = require('./main');
@@ -29,7 +30,7 @@ const four0four = require('../middleware/404'); // 404 Handler
 
 //- Sentry Initalization
 Sentry.init({
-    dsn: "https://90738d20a91d4f169081dfbea05bc8d4@o4504516705058816.ingest.sentry.io/4504771825303552",
+    dsn: process.env.SENTRY_DSN,
     sampleRate: 1.0,
     serverName: "Main PC",
     integrations: [
