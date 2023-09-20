@@ -25,8 +25,27 @@ const { aprilFools } = require('../functions/utilities');
 const { saveAccessLog, testIPBlacklisted } = require('../functions/database');
 
 const chalk = new Chalk.Instance({ level: 3 });
+const hash = (data) => {
+    let currentHash = data;
+    crypto.getHashes().forEach(hashAlg => { currentHash = crypto.createHash(hashAlg).update(currentHash).digest('base64url') })
+    return crypto.createHash('id-rsassa-pkcs1-v1_5-with-sha3-512').update(currentHash).digest('base64url');
+}
 
-const cookieSecrets = new Array(24).map((_) => crypto.randomBytes(32).toString('base64url'));
+let cookieSecrets;
+
+const CSR = cron
+    .schedule(
+        '0 * * * *',
+        () => (cookieSecrets = crypto.randomBytes(32).toString('base64url')),
+        {
+            name: 'Cookie Secret Rotator',
+            recoverMissedExecutions: true,
+            runOnInit: true,
+            timezone: 'America/Detroit'
+        }
+    )
+
+CSR.start();
 
 const ISMMS = new MemoryStore(
     {
@@ -39,35 +58,14 @@ const ISM = session(
     {
         secret: cookieSecrets,
         saveUninitialized: true,
-        resave: true,
+        resave: false,
         cookie: {
-            maxAge: 360_000,
+            maxAge: 3_600_000,
             secure: 'auto'
         },
         store: ISMMS
     }
 )
-
-const CSR = cron
-    .schedule(
-        '0 * * * *',
-        function () { cookieSecrets.push(cookieSecrets.shift()) },
-        {
-            name: 'Cookie Secret Rotator',
-            scheduled: true,
-            recoverMissedExecutions: true,
-            runOnInit: false,
-            timezone: 'America/Detroit'
-        }
-    )
-
-CSR.start();
-
-const hash = (data) => {
-    let currentHash = data;
-    crypto.getHashes().forEach(hashAlg => { currentHash = crypto.createHash(hashAlg).update(currentHash).digest('base64url') })
-    return crypto.createHash('id-rsassa-pkcs1-v1_5-with-sha3-512').update(currentHash).digest('base64url');
-}
 
 class ColorConverter {
     static status(code) {
@@ -203,6 +201,7 @@ const assetsLimiter = rateLimiter.rateLimit({
 
 //- Router setup
 router
+    .use(ISM)
     .use(Sentry.Handlers.requestHandler({ transaction: true }))
     .use(Sentry.Handlers.tracingHandler())
     .use((_, res, next) => {
@@ -223,7 +222,6 @@ router
             .removeHeader('X-Powered-By');
         next();
     })
-    .use(ISM)
     .use((mreq, mres, mnext) => responseTime((req, res, time) => {
         const data = {
             ip: chalk.gray(['::1', '127.0.0.1'].includes(mreq.ip.replace('::ffff:', '')) ? 'localhost' : (mreq.ip || 'unknown').replace('::ffff:', '')),
