@@ -49,8 +49,11 @@ script(type='application/ld+json').
     "sameAs": "https://github.com/femdevs"
   }
 if file
-  - var filename = '/assets/css/f/' + file
-  link(href=filename rel='stylesheet' type='text/css')
+  link(
+    href='/assets/css/f/#{filename}'
+    rel='stylesheet'
+    type='text/css'
+  )
 script(
   type='application/javascript'
   integrity='sha256-zXqulAKlaJ3IqZcHiaxm6DtW3DNlCHLAMgCkpKWIN+8='
