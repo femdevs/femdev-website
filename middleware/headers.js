@@ -10,7 +10,7 @@ const headers = (_, res, next) => {
                     process.platform == 'darwin' ? 'MacOS' :
                         'Other'
         )
-        .setHeader('Content-Security-Policy', "default-src 'self'; script-src 'self' 'unsafe-inline' google.com *.google.com *.googlesyndication.com googlesyndication.com; style-src 'self' 'unsafe-inline' fonts.googleapis.com; img-src 'self' data: cdn.discordapp.com; font-src *; connect-src *; media-src *; object-src 'none'; child-src *; worker-src 'none'; frame-ancestors *; form-action 'self'; upgrade-insecure-requests; block-all-mixed-content; sandbox allow-forms allow-same-origin allow-scripts; base-uri 'self'; manifest-src 'self'; require-trusted-types-for 'script';")
+        .setHeader('Content-Security-Policy', "default-src 'self'; script-src 'self' 'unsafe-inline' google.com *.google.com *.googlesyndication.com googlesyndication.com; style-src 'self' 'unsafe-inline' fonts.googleapis.com; img-src *; font-src *; connect-src *; media-src *; object-src 'none'; child-src *; worker-src 'none'; frame-ancestors *; form-action 'self'; upgrade-insecure-requests; block-all-mixed-content; sandbox allow-forms allow-same-origin allow-scripts; base-uri 'self'; manifest-src 'self'; require-trusted-types-for 'script';")
         .setHeader('Cross-Origin-Opener-Policy', 'same-origin')
         .setHeader('Cross-Origin-Embedder-Policy', 'require-corp')
         .removeHeader('X-Powered-By');
