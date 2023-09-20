@@ -1,11 +1,12 @@
 const MySQL = require('mysql2');
+require('dotenv').config();
 
 const Pool = MySQL.createPool({
     connectionLimit: 10,
-    host: 'aws.connect.psdb.cloud',
-    user: 'ksnjpp8wyrrxrswne5k6',
-    password: 'pscale_pw_im6VHm18dotzbD8SGnfdQW1pPloWSfFFZMqwJtd1yXJ',
-    database: 'fembot',
+    host: process.env.HOST,
+    user: process.env.USER,
+    password: process.env.PASSWORD,
+    database: process.env.DATABASE,
     port: 3306,
     ssl: {
         rejectUnauthorized: true,
