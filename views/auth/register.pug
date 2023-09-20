@@ -23,7 +23,7 @@ html(lang='en-us')
       elemBegin.addEventListener('click', async () => {
         elemSuccess.innerHTML = '';
         elemError.innerHTML = '';
-        const resp = await fetch('/auth/register/get-creds');
+        const resp = await fetch('/api/auth/register/get-creds');
 
         let attResp;
         try {
@@ -37,7 +37,7 @@ html(lang='en-us')
 
         //- POST the response to the endpoint that calls
         //- @simplewebauthn/server -> verifyRegistrationResponse()
-        const verificationResp = await fetch('/auth/register/verify', {
+        const verificationResp = await fetch('/api/auth/register/verify', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

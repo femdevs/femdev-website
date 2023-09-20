@@ -26,7 +26,7 @@ html(lang='en-us')
 
         //- GET authentication options from the endpoint that calls
         //- @simplewebauthn/server -> generateAuthenticationOptions()
-        const resp = await fetch('/auth/login/get-creds');
+        const resp = await fetch('/api/auth/login/get-creds');
 
         let asseResp;
         try {
@@ -38,7 +38,7 @@ html(lang='en-us')
 
         //- POST the response to the endpoint that calls
         //- @simplewebauthn/server -> verifyAuthenticationResponse()
-        const verificationResp = await fetch('/auth/login/verify', {
+        const verificationResp = await fetch('/api/auth/login/verify', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
