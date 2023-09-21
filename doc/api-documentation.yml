@@ -1,8 +1,8 @@
 openapi: "3.0.0"
 info:
-  version: "1"
-  title: ""
-  description: ""
+  version: "1.1.2-dev"
+  title: "FemDevs API Documentation"
+  description: "The documentation for the FemDevs API"
 paths:
   /user/get:
     get:
@@ -20,6 +20,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/UserInfo"
+        400:
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+      security:
+        - ApiKeyAuth: []
 components:
   securitySchemes:
     ApiKeyAuth:
@@ -44,3 +52,14 @@ components:
         username:
           nullable: false
           type: "string"
+    ErrorData:
+      properties:
+        code:
+          nullable: false
+          type: "integer"
+        message:
+          nullable: false
+          type: "string"
+        fatal:
+          nullable: false
+          type: "boolean"
