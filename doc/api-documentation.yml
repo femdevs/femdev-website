@@ -17,7 +17,8 @@ paths:
   /user/get:
     get:
       operationId: "GetUser"
-      description: "Gets the user information for the user with the given ID"
+      summary: "Gets the user information for the user with the given ID. Returns the user information if the user exists, otherwise returns an error."
+      description: "Get User Info by ID"
       parameters:
         - in: "header"
           name: "x-user-id"
@@ -55,7 +56,8 @@ paths:
   /crypto/enc:
     get:
       operationId: "CryptographyEnc"
-      description: "Crpytography endpoint for encrypting data"
+      summanry: "API Endpoint for encrypting data"
+      description: "Encryption Endpoint"
       parameters:
         - in: "query"
           name: "data"
@@ -93,7 +95,8 @@ paths:
   /crypto/dec:
     get:
       operationId: "CryptographyDecr"
-      description: "Crpytography endpoint for decrypting data"
+      summary: "API Endpoint for decrypting data"
+      description: "Decryption Endpoint"
       parameters:
         - in: "query"
           name: "data"
