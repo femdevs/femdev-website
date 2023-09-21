@@ -49,7 +49,158 @@ paths:
               examples:
                 error:
                   value:
-                    code: 400
+                    code: 7
+                    message: "Invalid User ID"
+                    fatal: false
+      security:
+        - BearerAuth: []
+  /user/update:
+    patch:
+      operationId: "UpdateUser"
+      description: "Updates the user information for the user with the given ID. Returns the user information if the user exists, otherwise returns an error."
+      summary: "Update User Info by ID"
+      parameters:
+        - in: "header"
+          name: "x-user-id"
+          description: "The ID of the user to get information for"
+          schema:
+            type: "string"
+        - in: "header"
+          name: "x-UAT"
+          description: "The `User Access Token` of the user to delete"
+          schema:
+            type: "string"
+      requestBody:
+        description: "The new user information"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserInfo"
+            examples:
+              user:
+                value:
+                  id: 1
+                  name: "FemDevs"
+                  picture: "https://thefemdevs.com/assets/img/logo.png"
+                  flags: 0
+                  username: "FemDevs"
+      responses:
+        200:
+          description: "Successful Response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserUpdateData"
+              examples:
+                user:
+                  value:
+                    success: true
+                    user:
+                      id: 1
+                      name: "FemDevs"
+                      picture: "https://thefemdevs.com/assets/img/logo.png"
+                      flags: 0
+                      username: "FemDevs"
+        400:
+          description: "Error with the given ID"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserUpdateData"
+              examples:
+                error:
+                  value:
+                    success: false
+                    error:
+                      code: 7
+                      message: "Invalid User ID"
+                      fatal: false
+      security:
+        - BearerAuth: []
+  /user/create:
+    post:
+      operationId: "CreateUser"
+      description: "Creates a user using the provided information. Returns the user information if successful, otherwise returns an error."
+      summary: "Create a User"
+      requestBody:
+        description: "The new user information"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateUserInfo"
+            examples:
+              user:
+                value:
+                  name: "FemDevs"
+                  picture: "https://thefemdevs.com/assets/img/logo.png"
+                  username: "FemDevs"
+      responses:
+        200:
+          description: "The user information for the given ID"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserInfo"
+              examples:
+                user:
+                  value:
+                    id: 1
+                    name: "FemDevs"
+                    picture: "https://thefemdevs.com/assets/img/logo.png"
+                    flags: 0
+                    username: "FemDevs"
+        400:
+          description: "Error with the given ID"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                error:
+                  value:
+                    code: 6
+                    message: "Invalid User Information"
+                    fatal: false
+      security:
+        - BearerAuth: []
+  /user/delete:
+    delete:
+      operationId: "DeleteUser"
+      description: "Deletes the user with the given ID. Returns `true if successful, otherwise returns an error."
+      summary: "Delete User by ID"
+      parameters:
+        - in: "header"
+          name: "x-user-id"
+          description: "The ID of the user to get delete"
+          schema:
+            type: "string"
+        - in: "header"
+          name: "x-UAT"
+          description: "The `User Access Token` of the user to delete"
+          schema:
+            type: "string"
+      responses:
+        200:
+          description: "The successful notification of the deletion"
+          content:
+            application/json:
+              schema:
+                type: "boolean"
+              examples:
+                user:
+                  value: true
+        400:
+          description: "Error with the given ID"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                error:
+                  value:
+                    code: 7
                     message: "Invalid User ID"
                     fatal: false
       security:
@@ -171,3 +322,27 @@ components:
         fatal:
           nullable: false
           type: "boolean"
+    UserUpdateData:
+      properties:
+        success:
+          nullable: false
+          type: "boolean"
+        user:
+          nullable: true
+          type: "object"
+          $ref: "#/components/schemas/UserInfo"
+        error:
+          nullable: true
+          type: "object"
+          $ref: "#/components/schemas/ErrorData"
+    CreateUserInfo:
+      properties:
+        name:
+          nullable: false
+          type: "string"
+        picture:
+          nullable: false
+          type: "string"
+        username:
+          nullable: false
+          type: "string"
