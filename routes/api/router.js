@@ -12,7 +12,7 @@ router
     .use(APIAuth)
     .use('/auth', auth)
     .use('/user', user)
-    .use('/crypt', crypto)
+    .use('/crypto', crypto)
     .use((req, res, next) => {
         const { path } = req;
         const methodUsed = req.method.toUpperCase();
