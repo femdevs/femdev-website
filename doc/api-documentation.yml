@@ -17,8 +17,8 @@ paths:
   /user/get:
     get:
       operationId: "GetUser"
-      summary: "Gets the user information for the user with the given ID. Returns the user information if the user exists, otherwise returns an error."
-      description: "Get User Info by ID"
+      description: "Gets the user information for the user with the given ID. Returns the user information if the user exists, otherwise returns an error."
+      summary: "Get User Info by ID"
       parameters:
         - in: "header"
           name: "x-user-id"
