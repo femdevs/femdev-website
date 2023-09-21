@@ -2,7 +2,14 @@ openapi: "3.0.0"
 info:
   version: "1.1.2-dev"
   title: "FemDevs API Documentation"
-  description: "The documentation for the FemDevs API. All endpoints have the root of `https://thefemdevs.com/api/`"
+  description: "The documentation for the FemDevs API."
+  contact:
+    name: "FemDevs"
+    url: "https://thefemdevs.com"
+    email: "support@thefemdevs.com"
+  license:
+    name: "GNU Affero General Public License v3.0"
+    identifier: "AGPL-3.0"
 servers:
   - url: "https://thefemdevs.com/api/"
     description: "Production Server"
@@ -23,12 +30,26 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/UserInfo"
+              examples:
+                user:
+                  value:
+                    id: 1
+                    name: "FemDevs"
+                    picture: "https://thefemdevs.com/assets/img/logo.png"
+                    flags: 0
+                    username: "FemDevs"
         400:
           description: "Error with the given ID"
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorData"
+              examples:
+                error:
+                  value:
+                    code: 400
+                    message: "Invalid User ID"
+                    fatal: false
       security:
         - BearerAuth: []
   /crypto/enc:
@@ -47,12 +68,26 @@ paths:
             application/json:
               schema:
                 type: "string"
+              examples:
+                data:
+                  value: "a78e7f16e96242c448f0f400b6a06b3b"
         400:
           description: "Error With Encryption"
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorData"
+              examples:
+                error:
+                  value:
+                    code: 4
+                    message: "Invalid Data"
+                    fatal: true
+                no-data:
+                  value:
+                    code: 3
+                    message: "No Data Provided"
+                    fatal: false
       security:
         - BearerAuth: []
   /crypto/dec:
@@ -71,12 +106,26 @@ paths:
             application/json:
               schema:
                 type: "string"
+              examples:
+                data:
+                  value: "testing"
         400:
           description: "Error with Decryption"
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorData"
+              examples:
+                error:
+                  value:
+                    code: 4
+                    message: "Invalid Data"
+                    fatal: true
+                no-data:
+                  value:
+                    code: 3
+                    message: "No Data Provided"
+                    fatal: false
       security:
         - BearerAuth: []
 components:
@@ -85,6 +134,8 @@ components:
       type: "http"
       scheme: "bearer"
       bearerFormat: "JWT"
+      name: "Authorization"
+      decription: "JSON Web Token Authentication with information containing your license key"
   schemas:
     UserInfo:
       properties:
