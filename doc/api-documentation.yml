@@ -1,0 +1,46 @@
+openapi: "3.0.0"
+info:
+  version: "1"
+  title: ""
+  description: ""
+paths:
+  /user/get:
+    get:
+      operationId: "GetUser"
+      description: ""
+      parameters:
+        - in: "header"
+          name: "x-user-id"
+          schema:
+            type: "string"
+      responses:
+        200:
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserInfo"
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: "apiKey"
+      in: "header"
+      name: "x-api-token"
+  schemas:
+    UserInfo:
+      properties:
+        id:
+          nullable: false
+          type: "integer"
+        name:
+          nullable: false
+          type: "string"
+        picture:
+          nullable: false
+          type: "string"
+        flags:
+          nullable: false
+          type: "integer"
+        username:
+          nullable: false
+          type: "string"
