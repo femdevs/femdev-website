@@ -31,7 +31,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/UserInfo"
+                $ref: "#/components/schemas/InitializedUserInfo"
               examples:
                 user:
                   value:
@@ -80,10 +80,8 @@ paths:
             examples:
               user:
                 value:
-                  id: 1
                   name: "FemDevs"
                   picture: "https://thefemdevs.com/assets/img/logo.png"
-                  flags: 0
                   username: "FemDevs"
       responses:
         200:
@@ -129,7 +127,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CreateUserInfo"
+              $ref: "#/components/schemas/UserInfo"
             examples:
               user:
                 value:
@@ -142,7 +140,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/UserInfo"
+                $ref: "#/components/schemas/InitializedUserInfo"
               examples:
                 user:
                   value:
@@ -295,54 +293,68 @@ components:
       description: "JSON Web Token Authentication with information containing your license key"
   schemas:
     UserInfo:
+      required:
+        - name
+        - picture
+        - username
       properties:
-        id:
-          nullable: false
-          type: "integer"
         name:
           nullable: false
           type: "string"
+          description: "The name of the user"
         picture:
           nullable: false
           type: "string"
-        flags:
-          nullable: false
-          type: "integer"
+          description: "The picture URL of the user"
         username:
           nullable: false
           type: "string"
+          description: "The username of the user"
+    InitalizedUserInfo:
+      allOf:
+        - $ref: "#/components/schemas/UserInfo"
+        - type: "object"
+          required:
+            - id
+            - flags
+          properties:
+            id:
+              nullable: false
+              type: "integer"
+              description: "The ID of the user"
+            flags:
+              nullable: false
+              type: "integer"
+              description: "The flags of the user"
     ErrorData:
+      required:
+        - code
+        - message
+        - fatal
       properties:
         code:
           nullable: false
           type: "integer"
+          description: "The error code"
         message:
           nullable: false
           type: "string"
+          description: "The error message"
         fatal:
           nullable: false
           type: "boolean"
+          description: "Whether the error is fatal or not"
     UserUpdateData:
+      required:
+        - success
+        - user
       properties:
         success:
           nullable: false
           type: "boolean"
+          description: "Whether the update was successful or not"
         user:
-          nullable: true
+          nullable: false
           type: "object"
-          $ref: "#/components/schemas/UserInfo"
-        error:
-          nullable: true
-          type: "object"
-          $ref: "#/components/schemas/ErrorData"
-    CreateUserInfo:
-      properties:
-        name:
-          nullable: false
-          type: "string"
-        picture:
-          nullable: false
-          type: "string"
-        username:
-          nullable: false
-          type: "string"
+          $ref: "#/components/schemas/InitializedUserInfo"
+          description: "The user information"
