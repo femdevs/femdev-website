@@ -62,7 +62,7 @@ paths:
       parameters:
         - in: "query"
           name: "data"
-          decription: "The data to encrypt"
+          description: "The data to encrypt"
           schema:
             type: "string"
       responses:
@@ -102,7 +102,7 @@ paths:
       parameters:
         - in: "query"
           name: "data"
-          decription: "The data to decrypt"
+          description: "The data to decrypt"
           schema:
             type: "string"
       responses:
@@ -141,7 +141,7 @@ components:
       scheme: "bearer"
       bearerFormat: "JWT"
       name: "Authorization"
-      decription: "JSON Web Token Authentication with information containing your license key"
+      description: "JSON Web Token Authentication with information containing your license key"
   schemas:
     UserInfo:
       properties:
