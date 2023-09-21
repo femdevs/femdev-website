@@ -27,13 +27,61 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorData"
       security:
-        - ApiKeyAuth: []
+        - BearerAuth: []
+  /crypt/enc:
+    get:
+      operationId: "CryptographyEnc"
+      description: ""
+      parameters:
+        - in: "query"
+          name: "data"
+          schema:
+            type: "string"
+      responses:
+        200:
+          description: "The Encrypted Data"
+          content:
+            application/json:
+              schema:
+                type: "string"
+        400:
+          description: "Error With Encryption"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+      security:
+        - BearerAuth: []
+  /crypt/decr:
+    get:
+      operationId: "CryptographyDecr"
+      description: ""
+      parameters:
+        - in: "query"
+          name: "data"
+          schema:
+            type: "string"
+      responses:
+        200:
+          description: "The Decrypted Data"
+          content:
+            application/json:
+              schema:
+                type: "string"
+        400:
+          description: "Error with Decryption"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+      security:
+        - BearerAuth: []
 components:
   securitySchemes:
-    ApiKeyAuth:
-      type: "apiKey"
-      in: "header"
-      name: "x-api-token"
+    BearerAuth:
+      type: "http"
+      scheme: "bearer"
+      bearerFormat: "JWT"
   schemas:
     UserInfo:
       properties:
