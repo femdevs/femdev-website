@@ -22,6 +22,7 @@ paths:
       parameters:
         - in: "header"
           name: "x-user-id"
+          description: "The ID of the user to get information for"
           schema:
             type: "string"
       responses:
@@ -56,11 +57,12 @@ paths:
   /crypto/enc:
     get:
       operationId: "CryptographyEnc"
-      summanry: "API Endpoint for encrypting data"
-      description: "Encryption Endpoint"
+      description: "API Endpoint for encrypting data"
+      summary: "Encryption Endpoint"
       parameters:
         - in: "query"
           name: "data"
+          decription: "The data to encrypt"
           schema:
             type: "string"
       responses:
@@ -95,11 +97,12 @@ paths:
   /crypto/dec:
     get:
       operationId: "CryptographyDecr"
-      summary: "API Endpoint for decrypting data"
-      description: "Decryption Endpoint"
+      description: "API Endpoint for decrypting data"
+      summary: "Decryption Endpoint"
       parameters:
         - in: "query"
           name: "data"
+          decription: "The data to decrypt"
           schema:
             type: "string"
       responses:
