@@ -2,7 +2,14 @@ const router = require('express').Router();
 
 router
     .get('/get', (req, res) => {
-
+        const holderUser = {
+            name: 'John Doe',
+            username: 'johndoe',
+            id: 38741239462978,
+            picture: '',
+            flags: 0
+        }
+        return res.json(holderUser)
     })
     .use((req, res, next) => {
         const { path } = req;
