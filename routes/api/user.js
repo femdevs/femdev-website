@@ -1,18 +1,9 @@
 const router = require('express').Router();
 
-//- Middleware
-const APIAuth = require('../../middleware/APITokenMgr');
-
-//- Routes
-const auth = require('./auth');
-const user = require('./user');
-const crypto = require('./crypto');
-
 router
-    .use(APIAuth)
-    .use('/auth', auth)
-    .use('/user', user)
-    .use('/crypt', crypto)
+    .get('/get', (req, res) => {
+
+    })
     .use((req, res, next) => {
         const { path } = req;
         const methodUsed = req.method.toUpperCase();
