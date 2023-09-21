@@ -65,11 +65,6 @@ paths:
           description: "The ID of the user to get information for"
           schema:
             type: "string"
-        - in: "header"
-          name: "x-UAT"
-          description: "The `User Access Token` of the user to delete"
-          schema:
-            type: "string"
       requestBody:
         description: "The new user information"
         required: true
@@ -116,6 +111,7 @@ paths:
                       fatal: false
       security:
         - BearerAuth: []
+        - UserAccessToken: []
   /user/create:
     post:
       operationId: "CreateUser"
@@ -174,11 +170,6 @@ paths:
           description: "The ID of the user to get delete"
           schema:
             type: "string"
-        - in: "header"
-          name: "x-UAT"
-          description: "The `User Access Token` of the user to delete"
-          schema:
-            type: "string"
       responses:
         200:
           description: "The successful notification of the deletion"
@@ -203,6 +194,7 @@ paths:
                     fatal: false
       security:
         - BearerAuth: []
+        - UserAccessToken: []
   /crypto/enc:
     get:
       operationId: "CryptographyEnc"
@@ -291,6 +283,12 @@ components:
       bearerFormat: "JWT"
       name: "Authorization"
       description: "JSON Web Token Authentication with information containing your license key"
+    UserAccessToken:
+      type: "http"
+      scheme: "bearer"
+      bearerFormat: "JWT"
+      name: "X-User-AT"
+      description: "The `User Access Token` of the user"
   schemas:
     UserInfo:
       required:
