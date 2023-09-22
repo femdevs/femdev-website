@@ -1,40 +1,41 @@
-const crypto = require('crypto')
-const { Buffer } = require('buffer')
-const { semiKey, semiIV } = require('../config/config.json')
+const crypto = require('crypto');
+const { Buffer } = require('buffer');
+require('dotenv').config();
 
-function semiEnc(data, key=semiKey, iv=semiIV) {
-    const cipher = crypto.createCipheriv('aes-256-cbc', Buffer.from(key,'hex'), Buffer.from(iv, 'hex'))
-    let encrypted = cipher.update(data, 'utf8', 'hex')
-    encrypted += cipher.final('hex')
-    return encrypted
+const privateKey = crypto.createPrivateKey(process.env.CRYPT_PRIV);
+
+class TokenManager {
+    static generate = (data) => {
+        const stringPayload = JSON.stringify(data);
+        const payloadBuffer = Buffer.from(stringPayload, 'utf8');
+        const hashedPayload = crypto
+            .createHash('ssl3-sha1')
+            .update(payloadBuffer)
+            .digest('base64url');
+        const signedPayload = crypto
+            .createSign('ssl3-sha1')
+            .update(Buffer.from(hashedPayload, 'base64url'))
+            .end()
+            .sign(privateKey, 'base64url')
+        const hashedSignedPayload = crypto
+            .createHash('id-rsassa-pkcs1-v1_5-with-sha3-224')
+            .update(Buffer.from(signedPayload, 'base64url'))
+            .digest('base64url');
+        return `${hashedPayload}.${hashedSignedPayload}`;
+    }
+    static verify = (token) => {
+        const [hashedPayload, hashedSignedPayloadA] = token.split('.');
+        const signedPayload = crypto
+            .createSign('ssl3-sha1')
+            .update(Buffer.from(hashedPayload, 'base64url'))
+            .end()
+            .sign(privateKey, 'base64url')
+        const hashedSignedPayloadB = crypto
+            .createHash('id-rsassa-pkcs1-v1_5-with-sha3-224')
+            .update(Buffer.from(signedPayload, 'base64url'))
+            .digest('base64url');
+        return hashedSignedPayloadA === hashedSignedPayloadB;
+    }
 }
 
-function semiDec(data, key=semiKey, iv=semiIV) {
-    const decipher = crypto.createDecipheriv('aes-256-cbc', Buffer.from(key,'hex'), Buffer.from(iv, 'hex'))
-    let decrypted = decipher.update(data, 'hex', 'utf8')
-    decrypted += decipher.final('utf8')
-    return decrypted
-}
-
-function keypair(passkey) {
-    const { publicKey, privateKey } = crypto.generateKeyPairSync('rsa', {
-        modulusLength: 2048,
-        publicKeyEncoding: {
-            type: 'spki',
-            format: 'pem'
-        },
-        privateKeyEncoding: {
-            type: 'pkcs8',
-            format: 'pem',
-            cipher: 'aes-256-cbc',
-            passphrase: passkey
-        }
-    })
-    return { publicKey, privateKey }
-}
-
-module.exports = {
-    semiEnc,
-    semiDec,
-    keypair
-}
+module.exports = TokenManager
