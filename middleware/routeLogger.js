@@ -77,26 +77,29 @@ class ColorConverter {
     }
 }
 
-const middleware = (mreq, mres, next) => responseTime((req, res, time) => {
-    const data = {
-        ip: chalk.gray(['::1', '127.0.0.1'].includes(mreq.ip.replace('::ffff:', '')) ? 'localhost' : (mreq.ip || 'unknown').replace('::ffff:', '')),
-        date: chalk.bold(new Intl.DateTimeFormat('en-us', { year: "numeric", month: "short", day: "numeric", hour: "numeric", minute: "numeric", second: "numeric", weekday: "short", timeZone: "America/Detroit", timeZoneName: undefined }).format(new Date())),
-        method: ColorConverter.method(req.method),
-        url: ColorConverter.path(mreq.originalUrl),
-        status: ColorConverter.status(res.statusCode),
-        time: ColorConverter.resTime(time.toFixed(2)),
-        bytes: ColorConverter.bytes(Number(res.getHeader('Content-Length')) | 0),
-    }
-    console.log(`${data.ip} [${data.date}] ${data.method} ${data.url} ${data.status} ${data.time} (${data.bytes})`)
-    saveAccessLog({
-        ip: hash(['::1', '127.0.0.1'].includes(mreq.ip.replace('::ffff:', '')) ? 'localhost' : (mreq.ip || 'unknown').replace('::ffff:', '')),
-        date: new Intl.DateTimeFormat('en-us', { year: "numeric", month: "short", day: "numeric", hour: "numeric", minute: "numeric", second: "numeric", weekday: "short", timeZone: "America/Detroit", timeZoneName: undefined }).format(new Date()),
-        method: req.method,
-        url: mreq.originalUrl,
-        status: res.statusCode,
-        time: parseFloat(time.toFixed(2)),
-        bytes: Number(res.getHeader('Content-Length')) | 0,
-    });
-})(mreq, mres, next)
+function middleware(mreq, mres, next) {
+    return responseTime((req, res, time) => {
+        const data = {
+            ip: ['::1', '127.0.0.1'].includes(mreq.ip.replace('::ffff:', '')) ? 'localhost' : (mreq.ip || 'unknown').replace('::ffff:', ''),
+            date: new Intl.DateTimeFormat('en-us', { year: "numeric", month: "short", day: "numeric", hour: "numeric", minute: "numeric", second: "numeric", weekday: "short", timeZone: "America/Detroit", timeZoneName: undefined }).format(new Date()),
+            method: req.method,
+            url: new URL(mreq.originalUrl, 'https://thefemdevs.com/').pathname,
+            status: res.statusCode,
+            time: time.toFixed(2),
+            bytes: Number(res.getHeader('Content-Length')) | 0,
+        }
+        const coloredData = {
+            ip: chalk.grey(data.ip),
+            date: chalk.bold(data.date),
+            method: ColorConverter.method(data.method),
+            url: ColorConverter.path(data.url),
+            status: ColorConverter.status(data.status),
+            time: ColorConverter.resTime(data.time),
+            bytes: ColorConverter.bytes(data.bytes),
+        }
+        console.log(`${coloredData.ip} [${coloredData.date}] ${coloredData.method} ${coloredData.url} ${coloredData.status} ${coloredData.time} (${coloredData.bytes})`)
+        saveAccessLog(data);
+    })(mreq, mres, next)
+}
 
 module.exports = middleware

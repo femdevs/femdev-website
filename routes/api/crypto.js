@@ -1,21 +1,9 @@
 const router = require('express').Router();
 const crypto = require('crypto')
 const { Buffer } = require('buffer')
-const { semiKey, semiIV } = require('../../config/config.json')
-
-function semiEnc(data, key = semiKey, iv = semiIV) {
-    const cipher = crypto.createCipheriv('aes-256-cbc', Buffer.from(key, 'hex'), Buffer.from(iv, 'hex'))
-    let encrypted = cipher.update(data, 'utf8', 'base64url')
-    encrypted += cipher.final('base64url')
-    return encrypted
-}
-
-function semiDec(data, key = semiKey, iv = semiIV) {
-    const decipher = crypto.createDecipheriv('aes-256-cbc', Buffer.from(key, 'hex'), Buffer.from(iv, 'hex'))
-    let decrypted = decipher.update(data, 'baseb4url', 'utf8')
-    decrypted += decipher.final('utf8')
-    return decrypted
-}
+require('dotenv').config()
+const publicKey = crypto.createPublicKey(process.env.CRYPT_PUB);
+const privateKey = crypto.createPrivateKey(process.env.CRYPT_PRIV);
 
 router
     .get('/enc', async (req, res) => {
@@ -26,8 +14,8 @@ router
             fatal: false,
         })
         try {
-            const encrypted = semiEnc(data);
-            return res.json({ data: encrypted })
+            const encrypted = crypto.publicEncrypt(publicKey, Buffer.from(data, 'utf8')).toString('base64url')
+            return res.status(200).json({ data: encrypted })
         } catch (err) {
             return res.status(400).json({
                 code: 4,
@@ -44,8 +32,8 @@ router
             fatal: false,
         })
         try {
-            const decrypted = semiDec(data);
-            return res.json({ data: decrypted })
+            const decrypted = crypto.privateDecrypt(privateKey, Buffer.from(data, 'base64url')).toString('utf8')
+            return res.status(200).json({ data: decrypted })
         } catch (err) {
             return res.status(400).json({
                 code: 4,
