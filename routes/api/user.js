@@ -1,7 +1,13 @@
 const router = require('express').Router();
+const { getConnection, closeConnection } = require('../../functions/database');
 
 router
-    .get('/get', (req, res) => {
+    .get('/get', async (req, res) => {
+        if (!req.headers['authorization']) return res.sendError(1);
+        const [_, token] = req.headers['authorization'].split(' ');
+        const connection = await getConnection();
+        const [rows] = await connection.query(`SELECT * FROM APITokens WHERE token = '${token}'`)
+        if (rows.length == 0) return res.sendError(2);
         const holderUser = {
             name: 'John Doe',
             username: 'johndoe',
@@ -9,7 +15,23 @@ router
             picture: '',
             flags: 0
         }
+        closeConnection(connection);
         return res.json(holderUser)
+    })
+    .post('/create', async (req, res) => {
+        res
+            .status(501)
+            .send('Not implemented yet')
+    })
+    .patch('/update', async (req, res) => {
+        res
+            .status(501)
+            .send('Not implemented yet')
+    })
+    .delete('/delete', async (req, res) => {
+        res
+            .status(501)
+            .send('Not implemented yet')
     })
     .use((req, res, next) => {
         const { path } = req;

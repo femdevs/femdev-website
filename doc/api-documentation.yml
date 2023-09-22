@@ -1,6 +1,6 @@
 openapi: "3.0.0"
 info:
-  version: "1.1.3"
+  version: "1.2.0"
   title: "FemDevs API Documentation"
   description: "The documentation for the FemDevs API."
   contact:
@@ -49,9 +49,8 @@ paths:
               examples:
                 error:
                   value:
-                    code: 7
-                    message: "Invalid User ID"
-                    fatal: false
+                    code: 13
+                    message: "Unable to find requested resource"
       security:
         - APIToken: []
   /user/update:
@@ -95,22 +94,30 @@ paths:
                       picture: "https://thefemdevs.com/assets/img/logo.png"
                       flags: 0
                       username: "FemDevs"
-        400:
+        404:
           description: "Error with the given ID"
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/UserUpdateData"
+                $ref: "#/components/schemas/ErrorData"
               examples:
                 error:
                   value:
-                    success: false
-                    error:
-                      code: 7
-                      message: "Invalid User ID"
-                      fatal: false
+                    code: 24
+                    message: "Unable to find requested resource"
+        500:
+          description: "Unable to update user"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                error:
+                  value:
+                    code: 23
+                    message: "Unable to update user"
       security:
-        - UserAccessToken: []
+        - APIToken: []
   /user/create:
     post:
       operationId: "CreateUser"
@@ -130,7 +137,7 @@ paths:
                   picture: "https://thefemdevs.com/assets/img/logo.png"
                   username: "FemDevs"
       responses:
-        200:
+        201:
           description: "The user information for the given ID"
           content:
             application/json:
@@ -144,7 +151,18 @@ paths:
                     picture: "https://thefemdevs.com/assets/img/logo.png"
                     flags: 0
                     username: "FemDevs"
-        400:
+        403:
+          description: "Unauthorized to create user"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                error:
+                  value:
+                    code: 12
+                    message: "You are not authorized to access this resource"
+        404:
           description: "Error with the given ID"
           content:
             application/json:
@@ -153,9 +171,19 @@ paths:
               examples:
                 error:
                   value:
-                    code: 6
-                    message: "Invalid User Information"
-                    fatal: false
+                    code: 24
+                    message: "Unable to find requested resource"
+        500:
+          description: "Unable to create user"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                error:
+                  value:
+                    code: 24
+                    message: "Unable to create user"
       security:
         - APIToken: []
   /user/delete:
@@ -179,7 +207,18 @@ paths:
               examples:
                 user:
                   value: true
-        400:
+        403:
+          description: "Unauthorized to delete user"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                error:
+                  value:
+                    code: 12
+                    message: "You are not authorized to access this resource"
+        404:
           description: "Error with the given ID"
           content:
             application/json:
@@ -188,11 +227,21 @@ paths:
               examples:
                 error:
                   value:
-                    code: 7
-                    message: "Invalid User ID"
-                    fatal: false
+                    code: 24
+                    message: "Unable to find requested resource"
+        500:
+          description: "Error with the given ID"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                error:
+                  value:
+                    code: 14
+                    message: "Unable to delete requested resource"
       security:
-        - UserAccessToken: []
+        - APIToken: []
   /crypto/enc:
     get:
       operationId: "CryptographyEnc"
@@ -224,13 +273,22 @@ paths:
                 error:
                   value:
                     code: 4
-                    message: "Invalid Data"
-                    fatal: true
+                    message: "Missing Query Parameter(s)"
                 no-data:
                   value:
-                    code: 3
-                    message: "No Data Provided"
-                    fatal: false
+                    code: 5
+                    message: "Invalid Query Parameter(s)"
+        500:
+          description: "Error With Encryption"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                error:
+                  value:
+                    code: 10
+                    message: "Unable to encrypt data"
       security:
         - APIToken: []
   /crypto/dec:
@@ -264,13 +322,22 @@ paths:
                 error:
                   value:
                     code: 4
-                    message: "Invalid Data"
-                    fatal: true
+                    message: "Missing Query Parameter(s)"
                 no-data:
                   value:
-                    code: 3
-                    message: "No Data Provided"
-                    fatal: false
+                    code: 5
+                    message: "Invalid Query Parameter(s)"
+        500:
+          description: "Error with Decryption"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                error:
+                  value:
+                    code: 11
+                    message: "Unable to decrypt data"
       security:
         - APIToken: []
 components:
@@ -281,12 +348,6 @@ components:
       bearerFormat: "JWT"
       name: "Authorization"
       description: "JSON Web Token Authentication with information containing your license key"
-    UserAccessToken:
-      type: "http"
-      scheme: "bearer"
-      bearerFormat: "JWT"
-      name: "X-User-AT"
-      description: "The `User Access Token` of the user"
   schemas:
     UserInfo:
       required:
@@ -326,8 +387,7 @@ components:
       required:
         - code
         - message
-        - fatal
-      properties:
+=      properties:
         code:
           nullable: false
           type: "integer"
@@ -336,21 +396,66 @@ components:
           nullable: false
           type: "string"
           description: "The error message"
-        fatal:
-          nullable: false
-          type: "boolean"
-          description: "Whether the error is fatal or not"
     UserUpdateData:
       required:
-        - success
         - user
       properties:
-        success:
-          nullable: false
-          type: "boolean"
-          description: "Whether the update was successful or not"
         user:
           nullable: false
           type: "object"
           $ref: "#/components/schemas/InitializedUserInfo"
           description: "The user information"
+    TokenCreationResponse:
+      required:
+        - token
+        - license
+      properties:
+        token:
+          nullable: false
+          type: "string"
+          description: "The token that was created"
+        license:
+          nullable: false
+          type: "string"
+          description: "The license thats associated with the token"
+    TokenDeletionResponse:
+      required:
+        - message
+      properties:
+        message:
+          nullable: false
+          type: "string"
+          description: "The message that was returned"
+    TokenData:
+      required:
+        - license
+        - token
+        - associatedFirebaseUID
+        - username
+      properties:
+        license:
+          nullable: false
+          type: "string"
+          description: "The license that the token is associated with"
+        token:
+          nullable: false
+          type: "string"
+          description: "The token"
+        associatedFirebaseUID:
+          nullable: false
+          type: "string"
+          description: "The Firebase UID that the token is associated with"
+        username:
+          nullable: false
+          type: "string"
+          description: "The username that the token is associated with"
+    TokenListResponse:
+      required:
+        - tokens
+      properties:
+        tokens:
+          nullable: false
+          type: "array"
+          items:
+            $ref: "#/components/schemas/TokenData"
+          description: "The list of tokens"
