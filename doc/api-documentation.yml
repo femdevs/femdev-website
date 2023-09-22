@@ -387,7 +387,7 @@ components:
       required:
         - code
         - message
-=      properties:
+      properties:
         code:
           nullable: false
           type: "integer"
