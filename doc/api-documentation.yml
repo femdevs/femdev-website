@@ -171,7 +171,7 @@ paths:
               examples:
                 error:
                   value:
-                    code: 24
+                    code: 13
                     message: "Unable to find requested resource"
         500:
           description: "Unable to create user"

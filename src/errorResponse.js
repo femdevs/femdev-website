@@ -141,7 +141,7 @@ const errorRes = (code) => {
             }
         case 24:
             return {
-                httpCode: 404,
+                httpCode: 500,
                 code: 24,
                 message: 'Unable to create requested user',
             }
