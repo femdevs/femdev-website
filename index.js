@@ -70,7 +70,7 @@ app
         req.auth = auth
         req.Database = require('./functions/database');
         req.Formatter = Formatter;
-        req.checkPerm = checkPerm;
+        req.checkPerms = checkPerm;
         next();
     })
     .use('/', router);
