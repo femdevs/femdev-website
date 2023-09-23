@@ -15,9 +15,10 @@ const pool = new pg.Pool({
     allowExitOnIdle: true,
 })
 
+const client = pool.connect()
+
 router
     .get('/team', async (req, res) => {
-        const client = await req.Database.getConnection();
         let staffRoles = {};
         const { rows: data } = await client.query('SELECT * FROM public.staff ORDER BY id ASC')
         data
@@ -38,7 +39,7 @@ router
                 }
             }
         );
-        await req.Database.closeConnection(client);
+        await client.release(true);
     })
     .get('/carrers', (req, res) => {
         res.render(
