@@ -505,13 +505,140 @@ paths:
       operationId: "CreateToken"
       description: "Creates a token using the provided information. Returns the token information if successful, otherwise returns an error."
       summary: "Create a Token"
+      requestBody:
+        description: "The new token information"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TokenCreationRequestBody"
+            examples:
+              token:
+                value:
+                  firebaseUID: "gPcqw6MAbXbZs6ARohHqT2vapFY2"
+      responses:
+        201:
+          description: "The information on the generated token"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TokenCreationResponse"
+              examples:
+                token:
+                  tokenData:
+                    license: "1234-5678-9012-3456"
+                    token: "fjkh_fdasABc12.dshfa34287y_FDAS34_2"
+        401:
+          description: "Invalid/Missing API Token"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-Token:
+                  value:
+                    code: 1
+                    message: "Missing API Token"
+                Invalid-Token:
+                  value:
+                    code: 2
+                    message: "Invalid API Token"
+                  
+        403:
+          description: "Unauthorized to create user"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                error:
+                  value:
+                    code: 12
+                    message: "You are not authorized to access this resource"
+        404:
+          description: "Error with the given ID"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                error:
+                  value:
+                    code: 13
+                    message: "Unable to find requested resource"
+        500:
+          description: "Unable to create token"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                error:
+                  value:
+                    code: 0
+                    message: "Misc Error"
       security:
         - APIToken: []
   /token/delete:
-    patch:
+    delete:
       operationId: "DeleteToken"
       description: "Deletes the given token. Returns `true` if successful, otherwise returns an error."
       summary: "Delete Token"
+      parameters:
+        - in: "query"
+          name: "token"
+          description: "The token to delete"
+          schema:
+            type: string
+      responses:
+        200:
+          description: "The successful notification of the deletion"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TokenDeletionResponse"
+              examples:
+                deleted:
+                  value:
+                    message: "Token deleted successfully"
+        401:
+          description: "Invalid/Missing API Token"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-Token:
+                  value:
+                    code: 1
+                    message: "Missing API Token"
+                Invalid-Token:
+                  value:
+                    code: 2
+                    message: "Invalid API Token"
+                  
+        403:
+          description: "Unauthorized to create user"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                error:
+                  value:
+                    code: 12
+                    message: "You are not authorized to access this resource"
+        404:
+          description: "Error with the given ID"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                error:
+                  value:
+                    code: 13
+                    message: "Unable to find requested resource"
       security:
         - APIToken: []
   /token/list:
@@ -519,10 +646,64 @@ paths:
       operationId: "ListTokens"
       description: "Lists all API keys along with the information associated with it. Returns the list of tokens if successful, otherwise returns an error."
       summary: "List Tokens"
+      responses:
+        200:
+          description: "The list of tokens"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ListTokenResponse"
+              examples:
+                tokens:
+                  value:
+                    - license: "1234-5678-9012-3456"
+                      token: "fjkh_fdasABc12.dshfa34287y_FDAS34_2"
+                      associatedFirebaseUID: "gPcqw6MAbXbZs6ARohHqT2vapFY2"
+                      username: "JohnDoe0001"
+                    - license: "1234-5678-9012-3456"
+                      token: "fjkh_fdasABc12.dshfa34287y_FDAS34_2"
+                      associatedFirebaseUID: "gPcqw6MAbXbZs6ARohHqT2vapFY2"
+                      username: "JohnDoe0001"
+        401:
+          description: "Invalid/Missing API Token"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-Token:
+                  value:
+                    code: 1
+                    message: "Missing API Token"
+                Invalid-Token:
+                  value:
+                    code: 2
+                    message: "Invalid API Token"
+                  
+        403:
+          description: "Unauthorized to create user"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                error:
+                  value:
+                    code: 12
+                    message: "You are not authorized to access this resource"
+        500:
+          description: "Unable to list tokens"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                error:
+                  value:
+                    code: 0
+                    message: "Misc Error"
       security:
         - APIToken: []
-      responses:
-      
   /token/info:
     get:
       operationId: "GetTokenInfo"
@@ -534,6 +715,69 @@ paths:
           description: "The token to get information for"
           schema:
             type: string
+      responses:
+        200:
+          description: "The token information for the given token"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TokenInfoResponse"
+              examples:
+                token:
+                  value:
+                    license: "1234-5678-9012-3456"
+                    token: "fjkh_fdasABc12.dshfa34287y_FDAS34_2"
+                    associatedFirebaseUID: "gPcqw6MAbXbZs6ARohHqT2vapFY2"
+                    username: "JohnDoe0001"
+        401:
+          description: "Invalid/Missing API Token"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-Token:
+                  value:
+                    code: 1
+                    message: "Missing API Token"
+                Invalid-Token:
+                  value:
+                    code: 2
+                    message: "Invalid API Token"
+                  
+        403:
+          description: "Unauthorized to create user"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                error:
+                  value:
+                    code: 12
+                    message: "You are not authorized to access this resource"
+        404:
+          description: "Error with the given token"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                error:
+                  value:
+                    code: 13
+                    message: "Unable to find requested resource"
+        500:
+          description: "Unable to get token information"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                error:
+                  value:
+                    code: 0
+                    message: "Misc Error"
       security:
         - APIToken: []
 components:
@@ -828,6 +1072,14 @@ components:
           nullable: false
           type: string
           description: "The error message"
+    TokenCreationRequestBody:
+      required:
+        - firebaseUID
+      properties:
+        firebaseUID:
+          nullable: false
+          type: string
+          description: "The Firebase UID of the user"
     TokenCreationResponse:
       required:
         - token
@@ -872,7 +1124,7 @@ components:
           nullable: false
           type: string
           description: "The username that the token is associated with"
-    TokenListResponse:
+    ListTokenResponse:
       required:
         - tokens
       properties:
@@ -880,5 +1132,5 @@ components:
           nullable: false
           type: array
           items:
-            $ref: "#/components/schemas/TokenData"
+            $ref: "#/components/schemas/ListTokenData"
           description: "The list of tokens"

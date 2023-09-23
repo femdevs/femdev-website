@@ -116,7 +116,6 @@ router
                 firebaseUID: user.firebaseUID,
             })
         } else {
-            // lookup the token that was used to make the request
             const [rows] = await connection.query(`SELECT * FROM APITokens WHERE token = '${token}'`)
             if (rows.length == 0) return res.sendError(5)
             const [userRows] = await connection.query(`SELECT * FROM users WHERE firebaseUID = '${rows[0].associatedFirebaseUID}'`)
