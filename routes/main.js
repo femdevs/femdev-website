@@ -17,7 +17,7 @@ const pool = new pg.Pool({
 
 router
     .get('/team', async (req, res) => {
-        const client = pool.connect()
+        const client = await pool.connect()
         let staffRoles = {};
         const { rows: data } = await client.query('SELECT * FROM public.staff ORDER BY id ASC')
         data
