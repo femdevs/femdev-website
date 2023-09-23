@@ -9,21 +9,6 @@ const TokenManager = require('../../src/crypto');
 //     databaseURL: `https://thefemdevs-default-rtdb.firebaseio.com`
 // })
 
-const permissionBitToReadable = (bit) => {
-    const perms = {
-        read: 1 << 0,   // 1
-        write: 1 << 1,   // 2
-        create: 1 << 2,   // 4
-        delete: 1 << 3,   // 8
-        admin: 1 << 4,   // 16
-    }
-    const permissions = [];
-    Object.entries(perms).forEach(([key, value]) => {
-        if ((value & bit) === value) permissions.push(key);
-    })
-    return permissions;
-}
-
 router
     .post('/create', async (req, res) => {
         if (!req.headers['authorization']) return res.sendError(1);
@@ -33,7 +18,7 @@ router
         if (rows.length == 0) return res.sendError(2);
         const [userRows] = await connection.query(`SELECT * FROM users WHERE firebaseUID = '${rows[0].associatedFirebaseUID}'`)
         if (userRows.length == 0) return res.sendError(13);
-        if (!permissionBitToReadable(userRows[0].permissions).includes('admin')) return res.sendError(12);
+        if (!req.checkPerms(userRows[0].permissions, 'developer', 'createTokens')) return res.sendError(12);
         const { firebaseUID } = req.body
         if (!firebaseUID) return res.status(400).json({ error: 'No firebaseUID provided' });
         // if (!license) return res.status(400).json({ error: 'No license provided' });
@@ -58,7 +43,7 @@ router
         if (rows.length == 0) return res.sendError(2);
         const [userRows] = await connection.query(`SELECT * FROM users WHERE firebaseUID = '${rows[0].associatedFirebaseUID}'`)
         if (userRows.length == 0) return res.sendError(13);
-        if (!permissionBitToReadable(userRows[0].permissions).includes('admin')) return res.sendError(12);
+        if (!req.checkPerms(userRows[0].permissions, 'developer', 'deleteTokens')) return res.sendError(12);
         const { token: tokenToDelete } = req.body
         if (!tokenToDelete) return res.sendError(8);
         const [tokenRows] = await connection.query(`SELECT * FROM APITokens WHERE token = '${tokenToDelete}'`)
@@ -78,7 +63,7 @@ router
         if (rows.length == 0) return res.sendError(2);
         const [userRows] = await connection.query(`SELECT * FROM users WHERE firebaseUID = '${rows[0].associatedFirebaseUID}'`)
         if (userRows.length == 0) return res.sendError(13);
-        if (!permissionBitToReadable(userRows[0].permissions).includes('admin')) return res.sendError(12);
+        if (!req.checkPerms(userRows[0].permissions, 'developer', 'admin', 'owner')) return res.sendError(12);
         const tokens  = (await connection.query(`SELECT * FROM APITokens`))[0]
         const formattedTokens = []
         for (const tokenData of tokens) {
@@ -102,8 +87,7 @@ router
             const [userRows] = await connection.query(`SELECT * FROM users WHERE firebaseUID = '${rows[0].associatedFirebaseUID}'`)
             if (userRows.length == 0) return res.sendError(500); // misc error
             const { permissions } = userRows[0];
-            const permArray = permissionBitToReadable(permissions);
-            if (!permArray.includes('admin')) return res.sendError(12);
+            if (!req.checkPerms(permissions, 'developer', 'readTokens')) return res.sendError(12);
             const { token: tokenToLookup } = req.query;
             const [tokenRows] = await connection.query(`SELECT * FROM APITokens WHERE token = '${tokenToLookup}'`)
             if (tokenRows.length == 0) return res.sendError(13)

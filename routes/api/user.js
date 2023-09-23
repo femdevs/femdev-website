@@ -1,40 +1,6 @@
 const router = require('express').Router();
 const { aprilFools } = require('../../functions/utilities');
 
-class Formatter {
-    static perms = {
-        read: 1 << 0,   // 1
-        write: 1 << 1,   // 2
-        create: 1 << 2,   // 4
-        delete: 1 << 3,   // 8
-        admin: 1 << 4,   // 16
-    }
-    static permissionBitToReadable(bit) {
-        const permissions = [];
-        Object.entries(this.perms).forEach(([key, value]) => {
-            if ((value & bit) === value) permissions.push(key);
-        })
-        return permissions;
-    }
-    static permissionStringArrayToBit(string) {
-        const bitArray = [];
-        string.forEach((permission) => {
-            const bit = this.perms[permission];
-            if (bit) bitArray.push(bit);
-        })
-        return bitArray.reduce((a, b) => a + b, 0);
-    }
-    static formatDateTime = new Intl.DateTimeFormat('en-US', { year: "numeric", month: "long", day: "numeric", hour: "2-digit", minute: "2-digit", second: "2-digit", weekday: "long", timeZone: "America/Detroit", timeZoneName: "longGeneric" }).format;
-    static formatDate = new Intl.DateTimeFormat('en-US', { year: "numeric", month: "long", day: "numeric", weekday: "long" }).format;
-    static formatTime = new Intl.DateTimeFormat('en-US', { hour: "2-digit", minute: "2-digit", second: "2-digit", timeZone: "America/Detroit", timeZoneName: "shortOffset" }).format;
-    static dobToAge(dob) {
-        const date = new Date(dob);
-        const diff = Date.now() - date.getTime();
-        const age = new Date(diff);
-        return Math.abs(age.getUTCFullYear() - 1970);
-    }
-}
-
 router
     .get('/get', async (req, res) => {
         if (!req.headers['authorization']) return res.sendError(1);
@@ -45,7 +11,7 @@ router
         const { associatedFirebaseUID: firebaseUserID } = rows[0];
         const [DBUserData] = await connection.query(`SELECT * FROM users WHERE firebaseUID = '${firebaseUserID}'`)
         if (req.headers['x-uid']) {
-            if (!Formatter.permissionBitToReadable(DBUserData[0].permissions).includes('admin')) {
+            if (!req.checkPerms(DBUserData[0].permissions, 'developer', 'readUsers')) {
                 res.sendError(12);
                 return req.Database.closeConnection(connection);
             }
@@ -79,7 +45,7 @@ router
         if (rows.length == 0) return res.sendError(2);
         const { associatedFirebaseUID: firebaseUserID } = rows[0];
         const [APIUser] = await connection.query(`SELECT * FROM users WHERE firebaseUID = '${firebaseUserID}'`)
-        if (!Formatter.permissionBitToReadable(APIUser[0].permissions).includes('admin')) {
+        if (!req.checkPerms(APIUser[0].permissions, 'developer', 'createUsers')) {
             res.sendError(12);
             return req.Database.closeConnection(connection);
         }
@@ -113,7 +79,7 @@ router
         if (rows.length == 0) return res.sendError(2);
         const { associatedFirebaseUID: firebaseUserID } = rows[0];
         const [APIUser] = await connection.query(`SELECT * FROM users WHERE firebaseUID = '${firebaseUserID}'`)
-        if (!Formatter.permissionBitToReadable(APIUser[0].permissions).includes('admin')) {
+        if (!req.checkPerms(APIUser[0].permissions, 'developer', 'writeUsers')) {
             res.sendError(12);
             return req.Database.closeConnection(connection);
         }
@@ -161,7 +127,7 @@ router
         if (rows.length == 0) return res.sendError(2);
         const { associatedFirebaseUID: firebaseUserID } = rows[0];
         const [APIUser] = await connection.query(`SELECT * FROM users WHERE firebaseUID = '${firebaseUserID}'`)
-        if (!Formatter.permissionBitToReadable(APIUser[0].permissions).includes('admin')) {
+        if (!req.checkPerms(APIUser[0].permissions, 'developer', 'deleteUsers')) {
             res.sendError(12);
             return req.Database.closeConnection(connection);
         }

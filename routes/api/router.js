@@ -22,6 +22,7 @@ router
     .use('/user', user)
     .use('/crypto', crypto)
     .use('/token', token)
+    .get('/', (req, res) => res.redirect(301, 'https://docs.api.thefemdevs.com'))
     .use((req, res, next) => {
         const { path } = req;
         const methodUsed = req.method.toUpperCase();
