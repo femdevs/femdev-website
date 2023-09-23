@@ -1,45 +1,32 @@
 const router = require('express').Router();
-const crypto = require('crypto')
-const { Buffer } = require('buffer')
-require('dotenv').config()
+const crypto = require('crypto');
+const { Buffer } = require('buffer');
+require('dotenv').config();
+
+const { aprilFools } = require('../../functions/utilities');
+
 const publicKey = crypto.createPublicKey(process.env.CRYPT_PUB);
 const privateKey = crypto.createPrivateKey(process.env.CRYPT_PRIV);
 
 router
     .get('/enc', async (req, res) => {
         const { query: { data } } = req;
-        if (!data) return res.status(400).json({
-            code: 3,
-            message: 'No data provided',
-            fatal: false,
-        })
+        if (!data) return res.sendError(4)
         try {
             const encrypted = crypto.publicEncrypt(publicKey, Buffer.from(data, 'utf8')).toString('base64url')
             return res.status(200).json({ data: encrypted })
         } catch (err) {
-            return res.status(400).json({
-                code: 4,
-                message: 'Incorrect data provided',
-                fatal: true,
-            })
+            return res.sendError(10)
         }
     })
     .get('/dec', async (req, res) => {
         const { query: { data } } = req;
-        if (!data) return res.status(400).json({
-            code: 3,
-            message: 'No data provided',
-            fatal: false,
-        })
+        if (!data) return res.sendError(4)
         try {
             const decrypted = crypto.privateDecrypt(privateKey, Buffer.from(data, 'base64url')).toString('utf8')
             return res.status(200).json({ data: decrypted })
         } catch (err) {
-            return res.status(400).json({
-                code: 4,
-                message: 'Incorrect data provided',
-                fatal: true,
-            })
+            return res.sendError(11)
         }
     })
     .use((req, res, next) => {

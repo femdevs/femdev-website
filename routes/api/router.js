@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const { aprilFools } = require('../../functions/utilities');
 
 //- Middleware
 const APIAuth = require('../../middleware/APITokenMgr');

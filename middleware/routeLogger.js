@@ -2,14 +2,6 @@ const responseTime = require('response-time');
 const Chalk = require('chalk');
 const crypto = require('crypto');
 
-const { saveAccessLog } = require('../functions/database');
-
-const hash = (data) => {
-    let currentHash = data;
-    crypto.getHashes().forEach(hashAlg => { currentHash = crypto.createHash(hashAlg).update(currentHash).digest('base64url') })
-    return crypto.createHash('id-rsassa-pkcs1-v1_5-with-sha3-512').update(currentHash).digest('base64url');
-}
-
 const chalk = new Chalk.Instance({ level: 3 });
 
 class ColorConverter {
@@ -98,7 +90,7 @@ function middleware(mreq, mres, next) {
             bytes: ColorConverter.bytes(data.bytes),
         }
         console.log(`${coloredData.ip} [${coloredData.date}] ${coloredData.method} ${coloredData.url} ${coloredData.status} ${coloredData.time} (${coloredData.bytes})`)
-        saveAccessLog(data);
+        mreq.Database.saveAccessLog(data);
     })(mreq, mres, next)
 }
 

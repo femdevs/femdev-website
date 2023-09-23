@@ -1,4 +1,3 @@
-const { testIPBlacklisted } = require('../functions/database');
 const { aprilFools } = require('../functions/utilities');
 const crypto = require('crypto');
 
@@ -25,7 +24,7 @@ const IBC = async (req, res, next) => {
         }
     );
     const ip = ['::1', '127.0.0.1'].includes(req.ip.replace('::ffff:', '')) ? 'localhost' : (req.ip || 'unknown').replace('::ffff:', '')
-    const [isBlacklisted, reason] = await testIPBlacklisted(hash(ip));
+    const [isBlacklisted, reason] = await req.Database.testIPBlacklisted(hash(ip));
     if (isBlacklisted) {
         req.session.ipBanned = true;
         return res.status(403).render(

@@ -1,6 +1,6 @@
 openapi: "3.0.0"
 info:
-  version: "1.2.0"
+  version: "1.2.1"
   title: "FemDevs API Documentation"
   description: "The documentation for the FemDevs API."
   contact:
@@ -21,26 +21,41 @@ paths:
       summary: "Get User Info by ID"
       parameters:
         - in: "header"
-          name: "x-user-id"
-          description: "The ID of the user to get information for"
+          name: "x-uid"
+          description: "The Firebase UID of the user to get information for"
           schema:
-            type: "string"
+            type: string
       responses:
         200:
           description: "The user information for the given ID"
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/InitializedUserInfo"
+                $ref: "#/components/schemas/GetUserInfoResponse"
               examples:
                 user:
                   value:
-                    id: 1
-                    name: "FemDevs"
-                    picture: "https://thefemdevs.com/assets/img/logo.png"
-                    flags: 0
-                    username: "FemDevs"
-        400:
+                    id: "gPcqw6MAbXbZs6ARohHqT2vapFY2"
+                    username: "JohnDoe0001"
+                    fullName: "John Doe"
+                    email: "example@example.com"
+                    permissions: 0
+        401:
+          description: "Invalid/Missing API Token"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-Token:
+                  value:
+                    code: 1
+                    message: "Missing API Token"
+                Invalid-Token:
+                  value:
+                    code: 2
+                    message: "Invalid API Token"
+        404:
           description: "Error with the given ID"
           content:
             application/json:
@@ -60,40 +75,105 @@ paths:
       summary: "Update User Info by ID"
       parameters:
         - in: "header"
-          name: "x-user-id"
-          description: "The ID of the user to get information for"
+          name: "x-uid"
+          description: "The Firebase UID of the user to get information for"
           schema:
-            type: "string"
+            type: string
       requestBody:
         description: "The new user information"
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/UserInfo"
+              $ref: "#/components/schemas/UpdateUserInfo"
             examples:
-              user:
+              displayname:
                 value:
-                  name: "FemDevs"
-                  picture: "https://thefemdevs.com/assets/img/logo.png"
-                  username: "FemDevs"
+                  displayname: "newDisplayName"
+              email:
+                value:
+                  email: "newEmail@example.com"
+              password:
+                value:
+                  password: "newPassword"
+              perms:
+                value:
+                  perms: 1
       responses:
         200:
           description: "Successful Response"
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/UserUpdateData"
+                $ref: "#/components/schemas/UpdateUserInfoResponse"
               examples:
-                user:
+                displayname:
                   value:
-                    success: true
-                    user:
-                      id: 1
-                      name: "FemDevs"
-                      picture: "https://thefemdevs.com/assets/img/logo.png"
-                      flags: 0
-                      username: "FemDevs"
+                    id: "gPcqw6MAbXbZs6ARohHqT2vapFY2"
+                    updatedUser:
+                      id: 19
+                      firebaseUID: "gPcqw6MAbXbZs6ARohHqT2vapFY2"
+                      firstname: "John"
+                      lastname: "Doe"
+                      displayname: "newDisplayName"
+                      email: "example@example.com"
+                      dateofbirth: "2000-01-01"
+                      permissions: 0
+                      betaAccess: 0
+                email:
+                  value:
+                    id: "gPcqw6MAbXbZs6ARohHqT2vapFY2"
+                    updatedUser:
+                      id: 19
+                      firebaseUID: "gPcqw6MAbXbZs6ARohHqT2vapFY2"
+                      firstname: "John"
+                      lastname: "Doe"
+                      displayname: "JohnDoe0001"
+                      email: "newEmail@example.com"
+                      dateofbirth: "2000-01-01"
+                      permissions: 0
+                      betaAccess: 0
+                password:
+                  value:
+                    id: "gPcqw6MAbXbZs6ARohHqT2vapFY2"
+                    updatedUser:
+                      id: 19
+                      firebaseUID: "gPcqw6MAbXbZs6ARohHqT2vapFY2"
+                      firstname: "John"
+                      lastname: "Doe"
+                      displayname: "JohnDoe0001"
+                      email: "example@example.com"
+                      dateofbirth: "2000-01-01"
+                      permissions: 0
+                      betaAccess: 0
+                perms:
+                  value:
+                    id: "gPcqw6MAbXbZs6ARohHqT2vapFY2"
+                    updatedUser:
+                      id: 19
+                      firebaseUID: "gPcqw6MAbXbZs6ARohHqT2vapFY2"
+                      firstname: "John"
+                      lastname: "Doe"
+                      displayname: "JohnDoe0001"
+                      email: "example@example.com"
+                      dateofbirth: "2000-01-01"
+                      permissions: 0
+                      betaAccess: 1
+        401:
+          description: "Invalid/Missing API Token"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-Token:
+                  value:
+                    code: 1
+                    message: "Missing API Token"
+                Invalid-Token:
+                  value:
+                    code: 2
+                    message: "Invalid API Token"
         404:
           description: "Error with the given ID"
           content:
@@ -129,28 +209,61 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/UserInfo"
+              $ref: "#/components/schemas/CreateUserInfo"
             examples:
               user:
                 value:
-                  name: "FemDevs"
-                  picture: "https://thefemdevs.com/assets/img/logo.png"
-                  username: "FemDevs"
+                  username: "JohnDoe0001"
+                  firstname: "John"
+                  lastname: "Doe"
+                  email: "example@example.com"
+                  password: "ARandomPassword"
       responses:
         201:
           description: "The user information for the given ID"
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/InitializedUserInfo"
+                $ref: "#/components/schemas/CreateUserInfoResponse"
               examples:
                 user:
                   value:
-                    id: 1
-                    name: "FemDevs"
-                    picture: "https://thefemdevs.com/assets/img/logo.png"
-                    flags: 0
-                    username: "FemDevs"
+                    user:
+                      uid: "gPcqw6MAbXbZs6ARohHqT2vapFY2"
+                      email: "example@example.com"
+                      emailVerified: false
+                      displayName: "JohnDoe0001"
+                      disabled: false
+                      metadata:
+                        lastSignInTime: "null"
+                        creationTime: "Sat, 23 Sep 2023 16:06:10 GMT"
+                        lastRefreshTime: "null"
+                      tokensValidAfterTime: "Sat, 23 Sep 2023 16:06:10 GMT"
+                      providerData:
+                        - uid: "example@example.com"
+                          displayName: "JohnDoe0001"
+                          email: "example@example.com"
+                          providerId: "password"
+                    username: "JohnDoe0001"
+                    fullName: "John Doe"
+                    email: "example@example.com"
+                    permissions: 0
+        401:
+          description: "Invalid/Missing API Token"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-Token:
+                  value:
+                    code: 1
+                    message: "Missing API Token"
+                Invalid-Token:
+                  value:
+                    code: 2
+                    message: "Invalid API Token"
+                  
         403:
           description: "Unauthorized to create user"
           content:
@@ -193,20 +306,37 @@ paths:
       summary: "Delete User by ID"
       parameters:
         - in: "header"
-          name: "x-user-id"
-          description: "The ID of the user to get delete"
+          name: "x-uid"
+          description: "The Firebase UID of the user to get delete"
           schema:
-            type: "string"
+            type: string
       responses:
         200:
           description: "The successful notification of the deletion"
           content:
             application/json:
               schema:
-                type: "boolean"
+                $ref: "#/components/schemas/DeleteUserInfoResponse"
               examples:
-                user:
-                  value: true
+                deleted:
+                  value:
+                    uid: "gPcqw6MAbXbZs6ARohHqT2vapFY2"
+                    deleted: true
+        401:
+          description: "Invalid/Missing API Token"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-Token:
+                  value:
+                    code: 1
+                    message: "Missing API Token"
+                Invalid-Token:
+                  value:
+                    code: 2
+                    message: "Invalid API Token"
         403:
           description: "Unauthorized to delete user"
           content:
@@ -252,19 +382,19 @@ paths:
           name: "data"
           description: "The data to encrypt"
           schema:
-            type: "string"
+            type: string
       responses:
         200:
           description: "The Encrypted Data"
           content:
             application/json:
               schema:
-                type: "string"
+                type: string
               examples:
                 data:
                   value: "Pc6W8_h9XSg8LVhZ8yAP4vtui0sJIMNmC_E18ee9JBQyEmBPLZBDz5Jx745u31Pbr2EkS9Z2S8oFB02uwzpWtt3PH48HE-Wj27VkpvV1glrpZ0f_cW0Ema-gT-6S675xCgb9cy0ZTx3rH-kzuVZXaOwrMjMJTVe7ZpyH8zyUNHnDo0xvkhq9Z523azZm1mq1rcJWMJl8iCuZc6TQp5E2-4xiAZF59ZCZyQCtzxryPzX6aR5ENBvBVdkOaNWtmjWc9ZM5Ni9PXc2cVGbi5IDo6RvX5KuU2DUvGpIKvf15xLptPXZPLNtU4syXjXI4vA03EpV1-Dqs6H7FrtXLAu9M5Q7NxaSxynr4oyJC7CzIXJtJVUwrFN9I-zSJCcR9rE90XzolaWICUjfhSkMtPBTkr_ibNFcyPhG-oaMPGuc1Hb8gJzEDDtWTGPZdV2rbGJIw3XBi_h80fj8F_DQujSGsbo2DmBwSF-PZtKG5WHK9cf3rWCIxF1Sc5Hhkd-HnhrFrSv30Kjvede88MmofhchsS9cEn4eFF7rfj35blLBxGKBKzhS0k_k7FWQznK6J24lfUR_Gtkz3IJlTcqQN-ixucjHdI58xheVETAg_PkK3KZIwgabxQRSz96JUANyEPIPdodIF2f4PpEMomjYp8mCc_0F26uUSgsm9_LcJvC9oNZU"
         400:
-          description: "Error With Encryption"
+          description: "Error With Encryption (Client Caused)"
           content:
             application/json:
               schema:
@@ -278,8 +408,23 @@ paths:
                   value:
                     code: 5
                     message: "Invalid Query Parameter(s)"
+        401:
+          description: "Invalid/Missing API Token"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-Token:
+                  value:
+                    code: 1
+                    message: "Missing API Token"
+                Invalid-Token:
+                  value:
+                    code: 2
+                    message: "Invalid API Token"
         500:
-          description: "Error With Encryption"
+          description: "Error With Encryption (Server Caused)"
           content:
             application/json:
               schema:
@@ -301,19 +446,19 @@ paths:
           name: "data"
           description: "The data to decrypt"
           schema:
-            type: "string"
+            type: string
       responses:
         200:
           description: "The Decrypted Data"
           content:
             application/json:
               schema:
-                type: "string"
+                type: string
               examples:
                 data:
                   value: "testing"
         400:
-          description: "Error with Decryption"
+          description: "Error with Decryption (Client Caused)"
           content:
             application/json:
               schema:
@@ -327,8 +472,23 @@ paths:
                   value:
                     code: 5
                     message: "Invalid Query Parameter(s)"
+        401:
+          description: "Invalid/Missing API Token"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-Token:
+                  value:
+                    code: 1
+                    message: "Missing API Token"
+                Invalid-Token:
+                  value:
+                    code: 2
+                    message: "Invalid API Token"
         500:
-          description: "Error with Decryption"
+          description: "Error with Decryption (Server Caused)"
           content:
             application/json:
               schema:
@@ -340,6 +500,42 @@ paths:
                     message: "Unable to decrypt data"
       security:
         - APIToken: []
+  /token/create:
+    post:
+      operationId: "CreateToken"
+      description: "Creates a token using the provided information. Returns the token information if successful, otherwise returns an error."
+      summary: "Create a Token"
+      security:
+        - APIToken: []
+  /token/delete:
+    patch:
+      operationId: "DeleteToken"
+      description: "Deletes the given token. Returns `true` if successful, otherwise returns an error."
+      summary: "Delete Token"
+      security:
+        - APIToken: []
+  /token/list:
+    get:
+      operationId: "ListTokens"
+      description: "Lists all API keys along with the information associated with it. Returns the list of tokens if successful, otherwise returns an error."
+      summary: "List Tokens"
+      security:
+        - APIToken: []
+      responses:
+      
+  /token/info:
+    get:
+      operationId: "GetTokenInfo"
+      description: "Gets the token information for the given token. Returns the token information if the token exists, otherwise returns an error."
+      summary: "Get Token Info"
+      parameters:
+        - in: "query"
+          name: "token"
+          description: "The token to get information for"
+          schema:
+            type: string
+      security:
+        - APIToken: []
 components:
   securitySchemes:
     APIToken:
@@ -349,40 +545,276 @@ components:
       name: "Authorization"
       description: "JSON Web Token Authentication with information containing your license key"
   schemas:
-    UserInfo:
+    FirebaseProviderData:
       required:
-        - name
-        - picture
-        - username
+        - uid
+        - displayName
+        - email
+        - providerId
       properties:
-        name:
+        uid:
           nullable: false
-          type: "string"
-          description: "The name of the user"
-        picture:
+          type: string
+          description: "The Firebase UID of the user"
+        displayName:
           nullable: false
-          type: "string"
-          description: "The picture URL of the user"
+          type: string
+          description: "The display name of the user"
+        email:
+          nullable: false
+          type: string
+          description: "The email of the user"
+        providerId:
+          nullable: false
+          type: string
+          description: "The provider ID of the user"
+    FirebaseMetadata:
+      required:
+        - lastSignInTime
+        - creationTime
+        - lastRefreshTime
+      properties:
+        lastSignInTime:
+          nullable: false
+          type: string
+          description: "The last sign in time of the user"
+        creationTime:
+          nullable: false
+          type: string
+          description: "The creation time of the user"
+        lastRefreshTime:
+          nullable: false
+          type: string
+          description: "The last refresh time of the user"
+    CreatedFirebaseUser:
+      required:
+        - uid
+        - displayName
+        - email
+        - emailVerified
+        - phoneNumber
+        - photoURL
+        - disabled
+        - metadata
+        - providerData
+      properties:
+        uid:
+          nullable: false
+          type: string
+          description: "The Firebase UID of the user"
+        displayName:
+          nullable: false
+          type: string
+          description: "The display name of the user"
+        email:
+          nullable: false
+          type: string
+          description: "The email of the user"
+        emailVerified:
+          nullable: false
+          type: boolean
+          description: "Whether or not the email is verified"
+        phoneNumber:
+          nullable: false
+          type: string
+          description: "The phone number of the user"
+        photoURL:
+          nullable: false
+          type: string
+          description: "The photo URL of the user"
+        disabled:
+          nullable: false
+          type: boolean
+          description: "Whether or not the user is disabled"
+        metadata:
+          nullable: false
+          type: object
+          $ref: "#/components/schemas/FirebaseMetadata"
+          description: "The metadata of the user"
+        providerData:
+          nullable: false
+          type: array
+          items:
+            $ref: "#/components/schemas/FirebaseProviderData"
+          description: "The provider data of the user"
+    FullUserInformation:
+      required:
+        - id
+        - firebaseUID
+        - firstname
+        - lastname
+        - displayname
+        - email
+        - dateofbirth
+        - permissions
+        - betaAccess
+      properties:
+        id:
+          nullable: false
+          type: integer
+          description: "The ID of the user"
+        firebaseUID:
+          nullable: false
+          type: string
+          description: "The Firebase UID of the user"
+        firstname:
+          nullable: false
+          type: string
+          description: "The first name of the user"
+        lastname:
+          nullable: false
+          type: string
+          description: "The last name of the user"
+        displayname:
+          nullable: false
+          type: string
+          description: "The display name of the user"
+        email:
+          nullable: false
+          type: string
+          description: "The email of the user"
+        dateofbirth:
+          nullable: false
+          type: string
+          description: "The date of birth of the user"
+        permissions:
+          nullable: false
+          type: integer
+          description: "The permissions of the user"
+        betaAccess:
+          nullable: false
+          type: integer
+          description: "Whether or not the user has beta access"
+    GetUserInfoResponse:
+      required:
+        - id
+        - username
+        - fullName
+        - email
+        - permissions
+      properties:
+        id:
+          nullable: false
+          type: string
+          description: "The Firebase UID of the user"
         username:
           nullable: false
-          type: "string"
+          type: string
           description: "The username of the user"
-    InitalizedUserInfo:
-      allOf:
-        - $ref: "#/components/schemas/UserInfo"
-        - type: "object"
-          required:
-            - id
-            - flags
-          properties:
-            id:
-              nullable: false
-              type: "integer"
-              description: "The ID of the user"
-            flags:
-              nullable: false
-              type: "integer"
-              description: "The flags of the user"
+        fullName:
+          nullable: false
+          type: string
+          description: "The full name of the user"
+        email:
+          nullable: false
+          type: string
+          description: "The email of the user"
+        permissions:
+          nullable: false
+          type: integer
+          description: "The permissions of the user"
+    UpdateUserInfo:
+      properties:
+        displayname:
+          nullable: true
+          type: string
+          description: "The new display name of the user"
+        email:
+          nullable: true
+          type: string
+          description: "The new email of the user"
+        password:
+          nullable: true
+          type: string
+          description: "The new password of the user"
+        perms:
+          nullable: true
+          type: integer
+          description: "The new permissions of the user"
+    UpdateUserInfoResponse:
+      required:
+        - id
+        - upatedUser
+      properties:
+        id:
+          nullable: false
+          type: string
+          description: "The Firebase UID of the user"
+        updatedUser:
+          nullable: false
+          type: object
+          $ref: "#/components/schemas/FullUserInformation"
+          description: "The updated user information"
+    CreateUserInfo:
+      required:
+        - username
+        - firstname
+        - lastname
+        - email
+        - password
+      properties:
+        username:
+          nullable: false
+          type: string
+          description: "The username of the user"
+        firstname:
+          nullable: false
+          type: string
+          description: "The first name of the user"
+        lastname:
+          nullable: false
+          type: string
+          description: "The last name of the user"
+        email:
+          nullable: false
+          type: string
+          description: "The email of the user"
+        password:
+          nullable: false
+          type: string
+          description: "The password of the user"
+    CreateUserInfoResponse:
+      required:
+        - user
+        - username
+        - fullName
+        - email
+        - permissions
+      properties:
+        user:
+          nullable: false
+          type: object
+          $ref: "#/components/schemas/CreatedFirebaseUser"
+          description: "The user information"
+        username:
+          nullable: false
+          type: string
+          description: "The username of the user"
+        fullName:
+          nullable: false
+          type: string
+          description: "The full name of the user"
+        email:
+          nullable: false
+          type: string
+          description: "The email of the user"
+        permissions:
+          nullable: false
+          type: integer
+          description: "The permissions of the user"
+    DeleteUserInfoResponse:
+      required:
+        - uid
+        - deleted
+      properties:
+        uid:
+          nullable: false
+          type: string
+          description: "The Firebase UID of the user"
+        deleted:
+          nullable: false
+          type: boolean
+          description: "Whether or not the user was deleted"
     ErrorData:
       required:
         - code
@@ -390,21 +822,12 @@ components:
       properties:
         code:
           nullable: false
-          type: "integer"
+          type: integer
           description: "The error code"
         message:
           nullable: false
-          type: "string"
+          type: string
           description: "The error message"
-    UserUpdateData:
-      required:
-        - user
-      properties:
-        user:
-          nullable: false
-          type: "object"
-          $ref: "#/components/schemas/InitializedUserInfo"
-          description: "The user information"
     TokenCreationResponse:
       required:
         - token
@@ -412,11 +835,11 @@ components:
       properties:
         token:
           nullable: false
-          type: "string"
+          type: string
           description: "The token that was created"
         license:
           nullable: false
-          type: "string"
+          type: string
           description: "The license thats associated with the token"
     TokenDeletionResponse:
       required:
@@ -424,7 +847,7 @@ components:
       properties:
         message:
           nullable: false
-          type: "string"
+          type: string
           description: "The message that was returned"
     TokenData:
       required:
@@ -435,19 +858,19 @@ components:
       properties:
         license:
           nullable: false
-          type: "string"
+          type: string
           description: "The license that the token is associated with"
         token:
           nullable: false
-          type: "string"
+          type: string
           description: "The token"
         associatedFirebaseUID:
           nullable: false
-          type: "string"
+          type: string
           description: "The Firebase UID that the token is associated with"
         username:
           nullable: false
-          type: "string"
+          type: string
           description: "The username that the token is associated with"
     TokenListResponse:
       required:
@@ -455,7 +878,7 @@ components:
       properties:
         tokens:
           nullable: false
-          type: "array"
+          type: array
           items:
             $ref: "#/components/schemas/TokenData"
           description: "The list of tokens"
