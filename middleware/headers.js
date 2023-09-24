@@ -13,7 +13,6 @@ const headers = (_, res, next) => {
         .setHeader('Content-Security-Policy', "default-src 'self'; script-src 'self' google.com *.google.com *.googlesyndication.com googlesyndication.com *.googleadservices.com googleadservices.com 'unsafe-inline'; style-src 'self' 'unsafe-inline' fonts.googleapis.com; img-src *; font-src *; connect-src *; media-src *; object-src 'none'; child-src *; worker-src 'none'; frame-ancestors *; form-action 'self'; upgrade-insecure-requests; block-all-mixed-content; sandbox allow-forms allow-same-origin allow-scripts; base-uri 'self'; manifest-src 'self'; require-trusted-types-for 'script';")
         .setHeader('Cross-Origin-Opener-Policy', 'same-origin')
         .setHeader('Cross-Origin-Embedder-Policy', 'require-corp')
-        .removeHeader('X-Powered-By');
     next();
 }
 

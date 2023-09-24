@@ -59,8 +59,10 @@ class Formatter {
 }
 
 app
-    .set('trust proxy', (ip) => (ip.replace('::ffff:', '') === '127.0.0.1' || ip.replace('::ffff:', '') === '::1') ? true : false)
     .set('view engine', 'pug')
+    .set('case sensitive routing', false)
+    .enable('trust proxy')
+    .disable('x-powered-by')
     .use((req, _, next) => {
         function checkPerm(userbit, ...neededPerms) {
             const userPerms = Formatter.permissionBitToReadable(userbit);
