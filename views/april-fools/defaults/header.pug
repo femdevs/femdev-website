@@ -1,10 +1,15 @@
-script(async src="https://www.googletagmanager.com/gtag/js?id=G-X9E281G0P3")
-script.
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-X9E281G0P3');
+script(
+  async
+  src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1906373468377810"
+  crossorigin="anonymous"
+)
+script(async src='/assets/js/o/GoogleAnalytics.min.js')
+script
+  | window.dataLayer = window.dataLayer || [];
+  | function gtag(){dataLayer.push(arguments);}
+  | gtag("js", new Date());
+  | 
+  | gtag("config", 'G-X9E281G0P3');
 meta(charset='UTF-8')
 meta(http-equiv='X-UA-Compatible' content='IE=edge')
 meta(http-equiv='Content-Type' content='text/html; charset=utf-8')
@@ -21,17 +26,19 @@ if meta
   meta(property='twitter:description' content= meta.desc)
   title= meta.title
 meta(name='author' content='The FemDevs')
-meta(name='keywords' content='femdevs, femboys, development, sparty18, benpai, oblong, oblong101, alex, auxiliaryfrfr, software, discord, applications, bots, server, hosting, products')
+meta(name='keywords' content='femdevs, femboys, development, sparty18, benpai, oblong, oblong101, alex, auxiliaryfrfr')
 meta(name='language' content='en-us')
-meta(name='revisit-after' content='2 days')
+meta(name='revisit-after' content=' days')
 meta(property='og:type' content='website')
 meta(property='og:image' content='/assets/misc/thumbnail')
 meta(property='twitter:card' content='summary_large_image')
 meta(property='twitter:image' content='/assets/misc/thumbnail')
+meta(name='apple-mobile-web-app-status-bar-style' content='black')
+meta(name='apple-mobile-web-app-title' content='The FemDevs Website')
+meta(name="google-adsense-account" content="ca-pub-1906373468377810")
+link(rel='apple-touch-icon' href='assets/images/static/custom-icon.png' type='image/png')
 link(rel='icon' href='/assets/images/deficon' type='image/svg+xml')
-link(rel="stylesheet" href='https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap')
-link(rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200")
-link(href='/stylesheets/styles.css' rel='stylesheet' type='text/css' defer='')
+link(href='/assets/css/d' rel='stylesheet' type='text/css' defer='')
 script(type='application/ld+json').
   {
     "@context": "https://schema.org",
@@ -43,10 +50,15 @@ script(type='application/ld+json').
     "sameAs": "https://github.com/femdevs"
   }
 if file
-  - var filename = '/assets/css/f/' + file
-  link(href=filename rel='stylesheet' type='text/css')
-script(
-  src="https://unpkg.com/@simplewebauthn/browser@8.0.2/dist/bundle/index.umd.min.js"
-  integrity="sha512-3/94PiJaIRRPx6AVRXm5PrTPL1Lqdadm6cj1raatDDntz6Z4/VMP0iQdEF9uPP0DtG59sjJipm7i7YNumS9/pQ=="
-  crossorigin="anonymous"
-)
+  - var filename = "/assets/css/f/" + file
+  link(
+    href= filename
+    rel='stylesheet'
+    type='text/css'
+  )
+script(async src="https://fundingchoicesmessages.google.com/i/pub-1906373468377810?ers=1" nonce="OGd3JXTu01PnVKe3bosPtg"  type='application/javascript')
+script(nonce="OGd3JXTu01PnVKe3bosPtg"  type='application/javascript')
+  | (function() {function signalGooglefcPresent() {if (!window.frames['googlefcPresent']) {if (document.body) {const iframe = document.createElement('iframe'); iframe.style = 'width: 0; height: 0; border: none; z-index: -1000; left: -1000px; top: -1000px;'; iframe.style.display = 'none'; iframe.name = 'googlefcPresent'; document.body.appendChild(iframe);} else {setTimeout(signalGooglefcPresent, 0);}}}signalGooglefcPresent();})();
+script(asyc src="/assets/js/o/adRecovery.js" type='application/javascript')
+script(type='application/javascript')
+  | !function (e, t) { 'object' == typeof exports && 'undefined' != typeof module ? t(exports) : 'function' == typeof define && define.amd ? define(['exports'], t) : t((e = 'undefined' != typeof globalThis ? globalThis : e || self).SimpleWebAuthnBrowser = {}) }(this, (function (e) { 'use strict'; function t(e) { const t = new Uint8Array(e); let n = ''; for (const e of t) n += String.fromCharCode(e); return btoa(n).replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '') } function n(e) { const t = e.replace(/-/g, '+').replace(/_/g, '/'), n = (4 - t.length % 4) % 4, r = t.padEnd(t.length + n, '='), o = atob(r), a = new ArrayBuffer(o.length), i = new Uint8Array(a); for (let e = 0; e < o.length; e++)i[e] = o.charCodeAt(e); return a } function r() { return void 0 !== window?.PublicKeyCredential && 'function' == typeof window.PublicKeyCredential } function o(e) { const { id: t } = e; return { ...e, id: n(t), transports: e.transports } } function a(e) { return 'localhost' === e || /^([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,}$/i.test(e) } class i extends Error { constructor({ message: e, code: t, cause: n, name: r }) { super(e, { cause: n }), this.name = r ?? n.name, this.code = t } } const s = new class { createNewAbortSignal() { if (this.controller) { const e = new Error('Cancelling existing WebAuthn API call for new one'); e.name = "AbortError", this.controller.abort(e) } const e = new AbortController; return this.controller = e, e.signal } }, c = ["cross-platform", 'platform']; function l(e) { if (e && !(c.indexOf(e) < 0)) return e } function u() { const e = window.PublicKeyCredential; return void 0 === e.isConditionalMediationAvailable ? new Promise((e => e(!1))) : e.isConditionalMediationAvailable() } e.browserSupportsWebAuthn = r, e.browserSupportsWebAuthnAutofill = u, e.platformAuthenticatorIsAvailable = function () { return r() ? PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable() : new Promise((e => e(!1))) }, e.startAuthentication = async function (e, c = !1) { if (!r()) throw new Error('WebAuthn is not supported in this browser'); let d; 0 !== e.allowCredentials?.length && (d = e.allowCredentials?.map(o)); const p = { ...e, challenge: n(e.challenge), allowCredentials: d }, R = {}; if (c) { if (!await u()) throw Error('Browser does not support WebAuthn autofill'); if (document.querySelectorAll('input[autocomplete*=\'webauthn\']').length < 1) throw Error('No <input> with `\'webauthn\'` in its `autocomplete` attribute was detected'); R.mediation = "conditional", p.allowCredentials = [] } let w; R.publicKey = p, R.signal = s.createNewAbortSignal(); try { w = await navigator.credentials.get(R) } catch (e) { throw function ({ error: e, options: t }) { const { publicKey: n } = t; if (!n) throw Error('options was missing required publicKey property'); if ('AbortError' === e.name) { if (t.signal instanceof AbortSignal) return new i({ message: "Authentication ceremony was sent an abort signal", code: "ERROR_CEREMONY_ABORTED", cause: e }) } else { if ('NotAllowedError' === e.name) return new i({ message: e.message, code: "ERROR_PASSTHROUGH_SEE_CAUSE_PROPERTY", cause: e }); if ('SecurityError' === e.name) { const t = window.location.hostname; if (!a(t)) return new i({ message: `${window.location.hostname} is an invalid domain`, code: "ERROR_INVALID_DOMAIN", cause: e }); if (n.rpId !== t) return new i({ message: `The RP ID '${n.rpId}' is invalid for this domain`, code: "ERROR_INVALID_RP_ID", cause: e }) } else if ('UnknownError' === e.name) return new i({ message: "The authenticator was unable to process the specified options, or could not create a new assertion signature", code: "ERROR_AUTHENTICATOR_GENERAL_ERROR", cause: e }) } return e }({ error: e, options: R }) } if (!w) throw new Error('Authentication was not completed'); const { id: f, rawId: h, response: E, type: g } = w; let A; var m; return E.userHandle && (m = E.userHandle, A = new TextDecoder('utf-8').decode(m)), { id: f, rawId: t(h), response: { authenticatorData: t(E.authenticatorData), clientDataJSON: t(E.clientDataJSON), signature: t(E.signature), userHandle: A }, type: g, clientExtensionResults: w.getClientExtensionResults(), authenticatorAttachment: l(w.authenticatorAttachment) } }, e.startRegistration = async function (e) { if (!r()) throw new Error('WebAuthn is not supported in this browser'); var c; const u = { publicKey: { ...e, challenge: n(e.challenge), user: { ...e.user, id: (c = e.user.id, (new TextEncoder).encode(c)) }, excludeCredentials: e.excludeCredentials?.map(o) } }; let d; u.signal = s.createNewAbortSignal(); try { d = await navigator.credentials.create(u) } catch (e) { throw function ({ error: e, options: t }) { const { publicKey: n } = t; if (!n) throw Error('options was missing required publicKey property'); if ('AbortError' === e.name) { if (t.signal instanceof AbortSignal) return new i({ message: "Registration ceremony was sent an abort signal", code: "ERROR_CEREMONY_ABORTED", cause: e }) } else if ('ConstraintError' === e.name) { if (!0 === n.authenticatorSelection?.requireResidentKey) return new i({ message: "Discoverable credentials were required but no available authenticator supported it", code: "ERROR_AUTHENTICATOR_MISSING_DISCOVERABLE_CREDENTIAL_SUPPORT", cause: e }); if ('required' === n.authenticatorSelection?.userVerification) return new i({ message: "User verification was required but no available authenticator supported it", code: "ERROR_AUTHENTICATOR_MISSING_USER_VERIFICATION_SUPPORT", cause: e }) } else { if ('InvalidStateError' === e.name) return new i({ message: "The authenticator was previously registered", code: "ERROR_AUTHENTICATOR_PREVIOUSLY_REGISTERED", cause: e }); if ('NotAllowedError' === e.name) return new i({ message: e.message, code: "ERROR_PASSTHROUGH_SEE_CAUSE_PROPERTY", cause: e }); if ('NotSupportedError' === e.name) return 0 === n.pubKeyCredParams.filter((e => 'public-key' === e.type)).length ? new i({ message: "No entry in pubKeyCredParams was of type 'public-key'", code: "ERROR_MALFORMED_PUBKEYCREDPARAMS", cause: e }) : new i({ message: "No available authenticator supported any of the specified pubKeyCredParams algorithms", code: "ERROR_AUTHENTICATOR_NO_SUPPORTED_PUBKEYCREDPARAMS_ALG", cause: e }); if ('SecurityError' === e.name) { const t = window.location.hostname; if (!a(t)) return new i({ message: `${window.location.hostname} is an invalid domain`, code: "ERROR_INVALID_DOMAIN", cause: e }); if (n.rp.id !== t) return new i({ message: `The RP ID '${n.rp.id}' is invalid for this domain`, code: "ERROR_INVALID_RP_ID", cause: e }) } else if ('TypeError' === e.name) { if (n.user.id.byteLength < 1 || n.user.id.byteLength > 64) return new i({ message: "User ID was not between 1 and 64 characters", code: "ERROR_INVALID_USER_ID_LENGTH", cause: e }) } else if ('UnknownError' === e.name) return new i({ message: "The authenticator was unable to process the specified options, or could not create a new credential", code: "ERROR_AUTHENTICATOR_GENERAL_ERROR", cause: e }) } return e }({ error: e, options: u }) } if (!d) throw new Error('Registration was not completed'); const { id: p, rawId: R, response: w, type: f } = d; let h, E, g, A; if ('function' == typeof w.getTransports && (h = w.getTransports()), 'function' == typeof w.getPublicKeyAlgorithm && (E = w.getPublicKeyAlgorithm()), 'function' == typeof w.getPublicKey) { const e = w.getPublicKey(); null !== e && (g = t(e)) } return 'function' == typeof w.getAuthenticatorData && (A = t(w.getAuthenticatorData())), { id: p, rawId: t(R), response: { attestationObject: t(w.attestationObject), clientDataJSON: t(w.clientDataJSON), transports: h, publicKeyAlgorithm: E, publicKey: g, authenticatorData: A }, type: f, clientExtensionResults: d.getClientExtensionResults(), authenticatorAttachment: l(d.authenticatorAttachment) } }, Object.defineProperty(e, "__esModule", { value: !0 }) }));
