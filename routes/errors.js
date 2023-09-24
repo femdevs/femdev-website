@@ -104,7 +104,7 @@ router
             `${aprilFools() ? 'april-fools/' : ''}misc/location_denial.pug`,
             {
                 meta: {
-                    title: `Location Denied`,
+                    title: `451 - Forbidden for Legal Reasons`,
                     desc: `Location Denied`,
                     url: `https://thefemdevs.com/errors/location`
                 }

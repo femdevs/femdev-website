@@ -19,6 +19,7 @@ const api = require('./api/router');
 const { aprilFools } = require('../functions/utilities');
 
 //- Middleware
+const IPM = require('../middleware/IP'); // IP Middleware
 const SM = require('../middleware/session'); // Session Manager
 const MRL = require('../middleware/mainRateLimit'); // Main Rate Limiter
 const ARL = require('../middleware/assetRateLimit'); // Asset Rate Limiter
@@ -59,6 +60,8 @@ router
     .use(SM)
     .use(Sentry.Handlers.requestHandler({ transaction: true }))
     .use(Sentry.Handlers.tracingHandler())
+    .use(IPM.infoMiddleware)
+    .use(IPM.checkInfo)
     .use(Headers)
     .use(RL)
     .use(IBC)

@@ -14,7 +14,7 @@ router
     .get(`/thumbnail`, (req, res) => {
         res
             .setHeader('Cache-Control', 'no-cache')
-            .redirect("https://cdn.discordapp.com/attachments/999266213697945652/1081273691867992124/image.png")
+            .sendFile(`${process.cwd()}/assets/media/images/thumbnail.png`)
     })
     .use((req, res, next) => {
         const { path, method } = req;
