@@ -1,4 +1,4 @@
-const { aprilFools } = require(`../src/util-fuctions`)
+const { aprilFools } = require(`../functions/util-fuctions`)
 
 const router = require('express').Router();
 
@@ -89,7 +89,7 @@ router
             `${aprilFools() ? 'april-fools/' : ''}misc/501.pug`,
             {
                 errData: {
-                    errorId: require(`../src/util-fuctions`).Utils.Crypto.FullHash("Testing Error"),
+                    errorId: require(`../functions/util-fuctions`).Utils.Crypto.FullHash("Testing Error"),
                 },
                 meta: {
                     title: `501 - Internal Server Error`,

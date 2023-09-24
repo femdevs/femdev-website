@@ -6,7 +6,7 @@ const { aprilFools } = require('../../functions/utilities');
 const APIAuth = require('../../middleware/APITokenMgr');
 
 //- Functions
-const errorResponse = require('../../src/errorResponse');
+const errorResponse = require('../../functions/errorResponse');
 
 //- Routes
 const auth = require('./auth');

@@ -59,6 +59,7 @@ class Formatter {
 }
 
 app
+    .set('trust proxy', (ip) => (ip.replace('::ffff:', '') === '127.0.0.1' || ip.replace('::ffff:', '') === '::1') ? true : false)
     .set('view engine', 'pug')
     .use((req, _, next) => {
         function checkPerm(userbit, ...neededPerms) {

@@ -2,7 +2,7 @@ const router = require('express').Router();
 const Cryptolens = require('cryptolens');
 const { aprilFools } = require('../../functions/utilities');
 
-const TokenManager = require('../../src/crypto');
+const TokenManager = require('../../functions/crypto');
 
 // const AdminApp = Admin.initializeApp({
 //     credential: Admin.credential.cert(JSON.parse(process.env.FIREBASE_SA)),

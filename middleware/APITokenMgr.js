@@ -1,7 +1,7 @@
 // const Cryptolens = require('cryptolens');
 require('dotenv').config();
 
-const TokenManager = require('../src/crypto')
+const TokenManager = require('../functions/crypto')
 
 /**
  * 
