@@ -7,6 +7,14 @@ const axiosAPIClient = new axios.Axios({
 })
 
 router
+    .get('/users', async (req, res) => {
+        const { data } = await axiosAPIClient.get('https://randomuser.me/api/');
+        res.json(data);
+    })
+    .get('/loripsum', async (req, res) => {
+        const { data } = await axiosAPIClient.get('https://loripsum.net/api/10/long/plaintext');
+        res.json(data);
+    })
     .use((req, res, next) => {
         const { path } = req;
         const methodUsed = req.method.toUpperCase();

@@ -3,19 +3,45 @@ const axios = require('axios');
 const { aprilFools } = require('../../functions/utilities');
 
 const axiosAPIClient = new axios.Axios({
+    baseURL: 'https://maps.googleapis.com/maps/api/geocode',
+    params: {
+        key: process.env.GMAPS_API_KEY,
+    },
+    transformResponse: function (r) {return JSON.parse(r)},
     validateStatus: (s) => Number(String(s).at(0)) < 4,
 })
 
 router
-    .get('/coords/pluscode', async (req, res) => {})
-    .get('/coords/address', async (req, res) => {})
-    .get('/coords', async (req, res) => {})
-    .get('/pluscode/coords', async (req, res) => {})
-    .get('/pluscode/address', async (req, res) => {})
-    .get('/pluscode', async (req, res) => {})
-    .get('/address/coords', async (req, res) => {})
-    .get('/address/pluscode', async (req, res) => {})
-    .get('/address', async (req, res) => {})
+    .get('/coords', async (req, res) => {
+        const results = await axiosAPIClient.get('/json', {
+            params: {
+                address: `${req.query.lat},${reg.query.lng}`,
+            }
+        })
+        const {data} = results
+        if (data.status == 'ZERO_RESULTS') return res.json({ error: 'No results found.' });
+        res.json({data});
+    })
+    .get('/pluscode', async (req, res) => {
+        const results = await axiosAPIClient.get('/json', {
+            params: {
+                address: req.query.address,
+            }
+        })
+        const {data} = results
+        if (data.status == 'ZERO_RESULTS') return res.json({ error: 'No results found.' });
+        res.json({data});
+    })
+    .get('/address', async (req, res) => {
+        const results = await axiosAPIClient.get('/json', {
+            params: {
+                address: req.query.address
+            }
+        })
+        const {data} = results
+        if (data.status == 'ZERO_RESULTS') return res.json({ error: 'No results found.' });
+        res.json({data});
+    })
     .use((req, res, next) => {
         const { path } = req;
         const methodUsed = req.method.toUpperCase();
