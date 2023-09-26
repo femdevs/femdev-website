@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const axios = require('axios');
+require('dotenv').config();
 const { aprilFools } = require('../../functions/utilities');
 
 const axiosAPIClient = new axios.Axios(
@@ -7,7 +8,7 @@ const axiosAPIClient = new axios.Axios(
         baseURL: 'https://api.veriphone.io/v2',
         params: {
             default_country: 'US',
-            key: '0FFE56DF437040B9A4F8DD4543EA8DE6'
+            key: process.env.VERIPHONE_TOKEN,
         },
         validateStatus: (s) => Number(String(s).at(0)) < 4,
     }
