@@ -2,38 +2,34 @@ const router = require('express').Router();
 const axios = require('axios');
 const { aprilFools } = require('../../functions/utilities');
 
-const axiosAPIClient = new axios.Axios({
-    baseURL: 'https://api.openweathermap.org/data/2.5',
+const dictionaryAxiosAPIClient = new axios.Axios({
+    baseURL: 'https://www.dictionaryapi.com/api/v3/references/collegiate/json/',
     params: {
-        appid: process.env.OPEN_WEATHER_API_KEY,
-        mode: 'json',
-        units: 'imperial'
+        key: process.env.DAK,
+    },
+    validateStatus: (s) => Number(String(s).at(0)) < 4,
+})
+
+const theosaurusAxiosAPIClient = new axios.Axios({
+    baseURL: 'https://www.dictionaryapi.com/api/v3/references/thesaurus/json/',
+    params: {
+        key: process.env.TAK,
     },
     validateStatus: (s) => Number(String(s).at(0)) < 4,
 })
 
 router
-    .get('/current', async (req, res) => {
-        const { lat, lon } = req.query;
-        if (!lat || !lon) return res.status(400).json({ error: 'Missing lat or lon query' })
-        const { data } = await axiosAPIClient.get(`/weather`, {
-            params: {
-                lat,
-                lon
-            }
-        })
+    .get('/def/:word', async (req, res) => {
+        const { data: { meta: data } } = await dictionaryAxiosAPIClient.get(`/${req.params.word}`)
         res.json(data)
     })
-    .get('/forecast', async (req, res) => {
-        const { lat, lon } = req.query;
-        if (!lat || !lon) return res.status(400).json({ error: 'Missing lat or lon query' })
-        const { data } = await axiosAPIClient.get(`/forecast`, {
-            params: {
-                lat,
-                lon
-            }
-        })
-        res.json(data)
+    .get('/syn/:word', async (req, res) => {
+        const { data: { meta: { syns } } } = await theosaurusAxiosAPIClient.get(`/${req.params.word}`)
+        res.json(syns)
+    })
+    .get('/ant/:word', async (req, res) => {
+        const { data: { meta: { ants } } } = await theosaurusAxiosAPIClient.get(`/${req.params.word}`)
+        res.json(ants)
     })
     .use((req, res, next) => {
         const { path } = req;

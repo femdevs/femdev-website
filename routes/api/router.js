@@ -18,6 +18,8 @@ const location = require('./location');
 const phone = require('./phone');
 const random = require('./random');
 const weather = require('./weather');
+const dictionary = require('./dictionary');
+const translate = require('./translate');
 const minecraft = require('./minecraft/router');
 
 router
@@ -33,6 +35,8 @@ router
     .use('/phone', phone)
     .use('/random', random)
     .use('/weather', weather)
+    .use('/dictionary', dictionary)
+    .use('/translate', translate)
     .use('/minecraft', minecraft)
     .get('/', (req, res) => res.redirect(301, 'https://docs.api.thefemdevs.com'))
     .use((req, res, next) => {
