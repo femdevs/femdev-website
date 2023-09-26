@@ -15,7 +15,7 @@ router
     .get('/coords', async (req, res) => {
         const results = await axiosAPIClient.get('/json', {
             params: {
-                address: `${req.query.lat},${reg.query.lng}`,
+                address: `${req.query.lat},${req.query.lng}`,
             }
         })
         const {data} = results
