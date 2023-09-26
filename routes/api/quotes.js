@@ -1,23 +1,18 @@
 const router = require('express').Router();
-const axios = require('axios');
 const { aprilFools } = require('../../functions/utilities');
-
-const axiosAPIClient = new axios.Axios({
-    validateStatus: (s) => Number(String(s).at(0)) < 4,
-})
 
 router
     .get('/kanye', async (req, res) => {
-        const { data } = await axiosAPIClient.get('https://api.kanye.rest');
-        res.json(data);
+        const { data } = await req.axiosReq('https://api.kanye.rest');
+        res.json(JSON.parse(data));
     })
     .get('/ronswanson', async (req, res) => {
-        const { data } = await axiosAPIClient.get('https://ron-swanson-quotes.herokuapp.com/v2/quotes');
-        res.json(data);
+        const { data } = await req.axiosReq('https://ron-swanson-quotes.herokuapp.com/v2/quotes');
+        res.json(JSON.parse(data));
     })
     .get('/random', async (req, res) => {
-        const { data } = await axiosAPIClient.get('https://api.quotable.io/random');
-        res.json(data);
+        const { data } = await req.axiosReq('https://api.quotable.io/random');
+        res.json(JSON.parse(data));
     })
     .use((req, res, next) => {
         const { path } = req;

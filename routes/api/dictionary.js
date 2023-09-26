@@ -2,34 +2,38 @@ const router = require('express').Router();
 const axios = require('axios');
 const { aprilFools } = require('../../functions/utilities');
 
-const dictionaryAxiosAPIClient = new axios.Axios({
-    baseURL: 'https://www.dictionaryapi.com/api/v3/references/collegiate/json/',
-    params: {
-        key: process.env.DAK,
-    },
-    validateStatus: (s) => Number(String(s).at(0)) < 4,
-})
-
-const theosaurusAxiosAPIClient = new axios.Axios({
-    baseURL: 'https://www.dictionaryapi.com/api/v3/references/thesaurus/json/',
-    params: {
-        key: process.env.TAK,
-    },
-    validateStatus: (s) => Number(String(s).at(0)) < 4,
-})
-
 router
     .get('/def/:word', async (req, res) => {
-        const { data: { meta: data } } = await dictionaryAxiosAPIClient.get(`/${req.params.word}`)
-        res.json(data)
+        const { data: { meta: data } } = await req.axiosReq(
+            `/${req.params.word}`,
+            {
+                baseURL: 'https://www.dictionaryapi.com/api/v3/references/thesaurus/json/',
+                params: {
+                    key: process.env.TAK,
+                }
+            })
+        res.json(JSON.parse(data))
     })
     .get('/syn/:word', async (req, res) => {
-        const { data: { meta: { syns } } } = await theosaurusAxiosAPIClient.get(`/${req.params.word}`)
-        res.json(syns)
+        const { data: { meta: { syns } } } = await req.axiosReq(
+            `/${req.params.word}`,
+            {
+                baseURL: 'https://www.dictionaryapi.com/api/v3/references/thesaurus/json/',
+                params: {
+                    key: process.env.TAK,
+                },
+            })
+        res.json(JSON.parse(syns))
     })
     .get('/ant/:word', async (req, res) => {
-        const { data: { meta: { ants } } } = await theosaurusAxiosAPIClient.get(`/${req.params.word}`)
-        res.json(ants)
+        const { data: { meta: { ants } } } = await req.axiosReq(
+            `/${req.params.word}`,{
+                baseURL: 'https://www.dictionaryapi.com/api/v3/references/thesaurus/json/',
+                params: {
+                    key: process.env.TAK,
+                }
+            })
+        res.json(JSON.parse(ants))
     })
     .use((req, res, next) => {
         const { path } = req;

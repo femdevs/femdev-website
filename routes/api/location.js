@@ -1,45 +1,41 @@
 const router = require('express').Router();
-const axios = require('axios');
 const { aprilFools } = require('../../functions/utilities');
-
-const axiosAPIClient = new axios.Axios({
-    baseURL: 'https://maps.googleapis.com/maps/api/geocode',
-    params: {
-        key: process.env.GMAPS_API_KEY,
-    },
-    transformResponse: function (r) {return JSON.parse(r)},
-    validateStatus: (s) => Number(String(s).at(0)) < 4,
-})
 
 router
     .get('/coords', async (req, res) => {
-        const results = await axiosAPIClient.get('/json', {
+        const results = await req.axiosReq('/json', {
+            baseURL: 'https://maps.googleapis.com/maps/api/geocode',
             params: {
+                key: process.env.GMAPS_API_KEY,
                 address: `${req.query.lat},${req.query.lng}`,
             }
         })
-        const {data} = results
-        if (data.status == 'ZERO_RESULTS') return res.json({ error: 'No results found.' });
+        const data = JSON.parse(results.data)
+        if (data.status == 'ZERO_RESULTS') return res.sendError(13)
         res.json({data});
     })
     .get('/pluscode', async (req, res) => {
-        const results = await axiosAPIClient.get('/json', {
+        const results = await req.axiosReq('/json', {
+            baseURL: 'https://maps.googleapis.com/maps/api/geocode',
             params: {
+                key: process.env.GMAPS_API_KEY,
                 address: req.query.address,
             }
         })
-        const {data} = results
-        if (data.status == 'ZERO_RESULTS') return res.json({ error: 'No results found.' });
+        const data = JSON.parse(results.data)
+        if (data.status == 'ZERO_RESULTS') return res.sendError(13)
         res.json({data});
     })
     .get('/address', async (req, res) => {
-        const results = await axiosAPIClient.get('/json', {
+        const results = await req.axiosReq('/json', {
+            baseURL: 'https://maps.googleapis.com/maps/api/geocode',
             params: {
+                key: process.env.GMAPS_API_KEY,
                 address: req.query.address
             }
         })
-        const {data} = results
-        if (data.status == 'ZERO_RESULTS') return res.json({ error: 'No results found.' });
+        const data = JSON.parse(results.data)
+        if (data.status == 'ZERO_RESULTS') return res.sendError(13)
         res.json({data});
     })
     .use((req, res, next) => {

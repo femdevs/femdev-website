@@ -1,22 +1,20 @@
 const router = require('express').Router();
-const axios = require('axios');
 require('dotenv').config();
 const { aprilFools } = require('../../functions/utilities');
 
-const axiosAPIClient = new axios.Axios(
-    {
-        baseURL: 'https://api.veriphone.io/v2',
-        params: {
-            default_country: 'US',
-            key: process.env.VERIPHONE_TOKEN,
-        },
-        validateStatus: (s) => Number(String(s).at(0)) < 4,
-    }
-)
-
 router
     .get('/details/:number', async (req, res) => {
-        res.json((await axiosAPIClient.get(`/verify?phone=${req.params.number}`)).data)
+        const AxiosRes = await req.axiosReq
+            .get(`/verify?phone=${req.params.number}`,
+            {
+                baseURL: 'https://api.veriphone.io/v2',
+                params: {
+                    default_country: 'US',
+                    key: process.env.VERIPHONE_TOKEN,
+                }
+            })
+        if (AxiosRes.status == 404) return res.sendError(13)
+        res.json(JSON.parse(AxiosRes.data))
     })
     .use((req, res, next) => {
         const { path } = req;

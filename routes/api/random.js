@@ -1,19 +1,14 @@
 const router = require('express').Router();
-const axios = require('axios');
 const { aprilFools } = require('../../functions/utilities');
-
-const axiosAPIClient = new axios.Axios({
-    validateStatus: (s) => Number(String(s).at(0)) < 4,
-})
 
 router
     .get('/users', async (req, res) => {
-        const { data } = await axiosAPIClient.get('https://randomuser.me/api/');
-        res.json(data);
+        const { data } = await req.axiosReq('https://randomuser.me/api/');
+        res.json(JSON.parse(data));
     })
     .get('/loripsum', async (req, res) => {
-        const { data } = await axiosAPIClient.get('https://loripsum.net/api/10/long/plaintext');
-        res.json(data);
+        const { data } = await req.axiosReq('https://loripsum.net/api/10/long/plaintext');
+        res.json(JSON.parse(data));
     })
     .use((req, res, next) => {
         const { path } = req;

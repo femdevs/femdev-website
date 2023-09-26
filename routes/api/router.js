@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const axios = require('axios');
 const { aprilFools } = require('../../functions/utilities');
 
 //- Middleware
@@ -21,8 +22,20 @@ const weather = require('./weather');
 const dictionary = require('./dictionary');
 const minecraft = require('./minecraft/router');
 
+const axiosReq = async (url, cfgs) => {
+    const Axios = new axios.Axios({
+        validateStatus: () => true,
+    })
+    const AxiosRes = await Axios.get(url, cfgs);
+    if (AxiosRes.status >= 400) return {
+        status: AxiosRes.status,
+        data: AxiosRes.data,
+    }
+    return AxiosRes;
+}
+
 router
-    .use((req, res, next) => { res.sendError = (code) => res.status(errorResponse(code).httpCode).json({ code: errorResponse(code).code, message: errorResponse(code).message }); next(); })
+    .use((req, res, next) => { req.axiosReq = axiosReq; res.sendError = (code) => res.status(errorResponse(code).httpCode).json({ code: errorResponse(code).code, message: errorResponse(code).message }); next(); })
     .use(APIAuth)
     .use(express.json())
     .use('/user', user)

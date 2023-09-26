@@ -1,39 +1,38 @@
 const router = require('express').Router();
-const axios = require('axios');
 const { aprilFools } = require('../../functions/utilities');
-
-const axiosAPIClient = new axios.Axios({
-    baseURL: 'https://api.openweathermap.org/data/2.5',
-    params: {
-        appid: process.env.OPEN_WEATHER_API_KEY,
-        mode: 'json',
-        units: 'imperial'
-    },
-    validateStatus: (s) => Number(String(s).at(0)) < 4,
-})
 
 router
     .get('/current', async (req, res) => {
         const { lat, lon } = req.query;
         if (!lat || !lon) return res.status(400).json({ error: 'Missing lat or lon query' })
-        const { data } = await axiosAPIClient.get(`/weather`, {
+        const AxiosRes = await req.axiosReq(`/weather`, {
+            baseURL: 'https://api.openweathermap.org/data/2.5',
             params: {
+                appid: process.env.OPEN_WEATHER_API_KEY,
+                mode: 'json',
+                units: 'imperial',
                 lat,
                 lon
             }
         })
-        res.json(data)
+        if (AxiosRes.status == 400) return res.sendError(13)
+        res.json(JSON.parse(AxiosRes.data))
     })
     .get('/forecast', async (req, res) => {
         const { lat, lon } = req.query;
         if (!lat || !lon) return res.status(400).json({ error: 'Missing lat or lon query' })
-        const { data } = await axiosAPIClient.get(`/forecast`, {
+        const AxiosRes = await req.axiosReq(`/forecast`, {
+            baseURL: 'https://api.openweathermap.org/data/2.5',
             params: {
+                appid: process.env.OPEN_WEATHER_API_KEY,
+                mode: 'json',
+                units: 'imperial',
                 lat,
                 lon
             }
         })
-        res.json(data)
+        if (AxiosRes.status == 400) return res.sendError(13)
+        res.json(JSON.parse(AxiosRes.data))
     })
     .use((req, res, next) => {
         const { path } = req;
