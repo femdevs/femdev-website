@@ -8,6 +8,24 @@ const axiosAPIClient = new axios.Axios({
 })
 
 router
+    .get('/new', async (req, res) => {
+        const deckCount = req.query.deck_count || 1;
+        const { data } = await axiosAPIClient.get(`/deck/new/shuffle/?deck_count=${deckCount}`);
+        res.json(data);
+    })
+    .get('/shuffle', async (req, res) => {
+        const deckId = req.headers['x-deck-id'];
+        if (!deckId) return res.status(400).json({ error: 'Missing deck_id header' });
+        const { data } = await axiosAPIClient.get(`/deck/${deckId}/shuffle/`);
+        res.json(data);
+    })
+    .get('/draw', async (req, res) => {
+        const deckId = req.headers['x-deck-id'];
+        const cardsCount = req.query.count || 1;
+        if (!deckId) return res.status(400).json({ error: 'Missing deck_id header' });
+        const { data } = await axiosAPIClient.get(`/deck/${deckId}/draw/`, { params: { count: cardsCount } });
+        res.json(data);
+    })
     .use((req, res, next) => {
         const { path } = req;
         const methodUsed = req.method.toUpperCase();

@@ -2,7 +2,23 @@ const router = require('express').Router();
 const axios = require('axios');
 const { aprilFools } = require('../../functions/utilities');
 
+const axiosAPIClient = new axios.Axios({
+    validateStatus: (s) => Number(String(s).at(0)) < 4,
+})
+
 router
+    .get('/kanye', async (req, res) => {
+        const { data } = await axiosAPIClient.get('https://api.kanye.rest');
+        res.json(data);
+    })
+    .get('/ronswanson', async (req, res) => {
+        const { data } = await axiosAPIClient.get('https://ron-swanson-quotes.herokuapp.com/v2/quotes');
+        res.json(data);
+    })
+    .get('/random', async (req, res) => {
+        const { data } = await axiosAPIClient.get('https://api.quotable.io/random');
+        res.json(data);
+    })
     .use((req, res, next) => {
         const { path } = req;
         const methodUsed = req.method.toUpperCase();

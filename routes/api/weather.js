@@ -2,7 +2,13 @@ const router = require('express').Router();
 const axios = require('axios');
 const { aprilFools } = require('../../functions/utilities');
 
+const axiosAPIClient = new axios.Axios({
+    validateStatus: (s) => Number(String(s).at(0)) < 4,
+})
+
 router
+    .get('/current', async (req, res) => {})
+    .get('/forecast', async (req, res) => {})
     .use((req, res, next) => {
         const { path } = req;
         const methodUsed = req.method.toUpperCase();

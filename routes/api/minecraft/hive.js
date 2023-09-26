@@ -3,7 +3,8 @@ const axios = require('axios');
 const { aprilFools } = require('../../functions/utilities');
 
 const axiosAPIClient = new axios.Axios({
-    baseURL: 'https://api.playhive.com/v0'
+    baseURL: 'https://api.playhive.com/v0',
+    validateStatus: (s) => Number(String(s).at(0)) < 4,
 })
 
 router

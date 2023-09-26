@@ -2,10 +2,23 @@ const router = require('express').Router();
 const axios = require('axios');
 const { aprilFools } = require('../../functions/utilities');
 
+const axiosAPIClient = new axios.Axios({
+    validateStatus: (s) => Number(String(s).at(0)) < 4,
+})
+
 router
-    .get('/chucknorris', async (req, res) => {})
-    .get('/dogs', async (req, res) => {})
-    .get('/cats', async (req, res) => {})
+    .get('/chucknorris', async (req, res) => {
+        const { data } = await axiosAPIClient.get('https://api.chucknorris.io/jokes/random');
+        res.json(data);
+    })
+    .get('/dogs', async (req, res) => {
+        const { data } = await axiosAPIClient.get('http://dog-api.kinduff.com/api/facts', { params: { number: 1 } });
+        res.json(data);
+    })
+    .get('/cats', async (req, res) => {
+        const { data } = await axiosAPIClient.get('https://meowfacts.herokuapp.com/');
+        res.json(data);
+    })
     .use((req, res, next) => {
         const { path } = req;
         const methodUsed = req.method.toUpperCase();

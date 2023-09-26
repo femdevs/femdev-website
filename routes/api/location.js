@@ -2,7 +2,20 @@ const router = require('express').Router();
 const axios = require('axios');
 const { aprilFools } = require('../../functions/utilities');
 
+const axiosAPIClient = new axios.Axios({
+    validateStatus: (s) => Number(String(s).at(0)) < 4,
+})
+
 router
+    .get('/coords/pluscode', async (req, res) => {})
+    .get('/coords/address', async (req, res) => {})
+    .get('/coords', async (req, res) => {})
+    .get('/pluscode/coords', async (req, res) => {})
+    .get('/pluscode/address', async (req, res) => {})
+    .get('/pluscode', async (req, res) => {})
+    .get('/address/coords', async (req, res) => {})
+    .get('/address/pluscode', async (req, res) => {})
+    .get('/address', async (req, res) => {})
     .use((req, res, next) => {
         const { path } = req;
         const methodUsed = req.method.toUpperCase();
