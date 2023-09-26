@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const axios = require('axios');
-const { aprilFools } = require('../../functions/utilities');
+const { aprilFools } = require('../../../functions/utilities');
 
 const axiosAPIClient = new axios.Axios({
     validateStatus: (s) => Number(String(s).at(0)) < 4,

@@ -12,7 +12,6 @@ const legal = require('./legal');
 const error = require('./errors');
 const ab = require('./ab');
 const assets = require('./assets/router');
-const auth = require('./auth');
 const api = require('./api/router');
 
 //- Functions
