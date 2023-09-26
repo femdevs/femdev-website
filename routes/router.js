@@ -74,7 +74,6 @@ router
     .use('/legal', legal)
     .use('/error', error)
     .use('/assets', assets)
-    .use('/auth', auth)
     .use('/', website)
     //- Static Files
     .get(`/robots.txt`, (req, res) => {

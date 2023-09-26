@@ -9,19 +9,31 @@ const APIAuth = require('../../middleware/APITokenMgr');
 const errorResponse = require('../../functions/errorResponse');
 
 //- Routes
-const auth = require('./auth');
 const user = require('./user');
 const crypto = require('./crypto');
 const token = require('./token');
+const cards = require('./cards');
+const facts = require('./facts');
+const location = require('./location');
+const phone = require('./phone');
+const random = require('./random');
+const weather = require('./weather');
+const minecraft = require('./minecraft/router');
 
 router
     .use((req, res, next) => { res.sendError = (code) => res.status(errorResponse(code).httpCode).json({ code: errorResponse(code).code, message: errorResponse(code).message }); next(); })
     .use(APIAuth)
     .use(express.json())
-    .use('/auth', auth)
     .use('/user', user)
     .use('/crypto', crypto)
     .use('/token', token)
+    .use('/cards', cards)
+    .use('/facts', facts)
+    .use('/location', location)
+    .use('/phone', phone)
+    .use('/random', random)
+    .use('/weather', weather)
+    .use('/minecraft', minecraft)
     .get('/', (req, res) => res.redirect(301, 'https://docs.api.thefemdevs.com'))
     .use((req, res, next) => {
         const { path } = req;

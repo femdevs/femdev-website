@@ -1,6 +1,7 @@
 const app = require('express')()
 const http = require('http');
 const Admin = require('firebase-admin');
+const SocketIO = require('socket.io');
 require('dotenv').config();
 
 const router = require('./routes/router');
@@ -58,6 +59,28 @@ class Formatter {
     }
 }
 
+const websocket = new SocketIO.Server({
+    allowEIO3: true,
+    path: '/ws'
+})
+
+websocket
+    .use((socket, next) => {
+        // get BasicAuth Data from the handshake
+        // HTTP BasicAuth is used for authentication with the websocket
+        const { auth } = socket.handshake;
+        // proper login should have the username 'root' and the password 'password'
+        if (auth.username !== 'root' || auth.password !== 'password') {
+            socket.disconnect();
+            return;
+        }
+    })
+    .on('connection', (socket) => {
+        console.log('websocket connection established');
+    })
+    .on('disconnect', (socket) => {
+        console.log('websocket connection lost');
+    })
 app
     .set('view engine', 'pug')
     .set('case sensitive routing', false)
@@ -78,6 +101,8 @@ app
     })
     .use('/', router);
 
-http
+const HTTPServer = http
     .createServer(app)
     .listen(3001, () => console.log('http server is up'));
+
+websocket.listen(HTTPServer)
