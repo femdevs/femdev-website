@@ -9,7 +9,6 @@ info:
     email: "support@thefemdevs.com"
   license:
     name: "GNU Affero General Public License v3.0"
-    identifier: "AGPL-3.0"
 servers:
   - url: "https://thefemdevs.com/api/"
     description: "Production Server"
@@ -570,7 +569,7 @@ paths:
                 $ref: "#/components/schemas/TokenCreationResponse"
               examples:
                 token:
-                  tokenData:
+                  value:
                     license: "1234-5678-9012-3456"
                     token: "fjkh_fdasABc12.dshfa34287y_FDAS34_2"
         401:
@@ -766,7 +765,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/TokenInfoResponse"
+                $ref: "#/components/schemas/TokenData"
               examples:
                 token:
                   value:
@@ -1640,7 +1639,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/WeatherData"
+                $ref: "#/components/schemas/WeatherCurrentData"
               examples:
                 WashingtonDC:
                   value:
@@ -1726,7 +1725,6 @@ components:
       type: "http"
       scheme: "bearer"
       bearerFormat: "JWT"
-      name: "Authorization"
       description: "JSON Web Token Authentication with information containing your license key"
   schemas:
     FirebaseProviderData:
@@ -2072,7 +2070,7 @@ components:
           nullable: false
           type: array
           items:
-            $ref: "#/components/schemas/ListTokenData"
+            $ref: "#/components/schemas/TokenData"
           description: "The list of tokens"
     MinecraftHiveURLDataObj:
       required:
@@ -2155,7 +2153,8 @@ components:
           nullable: false
           type: array
           items:
-            type: '#/components/schemas/MinecraftHiveURLDataObj'
+            type: object
+            $ref: '#/components/schemas/MinecraftHiveURLDataObj'
           description: "The avatars the player has unlocked"
         costume_count:
           nullable: false
@@ -2171,7 +2170,8 @@ components:
           description: "The hub title the player has equipped"
         equipped_avatar:
           nullable: false
-          type: '#/components/schemas/MinecraftHiveURLDataObj'
+          type: object
+          $ref: '#/components/schemas/MinecraftHiveURLDataObj'
           description: "The avatar the player has equipped"
         quest_count:
           nullable: false
@@ -2687,55 +2687,68 @@ components:
       properties:
         hide:
           nullable: false
-          type: '#/components/schemas/MinecraftHivePlayerHideGameStatistics'
+          type: object
+          $ref: "#/components/schemas/MinecraftHivePlayerHideGameStatistics"
           description: "The hide game statistics of the player"
         main:
           nullable: false
-          type: '#/components/schemas/MinecraftHiveMainPlayerData'
+          type: object
+          $ref: "#/components/schemas/MinecraftHiveMainPlayerData"
           description: "The main statistics of the player"
         deathrun:
           nullable: false
-          type: '#/components/schemas/MinecraftHivePlayerDeathrunStatistics'
+          type: object
+          $ref: "#/components/schemas/MinecraftHivePlayerDeathrunStatistics"
           description: "The deathrun statistics of the player"
         war:
           nullable: false
-          type: '#/components/schemas/MinecraftHivePlayerWarStatistics'
+          type: object
+          $ref: "#/components/schemas/MinecraftHivePlayerWarStatistics"
           description: "The war statistics of the player"
         sg:
           nullable: false
-          type: '#/components/schemas/MinecraftHivePlayerSurvivalGamesStatistics'
+          type: object
+          $ref: "#/components/schemas/MinecraftHivePlayerSurvivalGamesStatistics"
           description: "The survival games statistics of the player"
         sky:
           nullable: false
-          type: '#/components/schemas/MinecraftHivePlayerSkyWarsStatistics'
+          type: object
+          $ref: "#/components/schemas/MinecraftHivePlayerSkyWarsStatistics"
           description: "The sky wars statistics of the player"
         ctf:
           nullable: false
-          type: '#/components/schemas/MinecraftHivePlayerCTFStatistics'
+          type: object
+          $ref: "#/components/schemas/MinecraftHivePlayerCTFStatistics"
           description: "The capture the flag statistics of the player"
         drop:
           nullable: false
-          type: '#/components/schemas/MinecraftHivePlayerDropStatistics'
+          type: object
+          $ref: "#/components/schemas/MinecraftHivePlayerDropStatistics"
           description: "The drop statistics of the player"
         ground:
           nullable: false
-          type: '#/components/schemas/MinecraftHivePlayerGroundStatistics'
+          type: object
+          $ref: "#/components/schemas/MinecraftHivePlayerGroundStatistics"
           description: "The ground statistics of the player"
         build:
           nullable: false
-          type: '#/components/schemas/MinecraftHivePlayerBuildStatistics'
+          type: object
+          $ref: "#/components/schemas/MinecraftHivePlayerBuildStatistics"
           description: "The build statistics of the player"
         party:
           nullable: false
-          type: '#/components/schemas/MinecraftHivePlayerPartyStatistics'
+          type: object
+          $ref: "#/components/schemas/MinecraftHivePlayerPartyStatistics"
           description: "The party statistics of the player"
         bridge:
           nullable: false
-          type: '#/components/schemas/MinecraftHivePlayerBridgeStatistics'
+          type: object
+          $ref: "#/components/schemas/MinecraftHivePlayerBridgeStatistics"
           description: "The bridge statistics of the player"
         grav:
           nullable: false
-          type: '#/components/schemas/MinecraftHivePlayerGravityStatistics'
+          type: object
+          $ref: "#/components/schemas/MinecraftHivePlayerGravityStatistics"
           description: "The gravity statistics of the player"
     LocationAddressData:
       required:
