@@ -1,6 +1,6 @@
 openapi: "3.0.0"
 info:
-  version: "1.2.1"
+  version: "1.2.3"
   title: "FemDevs API Documentation"
   description: "The documentation for the FemDevs API."
   contact:
@@ -40,6 +40,21 @@ paths:
                     fullName: "John Doe"
                     email: "example@example.com"
                     permissions: 0
+        400:
+          description: "Missing user information"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-User:
+                  value:
+                    code: 6
+                    message: "Missing Header Parameter(s)"
+                Invalid-User:
+                  value:
+                    code: 7
+                    message: "Invalid Header Parameter(s)"
         401:
           description: "Invalid/Missing API Token"
           content:
@@ -159,6 +174,21 @@ paths:
                       dateofbirth: "2000-01-01"
                       permissions: 0
                       betaAccess: 1
+        400:
+          description: "Missing user information"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-User:
+                  value:
+                    code: 6
+                    message: "Missing Header Parameter(s)"
+                Invalid-User:
+                  value:
+                    code: 7
+                    message: "Invalid Header Parameter(s)"
         401:
           description: "Invalid/Missing API Token"
           content:
@@ -322,6 +352,21 @@ paths:
                   value:
                     uid: "gPcqw6MAbXbZs6ARohHqT2vapFY2"
                     deleted: true
+        400:
+          description: "Missing user information"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-User:
+                  value:
+                    code: 6
+                    message: "Missing Header Parameter(s)"
+                Invalid-User:
+                  value:
+                    code: 7
+                    message: "Invalid Header Parameter(s)"
         401:
           description: "Invalid/Missing API Token"
           content:
@@ -806,12 +851,12 @@ paths:
               examples:
                 Missing-User:
                   value:
-                    code: 4
-                    message: "Missing Query Parameter(s)"
+                    code: 6
+                    message: "Missing Header Parameter(s)"
                 Invalid-User:
                   value:
-                    code: 5
-                    message: "Invalid Query Parameter(s)" 
+                    code: 7
+                    message: "Invalid Header Parameter(s)" 
         404:
           description: "Error with the given username"
           content:
@@ -853,12 +898,12 @@ paths:
               examples:
                 Missing-Game:
                   value:
-                    code: 4
-                    message: "Missing Query Parameter(s)"
+                    code: 6
+                    message: "Missing Header Parameter(s)"
                 Invalid-Game:
                   value:
-                    code: 5
-                    message: "Invalid Query Parameter(s)"
+                    code: 7
+                    message: "Invalid Header Parameter(s)"
         404:
           description: "Error with the given game"
           content:
@@ -899,12 +944,12 @@ paths:
               examples:
                 Missing-Word:
                   value:
-                    code: 4
-                    message: "Missing Query Parameter(s)"
+                    code: 6
+                    message: "Missing Header Parameter(s)"
                 Invalid-Word:
                   value:
-                    code: 5
-                    message: "Invalid Query Parameter(s)"
+                    code: 7
+                    message: "Invalid Header Parameter(s)"
         404:
           description: "Error with the given word"
           content:
@@ -945,12 +990,12 @@ paths:
               examples:
                 Missing-Word:
                   value:
-                    code: 4
-                    message: "Missing Query Parameter(s)"
+                    code: 6
+                    message: "Missing Header Parameter(s)"
                 Invalid-Word:
                   value:
-                    code: 5
-                    message: "Invalid Query Parameter(s)"
+                    code: 7
+                    message: "Invalid Header Parameter(s)"
         404:
           description: "Error with the given word"
           content:
@@ -991,12 +1036,12 @@ paths:
               examples:
                 Missing-Word:
                   value:
-                    code: 4
-                    message: "Missing Query Parameter(s)"
+                    code: 6
+                    message: "Missing Header Parameter(s)"
                 Invalid-Word:
                   value:
-                    code: 5
-                    message: "Invalid Query Parameter(s)"
+                    code: 7
+                    message: "Invalid Header Parameter(s)"
         404:
           description: "Error with the given word"
           content:
@@ -1085,12 +1130,12 @@ paths:
               examples:
                 Missing-Coordinates:
                   value:
-                    code: 4
-                    message: "Missing Query Parameter(s)"
+                    code: 6
+                    message: "Missing Header Parameter(s)"
                 Invalid-Coordinates:
                   value:
-                    code: 5
-                    message: "Invalid Query Parameter(s)"
+                    code: 7
+                    message: "Invalid Header Parameter(s)"
         404:
           description: "Error with the given coordinates"
           content:
@@ -1143,12 +1188,12 @@ paths:
               examples:
                 Missing-Pluscode:
                   value:
-                    code: 4
-                    message: "Missing Query Parameter(s)"
+                    code: 6
+                    message: "Missing Header Parameter(s)"
                 Invalid-Pluscode:
                   value:
-                    code: 5
-                    message: "Invalid Query Parameter(s)"
+                    code: 7
+                    message: "Invalid Header Parameter(s)"
         404:
           description: "Error with the given pluscode"
           content:
@@ -1201,12 +1246,12 @@ paths:
               examples:
                 Missing-Address:
                   value:
-                    code: 4
-                    message: "Missing Query Parameter(s)"
+                    code: 6
+                    message: "Missing Header Parameter(s)"
                 Invalid-Address:
                   value:
-                    code: 5
-                    message: "Invalid Query Parameter(s)"
+                    code: 7
+                    message: "Invalid Header Parameter(s)"
         404:
           description: "Error with the given address"
           content:
@@ -1240,16 +1285,16 @@ paths:
                 details:
                   value:
                     status: "success"
-                    phone: "+15179029616"
+                    phone: "+8888888888"
                     phone_valid: true
                     phone_type: "fixed_line_or_mobile"
                     phone_region: "Michigan"
                     country: "United States"
                     country_code: "US"
                     country_prefix: '1'
-                    international_number: "+1 517-902-9616"
-                    local_number: "(517) 902-9616"
-                    e164: "+15179029616"
+                    international_number: "+1 888-888-888"
+                    local_number: "(888) 888-8888"
+                    e164: "+18888888888"
                     carrier: ''
         400:
           description: "Missing phone number information"
@@ -1260,12 +1305,12 @@ paths:
               examples:
                 Missing-Phone:
                   value:
-                    code: 4
-                    message: "Missing Query Parameter(s)"
+                    code: 6
+                    message: "Missing Header Parameter(s)"
                 Invalid-Phone:
                   value:
-                    code: 5
-                    message: "Invalid Query Parameter(s)"
+                    code: 7
+                    message: "Invalid Header Parameter(s)"
         404:
           description: "Error with the given phone number"
           content:
@@ -1386,12 +1431,12 @@ paths:
               examples:
                 Missing-Location:
                   value:
-                    code: 4
-                    message: "Missing Query Parameter(s)"
+                    code: 6
+                    message: "Missing Header Parameter(s)"
                 Invalid-Location:
                   value:
-                    code: 5
-                    message: "Invalid Query Parameter(s)"
+                    code: 7
+                    message: "Invalid Header Parameter(s)"
         404:
           description: "Error with the given location"
           content:
@@ -1403,1153 +1448,6 @@ paths:
                   value:
                     code: 13
                     message: "Unable to find requested resource"
-  /weather/forecast:
-    get:
-      operationId: "GetWeatherForecast"
-      description: "Gets the weather forecast for the given location. Returns the forecast if successful, otherwise returns an error."
-      summary: "Get Weather Forecast"
-      parameters:
-        - in: "header"
-          name: "x-city"
-          description: "The city to get the weather for"
-          schema:
-            type: string
-        - in: "header"
-          name: "x-coords"
-          description: "The coordinates to get the weather for"
-          schema:
-            type: string
-      responses:
-        200:
-          description: "The weather forecast for the given location"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/WeatherForecastData"
-              examples:
-                WashingtonDC:
-                  value:
-                    cod: '200'
-                    message: 0
-                    cnt: 40
-                    list:
-                    - dt: 1695837600
-                      main:
-                        temp: 65.35
-                        feels_like: 64.65
-                        temp_min: 65.35
-                        temp_max: 69.01
-                        pressure: 1025
-                        sea_level: 1025
-                        grnd_level: 1022
-                        humidity: 65
-                        temp_kf: -2.03
-                      weather:
-                      - id: 803
-                        main: Clouds
-                        description: broken clouds
-                        icon: 04d
-                      clouds:
-                        all: 65
-                      wind:
-                        speed: 8.63
-                        deg: 74
-                        gust: 9.86
-                      visibility: 10000
-                      pop: 0
-                      sys:
-                        pod: d
-                      dt_txt: '2023-09-27 18:00:00'
-                    - dt: 1695848400
-                      main:
-                        temp: 66.45
-                        feels_like: 65.52
-                        temp_min: 66.45
-                        temp_max: 67.93
-                        pressure: 1024
-                        sea_level: 1024
-                        grnd_level: 1020
-                        humidity: 58
-                        temp_kf: -0.82
-                      weather:
-                      - id: 802
-                        main: Clouds
-                        description: scattered clouds
-                        icon: 03d
-                      clouds:
-                        all: 28
-                      wind:
-                        speed: 7.85
-                        deg: 79
-                        gust: 10.02
-                      visibility: 10000
-                      pop: 0
-                      sys:
-                        pod: d
-                      dt_txt: '2023-09-27 21:00:00'
-                    - dt: 1695859200
-                      main:
-                        temp: 60.71
-                        feels_like: 59.63
-                        temp_min: 60.71
-                        temp_max: 60.71
-                        pressure: 1024
-                        sea_level: 1024
-                        grnd_level: 1021
-                        humidity: 67
-                        temp_kf: 0
-                      weather:
-                      - id: 800
-                        main: Clear
-                        description: clear sky
-                        icon: 01n
-                      clouds:
-                        all: 8
-                      wind:
-                        speed: 4.56
-                        deg: 94
-                        gust: 13.42
-                      visibility: 10000
-                      pop: 0
-                      sys:
-                        pod: n
-                      dt_txt: '2023-09-28 00:00:00'
-                    - dt: 1695870000
-                      main:
-                        temp: 57.49
-                        feels_like: 56.61
-                        temp_min: 57.49
-                        temp_max: 57.49
-                        pressure: 1024
-                        sea_level: 1024
-                        grnd_level: 1021
-                        humidity: 78
-                        temp_kf: 0
-                      weather:
-                      - id: 802
-                        main: Clouds
-                        description: scattered clouds
-                        icon: 03n
-                      clouds:
-                        all: 32
-                      wind:
-                        speed: 4.43
-                        deg: 79
-                        gust: 13.38
-                      visibility: 10000
-                      pop: 0
-                      sys:
-                        pod: n
-                      dt_txt: '2023-09-28 03:00:00'
-                    - dt: 1695880800
-                      main:
-                        temp: 55.81
-                        feels_like: 55
-                        temp_min: 55.81
-                        temp_max: 55.81
-                        pressure: 1024
-                        sea_level: 1024
-                        grnd_level: 1021
-                        humidity: 83
-                        temp_kf: 0
-                      weather:
-                      - id: 802
-                        main: Clouds
-                        description: scattered clouds
-                        icon: 03n
-                      clouds:
-                        all: 36
-                      wind:
-                        speed: 4.83
-                        deg: 46
-                        gust: 13.38
-                      visibility: 10000
-                      pop: 0
-                      sys:
-                        pod: n
-                      dt_txt: '2023-09-28 06:00:00'
-                    - dt: 1695891600
-                      main:
-                        temp: 54.88
-                        feels_like: 54.16
-                        temp_min: 54.88
-                        temp_max: 54.88
-                        pressure: 1024
-                        sea_level: 1024
-                        grnd_level: 1021
-                        humidity: 87
-                        temp_kf: 0
-                      weather:
-                      - id: 800
-                        main: Clear
-                        description: clear sky
-                        icon: 01n
-                      clouds:
-                        all: 4
-                      wind:
-                        speed: 5.5
-                        deg: 41
-                        gust: 15.95
-                      visibility: 10000
-                      pop: 0
-                      sys:
-                        pod: n
-                      dt_txt: '2023-09-28 09:00:00'
-                    - dt: 1695902400
-                      main:
-                        temp: 56.39
-                        feels_like: 55.54
-                        temp_min: 56.39
-                        temp_max: 56.39
-                        pressure: 1024
-                        sea_level: 1024
-                        grnd_level: 1021
-                        humidity: 81
-                        temp_kf: 0
-                      weather:
-                      - id: 801
-                        main: Clouds
-                        description: few clouds
-                        icon: 02d
-                      clouds:
-                        all: 20
-                      wind:
-                        speed: 5.7
-                        deg: 35
-                        gust: 15.23
-                      visibility: 10000
-                      pop: 0
-                      sys:
-                        pod: d
-                      dt_txt: '2023-09-28 12:00:00'
-                    - dt: 1695913200
-                      main:
-                        temp: 62.98
-                        feels_like: 62.26
-                        temp_min: 62.98
-                        temp_max: 62.98
-                        pressure: 1024
-                        sea_level: 1024
-                        grnd_level: 1022
-                        humidity: 70
-                        temp_kf: 0
-                      weather:
-                      - id: 804
-                        main: Clouds
-                        description: overcast clouds
-                        icon: 04d
-                      clouds:
-                        all: 93
-                      wind:
-                        speed: 5.75
-                        deg: 64
-                        gust: 8.55
-                      visibility: 10000
-                      pop: 0
-                      sys:
-                        pod: d
-                      dt_txt: '2023-09-28 15:00:00'
-                    - dt: 1695924000
-                      main:
-                        temp: 67.86
-                        feels_like: 67.3
-                        temp_min: 67.86
-                        temp_max: 67.86
-                        pressure: 1023
-                        sea_level: 1023
-                        grnd_level: 1020
-                        humidity: 63
-                        temp_kf: 0
-                      weather:
-                      - id: 804
-                        main: Clouds
-                        description: overcast clouds
-                        icon: 04d
-                      clouds:
-                        all: 97
-                      wind:
-                        speed: 5.35
-                        deg: 77
-                        gust: 6.46
-                      visibility: 10000
-                      pop: 0
-                      sys:
-                        pod: d
-                      dt_txt: '2023-09-28 18:00:00'
-                    - dt: 1695934800
-                      main:
-                        temp: 65.25
-                        feels_like: 64.94
-                        temp_min: 65.25
-                        temp_max: 65.25
-                        pressure: 1022
-                        sea_level: 1022
-                        grnd_level: 1019
-                        humidity: 74
-                        temp_kf: 0
-                      weather:
-                      - id: 804
-                        main: Clouds
-                        description: overcast clouds
-                        icon: 04d
-                      clouds:
-                        all: 100
-                      wind:
-                        speed: 6.62
-                        deg: 80
-                        gust: 9.64
-                      visibility: 10000
-                      pop: 0
-                      sys:
-                        pod: d
-                      dt_txt: '2023-09-28 21:00:00'
-                    - dt: 1695945600
-                      main:
-                        temp: 63.21
-                        feels_like: 63.03
-                        temp_min: 63.21
-                        temp_max: 63.21
-                        pressure: 1023
-                        sea_level: 1023
-                        grnd_level: 1020
-                        humidity: 81
-                        temp_kf: 0
-                      weather:
-                      - id: 804
-                        main: Clouds
-                        description: overcast clouds
-                        icon: 04n
-                      clouds:
-                        all: 100
-                      wind:
-                        speed: 5.01
-                        deg: 60
-                        gust: 16.02
-                      visibility: 10000
-                      pop: 0
-                      sys:
-                        pod: n
-                      dt_txt: '2023-09-29 00:00:00'
-                    - dt: 1695956400
-                      main:
-                        temp: 62.83
-                        feels_like: 62.91
-                        temp_min: 62.83
-                        temp_max: 62.83
-                        pressure: 1023
-                        sea_level: 1023
-                        grnd_level: 1020
-                        humidity: 87
-                        temp_kf: 0
-                      weather:
-                      - id: 804
-                        main: Clouds
-                        description: overcast clouds
-                        icon: 04n
-                      clouds:
-                        all: 100
-                      wind:
-                        speed: 5.06
-                        deg: 63
-                        gust: 13.67
-                      visibility: 10000
-                      pop: 0
-                      sys:
-                        pod: n
-                      dt_txt: '2023-09-29 03:00:00'
-                    - dt: 1695967200
-                      main:
-                        temp: 61.99
-                        feels_like: 62.08
-                        temp_min: 61.99
-                        temp_max: 61.99
-                        pressure: 1022
-                        sea_level: 1022
-                        grnd_level: 1019
-                        humidity: 89
-                        temp_kf: 0
-                      weather:
-                      - id: 804
-                        main: Clouds
-                        description: overcast clouds
-                        icon: 04n
-                      clouds:
-                        all: 100
-                      wind:
-                        speed: 4.7
-                        deg: 33
-                        gust: 12.48
-                      visibility: 10000
-                      pop: 0
-                      sys:
-                        pod: n
-                      dt_txt: '2023-09-29 06:00:00'
-                    - dt: 1695978000
-                      main:
-                        temp: 61.86
-                        feels_like: 61.79
-                        temp_min: 61.86
-                        temp_max: 61.86
-                        pressure: 1021
-                        sea_level: 1021
-                        grnd_level: 1018
-                        humidity: 86
-                        temp_kf: 0
-                      weather:
-                      - id: 804
-                        main: Clouds
-                        description: overcast clouds
-                        icon: 04n
-                      clouds:
-                        all: 100
-                      wind:
-                        speed: 5.1
-                        deg: 25
-                        gust: 13.82
-                      visibility: 10000
-                      pop: 0
-                      sys:
-                        pod: n
-                      dt_txt: '2023-09-29 09:00:00'
-                    - dt: 1695988800
-                      main:
-                        temp: 61.95
-                        feels_like: 61.93
-                        temp_min: 61.95
-                        temp_max: 61.95
-                        pressure: 1022
-                        sea_level: 1022
-                        grnd_level: 1019
-                        humidity: 87
-                        temp_kf: 0
-                      weather:
-                      - id: 804
-                        main: Clouds
-                        description: overcast clouds
-                        icon: 04d
-                      clouds:
-                        all: 100
-                      wind:
-                        speed: 5.37
-                        deg: 356
-                        gust: 13.31
-                      visibility: 10000
-                      pop: 0
-                      sys:
-                        pod: d
-                      dt_txt: '2023-09-29 12:00:00'
-                    - dt: 1695999600
-                      main:
-                        temp: 66.81
-                        feels_like: 66.87
-                        temp_min: 66.81
-                        temp_max: 66.81
-                        pressure: 1022
-                        sea_level: 1022
-                        grnd_level: 1019
-                        humidity: 78
-                        temp_kf: 0
-                      weather:
-                      - id: 804
-                        main: Clouds
-                        description: overcast clouds
-                        icon: 04d
-                      clouds:
-                        all: 100
-                      wind:
-                        speed: 6.85
-                        deg: 30
-                        gust: 11.77
-                      visibility: 10000
-                      pop: 0
-                      sys:
-                        pod: d
-                      dt_txt: '2023-09-29 15:00:00'
-                    - dt: 1696010400
-                      main:
-                        temp: 69.24
-                        feels_like: 69.3
-                        temp_min: 69.24
-                        temp_max: 69.24
-                        pressure: 1021
-                        sea_level: 1021
-                        grnd_level: 1018
-                        humidity: 73
-                        temp_kf: 0
-                      weather:
-                      - id: 804
-                        main: Clouds
-                        description: overcast clouds
-                        icon: 04d
-                      clouds:
-                        all: 100
-                      wind:
-                        speed: 7.63
-                        deg: 45
-                        gust: 11.3
-                      visibility: 10000
-                      pop: 0
-                      sys:
-                        pod: d
-                      dt_txt: '2023-09-29 18:00:00'
-                    - dt: 1696021200
-                      main:
-                        temp: 67.84
-                        feels_like: 67.89
-                        temp_min: 67.84
-                        temp_max: 67.84
-                        pressure: 1020
-                        sea_level: 1020
-                        grnd_level: 1018
-                        humidity: 76
-                        temp_kf: 0
-                      weather:
-                      - id: 804
-                        main: Clouds
-                        description: overcast clouds
-                        icon: 04d
-                      clouds:
-                        all: 98
-                      wind:
-                        speed: 8.34
-                        deg: 46
-                        gust: 12.86
-                      visibility: 10000
-                      pop: 0
-                      sys:
-                        pod: d
-                      dt_txt: '2023-09-29 21:00:00'
-                    - dt: 1696032000
-                      main:
-                        temp: 64.63
-                        feels_like: 64.8
-                        temp_min: 64.63
-                        temp_max: 64.63
-                        pressure: 1021
-                        sea_level: 1021
-                        grnd_level: 1018
-                        humidity: 85
-                        temp_kf: 0
-                      weather:
-                      - id: 804
-                        main: Clouds
-                        description: overcast clouds
-                        icon: 04n
-                      clouds:
-                        all: 99
-                      wind:
-                        speed: 6.13
-                        deg: 29
-                        gust: 16.64
-                      visibility: 10000
-                      pop: 0
-                      sys:
-                        pod: n
-                      dt_txt: '2023-09-30 00:00:00'
-                    - dt: 1696042800
-                      main:
-                        temp: 63.79
-                        feels_like: 63.95
-                        temp_min: 63.79
-                        temp_max: 63.79
-                        pressure: 1022
-                        sea_level: 1022
-                        grnd_level: 1019
-                        humidity: 87
-                        temp_kf: 0
-                      weather:
-                      - id: 804
-                        main: Clouds
-                        description: overcast clouds
-                        icon: 04n
-                      clouds:
-                        all: 100
-                      wind:
-                        speed: 6.42
-                        deg: 20
-                        gust: 15.59
-                      visibility: 10000
-                      pop: 0
-                      sys:
-                        pod: n
-                      dt_txt: '2023-09-30 03:00:00'
-                    - dt: 1696053600
-                      main:
-                        temp: 62.98
-                        feels_like: 63.07
-                        temp_min: 62.98
-                        temp_max: 62.98
-                        pressure: 1022
-                        sea_level: 1022
-                        grnd_level: 1019
-                        humidity: 87
-                        temp_kf: 0
-                      weather:
-                      - id: 804
-                        main: Clouds
-                        description: overcast clouds
-                        icon: 04n
-                      clouds:
-                        all: 100
-                      wind:
-                        speed: 6.62
-                        deg: 22
-                        gust: 15.86
-                      visibility: 10000
-                      pop: 0
-                      sys:
-                        pod: n
-                      dt_txt: '2023-09-30 06:00:00'
-                    - dt: 1696064400
-                      main:
-                        temp: 62.74
-                        feels_like: 62.71
-                        temp_min: 62.74
-                        temp_max: 62.74
-                        pressure: 1022
-                        sea_level: 1022
-                        grnd_level: 1019
-                        humidity: 85
-                        temp_kf: 0
-                      weather:
-                      - id: 804
-                        main: Clouds
-                        description: overcast clouds
-                        icon: 04n
-                      clouds:
-                        all: 100
-                      wind:
-                        speed: 5.93
-                        deg: 21
-                        gust: 16.96
-                      visibility: 10000
-                      pop: 0
-                      sys:
-                        pod: n
-                      dt_txt: '2023-09-30 09:00:00'
-                    - dt: 1696075200
-                      main:
-                        temp: 62.71
-                        feels_like: 62.53
-                        temp_min: 62.71
-                        temp_max: 62.71
-                        pressure: 1023
-                        sea_level: 1023
-                        grnd_level: 1020
-                        humidity: 82
-                        temp_kf: 0
-                      weather:
-                      - id: 804
-                        main: Clouds
-                        description: overcast clouds
-                        icon: 04d
-                      clouds:
-                        all: 98
-                      wind:
-                        speed: 5.77
-                        deg: 16
-                        gust: 16.49
-                      visibility: 10000
-                      pop: 0
-                      sys:
-                        pod: d
-                      dt_txt: '2023-09-30 12:00:00'
-                    - dt: 1696086000
-                      main:
-                        temp: 70.43
-                        feels_like: 70.03
-                        temp_min: 70.43
-                        temp_max: 70.43
-                        pressure: 1023
-                        sea_level: 1023
-                        grnd_level: 1021
-                        humidity: 61
-                        temp_kf: 0
-                      weather:
-                      - id: 803
-                        main: Clouds
-                        description: broken clouds
-                        icon: 04d
-                      clouds:
-                        all: 64
-                      wind:
-                        speed: 7.45
-                        deg: 21
-                        gust: 10.2
-                      visibility: 10000
-                      pop: 0
-                      sys:
-                        pod: d
-                      dt_txt: '2023-09-30 15:00:00'
-                    - dt: 1696096800
-                      main:
-                        temp: 74.77
-                        feels_like: 74.44
-                        temp_min: 74.77
-                        temp_max: 74.77
-                        pressure: 1022
-                        sea_level: 1022
-                        grnd_level: 1019
-                        humidity: 53
-                        temp_kf: 0
-                      weather:
-                      - id: 803
-                        main: Clouds
-                        description: broken clouds
-                        icon: 04d
-                      clouds:
-                        all: 55
-                      wind:
-                        speed: 8.68
-                        deg: 44
-                        gust: 12.17
-                      visibility: 10000
-                      pop: 0
-                      sys:
-                        pod: d
-                      dt_txt: '2023-09-30 18:00:00'
-                    - dt: 1696107600
-                      main:
-                        temp: 70.93
-                        feels_like: 70.68
-                        temp_min: 70.93
-                        temp_max: 70.93
-                        pressure: 1022
-                        sea_level: 1022
-                        grnd_level: 1019
-                        humidity: 63
-                        temp_kf: 0
-                      weather:
-                      - id: 804
-                        main: Clouds
-                        description: overcast clouds
-                        icon: 04d
-                      clouds:
-                        all: 92
-                      wind:
-                        speed: 8.39
-                        deg: 78
-                        gust: 12.59
-                      visibility: 10000
-                      pop: 0
-                      sys:
-                        pod: d
-                      dt_txt: '2023-09-30 21:00:00'
-                    - dt: 1696118400
-                      main:
-                        temp: 65.3
-                        feels_like: 64.92
-                        temp_min: 65.3
-                        temp_max: 65.3
-                        pressure: 1023
-                        sea_level: 1023
-                        grnd_level: 1021
-                        humidity: 72
-                        temp_kf: 0
-                      weather:
-                      - id: 804
-                        main: Clouds
-                        description: overcast clouds
-                        icon: 04n
-                      clouds:
-                        all: 87
-                      wind:
-                        speed: 3.89
-                        deg: 72
-                        gust: 11.23
-                      visibility: 10000
-                      pop: 0
-                      sys:
-                        pod: n
-                      dt_txt: '2023-10-01 00:00:00'
-                    - dt: 1696129200
-                      main:
-                        temp: 61.65
-                        feels_like: 61.18
-                        temp_min: 61.65
-                        temp_max: 61.65
-                        pressure: 1024
-                        sea_level: 1024
-                        grnd_level: 1021
-                        humidity: 78
-                        temp_kf: 0
-                      weather:
-                      - id: 800
-                        main: Clear
-                        description: clear sky
-                        icon: 01n
-                      clouds:
-                        all: 0
-                      wind:
-                        speed: 3.67
-                        deg: 36
-                        gust: 10.16
-                      visibility: 10000
-                      pop: 0
-                      sys:
-                        pod: n
-                      dt_txt: '2023-10-01 03:00:00'
-                    - dt: 1696140000
-                      main:
-                        temp: 60.13
-                        feels_like: 59.61
-                        temp_min: 60.13
-                        temp_max: 60.13
-                        pressure: 1024
-                        sea_level: 1024
-                        grnd_level: 1022
-                        humidity: 80
-                        temp_kf: 0
-                      weather:
-                      - id: 800
-                        main: Clear
-                        description: clear sky
-                        icon: 01n
-                      clouds:
-                        all: 1
-                      wind:
-                        speed: 3.8
-                        deg: 30
-                        gust: 9.78
-                      visibility: 10000
-                      pop: 0
-                      sys:
-                        pod: n
-                      dt_txt: '2023-10-01 06:00:00'
-                    - dt: 1696150800
-                      main:
-                        temp: 58.68
-                        feels_like: 57.87
-                        temp_min: 58.68
-                        temp_max: 58.68
-                        pressure: 1024
-                        sea_level: 1024
-                        grnd_level: 1021
-                        humidity: 77
-                        temp_kf: 0
-                      weather:
-                      - id: 800
-                        main: Clear
-                        description: clear sky
-                        icon: 01n
-                      clouds:
-                        all: 0
-                      wind:
-                        speed: 4.29
-                        deg: 4
-                        gust: 11.01
-                      visibility: 10000
-                      pop: 0
-                      sys:
-                        pod: n
-                      dt_txt: '2023-10-01 09:00:00'
-                    - dt: 1696161600
-                      main:
-                        temp: 59.02
-                        feels_like: 57.87
-                        temp_min: 59.02
-                        temp_max: 59.02
-                        pressure: 1025
-                        sea_level: 1025
-                        grnd_level: 1022
-                        humidity: 69
-                        temp_kf: 0
-                      weather:
-                      - id: 800
-                        main: Clear
-                        description: clear sky
-                        icon: 01d
-                      clouds:
-                        all: 0
-                      wind:
-                        speed: 4.12
-                        deg: 340
-                        gust: 11.21
-                      visibility: 10000
-                      pop: 0
-                      sys:
-                        pod: d
-                      dt_txt: '2023-10-01 12:00:00'
-                    - dt: 1696172400
-                      main:
-                        temp: 71.42
-                        feels_like: 70.66
-                        temp_min: 71.42
-                        temp_max: 71.42
-                        pressure: 1025
-                        sea_level: 1025
-                        grnd_level: 1022
-                        humidity: 51
-                        temp_kf: 0
-                      weather:
-                      - id: 800
-                        main: Clear
-                        description: clear sky
-                        icon: 01d
-                      clouds:
-                        all: 0
-                      wind:
-                        speed: 4.92
-                        deg: 12
-                        gust: 8.99
-                      visibility: 10000
-                      pop: 0
-                      sys:
-                        pod: d
-                      dt_txt: '2023-10-01 15:00:00'
-                    - dt: 1696183200
-                      main:
-                        temp: 78.55
-                        feels_like: 78.31
-                        temp_min: 78.55
-                        temp_max: 78.55
-                        pressure: 1023
-                        sea_level: 1023
-                        grnd_level: 1020
-                        humidity: 47
-                        temp_kf: 0
-                      weather:
-                      - id: 800
-                        main: Clear
-                        description: clear sky
-                        icon: 01d
-                      clouds:
-                        all: 1
-                      wind:
-                        speed: 6.04
-                        deg: 4
-                        gust: 10.96
-                      visibility: 10000
-                      pop: 0
-                      sys:
-                        pod: d
-                      dt_txt: '2023-10-01 18:00:00'
-                    - dt: 1696194000
-                      main:
-                        temp: 78.91
-                        feels_like: 78.91
-                        temp_min: 78.91
-                        temp_max: 78.91
-                        pressure: 1021
-                        sea_level: 1021
-                        grnd_level: 1018
-                        humidity: 48
-                        temp_kf: 0
-                      weather:
-                      - id: 801
-                        main: Clouds
-                        description: few clouds
-                        icon: 02d
-                      clouds:
-                        all: 12
-                      wind:
-                        speed: 6.64
-                        deg: 10
-                        gust: 10.87
-                      visibility: 10000
-                      pop: 0
-                      sys:
-                        pod: d
-                      dt_txt: '2023-10-01 21:00:00'
-                    - dt: 1696204800
-                      main:
-                        temp: 68.99
-                        feels_like: 68.92
-                        temp_min: 68.99
-                        temp_max: 68.99
-                        pressure: 1022
-                        sea_level: 1022
-                        grnd_level: 1019
-                        humidity: 71
-                        temp_kf: 0
-                      weather:
-                      - id: 800
-                        main: Clear
-                        description: clear sky
-                        icon: 01n
-                      clouds:
-                        all: 10
-                      wind:
-                        speed: 2.66
-                        deg: 17
-                        gust: 4.12
-                      visibility: 10000
-                      pop: 0
-                      sys:
-                        pod: n
-                      dt_txt: '2023-10-02 00:00:00'
-                    - dt: 1696215600
-                      main:
-                        temp: 66.33
-                        feels_like: 66.18
-                        temp_min: 66.33
-                        temp_max: 66.33
-                        pressure: 1022
-                        sea_level: 1022
-                        grnd_level: 1019
-                        humidity: 75
-                        temp_kf: 0
-                      weather:
-                      - id: 800
-                        main: Clear
-                        description: clear sky
-                        icon: 01n
-                      clouds:
-                        all: 0
-                      wind:
-                        speed: 3.06
-                        deg: 357
-                        gust: 3.89
-                      visibility: 10000
-                      pop: 0
-                      sys:
-                        pod: n
-                      dt_txt: '2023-10-02 03:00:00'
-                    - dt: 1696226400
-                      main:
-                        temp: 64.18
-                        feels_like: 64.06
-                        temp_min: 64.18
-                        temp_max: 64.18
-                        pressure: 1021
-                        sea_level: 1021
-                        grnd_level: 1018
-                        humidity: 80
-                        temp_kf: 0
-                      weather:
-                      - id: 800
-                        main: Clear
-                        description: clear sky
-                        icon: 01n
-                      clouds:
-                        all: 0
-                      wind:
-                        speed: 3.98
-                        deg: 352
-                        gust: 7.23
-                      visibility: 10000
-                      pop: 0
-                      sys:
-                        pod: n
-                      dt_txt: '2023-10-02 06:00:00'
-                    - dt: 1696237200
-                      main:
-                        temp: 62.24
-                        feels_like: 62.15
-                        temp_min: 62.24
-                        temp_max: 62.24
-                        pressure: 1021
-                        sea_level: 1021
-                        grnd_level: 1019
-                        humidity: 85
-                        temp_kf: 0
-                      weather:
-                      - id: 800
-                        main: Clear
-                        description: clear sky
-                        icon: 01n
-                      clouds:
-                        all: 0
-                      wind:
-                        speed: 4.18
-                        deg: 358
-                        gust: 9.04
-                      visibility: 10000
-                      pop: 0
-                      sys:
-                        pod: n
-                      dt_txt: '2023-10-02 09:00:00'
-                    - dt: 1696248000
-                      main:
-                        temp: 62.98
-                        feels_like: 62.92
-                        temp_min: 62.98
-                        temp_max: 62.98
-                        pressure: 1022
-                        sea_level: 1022
-                        grnd_level: 1019
-                        humidity: 84
-                        temp_kf: 0
-                      weather:
-                      - id: 800
-                        main: Clear
-                        description: clear sky
-                        icon: 01d
-                      clouds:
-                        all: 0
-                      wind:
-                        speed: 3.36
-                        deg: 4
-                        gust: 9.44
-                      visibility: 10000
-                      pop: 0
-                      sys:
-                        pod: d
-                      dt_txt: '2023-10-02 12:00:00'
-                    - dt: 1696258800
-                      main:
-                        temp: 74.91
-                        feels_like: 74.79
-                        temp_min: 74.91
-                        temp_max: 74.91
-                        pressure: 1022
-                        sea_level: 1022
-                        grnd_level: 1019
-                        humidity: 57
-                        temp_kf: 0
-                      weather:
-                      - id: 800
-                        main: Clear
-                        description: clear sky
-                        icon: 01d
-                      clouds:
-                        all: 1
-                      wind:
-                        speed: 4.41
-                        deg: 14
-                        gust: 7.65
-                      visibility: 10000
-                      pop: 0
-                      sys:
-                        pod: d
-                      dt_txt: '2023-10-02 15:00:00'
-                    city:
-                      id: 4140963
-                      name: Washington D.C.
-                      coord:
-                        lat: 38.9072
-                        lon: -77.0369
-                      country: US
-                      population: 601723
-                      timezone: -14400
-                      sunrise: 1695812403
-                      sunset: 1695855499
-        400:
-          description: "Invalid request body"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
-              examples:
-                missingRequest:
-                  value:
-                    message: "Missing request param(s)"
-                    code: 4
-                invalidRequest:
-                  value:
-                    message: "Invalid request param(s)"
-                    code: 5
-        404:
-          description: "Data not found"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
-              examples:
-                userNotFound:
-                  value:
-                    message: "Resource not found"
-                    code: 13
 components:
   securitySchemes:
     APIToken:
@@ -3894,144 +2792,3 @@ components:
           nullable: false
           type: integer
           description: "The code of the weather"
-    WeatherForcastMainData:
-      required:
-        - temp
-        - feels_like
-        - temp_min
-        - temp_max
-        - pressure
-        - sea_level
-        - grnd_level
-        - humidity
-        - temp_kf
-      properties:
-        temp:
-          nullable: false
-          type: number
-          description: "The temperature"
-        feels_like:
-          nullable: false
-          type: number
-          description: "The temperature that it feels like"
-        temp_min:
-          nullable: false
-          type: number
-          description: "The minimum temperature"
-        temp_max:
-          nullable: false
-          type: number
-          description: "The maximum temperature"
-        pressure:
-          nullable: false
-          type: integer
-          description: "The pressure"
-        sea_level:
-          nullable: false
-          type: integer
-          description: "The sea level"
-        grnd_level:
-          nullable: false
-          type: integer
-          description: "The ground level"
-        humidity:
-          nullable: false
-          type: integer
-          description: "The humidity"
-        temp_kf:
-          nullable: false
-          type: number
-          description: "The temperature"
-    WeatherForcastSysData:
-      required:
-        - pod
-      properties:
-        pod:
-          nullable: false
-          type: string
-          description: "The pod of the weather"
-    WeatherForcastPointInTimeData:
-      required:
-        - dt
-        - main
-        - weather
-        - clouds
-        - wind
-        - visibility
-        - pop
-        - sys
-        - dt_txt
-      properties:
-        dt:
-          nullable: false
-          type: integer
-          description: "The time of the weather"
-        main:
-          nullable: false
-          type: object
-          $ref: "#/components/schemas/WeatherForcastMainData"
-          description: "The main weather information"
-        weather:
-          nullable: false
-          type: array
-          items:
-            $ref: "#/components/schemas/WeatherCurrentInformation"
-          description: "The weather information"
-        clouds:
-          nullable: false
-          type: object
-          $ref: "#/components/schemas/WeatherCurrentCloudData"
-          description: "The cloud information"
-        wind:
-          nullable: false
-          type: object
-          $ref: "#/components/schemas/WeatherCurrentWindData"
-          description: "The wind information"
-        visibility:
-          nullable: false
-          type: integer
-          description: "The visibility of the weather"
-        pop:
-          nullable: false
-          type: number
-          description: "The probability of precipitation"
-        sys:
-          nullable: false
-          type: object
-          $ref: "#/components/schemas/WeatherForcastSysData"
-          description: "The system information"
-        dt_txt:
-          nullable: false
-          type: string
-          description: "The time of the weather"
-    WeatherForecastData:
-      required:
-        - cod
-        - message
-        - cnt
-        - list
-        - city
-      properties:
-        cod:
-          nullable: false
-          type: string
-          description: "The code of the weather"
-        message:
-          nullable: false
-          type: integer
-          description: "The message of the weather"
-        cnt:
-          nullable: false
-          type: integer
-          description: "The count of the weather"
-        list:
-          nullable: false
-          type: array
-          items:
-            $ref: "#/components/schemas/WeatherForcastPointInTimeData"
-          description: "The list of weather information"
-        city:
-          nullable: false
-          type: object
-          $ref: "#/components/schemas/WeatherLocationData"
-          description: "The location of the weather"

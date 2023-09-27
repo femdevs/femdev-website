@@ -32,36 +32,6 @@ router
         if (AxiosRes.status == 400) return res.sendError(13)
         res.json(JSON.parse(AxiosRes.data))
     })
-    .get('/forecast', async (req, res) => {
-        let lat, lon;
-        if (req.headers['x-city']) {
-            const AxiosRes = await req.axiosReq(`/json`, {
-                baseURL: 'https://maps.googleapis.com/maps/api/geocode',
-                params: {
-                    address: req.headers['x-city'],
-                    key: process.env.GMAPS_API_KEY,
-                }
-            })
-            const data = JSON.parse(AxiosRes.data)
-            if (data.status == 'ZERO_RESULTS') return res.sendError(13)
-            lat = data.results[0].geometry.location.lat
-            lon = data.results[0].geometry.location.lng
-        } else if (req.query.lat && req.query.lon) {
-            [lat, lon] = req.headers['x-coords'].split(',')
-        } else return res.sendError(4)
-        const AxiosRes = await req.axiosReq(`/forecast`, {
-            baseURL: 'https://api.openweathermap.org/data/2.5',
-            params: {
-                appid: process.env.OPEN_WEATHER_API_KEY,
-                mode: 'json',
-                units: 'imperial',
-                lat,
-                lon
-            }
-        })
-        if (AxiosRes.status == 400) return res.sendError(13)
-        res.json(JSON.parse(AxiosRes.data))
-    })
     .use((req, res, next) => {
         const { path } = req;
         const methodUsed = req.method.toUpperCase();
