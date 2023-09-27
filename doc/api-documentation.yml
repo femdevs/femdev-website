@@ -1180,6 +1180,12 @@ paths:
                 type: array
                 items:
                   type: string
+              example:
+                cool:
+                  value:
+                    - "moderately cold : lacking in warmth"
+                    - "marked by steady dispassionate calmness and self-control"
+                    - "lacking ardor or friendliness"
         400:
           description: "Missing word information"
           content:
@@ -1243,6 +1249,16 @@ paths:
                 type: array
                 items:
                   type: string
+              examples:
+                smile:
+                  value:
+                    syns:
+                      - beam
+                      - grin
+                      - laugh
+                      - sneer
+                      - snicker
+                      - snigger
         400:
           description: "Missing word information"
           content:
@@ -1306,6 +1322,61 @@ paths:
                 type: array
                 items:
                   type: string
+              examples:
+                happy:
+                  value:
+                    ants:
+                      - "hapless"
+                      - "ill-fated"
+                      - "ill-starred"
+                      - "luckless"
+                      - "star-crossed"
+                      - "unfortunate"
+                      - "unhappy"
+                      - "unlucky"
+                      - "displeased"
+                      - "dissatisfied"
+                      - "joyless"
+                      - "sad"
+                      - "unhappy"
+                      - "unpleased"
+                      - "unsatisfied"
+                      - "discontent"
+                      - "discontented"
+                      - "displeased"
+                      - "dissatisfied"
+                      - "malcontent"
+                      - "malcontented"
+                      - "unhappy"
+                      - "hapless"
+                      - "ill-fated"
+                      - "ill-starred"
+                      - "luckless"
+                      - "snakebit"
+                      - "star-crossed"
+                      - "unfortunate"
+                      - "unhappy"
+                      - "unlucky"
+                      - "improper"
+                      - "inapplicable"
+                      - "inapposite"
+                      - "inappropriate"
+                      - "inapt"
+                      - "incongruous"
+                      - "indecent"
+                      - "infelicitous"
+                      - "malapropos"
+                      - "misbecoming"
+                      - "unapt"
+                      - "unbecoming"
+                      - "unbeseeming"
+                      - "unfit"
+                      - "unfitting"
+                      - "unhappy"
+                      - "unmeet"
+                      - "unseemly"
+                      - "unsuitable"
+                      - "wrong"
         400:
           description: "Missing word information"
           content:
@@ -1361,6 +1432,9 @@ paths:
             application/json:
               schema:
                 type: string
+              examples:
+                fact:
+                  value: "Dogs have a sense of time. It's been proven that they know the difference between a hour and five. If conditioned to, they can predict future events, such as regular walk times."
         401:
           description: "Invalid/Missing API Token"
           content:
@@ -1390,6 +1464,9 @@ paths:
             application/json:
               schema:
                 type: string
+              examples:
+                fact:
+                  value: "Cats can't taste sweetness."
         401:
           description: "Invalid/Missing API Token"
           content:
@@ -1419,6 +1496,9 @@ paths:
             application/json:
               schema:
                 type: string
+              examples:
+                fact:
+                  value: "The average person spends 6 months of their lifetime waiting on a red light to turn green."
         401:
           description: "Invalid/Missing API Token"
           content:
@@ -1749,6 +1829,9 @@ paths:
             application/json:
               schema:
                 type: string
+              examples:
+                quote:
+                  value: "I feel like I'm too busy writing history to read it."
         401:
           description: "Invalid/Missing API Token"
           content:
@@ -1778,6 +1861,9 @@ paths:
             application/json:
               schema:
                 type: string
+              examples:
+                quote:
+                  value: ""
         401:
           description: "Invalid/Missing API Token"
           content:
