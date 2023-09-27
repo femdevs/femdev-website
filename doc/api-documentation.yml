@@ -1057,7 +1057,7 @@ paths:
                 type: array
                 items:
                   type: object
-                  $ref: "#/components/schemas/MinecraftHiveURLDataObj"
+                  $ref: "#/components/schemas/MinecraftHiveMapData"
               examples:
                 maps:
                   value:
