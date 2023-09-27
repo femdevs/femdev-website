@@ -883,6 +883,8 @@ paths:
                   value:
                     code: 13
                     message: "Unable to find requested resource"
+      security:
+        - APIToken: []
   /minecraft/hive/maps:
     get:
       operationId: "GetHiveMaps"
@@ -945,6 +947,8 @@ paths:
                   value:
                     code: 13
                     message: "Unable to find requested resource"
+      security:
+        - APIToken: []
   /dictionary/def:
     get:
       operationId: "GetDictionaryDefinition"
@@ -1006,6 +1010,8 @@ paths:
                   value:
                     code: 13
                     message: "Unable to find requested resource"
+      security:
+        - APIToken: []
   /dictionary/syn:
     get:
       operationId: "GetDictionarySynonyms"
@@ -1067,6 +1073,8 @@ paths:
                   value:
                     code: 13
                     message: "Unable to find requested resource"
+      security:
+        - APIToken: []
   /dictionary/ant:
     get:
       operationId: "GetDictionaryAntonyms"
@@ -1128,6 +1136,8 @@ paths:
                   value:
                     code: 13
                     message: "Unable to find requested resource"
+      security:
+        - APIToken: []
   /facts/dog:
     get:
       operationId: "GetDogFact"
@@ -1155,6 +1165,8 @@ paths:
                   value:
                     code: 2
                     message: "Invalid API Token"
+      security:
+        - APIToken: []
   /facts/cat:
     get:
       operationId: "GetCatFact"
@@ -1182,6 +1194,8 @@ paths:
                   value:
                     code: 2
                     message: "Invalid API Token"
+      security:
+        - APIToken: []
   /facts/random:
     get:
       operationId: "GetRandomFact"
@@ -1209,6 +1223,8 @@ paths:
                   value:
                     code: 2
                     message: "Invalid API Token"
+      security:
+        - APIToken: []
   /location/coords:
     get:
       operationId: "GetLocationByCoords"
@@ -1282,6 +1298,8 @@ paths:
                   value:
                     code: 13
                     message: "Unable to find requested resource"
+      security:
+        - APIToken: []
   /location/pluscode:
     get:
       operationId: "GetLocationByPlusCode"
@@ -1355,6 +1373,8 @@ paths:
                   value:
                     code: 13
                     message: "Unable to find requested resource"
+      security:
+        - APIToken: []
   /location/address:
     get:
       operationId: "GetLocationByAddress"
@@ -1428,6 +1448,8 @@ paths:
                   value:
                     code: 13
                     message: "Unable to find requested resource"
+      security:
+        - APIToken: []
   /phone/details:
     get:
       operationId: "GetPhoneDetails"
@@ -1502,6 +1524,8 @@ paths:
                   value:
                     code: 13
                     message: "Unable to find requested resource"
+      security:
+        - APIToken: []
   /quotes/kanye:
     get:
       operationId: "GetKanyeQuote"
@@ -1529,6 +1553,8 @@ paths:
                   value:
                     code: 2
                     message: "Invalid API Token"
+      security:
+        - APIToken: []
   /quotes/ronswanson:
     get:
       operationId: "GetRonSwansonQuote"
@@ -1556,6 +1582,8 @@ paths:
                   value:
                     code: 2
                     message: "Invalid API Token"
+      security:
+        - APIToken: []
   /quotes/random:
     get:
       operationId: "GetRandomQuote"
@@ -1588,6 +1616,8 @@ paths:
                   value:
                     code: 2
                     message: "Invalid API Token"
+      security:
+        - APIToken: []
   /weather/current:
     get:
       operationId: "GetCurrentWeather"
@@ -1688,6 +1718,8 @@ paths:
                   value:
                     code: 13
                     message: "Unable to find requested resource"
+      security:
+        - APIToken: []
 components:
   securitySchemes:
     APIToken:
@@ -3032,3 +3064,16 @@ components:
           nullable: false
           type: integer
           description: "The code of the weather"
+    QuoteData:
+      required:
+        - quote
+        - author
+      properties:
+        quote:
+          nullable: false
+          type: string
+          description: "The quote"
+        author:
+          nullable: false
+          type: string
+          description: "The author of the quote"
