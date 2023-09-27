@@ -842,6 +842,158 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/MinecraftHivePlayerCombinedData"
+              examples:
+                user:
+                  value:
+                    hide:
+                      xp: 1612
+                      played: 13
+                      victories: 3
+                      first_played: 1600464717
+                      deaths: 9
+                      hider_kills: 28
+                      seeker_kills: 2
+                    main:
+                      xuid: 2535441321443031
+                      username: therealbenpai
+                      username_cc: therealbenpai
+                      rank: REGULAR
+                      first_played: 1597106900
+                      daily_login_streak: 0
+                      longest_daily_login_streak: 6
+                      hub_title_count: 6
+                      hub_title_unlocked:
+                      - "&cThe Short Sighted"
+                      - "&cThe Defender"
+                      - "&eAir &aSwimmer"
+                      - "&aThe Good Citizen"
+                      - "&aThe Snail"
+                      - "&eClickety &6Clack"
+                      avatar_count: 6
+                      avatar_unlocked:
+                      - url: https://cdn.playhive.com/avatars/monster-drew.png
+                        name: Drew (Monster)
+                      - url: https://cdn.playhive.com/avatars/pet-endolotl.png
+                        name: Endolotl Pet
+                      - url: https://cdn.playhive.com/avatars/monster-harper.png
+                        name: Harper (Monster)
+                      - url: https://cdn.playhive.com/avatars/monster-reese.png
+                        name: Reese (Monster)
+                      - url: https://cdn.playhive.com/avatars/monster-riley.png
+                        name: Riley (Monster)
+                      - url: https://cdn.playhive.com/avatars/grav-zoomies.png
+                        name: Zoomies
+                      costume_count: 0
+                      friend_count: 8
+                      equipped_hub_title: "&eClickety &6Clack"
+                      equipped_avatar:
+                        url: https://cdn.playhive.com/avatars/grav-zoomies.png
+                        name: Zoomies
+                      quest_count: 20
+                      pets:
+                      - Rock
+                      - Endolotl
+                      mounts: []
+                      hats: []
+                    dr:
+                      xp: 4248
+                      played: 46
+                      victories: 31
+                      first_played: 1694643520
+                      deaths: 203
+                      checkpoints: 264
+                      activated: 76
+                      kills: 86
+                    wars:
+                      xp: 1160
+                      played: 27
+                      first_played: 1612317414
+                      final_kills: 5
+                      kills: 27
+                      treasure_destroyed: 19
+                      deaths: 82
+                      victories: 1
+                    murder:
+                      xp: 16914
+                      played: 420
+                      victories: 308
+                      first_played: 1597106959
+                      deaths: 192
+                      coins: 3193
+                      murders: 170
+                      murderer_eliminations: 22
+                    sg:
+                      xp: 65
+                      played: 6
+                      first_played: 1615497464
+                      crates: 40
+                      kills: 6
+                      deaths: 6
+                      cows: 1
+                    sky:
+                      xp: 320
+                      played: 27
+                      victories: 5
+                      first_played: 1612392245
+                      ores_mined: 551
+                      deaths: 20
+                      kills: 5
+                      mystery_chests_destroyed: 1
+                      spells_used: 10
+                    ctf:
+                      xp: 143
+                      played: 3
+                      victories: 1
+                      first_played: 1694295639
+                      assists: 4
+                      deaths: 7
+                      flags_captured: 0
+                      kills: 6
+                      flags_returned: 1
+                    drop:
+                      xp: 65
+                      played: 1
+                      first_played: 1694288117
+                      blocks_destroyed: 506
+                      powerups_collected: 0
+                      vaults_used: 0
+                      deaths: 1
+                    ground:
+                      xp: 0
+                      played: 0
+                      victories: 0
+                      first_played: 0
+                      blocks_destroyed: 0
+                      powerups_collected: 0
+                      vaults_used: 0
+                      deaths: 0
+                    build:
+                      xp: 10
+                      played: 2
+                      first_played: 1597107129
+                      rating_good_received: 5
+                      rating_love_received: 0
+                      rating_meh_received: 4
+                      rating_okay_received: 1
+                      rating_great_received: 0
+                    party:
+                      xp: 1072
+                      played: 35
+                      victories: 2
+                      first_played: 1687883920
+                      powerups_collected: 55
+                      rounds_survived: 284
+                    bridge:
+                      xp: 0
+                      first_played: 0
+                    grav:
+                      xp: 658
+                      played: 21
+                      victories: 7
+                      first_played: 1694283594
+                      deaths: 413
+                      maps_completed: 57
+                      maps_completed_without_dying: 15
         400:
           description: "Missing user information"
           content:
@@ -906,6 +1058,65 @@ paths:
                 items:
                   type: object
                   $ref: "#/components/schemas/MinecraftHiveURLDataObj"
+              examples:
+                maps:
+                  value:
+                    - name: Chroma
+                      season: NO_SEASON
+                      variant: REGULAR
+                      image: https://cdn.playhive.com/maps/mm_chroma.jpg
+                    - name: Eso Hotel
+                      season: NO_SEASON
+                      variant: REGULAR
+                      image: https://cdn.playhive.com/maps/mm_esohotel.jpg
+                    - name: Manor
+                      season: NO_SEASON
+                      variant: REGULAR
+                      image: https://cdn.playhive.com/maps/mm_manor.jpg
+                    - name: Museum
+                      season: NO_SEASON
+                      variant: REGULAR
+                      image: https://cdn.playhive.com/maps/mm_museum.jpg
+                    - name: Office Party
+                      season: WINTERFEST
+                      variant: REGULAR
+                      image: https://cdn.playhive.com/maps/mm_office.winterfest.jpg
+                    - name: Office
+                      season: NO_SEASON
+                      variant: REGULAR
+                      image: https://cdn.playhive.com/maps/mm_office.jpg
+                    - name: Pigment
+                      season: NO_SEASON
+                      variant: REGULAR
+                      image: https://cdn.playhive.com/maps/mm_pigment.jpg
+                    - name: Remnants
+                      season: NO_SEASON
+                      variant: REGULAR
+                      image: https://cdn.playhive.com/maps/mm_remnants.jpg
+                    - name: Spaceship
+                      season: NO_SEASON
+                      variant: REGULAR
+                      image: https://cdn.playhive.com/maps/mm_spaceship.jpg
+                    - name: Ghost House
+                      season: HALLOWEEN
+                      variant: REGULAR
+                      image: https://cdn.playhive.com/maps/mm_toyhouse.halloween.jpg
+                    - name: Toy House
+                      season: NO_SEASON
+                      variant: REGULAR
+                      image: https://cdn.playhive.com/maps/mm_toyhouse.jpg
+                    - name: Village
+                      season: WINTERFEST
+                      variant: REGULAR
+                      image: https://cdn.playhive.com/maps/mm_village.winterfest.jpg
+                    - name: Warehouse
+                      season: NO_SEASON
+                      variant: REGULAR
+                      image: https://cdn.playhive.com/maps/mm_warehouse.jpg
+                    - name: Witch School
+                      season: HALLOWEEN
+                      variant: REGULAR
+                      image: https://cdn.playhive.com/maps/mm_witchschool.halloween.jpg
         400:
           description: "Missing game information"
           content:
@@ -2751,6 +2962,29 @@ components:
           type: object
           $ref: "#/components/schemas/MinecraftHivePlayerGravityStatistics"
           description: "The gravity statistics of the player"
+    MinecraftHiveMapData:
+      required:
+        - name
+        - season
+        - variant
+        - image
+      properties:
+        name:
+          nullable: false
+          type: string
+          description: "The name of the map"
+        season:
+          nullable: false
+          type: string
+          description: "The season of the map"
+        variant:
+          nullable: false
+          type: string
+          description: "The variant of the map"
+        image:
+          nullable: false
+          type: string
+          description: "The image of the map"
     LocationAddressData:
       required:
         - full

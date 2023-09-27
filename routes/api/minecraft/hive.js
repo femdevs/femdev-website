@@ -158,8 +158,7 @@ router
     .get('/maps', async (req, res) => {
         const game = req.headers['x-game']
         if (!game) return res.status(400).json({ error: 'Missing game header' })
-        const AxiosRes = await req.axiosReq
-            .get(`/game/map/${game}`, { baseURL: 'https://api.playhive.com/v0' });
+        const AxiosRes = await req.axiosReq(`/game/map/${game}`, { baseURL: 'https://api.playhive.com/v0' });
         if (AxiosRes.status == 404) return res.sendError(13)
         res.json(JSON.parse(AxiosRes.data))
     })
