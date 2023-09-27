@@ -34,6 +34,7 @@ paths:
                 $ref: "#/components/schemas/GetUserInfoResponse"
               examples:
                 user:
+                  summary: "Example User"
                   value:
                     id: "gPcqw6MAbXbZs6ARohHqT2vapFY2"
                     username: "JohnDoe0001"
@@ -48,10 +49,12 @@ paths:
                 $ref: "#/components/schemas/ErrorData"
               examples:
                 Missing-User:
+                  summary: "Missing UID Header"
                   value:
                     code: 6
                     message: "Missing Header Parameter(s)"
                 Invalid-User:
+                  summary: "Invalid UID Header"
                   value:
                     code: 7
                     message: "Invalid Header Parameter(s)"
@@ -63,10 +66,12 @@ paths:
                 $ref: "#/components/schemas/ErrorData"
               examples:
                 Missing-Token:
+                  summary: "Missing API Token"
                   value:
                     code: 1
                     message: "Missing API Token"
                 Invalid-Token:
+                  summary: "Invalid API Token"
                   value:
                     code: 2
                     message: "Invalid API Token"
@@ -123,6 +128,7 @@ paths:
                 $ref: "#/components/schemas/UpdateUserInfoResponse"
               examples:
                 displayname:
+                  summary: "Update Response for Display Name"
                   value:
                     id: "gPcqw6MAbXbZs6ARohHqT2vapFY2"
                     updatedUser:
@@ -136,6 +142,7 @@ paths:
                       permissions: 0
                       betaAccess: 0
                 email:
+                  summary: "Update Response for Email"
                   value:
                     id: "gPcqw6MAbXbZs6ARohHqT2vapFY2"
                     updatedUser:
@@ -149,6 +156,7 @@ paths:
                       permissions: 0
                       betaAccess: 0
                 password:
+                  summary: "Update Response for Password"
                   value:
                     id: "gPcqw6MAbXbZs6ARohHqT2vapFY2"
                     updatedUser:
@@ -162,6 +170,7 @@ paths:
                       permissions: 0
                       betaAccess: 0
                 perms:
+                  summary: "Update Response for Permissions"
                   value:
                     id: "gPcqw6MAbXbZs6ARohHqT2vapFY2"
                     updatedUser:
@@ -182,10 +191,12 @@ paths:
                 $ref: "#/components/schemas/ErrorData"
               examples:
                 Missing-User:
+                  summary: "Missing UID Header"
                   value:
                     code: 6
                     message: "Missing Header Parameter(s)"
                 Invalid-User:
+                  summary: "Invalid UID Header"
                   value:
                     code: 7
                     message: "Invalid Header Parameter(s)"
@@ -197,10 +208,12 @@ paths:
                 $ref: "#/components/schemas/ErrorData"
               examples:
                 Missing-Token:
+                  summary: "Missing API Token"
                   value:
                     code: 1
                     message: "Missing API Token"
                 Invalid-Token:
+                  summary: "Invalid API Token"
                   value:
                     code: 2
                     message: "Invalid API Token"
@@ -257,6 +270,7 @@ paths:
                 $ref: "#/components/schemas/CreateUserInfoResponse"
               examples:
                 user:
+                  summary: "Example User"
                   value:
                     user:
                       uid: "gPcqw6MAbXbZs6ARohHqT2vapFY2"
@@ -286,14 +300,15 @@ paths:
                 $ref: "#/components/schemas/ErrorData"
               examples:
                 Missing-Token:
+                  summary: "Missing API Token"
                   value:
                     code: 1
                     message: "Missing API Token"
                 Invalid-Token:
+                  summary: "Invalid API Token"
                   value:
                     code: 2
-                    message: "Invalid API Token"
-                  
+                    message: "Invalid API Token"      
         403:
           description: "Unauthorized to create user"
           content:
@@ -302,6 +317,7 @@ paths:
                 $ref: "#/components/schemas/ErrorData"
               examples:
                 error:
+                  summary: "Unauthorized to create user"
                   value:
                     code: 12
                     message: "You are not authorized to access this resource"
@@ -349,6 +365,7 @@ paths:
                 $ref: "#/components/schemas/DeleteUserInfoResponse"
               examples:
                 deleted:
+                  summary: "User Deleted"
                   value:
                     uid: "gPcqw6MAbXbZs6ARohHqT2vapFY2"
                     deleted: true
@@ -360,10 +377,12 @@ paths:
                 $ref: "#/components/schemas/ErrorData"
               examples:
                 Missing-User:
+                  summary: "Missing UID Header"
                   value:
                     code: 6
                     message: "Missing Header Parameter(s)"
                 Invalid-User:
+                  summary: "Invalid UID Header"
                   value:
                     code: 7
                     message: "Invalid Header Parameter(s)"
@@ -375,10 +394,12 @@ paths:
                 $ref: "#/components/schemas/ErrorData"
               examples:
                 Missing-Token:
+                  summary: "Missing API Token"
                   value:
                     code: 1
                     message: "Missing API Token"
                 Invalid-Token:
+                  summary: "Invalid API Token"
                   value:
                     code: 2
                     message: "Invalid API Token"
@@ -390,6 +411,7 @@ paths:
                 $ref: "#/components/schemas/ErrorData"
               examples:
                 error:
+                  summary: "Unauthorized to delete user"
                   value:
                     code: 12
                     message: "You are not authorized to access this resource"
@@ -437,6 +459,7 @@ paths:
                 type: string
               examples:
                 data:
+                  summary: "Encrypted Data"
                   value: "Pc6W8_h9XSg8LVhZ8yAP4vtui0sJIMNmC_E18ee9JBQyEmBPLZBDz5Jx745u31Pbr2EkS9Z2S8oFB02uwzpWtt3PH48HE-Wj27VkpvV1glrpZ0f_cW0Ema-gT-6S675xCgb9cy0ZTx3rH-kzuVZXaOwrMjMJTVe7ZpyH8zyUNHnDo0xvkhq9Z523azZm1mq1rcJWMJl8iCuZc6TQp5E2-4xiAZF59ZCZyQCtzxryPzX6aR5ENBvBVdkOaNWtmjWc9ZM5Ni9PXc2cVGbi5IDo6RvX5KuU2DUvGpIKvf15xLptPXZPLNtU4syXjXI4vA03EpV1-Dqs6H7FrtXLAu9M5Q7NxaSxynr4oyJC7CzIXJtJVUwrFN9I-zSJCcR9rE90XzolaWICUjfhSkMtPBTkr_ibNFcyPhG-oaMPGuc1Hb8gJzEDDtWTGPZdV2rbGJIw3XBi_h80fj8F_DQujSGsbo2DmBwSF-PZtKG5WHK9cf3rWCIxF1Sc5Hhkd-HnhrFrSv30Kjvede88MmofhchsS9cEn4eFF7rfj35blLBxGKBKzhS0k_k7FWQznK6J24lfUR_Gtkz3IJlTcqQN-ixucjHdI58xheVETAg_PkK3KZIwgabxQRSz96JUANyEPIPdodIF2f4PpEMomjYp8mCc_0F26uUSgsm9_LcJvC9oNZU"
         400:
           description: "Error With Encryption (Client Caused)"
@@ -445,11 +468,13 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorData"
               examples:
-                error:
+                no-data:
+                  summary: "Missing Data Parameter"
                   value:
                     code: 4
                     message: "Missing Query Parameter(s)"
-                no-data:
+                invalid-data:
+                  summary: "Invalid Data Parameter"
                   value:
                     code: 5
                     message: "Invalid Query Parameter(s)"
@@ -461,10 +486,12 @@ paths:
                 $ref: "#/components/schemas/ErrorData"
               examples:
                 Missing-Token:
+                  summary: "Missing API Token"
                   value:
                     code: 1
                     message: "Missing API Token"
                 Invalid-Token:
+                  summary: "Invalid API Token"
                   value:
                     code: 2
                     message: "Invalid API Token"
@@ -501,6 +528,7 @@ paths:
                 type: string
               examples:
                 data:
+                  summary: "Decrypted Data"
                   value: "testing"
         400:
           description: "Error with Decryption (Client Caused)"
@@ -509,11 +537,13 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorData"
               examples:
-                error:
+                no-data:
+                  summary: "Missing Data Parameter"
                   value:
                     code: 4
                     message: "Missing Query Parameter(s)"
-                no-data:
+                invalid-data:
+                  summary: "Invalid Data Parameter"
                   value:
                     code: 5
                     message: "Invalid Query Parameter(s)"
@@ -525,10 +555,12 @@ paths:
                 $ref: "#/components/schemas/ErrorData"
               examples:
                 Missing-Token:
+                  summary: "Missing API Token"
                   value:
                     code: 1
                     message: "Missing API Token"
                 Invalid-Token:
+                  summary: "Invalid API Token"
                   value:
                     code: 2
                     message: "Invalid API Token"
@@ -570,6 +602,7 @@ paths:
                 $ref: "#/components/schemas/TokenCreationResponse"
               examples:
                 token:
+                  summary: "Created Token Data"
                   value:
                     license: "1234-5678-9012-3456"
                     token: "fjkh_fdasABc12.dshfa34287y_FDAS34_2"
@@ -581,22 +614,25 @@ paths:
                 $ref: "#/components/schemas/ErrorData"
               examples:
                 Missing-Token:
+                  summary: "Missing API Token"
                   value:
                     code: 1
                     message: "Missing API Token"
                 Invalid-Token:
+                  summary: "Invalid API Token"
                   value:
                     code: 2
                     message: "Invalid API Token"
                   
         403:
-          description: "Unauthorized to create user"
+          description: "Unauthorized to create token"
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorData"
               examples:
                 error:
+                  summary: "Unauthorized to create token"
                   value:
                     code: 12
                     message: "You are not authorized to access this resource"
@@ -654,22 +690,25 @@ paths:
                 $ref: "#/components/schemas/ErrorData"
               examples:
                 Missing-Token:
+                  summary: "Missing API Token"
                   value:
                     code: 1
                     message: "Missing API Token"
                 Invalid-Token:
+                  summary: "Invalid API Token"
                   value:
                     code: 2
                     message: "Invalid API Token"
                   
         403:
-          description: "Unauthorized to create user"
+          description: "Unauthorized to delete token"
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorData"
               examples:
                 error:
+                  summary: "Unauthorized to delete token"
                   value:
                     code: 12
                     message: "You are not authorized to access this resource"
@@ -717,22 +756,24 @@ paths:
                 $ref: "#/components/schemas/ErrorData"
               examples:
                 Missing-Token:
+                  summary: "Missing API Token"
                   value:
                     code: 1
                     message: "Missing API Token"
                 Invalid-Token:
+                  summary: "Invalid API Token"
                   value:
                     code: 2
-                    message: "Invalid API Token"
-                  
+                    message: "Invalid API Token"    
         403:
-          description: "Unauthorized to create user"
+          description: "Unauthorized to list tokens"
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorData"
               examples:
                 error:
+                  summary: "Unauthorized to list tokens"
                   value:
                     code: 12
                     message: "You are not authorized to access this resource"
@@ -782,21 +823,24 @@ paths:
                 $ref: "#/components/schemas/ErrorData"
               examples:
                 Missing-Token:
+                  summary: "Missing API Token"
                   value:
                     code: 1
                     message: "Missing API Token"
                 Invalid-Token:
+                  summary: "Invalid API Token"
                   value:
                     code: 2
-                    message: "Invalid API Token"               
+                    message: "Invalid API Token"              
         403:
-          description: "Unauthorized to create user"
+          description: "Unauthorized to get token information"
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorData"
               examples:
                 error:
+                  summary: "Unauthorized to get token information"
                   value:
                     code: 12
                     message: "You are not authorized to access this resource"
@@ -1017,10 +1061,12 @@ paths:
                 $ref: "#/components/schemas/ErrorData"
               examples:
                 Missing-Token:
+                  summary: "Missing API Token"
                   value:
                     code: 1
                     message: "Missing API Token"
                 Invalid-Token:
+                  summary: "Invalid API Token"
                   value:
                     code: 2
                     message: "Invalid API Token"
@@ -1140,10 +1186,12 @@ paths:
                 $ref: "#/components/schemas/ErrorData"
               examples:
                 Missing-Token:
+                  summary: "Missing API Token"
                   value:
                     code: 1
                     message: "Missing API Token"
                 Invalid-Token:
+                  summary: "Invalid API Token"
                   value:
                     code: 2
                     message: "Invalid API Token"
@@ -1209,10 +1257,12 @@ paths:
                 $ref: "#/components/schemas/ErrorData"
               examples:
                 Missing-Token:
+                  summary: "Missing API Token"
                   value:
                     code: 1
                     message: "Missing API Token"
                 Invalid-Token:
+                  summary: "Invalid API Token"
                   value:
                     code: 2
                     message: "Invalid API Token"
@@ -1282,10 +1332,12 @@ paths:
                 $ref: "#/components/schemas/ErrorData"
               examples:
                 Missing-Token:
+                  summary: "Missing API Token"
                   value:
                     code: 1
                     message: "Missing API Token"
                 Invalid-Token:
+                  summary: "Invalid API Token"
                   value:
                     code: 2
                     message: "Invalid API Token"
@@ -1400,10 +1452,12 @@ paths:
                 $ref: "#/components/schemas/ErrorData"
               examples:
                 Missing-Token:
+                  summary: "Missing API Token"
                   value:
                     code: 1
                     message: "Missing API Token"
                 Invalid-Token:
+                  summary: "Invalid API Token"
                   value:
                     code: 2
                     message: "Invalid API Token"
@@ -1443,10 +1497,12 @@ paths:
                 $ref: "#/components/schemas/ErrorData"
               examples:
                 Missing-Token:
+                  summary: "Missing API Token"
                   value:
                     code: 1
                     message: "Missing API Token"
                 Invalid-Token:
+                  summary: "Invalid API Token"
                   value:
                     code: 2
                     message: "Invalid API Token"
@@ -1475,10 +1531,12 @@ paths:
                 $ref: "#/components/schemas/ErrorData"
               examples:
                 Missing-Token:
+                  summary: "Missing API Token"
                   value:
                     code: 1
                     message: "Missing API Token"
                 Invalid-Token:
+                  summary: "Invalid API Token"
                   value:
                     code: 2
                     message: "Invalid API Token"
@@ -1507,10 +1565,12 @@ paths:
                 $ref: "#/components/schemas/ErrorData"
               examples:
                 Missing-Token:
+                  summary: "Missing API Token"
                   value:
                     code: 1
                     message: "Missing API Token"
                 Invalid-Token:
+                  summary: "Invalid API Token"
                   value:
                     code: 2
                     message: "Invalid API Token"
@@ -1571,10 +1631,12 @@ paths:
                 $ref: "#/components/schemas/ErrorData"
               examples:
                 Missing-Token:
+                  summary: "Missing API Token"
                   value:
                     code: 1
                     message: "Missing API Token"
                 Invalid-Token:
+                  summary: "Invalid API Token"
                   value:
                     code: 2
                     message: "Invalid API Token"
@@ -1646,10 +1708,12 @@ paths:
                 $ref: "#/components/schemas/ErrorData"
               examples:
                 Missing-Token:
+                  summary: "Missing API Token"
                   value:
                     code: 1
                     message: "Missing API Token"
                 Invalid-Token:
+                  summary: "Invalid API Token"
                   value:
                     code: 2
                     message: "Invalid API Token"
@@ -1721,10 +1785,12 @@ paths:
                 $ref: "#/components/schemas/ErrorData"
               examples:
                 Missing-Token:
+                  summary: "Missing API Token"
                   value:
                     code: 1
                     message: "Missing API Token"
                 Invalid-Token:
+                  summary: "Invalid API Token"
                   value:
                     code: 2
                     message: "Invalid API Token"
@@ -1797,10 +1863,12 @@ paths:
                 $ref: "#/components/schemas/ErrorData"
               examples:
                 Missing-Token:
+                  summary: "Missing API Token"
                   value:
                     code: 1
                     message: "Missing API Token"
                 Invalid-Token:
+                  summary: "Invalid API Token"
                   value:
                     code: 2
                     message: "Invalid API Token"
@@ -1840,10 +1908,12 @@ paths:
                 $ref: "#/components/schemas/ErrorData"
               examples:
                 Missing-Token:
+                  summary: "Missing API Token"
                   value:
                     code: 1
                     message: "Missing API Token"
                 Invalid-Token:
+                  summary: "Invalid API Token"
                   value:
                     code: 2
                     message: "Invalid API Token"
@@ -1872,10 +1942,12 @@ paths:
                 $ref: "#/components/schemas/ErrorData"
               examples:
                 Missing-Token:
+                  summary: "Missing API Token"
                   value:
                     code: 1
                     message: "Missing API Token"
                 Invalid-Token:
+                  summary: "Invalid API Token"
                   value:
                     code: 2
                     message: "Invalid API Token"
@@ -1906,10 +1978,12 @@ paths:
                 $ref: "#/components/schemas/ErrorData"
               examples:
                 Missing-Token:
+                  summary: "Missing API Token"
                   value:
                     code: 1
                     message: "Missing API Token"
                 Invalid-Token:
+                  summary: "Invalid API Token"
                   value:
                     code: 2
                     message: "Invalid API Token"
@@ -1997,10 +2071,12 @@ paths:
                 $ref: "#/components/schemas/ErrorData"
               examples:
                 Missing-Token:
+                  summary: "Missing API Token"
                   value:
                     code: 1
                     message: "Missing API Token"
                 Invalid-Token:
+                  summary: "Invalid API Token"
                   value:
                     code: 2
                     message: "Invalid API Token"
