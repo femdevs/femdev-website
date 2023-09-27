@@ -2525,7 +2525,31 @@ paths:
                       sunrise: 1695812403
                       sunset: 1695855499
         400:
+          description: "Invalid request body"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                missingRequest:
+                  value:
+                    message: "Missing request param(s)"
+                    code: 4
+                invalidRequest:
+                  value:
+                    message: "Invalid request param(s)"
+                    code: 5
         404:
+          description: "Data not found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                userNotFound:
+                  value:
+                    message: "Resource not found"
+                    code: 13
 components:
   securitySchemes:
     APIToken:
