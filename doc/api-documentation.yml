@@ -857,6 +857,21 @@ paths:
                   value:
                     code: 7
                     message: "Invalid Header Parameter(s)" 
+        401:
+          description: "Invalid/Missing API Token"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-Token:
+                  value:
+                    code: 1
+                    message: "Missing API Token"
+                Invalid-Token:
+                  value:
+                    code: 2
+                    message: "Invalid API Token"
         404:
           description: "Error with the given username"
           content:
@@ -904,6 +919,21 @@ paths:
                   value:
                     code: 7
                     message: "Invalid Header Parameter(s)"
+        401:
+          description: "Invalid/Missing API Token"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-Token:
+                  value:
+                    code: 1
+                    message: "Missing API Token"
+                Invalid-Token:
+                  value:
+                    code: 2
+                    message: "Invalid API Token"
         404:
           description: "Error with the given game"
           content:
@@ -950,6 +980,21 @@ paths:
                   value:
                     code: 7
                     message: "Invalid Header Parameter(s)"
+        401:
+          description: "Invalid/Missing API Token"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-Token:
+                  value:
+                    code: 1
+                    message: "Missing API Token"
+                Invalid-Token:
+                  value:
+                    code: 2
+                    message: "Invalid API Token"
         404:
           description: "Error with the given word"
           content:
@@ -996,6 +1041,21 @@ paths:
                   value:
                     code: 7
                     message: "Invalid Header Parameter(s)"
+        401:
+          description: "Invalid/Missing API Token"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-Token:
+                  value:
+                    code: 1
+                    message: "Missing API Token"
+                Invalid-Token:
+                  value:
+                    code: 2
+                    message: "Invalid API Token"
         404:
           description: "Error with the given word"
           content:
@@ -1042,6 +1102,21 @@ paths:
                   value:
                     code: 7
                     message: "Invalid Header Parameter(s)"
+        401:
+          description: "Invalid/Missing API Token"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-Token:
+                  value:
+                    code: 1
+                    message: "Missing API Token"
+                Invalid-Token:
+                  value:
+                    code: 2
+                    message: "Invalid API Token"
         404:
           description: "Error with the given word"
           content:
@@ -1065,6 +1140,21 @@ paths:
             application/json:
               schema:
                 type: string
+        401:
+          description: "Invalid/Missing API Token"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-Token:
+                  value:
+                    code: 1
+                    message: "Missing API Token"
+                Invalid-Token:
+                  value:
+                    code: 2
+                    message: "Invalid API Token"
   /facts/cat:
     get:
       operationId: "GetCatFact"
@@ -1077,6 +1167,21 @@ paths:
             application/json:
               schema:
                 type: string
+        401:
+          description: "Invalid/Missing API Token"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-Token:
+                  value:
+                    code: 1
+                    message: "Missing API Token"
+                Invalid-Token:
+                  value:
+                    code: 2
+                    message: "Invalid API Token"
   /facts/random:
     get:
       operationId: "GetRandomFact"
@@ -1089,6 +1194,21 @@ paths:
             application/json:
               schema:
                 type: string
+        401:
+          description: "Invalid/Missing API Token"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-Token:
+                  value:
+                    code: 1
+                    message: "Missing API Token"
+                Invalid-Token:
+                  value:
+                    code: 2
+                    message: "Invalid API Token"
   /location/coords:
     get:
       operationId: "GetLocationByCoords"
@@ -1136,6 +1256,21 @@ paths:
                   value:
                     code: 7
                     message: "Invalid Header Parameter(s)"
+        401:
+          description: "Invalid/Missing API Token"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-Token:
+                  value:
+                    code: 1
+                    message: "Missing API Token"
+                Invalid-Token:
+                  value:
+                    code: 2
+                    message: "Invalid API Token"
         404:
           description: "Error with the given coordinates"
           content:
@@ -1194,6 +1329,21 @@ paths:
                   value:
                     code: 7
                     message: "Invalid Header Parameter(s)"
+        401:
+          description: "Invalid/Missing API Token"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-Token:
+                  value:
+                    code: 1
+                    message: "Missing API Token"
+                Invalid-Token:
+                  value:
+                    code: 2
+                    message: "Invalid API Token"
         404:
           description: "Error with the given pluscode"
           content:
@@ -1252,6 +1402,21 @@ paths:
                   value:
                     code: 7
                     message: "Invalid Header Parameter(s)"
+        401:
+          description: "Invalid/Missing API Token"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-Token:
+                  value:
+                    code: 1
+                    message: "Missing API Token"
+                Invalid-Token:
+                  value:
+                    code: 2
+                    message: "Invalid API Token"
         404:
           description: "Error with the given address"
           content:
@@ -1311,6 +1476,21 @@ paths:
                   value:
                     code: 7
                     message: "Invalid Header Parameter(s)"
+        401:
+          description: "Invalid/Missing API Token"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-Token:
+                  value:
+                    code: 1
+                    message: "Missing API Token"
+                Invalid-Token:
+                  value:
+                    code: 2
+                    message: "Invalid API Token"
         404:
           description: "Error with the given phone number"
           content:
@@ -1334,6 +1514,21 @@ paths:
             application/json:
               schema:
                 type: string
+        401:
+          description: "Invalid/Missing API Token"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-Token:
+                  value:
+                    code: 1
+                    message: "Missing API Token"
+                Invalid-Token:
+                  value:
+                    code: 2
+                    message: "Invalid API Token"
   /quotes/ronswanson:
     get:
       operationId: "GetRonSwansonQuote"
@@ -1346,6 +1541,21 @@ paths:
             application/json:
               schema:
                 type: string
+        401:
+          description: "Invalid/Missing API Token"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-Token:
+                  value:
+                    code: 1
+                    message: "Missing API Token"
+                Invalid-Token:
+                  value:
+                    code: 2
+                    message: "Invalid API Token"
   /quotes/random:
     get:
       operationId: "GetRandomQuote"
@@ -1363,6 +1573,21 @@ paths:
                   value:
                     quote: "The best way to predict the future is to create it."
                     author: "Abraham Lincoln"
+        401:
+          description: "Invalid/Missing API Token"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-Token:
+                  value:
+                    code: 1
+                    message: "Missing API Token"
+                Invalid-Token:
+                  value:
+                    code: 2
+                    message: "Invalid API Token"
   /weather/current:
     get:
       operationId: "GetCurrentWeather"
@@ -1437,6 +1662,21 @@ paths:
                   value:
                     code: 7
                     message: "Invalid Header Parameter(s)"
+        401:
+          description: "Invalid/Missing API Token"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-Token:
+                  value:
+                    code: 1
+                    message: "Missing API Token"
+                Invalid-Token:
+                  value:
+                    code: 2
+                    message: "Invalid API Token"
         404:
           description: "Error with the given location"
           content:
