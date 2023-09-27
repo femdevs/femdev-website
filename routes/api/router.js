@@ -13,11 +13,9 @@ const errorResponse = require('../../functions/errorResponse');
 const user = require('./user');
 const crypto = require('./crypto');
 const token = require('./token');
-const cards = require('./cards');
 const facts = require('./facts');
 const location = require('./location');
 const phone = require('./phone');
-const random = require('./random');
 const weather = require('./weather');
 const dictionary = require('./dictionary');
 const minecraft = require('./minecraft/router');
@@ -41,11 +39,9 @@ router
     .use('/user', user)
     .use('/crypto', crypto)
     .use('/token', token)
-    .use('/cards', cards)
     .use('/facts', facts)
     .use('/location', location)
     .use('/phone', phone)
-    .use('/random', random)
     .use('/weather', weather)
     .use('/dictionary', dictionary)
     .use('/minecraft', minecraft)

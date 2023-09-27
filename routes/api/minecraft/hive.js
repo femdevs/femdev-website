@@ -2,19 +2,10 @@ const router = require('express').Router();
 const { aprilFools } = require('../../../functions/utilities');
 
 router
-    .get('/leaderboard', async (req, res) => {
-        const game = req.headers['x-game']
-        if (!game) return res.status(400).json({ error: 'Missing game header' })
-        const AxiosRes = await req.axiosReq
-            .get(`/game/all/${game}`, { baseURL: 'https://api.playhive.com/v0' })
-        if (AxiosRes.status == 404) return res.sendError(13)
-        res.json(JSON.parse(AxiosRes.data))
-    })
     .get('/player', async (req, res) => {
         const player = req.headers['x-player'];
-        const game = req.headers['x-game'] ?? 'all';
         if (!player) return res.status(400).json({ error: 'Missing player header' });
-        const AxiosReq = await req.axiosReq(`/game/all/${game}/${player}`, { baseURL: 'https://api.playhive.com/v0' })
+        const AxiosReq = await req.axiosReq(`/game/all/all/${player}`, { baseURL: 'https://api.playhive.com/v0' })
         const formattedData = {
             hide: {
                 xp: 0,
@@ -152,7 +143,6 @@ router
                 maps_completed_without_dying: 0
             }
         };
-        const singularData = {};
         if (AxiosReq.status == 404) return res.sendError(13)
         Object
             .entries(JSON.parse(AxiosReq.data))
@@ -162,9 +152,8 @@ router
                     .entries(value)
                     .filter(([key2]) => !(key2 === 'UUID'))
                     .forEach(([key2, value2]) => (formattedData[key][key2] = value2))
-                else singularData[key] = value;
             })
-        res.json(singularData.xp ? singularData : formattedData)
+        res.json(formattedData)
     })
     .get('/maps', async (req, res) => {
         const game = req.headers['x-game']

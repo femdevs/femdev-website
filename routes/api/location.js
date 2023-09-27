@@ -1,42 +1,78 @@
 const router = require('express').Router();
 const { aprilFools } = require('../../functions/utilities');
 
+const fullDataToLocationData = (data) => {
+    const finalObj = {
+        address: {
+            full: '',
+            houseNumber: '',
+            street: '',
+            city: '',
+            region: '',
+            country: '',
+            postalCode: '',
+        },
+        pluscode: '',
+        coords: {
+            lat: '',
+            lng: '',
+        },
+    }
+    const address = data.results[0].address_components
+    const geometry = data.results[0].geometry
+    const pluscode = data.plus_code
+    finalObj.address.full = data.results[0].formatted_address
+    finalObj.address.houseNumber = address.filter(a => a.types.includes('street_number'))[0].long_name
+    finalObj.address.street = address.filter(a => a.types.includes('route'))[0].long_name
+    finalObj.address.city = address.filter(a => a.types.includes('locality'))[0].long_name
+    finalObj.address.region = address.filter(a => a.types.includes('administrative_area_level_1'))[0].long_name
+    finalObj.address.country = address.filter(a => a.types.includes('country'))[0].long_name
+    finalObj.address.postalCode = address.filter(a => a.types.includes('postal_code'))[0].long_name
+    finalObj.pluscode = pluscode.global_code
+    finalObj.coords.lat = geometry.location.lat
+    finalObj.coords.lng = geometry.location.lng
+    return finalObj;
+}
+
 router
     .get('/coords', async (req, res) => {
+        const coordpair = req.headers['x-coords'].replace(/\s/g, '')
         const results = await req.axiosReq('/json', {
             baseURL: 'https://maps.googleapis.com/maps/api/geocode',
             params: {
                 key: process.env.GMAPS_API_KEY,
-                address: `${req.query.lat},${req.query.lng}`,
+                address: coordpair,
             }
         })
         const data = JSON.parse(results.data)
         if (data.status == 'ZERO_RESULTS') return res.sendError(13)
-        res.json({data});
+        res.json({data: fullDataToLocationData(data)});
     })
     .get('/pluscode', async (req, res) => {
+        const pluscode = req.headers['x-pluscode'].replace(/\s/g, '')
         const results = await req.axiosReq('/json', {
             baseURL: 'https://maps.googleapis.com/maps/api/geocode',
             params: {
                 key: process.env.GMAPS_API_KEY,
-                address: req.query.address,
+                address: pluscode,
             }
         })
         const data = JSON.parse(results.data)
         if (data.status == 'ZERO_RESULTS') return res.sendError(13)
-        res.json({data});
+        res.json({data: fullDataToLocationData(data)});
     })
     .get('/address', async (req, res) => {
+        const address = req.headers['x-address']
         const results = await req.axiosReq('/json', {
             baseURL: 'https://maps.googleapis.com/maps/api/geocode',
             params: {
                 key: process.env.GMAPS_API_KEY,
-                address: req.query.address
+                address,
             }
         })
         const data = JSON.parse(results.data)
         if (data.status == 'ZERO_RESULTS') return res.sendError(13)
-        res.json({data});
+        res.json({data: fullDataToLocationData(data)});
     })
     .use((req, res, next) => {
         const { path } = req;

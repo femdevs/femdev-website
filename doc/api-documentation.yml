@@ -743,8 +743,7 @@ paths:
                 Invalid-Token:
                   value:
                     code: 2
-                    message: "Invalid API Token"
-                  
+                    message: "Invalid API Token"               
         403:
           description: "Unauthorized to create user"
           content:
@@ -780,6 +779,1753 @@ paths:
                     message: "Misc Error"
       security:
         - APIToken: []
+  /minecraft/hive/player:
+    get:
+      operationId: "GetHivePlayer"
+      description: "Gets the player information for the given username. Returns the player information if the player exists, otherwise returns an error."
+      summary: "Get Hive Player Info"
+      parameters:
+        - in: "header"
+          name: "x-user"
+          description: "The Minecraft username of the player to get information for"
+          schema:
+            type: string
+      responses:
+        200:
+          description: "The player information for the given username"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MinecraftHivePlayerCombinedData"
+        400:
+          description: "Missing user information"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-User:
+                  value:
+                    code: 4
+                    message: "Missing Query Parameter(s)"
+                Invalid-User:
+                  value:
+                    code: 5
+                    message: "Invalid Query Parameter(s)" 
+        404:
+          description: "Error with the given username"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                error:
+                  value:
+                    code: 13
+                    message: "Unable to find requested resource"
+  /minecraft/hive/maps:
+    get:
+      operationId: "GetHiveMaps"
+      description: "Gets the list of maps for the given game. Returns the list of maps if the game exists, otherwise returns an error."
+      summary: "Get Hive Maps"
+      parameters:
+        - in: "header"
+          name: "x-game"
+          description: "The game to get maps for"
+          schema:
+            type: string
+      responses:
+        200:
+          description: "The list of maps for the given game"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  $ref: "#/components/schemas/MinecraftHiveURLDataObj"
+        400:
+          description: "Missing game information"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-Game:
+                  value:
+                    code: 4
+                    message: "Missing Query Parameter(s)"
+                Invalid-Game:
+                  value:
+                    code: 5
+                    message: "Invalid Query Parameter(s)"
+        404:
+          description: "Error with the given game"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                error:
+                  value:
+                    code: 13
+                    message: "Unable to find requested resource"
+  /dictionary/def:
+    get:
+      operationId: "GetDictionaryDefinition"
+      description: "Gets the definition for the given word. Returns the definition if the word exists, otherwise returns an error."
+      summary: "Get Dictionary Definition"
+      parameters:
+        - in: "header"
+          name: "x-word"
+          description: "The word to get the definition for"
+          schema:
+            type: string
+      responses:
+        200:
+          description: "The definition for the given word"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        400:
+          description: "Missing word information"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-Word:
+                  value:
+                    code: 4
+                    message: "Missing Query Parameter(s)"
+                Invalid-Word:
+                  value:
+                    code: 5
+                    message: "Invalid Query Parameter(s)"
+        404:
+          description: "Error with the given word"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                error:
+                  value:
+                    code: 13
+                    message: "Unable to find requested resource"
+  /dictionary/syn:
+    get:
+      operationId: "GetDictionarySynonyms"
+      description: "Gets the synonyms for the given word. Returns the synonyms if the word exists, otherwise returns an error."
+      summary: "Get Dictionary Synonyms"
+      parameters:
+        - in: "header"
+          name: "x-word"
+          description: "The word to get the synonyms for"
+          schema:
+            type: string
+      responses:
+        200:
+          description: "The synonyms for the given word"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        400:
+          description: "Missing word information"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-Word:
+                  value:
+                    code: 4
+                    message: "Missing Query Parameter(s)"
+                Invalid-Word:
+                  value:
+                    code: 5
+                    message: "Invalid Query Parameter(s)"
+        404:
+          description: "Error with the given word"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                error:
+                  value:
+                    code: 13
+                    message: "Unable to find requested resource"
+  /dictionary/ant:
+    get:
+      operationId: "GetDictionaryAntonyms"
+      description: "Gets the antonyms for the given word. Returns the antonyms if the word exists, otherwise returns an error."
+      summary: "Get Dictionary Antonyms"
+      parameters:
+        - in: "header"
+          name: "x-word"
+          description: "The word to get the antonyms for"
+          schema:
+            type: string
+      responses:
+        200:
+          description: "The antonyms for the given word"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        400:
+          description: "Missing word information"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-Word:
+                  value:
+                    code: 4
+                    message: "Missing Query Parameter(s)"
+                Invalid-Word:
+                  value:
+                    code: 5
+                    message: "Invalid Query Parameter(s)"
+        404:
+          description: "Error with the given word"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                error:
+                  value:
+                    code: 13
+                    message: "Unable to find requested resource"
+  /facts/dog:
+    get:
+      operationId: "GetDogFact"
+      description: "Gets a random dog fact. Returns the fact if successful, otherwise returns an error."
+      summary: "Get Dog Fact"
+      responses:
+        200:
+          description: "The dog fact"
+          content:
+            application/json:
+              schema:
+                type: string
+  /facts/cat:
+    get:
+      operationId: "GetCatFact"
+      description: "Gets a random cat fact. Returns the fact if successful, otherwise returns an error."
+      summary: "Get Cat Fact"
+      responses:
+        200:
+          description: "The cat fact"
+          content:
+            application/json:
+              schema:
+                type: string
+  /facts/random:
+    get:
+      operationId: "GetRandomFact"
+      description: "Gets a random fact. Returns the fact if successful, otherwise returns an error."
+      summary: "Get Random Fact"
+      responses:
+        200:
+          description: "The random fact"
+          content:
+            application/json:
+              schema:
+                type: string
+  /location/coords:
+    get:
+      operationId: "GetLocationByCoords"
+      description: "Gets the location for the given coordinates. Returns the location if successful, otherwise returns an error."
+      summary: "Get Location By Coordinates"
+      parameters:
+        - in: "header"
+          name: "x-coordpair"
+          description: "The coordinates to get the location for"
+          schema:
+            type: string
+      responses:
+        200:
+          description: "The location for the given coordinates"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LocationData"
+              examples:
+                location:
+                  value:
+                    address:
+                      houseNumber: "1600"
+                      street: "Pennsylvania Avenue Northwest"
+                      city: "Washington"
+                      state: "District of Columbia"
+                      country: "United States"
+                      postalCode: "20500"
+                    coords:
+                      lat: 38.8976633
+                      lng: -77.0365739
+                    pluscode: "87G8P9CJ+XQ"
+        400:
+          description: "Missing coordinates information"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-Coordinates:
+                  value:
+                    code: 4
+                    message: "Missing Query Parameter(s)"
+                Invalid-Coordinates:
+                  value:
+                    code: 5
+                    message: "Invalid Query Parameter(s)"
+        404:
+          description: "Error with the given coordinates"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                error:
+                  value:
+                    code: 13
+                    message: "Unable to find requested resource"
+  /location/pluscode:
+    get:
+      operationId: "GetLocationByPlusCode"
+      description: "Gets the location for the given plus code. Returns the location if successful, otherwise returns an error."
+      summary: "Get Location By Plus Code"
+      parameters:
+        - in: "header"
+          name: "x-pluscode"
+          description: "The pluscode"
+          schema:
+            type: string
+      responses:
+        200:
+          description: "The location for the given pluscode"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LocationData"
+              examples:
+                location:
+                  value:
+                    address:
+                      houseNumber: "1600"
+                      street: "Pennsylvania Avenue Northwest"
+                      city: "Washington"
+                      state: "District of Columbia"
+                      country: "United States"
+                      postalCode: "20500"
+                    coords:
+                      lat: 38.8976633
+                      lng: -77.0365739
+                    pluscode: "87G8P9CJ+XQ"
+        400:
+          description: "Missing pluscode information"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-Pluscode:
+                  value:
+                    code: 4
+                    message: "Missing Query Parameter(s)"
+                Invalid-Pluscode:
+                  value:
+                    code: 5
+                    message: "Invalid Query Parameter(s)"
+        404:
+          description: "Error with the given pluscode"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                error:
+                  value:
+                    code: 13
+                    message: "Unable to find requested resource"
+  /location/address:
+    get:
+      operationId: "GetLocationByAddress"
+      description: "Gets the location for the given address. Returns the location if successful, otherwise returns an error."
+      summary: "Get Location By Address"
+      parameters:
+        - in: "header"
+          name: "x-address"
+          description: "The address to get the location for"
+          schema:
+            type: string
+      responses:
+        200:
+          description: "The location for the given address"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LocationData"
+              examples:
+                location:
+                  value:
+                    address:
+                      houseNumber: "1600"
+                      street: "Pennsylvania Avenue Northwest"
+                      city: "Washington"
+                      state: "District of Columbia"
+                      country: "United States"
+                      postalCode: "20500"
+                    coords:
+                      lat: 38.8976633
+                      lng: -77.0365739
+                    pluscode: "87G8P9CJ+XQ"
+        400:
+          description: "Missing address information"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-Address:
+                  value:
+                    code: 4
+                    message: "Missing Query Parameter(s)"
+                Invalid-Address:
+                  value:
+                    code: 5
+                    message: "Invalid Query Parameter(s)"
+        404:
+          description: "Error with the given address"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                error:
+                  value:
+                    code: 13
+                    message: "Unable to find requested resource"
+  /phone/details:
+    get:
+      operationId: "GetPhoneDetails"
+      description: "Gets the details for the given phone number. Returns the details if successful, otherwise returns an error."
+      summary: "Get Phone Details"
+      parameters:
+        - in: "header"
+          name: "x-number"
+          description: "The phone number to get the details for"
+          schema:
+            type: string
+      responses:
+        200:
+          description: "The details for the given phone number"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PhoneNumberData"
+              examples:
+                details:
+                  value:
+                    status: "success"
+                    phone: "+15179029616"
+                    phone_valid: true
+                    phone_type: "fixed_line_or_mobile"
+                    phone_region: "Michigan"
+                    country: "United States"
+                    country_code: "US"
+                    country_prefix: '1'
+                    international_number: "+1 517-902-9616"
+                    local_number: "(517) 902-9616"
+                    e164: "+15179029616"
+                    carrier: ''
+        400:
+          description: "Missing phone number information"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-Phone:
+                  value:
+                    code: 4
+                    message: "Missing Query Parameter(s)"
+                Invalid-Phone:
+                  value:
+                    code: 5
+                    message: "Invalid Query Parameter(s)"
+        404:
+          description: "Error with the given phone number"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                error:
+                  value:
+                    code: 13
+                    message: "Unable to find requested resource"
+  /quotes/kanye:
+    get:
+      operationId: "GetKanyeQuote"
+      description: "Gets a random Kanye West quote. Returns the quote if successful, otherwise returns an error."
+      summary: "Get Kanye Quote"
+      responses:
+        200:
+          description: "The Kanye West quote"
+          content:
+            application/json:
+              schema:
+                type: string
+  /quotes/ronswanson:
+    get:
+      operationId: "GetRonSwansonQuote"
+      description: "Gets a random Ron Swanson quote. Returns the quote if successful, otherwise returns an error."
+      summary: "Get Ron Swanson Quote"
+      responses:
+        200:
+          description: "The Ron Swanson quote"
+          content:
+            application/json:
+              schema:
+                type: string
+  /quotes/random:
+    get:
+      operationId: "GetRandomQuote"
+      description: "Gets a random quote. Returns the quote if successful, otherwise returns an error."
+      summary: "Get Random Quote"
+      responses:
+        200:
+          description: "The random quote"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/QuoteData"
+              examples:
+                quote:
+                  value:
+                    quote: "The best way to predict the future is to create it."
+                    author: "Abraham Lincoln"
+  /weather/current:
+    get:
+      operationId: "GetCurrentWeather"
+      description: "Gets the current weather for the given location. Returns the weather if successful, otherwise returns an error."
+      summary: "Get Current Weather"
+      parameters:
+        - in: "header"
+          name: "x-city"
+          description: "The city to get the weather for"
+          schema:
+            type: string
+        - in: "header"
+          name: "x-coords"
+          description: "The coordinates to get the weather for"
+          schema:
+            type: string
+      responses:
+        200:
+          description: "The weather for the given location"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WeatherData"
+              examples:
+                WashingtonDC:
+                  value:
+                    coord:
+                      lon: -77.0369
+                      lat: 38.9072
+                    weather:
+                    - id: 803
+                      main: 'Clouds'
+                      description: 'broken clouds'
+                      icon: '04d'
+                    base: 'stations'
+                    main:
+                      temp: 63.32
+                      feels_like: 62.83
+                      temp_min: 60.82
+                      temp_max: 66.13
+                      pressure: 1026
+                      humidity: 74
+                    visibility: 10000
+                    wind:
+                      speed: 11.5
+                      deg: 20
+                    clouds:
+                      all: 75
+                    dt: 1695829210
+                    sys:
+                      type: 2
+                      id: 2084333
+                      country: 'US'
+                      sunrise: 1695812403
+                      sunset: 1695855499
+                    timezone: -14400
+                    id: 4140963
+                    name: 'Washington D.C.'
+                    cod: 200
+        400:
+          description: "Missing location information"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-Location:
+                  value:
+                    code: 4
+                    message: "Missing Query Parameter(s)"
+                Invalid-Location:
+                  value:
+                    code: 5
+                    message: "Invalid Query Parameter(s)"
+        404:
+          description: "Error with the given location"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                error:
+                  value:
+                    code: 13
+                    message: "Unable to find requested resource"
+  /weather/forecast:
+    get:
+      operationId: "GetWeatherForecast"
+      description: "Gets the weather forecast for the given location. Returns the forecast if successful, otherwise returns an error."
+      summary: "Get Weather Forecast"
+      parameters:
+        - in: "header"
+          name: "x-city"
+          description: "The city to get the weather for"
+          schema:
+            type: string
+        - in: "header"
+          name: "x-coords"
+          description: "The coordinates to get the weather for"
+          schema:
+            type: string
+      responses:
+        200:
+          description: "The weather forecast for the given location"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WeatherForecastData"
+              examples:
+                WashingtonDC:
+                  value:
+                    cod: '200'
+                    message: 0
+                    cnt: 40
+                    list:
+                    - dt: 1695837600
+                      main:
+                        temp: 65.35
+                        feels_like: 64.65
+                        temp_min: 65.35
+                        temp_max: 69.01
+                        pressure: 1025
+                        sea_level: 1025
+                        grnd_level: 1022
+                        humidity: 65
+                        temp_kf: -2.03
+                      weather:
+                      - id: 803
+                        main: Clouds
+                        description: broken clouds
+                        icon: 04d
+                      clouds:
+                        all: 65
+                      wind:
+                        speed: 8.63
+                        deg: 74
+                        gust: 9.86
+                      visibility: 10000
+                      pop: 0
+                      sys:
+                        pod: d
+                      dt_txt: '2023-09-27 18:00:00'
+                    - dt: 1695848400
+                      main:
+                        temp: 66.45
+                        feels_like: 65.52
+                        temp_min: 66.45
+                        temp_max: 67.93
+                        pressure: 1024
+                        sea_level: 1024
+                        grnd_level: 1020
+                        humidity: 58
+                        temp_kf: -0.82
+                      weather:
+                      - id: 802
+                        main: Clouds
+                        description: scattered clouds
+                        icon: 03d
+                      clouds:
+                        all: 28
+                      wind:
+                        speed: 7.85
+                        deg: 79
+                        gust: 10.02
+                      visibility: 10000
+                      pop: 0
+                      sys:
+                        pod: d
+                      dt_txt: '2023-09-27 21:00:00'
+                    - dt: 1695859200
+                      main:
+                        temp: 60.71
+                        feels_like: 59.63
+                        temp_min: 60.71
+                        temp_max: 60.71
+                        pressure: 1024
+                        sea_level: 1024
+                        grnd_level: 1021
+                        humidity: 67
+                        temp_kf: 0
+                      weather:
+                      - id: 800
+                        main: Clear
+                        description: clear sky
+                        icon: 01n
+                      clouds:
+                        all: 8
+                      wind:
+                        speed: 4.56
+                        deg: 94
+                        gust: 13.42
+                      visibility: 10000
+                      pop: 0
+                      sys:
+                        pod: n
+                      dt_txt: '2023-09-28 00:00:00'
+                    - dt: 1695870000
+                      main:
+                        temp: 57.49
+                        feels_like: 56.61
+                        temp_min: 57.49
+                        temp_max: 57.49
+                        pressure: 1024
+                        sea_level: 1024
+                        grnd_level: 1021
+                        humidity: 78
+                        temp_kf: 0
+                      weather:
+                      - id: 802
+                        main: Clouds
+                        description: scattered clouds
+                        icon: 03n
+                      clouds:
+                        all: 32
+                      wind:
+                        speed: 4.43
+                        deg: 79
+                        gust: 13.38
+                      visibility: 10000
+                      pop: 0
+                      sys:
+                        pod: n
+                      dt_txt: '2023-09-28 03:00:00'
+                    - dt: 1695880800
+                      main:
+                        temp: 55.81
+                        feels_like: 55
+                        temp_min: 55.81
+                        temp_max: 55.81
+                        pressure: 1024
+                        sea_level: 1024
+                        grnd_level: 1021
+                        humidity: 83
+                        temp_kf: 0
+                      weather:
+                      - id: 802
+                        main: Clouds
+                        description: scattered clouds
+                        icon: 03n
+                      clouds:
+                        all: 36
+                      wind:
+                        speed: 4.83
+                        deg: 46
+                        gust: 13.38
+                      visibility: 10000
+                      pop: 0
+                      sys:
+                        pod: n
+                      dt_txt: '2023-09-28 06:00:00'
+                    - dt: 1695891600
+                      main:
+                        temp: 54.88
+                        feels_like: 54.16
+                        temp_min: 54.88
+                        temp_max: 54.88
+                        pressure: 1024
+                        sea_level: 1024
+                        grnd_level: 1021
+                        humidity: 87
+                        temp_kf: 0
+                      weather:
+                      - id: 800
+                        main: Clear
+                        description: clear sky
+                        icon: 01n
+                      clouds:
+                        all: 4
+                      wind:
+                        speed: 5.5
+                        deg: 41
+                        gust: 15.95
+                      visibility: 10000
+                      pop: 0
+                      sys:
+                        pod: n
+                      dt_txt: '2023-09-28 09:00:00'
+                    - dt: 1695902400
+                      main:
+                        temp: 56.39
+                        feels_like: 55.54
+                        temp_min: 56.39
+                        temp_max: 56.39
+                        pressure: 1024
+                        sea_level: 1024
+                        grnd_level: 1021
+                        humidity: 81
+                        temp_kf: 0
+                      weather:
+                      - id: 801
+                        main: Clouds
+                        description: few clouds
+                        icon: 02d
+                      clouds:
+                        all: 20
+                      wind:
+                        speed: 5.7
+                        deg: 35
+                        gust: 15.23
+                      visibility: 10000
+                      pop: 0
+                      sys:
+                        pod: d
+                      dt_txt: '2023-09-28 12:00:00'
+                    - dt: 1695913200
+                      main:
+                        temp: 62.98
+                        feels_like: 62.26
+                        temp_min: 62.98
+                        temp_max: 62.98
+                        pressure: 1024
+                        sea_level: 1024
+                        grnd_level: 1022
+                        humidity: 70
+                        temp_kf: 0
+                      weather:
+                      - id: 804
+                        main: Clouds
+                        description: overcast clouds
+                        icon: 04d
+                      clouds:
+                        all: 93
+                      wind:
+                        speed: 5.75
+                        deg: 64
+                        gust: 8.55
+                      visibility: 10000
+                      pop: 0
+                      sys:
+                        pod: d
+                      dt_txt: '2023-09-28 15:00:00'
+                    - dt: 1695924000
+                      main:
+                        temp: 67.86
+                        feels_like: 67.3
+                        temp_min: 67.86
+                        temp_max: 67.86
+                        pressure: 1023
+                        sea_level: 1023
+                        grnd_level: 1020
+                        humidity: 63
+                        temp_kf: 0
+                      weather:
+                      - id: 804
+                        main: Clouds
+                        description: overcast clouds
+                        icon: 04d
+                      clouds:
+                        all: 97
+                      wind:
+                        speed: 5.35
+                        deg: 77
+                        gust: 6.46
+                      visibility: 10000
+                      pop: 0
+                      sys:
+                        pod: d
+                      dt_txt: '2023-09-28 18:00:00'
+                    - dt: 1695934800
+                      main:
+                        temp: 65.25
+                        feels_like: 64.94
+                        temp_min: 65.25
+                        temp_max: 65.25
+                        pressure: 1022
+                        sea_level: 1022
+                        grnd_level: 1019
+                        humidity: 74
+                        temp_kf: 0
+                      weather:
+                      - id: 804
+                        main: Clouds
+                        description: overcast clouds
+                        icon: 04d
+                      clouds:
+                        all: 100
+                      wind:
+                        speed: 6.62
+                        deg: 80
+                        gust: 9.64
+                      visibility: 10000
+                      pop: 0
+                      sys:
+                        pod: d
+                      dt_txt: '2023-09-28 21:00:00'
+                    - dt: 1695945600
+                      main:
+                        temp: 63.21
+                        feels_like: 63.03
+                        temp_min: 63.21
+                        temp_max: 63.21
+                        pressure: 1023
+                        sea_level: 1023
+                        grnd_level: 1020
+                        humidity: 81
+                        temp_kf: 0
+                      weather:
+                      - id: 804
+                        main: Clouds
+                        description: overcast clouds
+                        icon: 04n
+                      clouds:
+                        all: 100
+                      wind:
+                        speed: 5.01
+                        deg: 60
+                        gust: 16.02
+                      visibility: 10000
+                      pop: 0
+                      sys:
+                        pod: n
+                      dt_txt: '2023-09-29 00:00:00'
+                    - dt: 1695956400
+                      main:
+                        temp: 62.83
+                        feels_like: 62.91
+                        temp_min: 62.83
+                        temp_max: 62.83
+                        pressure: 1023
+                        sea_level: 1023
+                        grnd_level: 1020
+                        humidity: 87
+                        temp_kf: 0
+                      weather:
+                      - id: 804
+                        main: Clouds
+                        description: overcast clouds
+                        icon: 04n
+                      clouds:
+                        all: 100
+                      wind:
+                        speed: 5.06
+                        deg: 63
+                        gust: 13.67
+                      visibility: 10000
+                      pop: 0
+                      sys:
+                        pod: n
+                      dt_txt: '2023-09-29 03:00:00'
+                    - dt: 1695967200
+                      main:
+                        temp: 61.99
+                        feels_like: 62.08
+                        temp_min: 61.99
+                        temp_max: 61.99
+                        pressure: 1022
+                        sea_level: 1022
+                        grnd_level: 1019
+                        humidity: 89
+                        temp_kf: 0
+                      weather:
+                      - id: 804
+                        main: Clouds
+                        description: overcast clouds
+                        icon: 04n
+                      clouds:
+                        all: 100
+                      wind:
+                        speed: 4.7
+                        deg: 33
+                        gust: 12.48
+                      visibility: 10000
+                      pop: 0
+                      sys:
+                        pod: n
+                      dt_txt: '2023-09-29 06:00:00'
+                    - dt: 1695978000
+                      main:
+                        temp: 61.86
+                        feels_like: 61.79
+                        temp_min: 61.86
+                        temp_max: 61.86
+                        pressure: 1021
+                        sea_level: 1021
+                        grnd_level: 1018
+                        humidity: 86
+                        temp_kf: 0
+                      weather:
+                      - id: 804
+                        main: Clouds
+                        description: overcast clouds
+                        icon: 04n
+                      clouds:
+                        all: 100
+                      wind:
+                        speed: 5.1
+                        deg: 25
+                        gust: 13.82
+                      visibility: 10000
+                      pop: 0
+                      sys:
+                        pod: n
+                      dt_txt: '2023-09-29 09:00:00'
+                    - dt: 1695988800
+                      main:
+                        temp: 61.95
+                        feels_like: 61.93
+                        temp_min: 61.95
+                        temp_max: 61.95
+                        pressure: 1022
+                        sea_level: 1022
+                        grnd_level: 1019
+                        humidity: 87
+                        temp_kf: 0
+                      weather:
+                      - id: 804
+                        main: Clouds
+                        description: overcast clouds
+                        icon: 04d
+                      clouds:
+                        all: 100
+                      wind:
+                        speed: 5.37
+                        deg: 356
+                        gust: 13.31
+                      visibility: 10000
+                      pop: 0
+                      sys:
+                        pod: d
+                      dt_txt: '2023-09-29 12:00:00'
+                    - dt: 1695999600
+                      main:
+                        temp: 66.81
+                        feels_like: 66.87
+                        temp_min: 66.81
+                        temp_max: 66.81
+                        pressure: 1022
+                        sea_level: 1022
+                        grnd_level: 1019
+                        humidity: 78
+                        temp_kf: 0
+                      weather:
+                      - id: 804
+                        main: Clouds
+                        description: overcast clouds
+                        icon: 04d
+                      clouds:
+                        all: 100
+                      wind:
+                        speed: 6.85
+                        deg: 30
+                        gust: 11.77
+                      visibility: 10000
+                      pop: 0
+                      sys:
+                        pod: d
+                      dt_txt: '2023-09-29 15:00:00'
+                    - dt: 1696010400
+                      main:
+                        temp: 69.24
+                        feels_like: 69.3
+                        temp_min: 69.24
+                        temp_max: 69.24
+                        pressure: 1021
+                        sea_level: 1021
+                        grnd_level: 1018
+                        humidity: 73
+                        temp_kf: 0
+                      weather:
+                      - id: 804
+                        main: Clouds
+                        description: overcast clouds
+                        icon: 04d
+                      clouds:
+                        all: 100
+                      wind:
+                        speed: 7.63
+                        deg: 45
+                        gust: 11.3
+                      visibility: 10000
+                      pop: 0
+                      sys:
+                        pod: d
+                      dt_txt: '2023-09-29 18:00:00'
+                    - dt: 1696021200
+                      main:
+                        temp: 67.84
+                        feels_like: 67.89
+                        temp_min: 67.84
+                        temp_max: 67.84
+                        pressure: 1020
+                        sea_level: 1020
+                        grnd_level: 1018
+                        humidity: 76
+                        temp_kf: 0
+                      weather:
+                      - id: 804
+                        main: Clouds
+                        description: overcast clouds
+                        icon: 04d
+                      clouds:
+                        all: 98
+                      wind:
+                        speed: 8.34
+                        deg: 46
+                        gust: 12.86
+                      visibility: 10000
+                      pop: 0
+                      sys:
+                        pod: d
+                      dt_txt: '2023-09-29 21:00:00'
+                    - dt: 1696032000
+                      main:
+                        temp: 64.63
+                        feels_like: 64.8
+                        temp_min: 64.63
+                        temp_max: 64.63
+                        pressure: 1021
+                        sea_level: 1021
+                        grnd_level: 1018
+                        humidity: 85
+                        temp_kf: 0
+                      weather:
+                      - id: 804
+                        main: Clouds
+                        description: overcast clouds
+                        icon: 04n
+                      clouds:
+                        all: 99
+                      wind:
+                        speed: 6.13
+                        deg: 29
+                        gust: 16.64
+                      visibility: 10000
+                      pop: 0
+                      sys:
+                        pod: n
+                      dt_txt: '2023-09-30 00:00:00'
+                    - dt: 1696042800
+                      main:
+                        temp: 63.79
+                        feels_like: 63.95
+                        temp_min: 63.79
+                        temp_max: 63.79
+                        pressure: 1022
+                        sea_level: 1022
+                        grnd_level: 1019
+                        humidity: 87
+                        temp_kf: 0
+                      weather:
+                      - id: 804
+                        main: Clouds
+                        description: overcast clouds
+                        icon: 04n
+                      clouds:
+                        all: 100
+                      wind:
+                        speed: 6.42
+                        deg: 20
+                        gust: 15.59
+                      visibility: 10000
+                      pop: 0
+                      sys:
+                        pod: n
+                      dt_txt: '2023-09-30 03:00:00'
+                    - dt: 1696053600
+                      main:
+                        temp: 62.98
+                        feels_like: 63.07
+                        temp_min: 62.98
+                        temp_max: 62.98
+                        pressure: 1022
+                        sea_level: 1022
+                        grnd_level: 1019
+                        humidity: 87
+                        temp_kf: 0
+                      weather:
+                      - id: 804
+                        main: Clouds
+                        description: overcast clouds
+                        icon: 04n
+                      clouds:
+                        all: 100
+                      wind:
+                        speed: 6.62
+                        deg: 22
+                        gust: 15.86
+                      visibility: 10000
+                      pop: 0
+                      sys:
+                        pod: n
+                      dt_txt: '2023-09-30 06:00:00'
+                    - dt: 1696064400
+                      main:
+                        temp: 62.74
+                        feels_like: 62.71
+                        temp_min: 62.74
+                        temp_max: 62.74
+                        pressure: 1022
+                        sea_level: 1022
+                        grnd_level: 1019
+                        humidity: 85
+                        temp_kf: 0
+                      weather:
+                      - id: 804
+                        main: Clouds
+                        description: overcast clouds
+                        icon: 04n
+                      clouds:
+                        all: 100
+                      wind:
+                        speed: 5.93
+                        deg: 21
+                        gust: 16.96
+                      visibility: 10000
+                      pop: 0
+                      sys:
+                        pod: n
+                      dt_txt: '2023-09-30 09:00:00'
+                    - dt: 1696075200
+                      main:
+                        temp: 62.71
+                        feels_like: 62.53
+                        temp_min: 62.71
+                        temp_max: 62.71
+                        pressure: 1023
+                        sea_level: 1023
+                        grnd_level: 1020
+                        humidity: 82
+                        temp_kf: 0
+                      weather:
+                      - id: 804
+                        main: Clouds
+                        description: overcast clouds
+                        icon: 04d
+                      clouds:
+                        all: 98
+                      wind:
+                        speed: 5.77
+                        deg: 16
+                        gust: 16.49
+                      visibility: 10000
+                      pop: 0
+                      sys:
+                        pod: d
+                      dt_txt: '2023-09-30 12:00:00'
+                    - dt: 1696086000
+                      main:
+                        temp: 70.43
+                        feels_like: 70.03
+                        temp_min: 70.43
+                        temp_max: 70.43
+                        pressure: 1023
+                        sea_level: 1023
+                        grnd_level: 1021
+                        humidity: 61
+                        temp_kf: 0
+                      weather:
+                      - id: 803
+                        main: Clouds
+                        description: broken clouds
+                        icon: 04d
+                      clouds:
+                        all: 64
+                      wind:
+                        speed: 7.45
+                        deg: 21
+                        gust: 10.2
+                      visibility: 10000
+                      pop: 0
+                      sys:
+                        pod: d
+                      dt_txt: '2023-09-30 15:00:00'
+                    - dt: 1696096800
+                      main:
+                        temp: 74.77
+                        feels_like: 74.44
+                        temp_min: 74.77
+                        temp_max: 74.77
+                        pressure: 1022
+                        sea_level: 1022
+                        grnd_level: 1019
+                        humidity: 53
+                        temp_kf: 0
+                      weather:
+                      - id: 803
+                        main: Clouds
+                        description: broken clouds
+                        icon: 04d
+                      clouds:
+                        all: 55
+                      wind:
+                        speed: 8.68
+                        deg: 44
+                        gust: 12.17
+                      visibility: 10000
+                      pop: 0
+                      sys:
+                        pod: d
+                      dt_txt: '2023-09-30 18:00:00'
+                    - dt: 1696107600
+                      main:
+                        temp: 70.93
+                        feels_like: 70.68
+                        temp_min: 70.93
+                        temp_max: 70.93
+                        pressure: 1022
+                        sea_level: 1022
+                        grnd_level: 1019
+                        humidity: 63
+                        temp_kf: 0
+                      weather:
+                      - id: 804
+                        main: Clouds
+                        description: overcast clouds
+                        icon: 04d
+                      clouds:
+                        all: 92
+                      wind:
+                        speed: 8.39
+                        deg: 78
+                        gust: 12.59
+                      visibility: 10000
+                      pop: 0
+                      sys:
+                        pod: d
+                      dt_txt: '2023-09-30 21:00:00'
+                    - dt: 1696118400
+                      main:
+                        temp: 65.3
+                        feels_like: 64.92
+                        temp_min: 65.3
+                        temp_max: 65.3
+                        pressure: 1023
+                        sea_level: 1023
+                        grnd_level: 1021
+                        humidity: 72
+                        temp_kf: 0
+                      weather:
+                      - id: 804
+                        main: Clouds
+                        description: overcast clouds
+                        icon: 04n
+                      clouds:
+                        all: 87
+                      wind:
+                        speed: 3.89
+                        deg: 72
+                        gust: 11.23
+                      visibility: 10000
+                      pop: 0
+                      sys:
+                        pod: n
+                      dt_txt: '2023-10-01 00:00:00'
+                    - dt: 1696129200
+                      main:
+                        temp: 61.65
+                        feels_like: 61.18
+                        temp_min: 61.65
+                        temp_max: 61.65
+                        pressure: 1024
+                        sea_level: 1024
+                        grnd_level: 1021
+                        humidity: 78
+                        temp_kf: 0
+                      weather:
+                      - id: 800
+                        main: Clear
+                        description: clear sky
+                        icon: 01n
+                      clouds:
+                        all: 0
+                      wind:
+                        speed: 3.67
+                        deg: 36
+                        gust: 10.16
+                      visibility: 10000
+                      pop: 0
+                      sys:
+                        pod: n
+                      dt_txt: '2023-10-01 03:00:00'
+                    - dt: 1696140000
+                      main:
+                        temp: 60.13
+                        feels_like: 59.61
+                        temp_min: 60.13
+                        temp_max: 60.13
+                        pressure: 1024
+                        sea_level: 1024
+                        grnd_level: 1022
+                        humidity: 80
+                        temp_kf: 0
+                      weather:
+                      - id: 800
+                        main: Clear
+                        description: clear sky
+                        icon: 01n
+                      clouds:
+                        all: 1
+                      wind:
+                        speed: 3.8
+                        deg: 30
+                        gust: 9.78
+                      visibility: 10000
+                      pop: 0
+                      sys:
+                        pod: n
+                      dt_txt: '2023-10-01 06:00:00'
+                    - dt: 1696150800
+                      main:
+                        temp: 58.68
+                        feels_like: 57.87
+                        temp_min: 58.68
+                        temp_max: 58.68
+                        pressure: 1024
+                        sea_level: 1024
+                        grnd_level: 1021
+                        humidity: 77
+                        temp_kf: 0
+                      weather:
+                      - id: 800
+                        main: Clear
+                        description: clear sky
+                        icon: 01n
+                      clouds:
+                        all: 0
+                      wind:
+                        speed: 4.29
+                        deg: 4
+                        gust: 11.01
+                      visibility: 10000
+                      pop: 0
+                      sys:
+                        pod: n
+                      dt_txt: '2023-10-01 09:00:00'
+                    - dt: 1696161600
+                      main:
+                        temp: 59.02
+                        feels_like: 57.87
+                        temp_min: 59.02
+                        temp_max: 59.02
+                        pressure: 1025
+                        sea_level: 1025
+                        grnd_level: 1022
+                        humidity: 69
+                        temp_kf: 0
+                      weather:
+                      - id: 800
+                        main: Clear
+                        description: clear sky
+                        icon: 01d
+                      clouds:
+                        all: 0
+                      wind:
+                        speed: 4.12
+                        deg: 340
+                        gust: 11.21
+                      visibility: 10000
+                      pop: 0
+                      sys:
+                        pod: d
+                      dt_txt: '2023-10-01 12:00:00'
+                    - dt: 1696172400
+                      main:
+                        temp: 71.42
+                        feels_like: 70.66
+                        temp_min: 71.42
+                        temp_max: 71.42
+                        pressure: 1025
+                        sea_level: 1025
+                        grnd_level: 1022
+                        humidity: 51
+                        temp_kf: 0
+                      weather:
+                      - id: 800
+                        main: Clear
+                        description: clear sky
+                        icon: 01d
+                      clouds:
+                        all: 0
+                      wind:
+                        speed: 4.92
+                        deg: 12
+                        gust: 8.99
+                      visibility: 10000
+                      pop: 0
+                      sys:
+                        pod: d
+                      dt_txt: '2023-10-01 15:00:00'
+                    - dt: 1696183200
+                      main:
+                        temp: 78.55
+                        feels_like: 78.31
+                        temp_min: 78.55
+                        temp_max: 78.55
+                        pressure: 1023
+                        sea_level: 1023
+                        grnd_level: 1020
+                        humidity: 47
+                        temp_kf: 0
+                      weather:
+                      - id: 800
+                        main: Clear
+                        description: clear sky
+                        icon: 01d
+                      clouds:
+                        all: 1
+                      wind:
+                        speed: 6.04
+                        deg: 4
+                        gust: 10.96
+                      visibility: 10000
+                      pop: 0
+                      sys:
+                        pod: d
+                      dt_txt: '2023-10-01 18:00:00'
+                    - dt: 1696194000
+                      main:
+                        temp: 78.91
+                        feels_like: 78.91
+                        temp_min: 78.91
+                        temp_max: 78.91
+                        pressure: 1021
+                        sea_level: 1021
+                        grnd_level: 1018
+                        humidity: 48
+                        temp_kf: 0
+                      weather:
+                      - id: 801
+                        main: Clouds
+                        description: few clouds
+                        icon: 02d
+                      clouds:
+                        all: 12
+                      wind:
+                        speed: 6.64
+                        deg: 10
+                        gust: 10.87
+                      visibility: 10000
+                      pop: 0
+                      sys:
+                        pod: d
+                      dt_txt: '2023-10-01 21:00:00'
+                    - dt: 1696204800
+                      main:
+                        temp: 68.99
+                        feels_like: 68.92
+                        temp_min: 68.99
+                        temp_max: 68.99
+                        pressure: 1022
+                        sea_level: 1022
+                        grnd_level: 1019
+                        humidity: 71
+                        temp_kf: 0
+                      weather:
+                      - id: 800
+                        main: Clear
+                        description: clear sky
+                        icon: 01n
+                      clouds:
+                        all: 10
+                      wind:
+                        speed: 2.66
+                        deg: 17
+                        gust: 4.12
+                      visibility: 10000
+                      pop: 0
+                      sys:
+                        pod: n
+                      dt_txt: '2023-10-02 00:00:00'
+                    - dt: 1696215600
+                      main:
+                        temp: 66.33
+                        feels_like: 66.18
+                        temp_min: 66.33
+                        temp_max: 66.33
+                        pressure: 1022
+                        sea_level: 1022
+                        grnd_level: 1019
+                        humidity: 75
+                        temp_kf: 0
+                      weather:
+                      - id: 800
+                        main: Clear
+                        description: clear sky
+                        icon: 01n
+                      clouds:
+                        all: 0
+                      wind:
+                        speed: 3.06
+                        deg: 357
+                        gust: 3.89
+                      visibility: 10000
+                      pop: 0
+                      sys:
+                        pod: n
+                      dt_txt: '2023-10-02 03:00:00'
+                    - dt: 1696226400
+                      main:
+                        temp: 64.18
+                        feels_like: 64.06
+                        temp_min: 64.18
+                        temp_max: 64.18
+                        pressure: 1021
+                        sea_level: 1021
+                        grnd_level: 1018
+                        humidity: 80
+                        temp_kf: 0
+                      weather:
+                      - id: 800
+                        main: Clear
+                        description: clear sky
+                        icon: 01n
+                      clouds:
+                        all: 0
+                      wind:
+                        speed: 3.98
+                        deg: 352
+                        gust: 7.23
+                      visibility: 10000
+                      pop: 0
+                      sys:
+                        pod: n
+                      dt_txt: '2023-10-02 06:00:00'
+                    - dt: 1696237200
+                      main:
+                        temp: 62.24
+                        feels_like: 62.15
+                        temp_min: 62.24
+                        temp_max: 62.24
+                        pressure: 1021
+                        sea_level: 1021
+                        grnd_level: 1019
+                        humidity: 85
+                        temp_kf: 0
+                      weather:
+                      - id: 800
+                        main: Clear
+                        description: clear sky
+                        icon: 01n
+                      clouds:
+                        all: 0
+                      wind:
+                        speed: 4.18
+                        deg: 358
+                        gust: 9.04
+                      visibility: 10000
+                      pop: 0
+                      sys:
+                        pod: n
+                      dt_txt: '2023-10-02 09:00:00'
+                    - dt: 1696248000
+                      main:
+                        temp: 62.98
+                        feels_like: 62.92
+                        temp_min: 62.98
+                        temp_max: 62.98
+                        pressure: 1022
+                        sea_level: 1022
+                        grnd_level: 1019
+                        humidity: 84
+                        temp_kf: 0
+                      weather:
+                      - id: 800
+                        main: Clear
+                        description: clear sky
+                        icon: 01d
+                      clouds:
+                        all: 0
+                      wind:
+                        speed: 3.36
+                        deg: 4
+                        gust: 9.44
+                      visibility: 10000
+                      pop: 0
+                      sys:
+                        pod: d
+                      dt_txt: '2023-10-02 12:00:00'
+                    - dt: 1696258800
+                      main:
+                        temp: 74.91
+                        feels_like: 74.79
+                        temp_min: 74.91
+                        temp_max: 74.91
+                        pressure: 1022
+                        sea_level: 1022
+                        grnd_level: 1019
+                        humidity: 57
+                        temp_kf: 0
+                      weather:
+                      - id: 800
+                        main: Clear
+                        description: clear sky
+                        icon: 01d
+                      clouds:
+                        all: 1
+                      wind:
+                        speed: 4.41
+                        deg: 14
+                        gust: 7.65
+                      visibility: 10000
+                      pop: 0
+                      sys:
+                        pod: d
+                      dt_txt: '2023-10-02 15:00:00'
+                    city:
+                      id: 4140963
+                      name: Washington D.C.
+                      coord:
+                        lat: 38.9072
+                        lon: -77.0369
+                      country: US
+                      population: 601723
+                      timezone: -14400
+                      sunrise: 1695812403
+                      sunset: 1695855499
+        400:
+        404:
 components:
   securitySchemes:
     APIToken:
@@ -1134,3 +2880,1134 @@ components:
           items:
             $ref: "#/components/schemas/ListTokenData"
           description: "The list of tokens"
+    MinecraftHiveURLDataObj:
+      required:
+        - url
+        - name
+      properties:
+        url:
+          nullable: false
+          type: string
+          description: "The URL of the player's skin"
+        name:
+          nullable: false
+          type: string
+          description: "The name of the player"
+    MinecraftHiveMainPlayerData:
+      required:
+        - xuid
+        - username
+        - username_cc
+        - rank
+        - first_played
+        - daily_login_streak
+        - longest_daily_login_streak
+        - hub_title_count
+        - hub_title_unlocked
+        - avatar_count
+        - avatar_unlocked
+        - costume_count
+        - friend_count
+        - equipped_hub_title
+        - equipped_avatar
+        - quest_count
+        - pets
+        - mounts
+        - hats
+      properties:
+        xuid:
+          nullable: false
+          type: integer
+          description: "The XUID of the player"
+        username:
+          nullable: false
+          type: string
+          description: "The username of the player"
+        username_cc:
+          nullable: false
+          type: string
+          description: "The username of the player with color codes"
+        rank:
+          nullable: false
+          type: string
+          description: "The rank of the player"
+        first_played:
+          nullable: false
+          type: integer
+          description: "The first time the player played"
+        daily_login_streak:
+          nullable: false
+          type: integer
+          description: "The current daily login streak of the player"
+        longest_daily_login_streak:
+          nullable: false
+          type: integer
+          description: "The longest daily login streak of the player"
+        hub_title_count:
+          nullable: false
+          type: integer
+          description: "The number of hub titles the player has"
+        hub_title_unlocked:
+          nullable: false
+          type: array
+          items:
+            type: string
+          description: "The number of hub titles the player has unlocked"
+        avatar_count:
+          nullable: false
+          type: integer
+          description: "The number of avatars the player has"
+        avatar_unlocked:
+          nullable: false
+          type: array
+          items:
+            type: '#/components/schemas/MinecraftHiveURLDataObj'
+          description: "The avatars the player has unlocked"
+        costume_count:
+          nullable: false
+          type: integer
+          description: "The number of costumes the player has"
+        friend_count:
+          nullable: false
+          type: integer
+          description: "The number of friends the player has"
+        equipped_hub_title:
+          nullable: false
+          type: string
+          description: "The hub title the player has equipped"
+        equipped_avatar:
+          nullable: false
+          type: '#/components/schemas/MinecraftHiveURLDataObj'
+          description: "The avatar the player has equipped"
+        quest_count:
+          nullable: false
+          type: integer
+          description: "The number of quests the player has"
+        pets:
+          nullable: false
+          type: array
+          items:
+            type: string
+          description: "The pets the player has"
+        mounts:
+          nullable: false
+          type: array
+          items:
+            type: string
+          description: "The mounts the player has"
+        hats:
+          nullable: false
+          type: array
+          items:
+            type: string
+          description: "The hats the player has"
+    MinecraftHivePlayerHideGameStatistics:
+      required:
+        - xp
+        - played
+        - victories
+        - first_played
+        - deaths
+        - hider_kills
+      properties:
+        xp:
+          nullable: false
+          type: integer
+          description: "The XP of the player"
+        played:
+          nullable: false
+          type: integer
+          description: "The number of games the player has played"
+        victories:
+          nullable: false
+          type: integer
+          description: "The number of games the player has won"
+        first_played:
+          nullable: false
+          type: integer
+          description: "The first time the player played"
+        deaths:
+          nullable: false
+          type: integer
+          description: "The number of times the player has died"
+        hider_kills:
+          nullable: false
+          type: integer
+          description: "The number of hiders the player has killed"
+    MinecraftHivePlayerDeathrunStatistics:
+      required:
+        - xp
+        - played
+        - victories
+        - first_played
+        - deaths
+        - checkpoints
+        - activated
+        - kills
+      properties:
+        xp:
+          nullable: false
+          type: integer
+          description: "The XP of the player"
+        played:
+          nullable: false
+          type: integer
+          description: "The number of games the player has played"
+        victories:
+          nullable: false
+          type: integer
+          description: "The number of games the player has won"
+        first_played:
+          nullable: false
+          type: integer
+          description: "The first time the player played"
+        deaths:
+          nullable: false
+          type: integer
+          description: "The number of times the player has died"
+        checkpoints:
+          nullable: false
+          type: integer
+          description: "The number of checkpoints the player has reached"
+        activated:
+          nullable: false
+          type: integer
+          description: "The number of traps the player has activated"
+        kills:
+          nullable: false
+          type: integer
+          description: "The number of deaths the player has caused"
+    MinecraftHivePlayerWarStatistics:
+      required:
+        - xp
+        - played
+        - first_played
+        - final_kills
+        - kills
+        - treasure_destroyed
+        - deaths
+      properties:
+        xp:
+          nullable: false
+          type: integer
+          description: "The XP of the player"
+        played:
+          nullable: false
+          type: integer
+          description: "The number of games the player has played"
+        first_played:
+          nullable: false
+          type: integer
+          description: "The first time the player played"
+        final_kills:
+          nullable: false
+          type: integer
+          description: "The number of final kills the player has"
+        kills:
+          nullable: false
+          type: integer
+          description: "The number of kills the player has"
+        treasure_destroyed:
+          nullable: false
+          type: integer
+          description: "The number of treasures the player has destroyed"
+        deaths:
+          nullable: false
+          type: integer
+          description: "The number of times the player has died"
+    MinecraftHivePlayerMurderMysteryStatistics:
+      required:
+        - xp
+        - played
+        - victories
+        - first_played
+        - deaths
+        - coins
+        - murders
+      properties:
+        xp:
+          nullable: false
+          type: integer
+          description: "The XP of the player"
+        played:
+          nullable: false
+          type: integer
+          description: "The number of games the player has played"
+        victories:
+          nullable: false
+          type: integer
+          description: "The number of games the player has won"
+        first_played:
+          nullable: false
+          type: integer
+          description: "The first time the player played"
+        deaths:
+          nullable: false
+          type: integer
+          description: "The number of times the player has died"
+        coins:
+          nullable: false
+          type: integer
+          description: "The number of coins the player has"
+        murders:
+          nullable: false
+          type: integer
+          description: "The number of murders the player has committed"
+    MinecraftHivePlayerSurvivalGamesStatistics:
+      required:
+        - xp
+        - played
+        - first_played
+        - crates
+        - kills
+        - deaths
+      properties:
+        xp:
+          nullable: false
+          type: integer
+          description: "The amount of XP the player has"
+        played:
+          nullable: false
+          type: integer
+          description: "The amount of games the player has played"
+        first_played:
+          nullable: false
+          type: integer
+          description: "The first time the player played"
+        crates:
+          nullable: false
+          type: integer
+          description: "The number of crates the player has opened"
+        kills:
+          nullable: false
+          type: integer
+          description: "The number of kills the player has"
+        deaths:
+          nullable: false
+          type: integer
+          description: "The number of times the player has died"
+    MinecraftHivePlayerSkyWarsStatistics:
+      required:
+        - xp
+        - played
+        - victories
+        - first_played
+        - ores_mined
+        - deaths
+      properties:
+        xp:
+          nullable: false
+          type: integer
+          description: "The amount of XP the player has"
+        played:
+          nullable: false
+          type: integer
+          description: "The amount of games the player has played"
+        victories:
+          nullable: false
+          type: integer
+          description: "The amount of games the player has won"
+        first_played:
+          nullable: false
+          type: integer
+          description: "The first time the player played"
+        ores_mined:
+          nullable: false
+          type: integer
+          description: "The number of ores the player has mined"
+        deaths:
+          nullable: false
+          type: integer
+          description: "The number of times the player has died"
+    MinecraftHivePlayerCTFStatistics:
+      required:
+        - xp
+        - played
+        - victories
+        - first_played
+        - assists
+        - deaths
+        - flags_captured
+        - kills
+        - flags_returned
+      properties:
+        xp:
+          nullable: false
+          type: integer
+          description: "The amount of XP the player has"
+        played:
+          nullable: false
+          type: integer
+          description: "The amount of games the player has played"
+        victories:
+          nullable: false
+          type: integer
+          description: "The amount of games the player has won"
+        first_played:
+          nullable: false
+          type: integer
+          description: "The first time the player played"
+        assists:
+          nullable: false
+          type: integer
+          description: "The number of assists the player has"
+        deaths:
+          nullable: false
+          type: integer
+          description: "The number of times the player has died"
+        flags_captured:
+          nullable: false
+          type: integer
+          description: "The number of flags the player has captured"
+        kills:
+          nullable: false
+          type: integer
+          description: "The number of kills the player has"
+        flags_returned:
+          nullable: false
+          type: integer
+          description: "The number of flags the player has returned"
+    MinecraftHivePlayerDropStatistics:
+      required:
+        - xp
+        - played
+        - first_played
+        - blocks_destroyed
+        - powerups_collected
+        - vaults_used
+        - deaths
+      properties:
+        xp:
+          nullable: false
+          type: integer
+          description: "The amount of XP the player has"
+        played:
+          nullable: false
+          type: integer
+          description: "The amount of games the player has played"
+        first_played:
+          nullable: false
+          type: integer
+          description: "The first time the player played"
+        blocks_destroyed:
+          nullable: false
+          type: integer
+          description: "The number of blocks the player has destroyed"
+        powerups_collected:
+          nullable: false
+          type: integer
+          description: "The number of powerups the player has collected"
+        vaults_used:
+          nullable: false
+          type: integer
+          description: "The number of vaults the player has used"
+        deaths:
+          nullable: false
+          type: integer
+          description: "The number of times the player has died"
+    MinecraftHivePlayerGroundStatistics:
+      required:
+        - xp
+        - played
+        - victories
+        - first_played
+        - blocks_destroyed
+        - powerups_collected
+        - vaults_used
+        - deaths
+      properties:
+        xp:
+          nullable: false
+          type: integer
+          description: "The amount of XP the player has"
+        played:
+          nullable: false
+          type: integer
+          description: "The amount of games the player has played"
+        victories:
+          nullable: false
+          type: integer
+          description: "The amount of games the player has won"
+        first_played:
+          nullable: false
+          type: integer
+          description: "The first time the player played"
+        blocks_destroyed:
+          nullable: false
+          type: integer
+          description: "The number of blocks the player has destroyed"
+        powerups_collected:
+          nullable: false
+          type: integer
+          description: "The number of powerups the player has collected"
+        vaults_used:
+          nullable: false
+          type: integer
+          description: "The number of vaults the player has used"
+        deaths:
+          nullable: false
+          type: integer
+          description: "The number of times the player has died"
+    MinecraftHivePlayerBuildStatistics:
+      required: 
+        - xp
+        - played
+        - first_played
+        - rating_meh_received
+        - rating_ok_received
+        - rating_good_received
+        - rating_great_received
+        - rating_love_received
+      properties:
+        xp:
+          nullable: false
+          type: integer
+          description: "The amount of XP the player has"
+        played:
+          nullable: false
+          type: integer
+          description: "The amount of games the player has played"
+        first_played:
+          nullable: false
+          type: integer
+          description: "The first time the player played"
+        rating_meh_received:
+          nullable: false
+          type: integer
+          description: "The number of meh ratings the player has received"
+        rating_ok_received:
+          nullable: false
+          type: integer
+          description: "The number of ok ratings the player has received"
+        rating_good_received:
+          nullable: false
+          type: integer
+          description: "The number of good ratings the player has received"
+        rating_great_received:
+          nullable: false
+          type: integer
+          description: "The number of great ratings the player has received"
+        rating_love_received:
+          nullable: false
+          type: integer
+          description: "The number of love ratings the player has received"
+    MinecraftHivePlayerPartyStatistics:
+      required:
+        - xp
+        - played
+        - victories
+        - first_played
+        - powerups_collected
+        - rounds_survived
+      properties:
+        xp:
+          nullable: false
+          type: integer
+          description: "The amount of XP the player has"
+        played:
+          nullable: false
+          type: integer
+          description: "The amount of games the player has played"
+        victories:
+          nullable: false
+          type: integer
+          description: "The amount of games the player has won"
+        first_played:
+          nullable: false
+          type: integer
+          description: "The first time the player played"
+        powerups_collected:
+          nullable: false
+          type: integer
+          description: "The number of powerups the player has collected"
+        rounds_survived:
+          nullable: false
+          type: integer
+          description: "The number of rounds the player has survived"
+    MinecraftHivePlayerBridgeStatistics:
+      required:
+        - xp
+        - first_played
+      properties:
+        xp:
+          nullable: false
+          type: integer
+          description: "The amount of XP the player has"
+        first_played:
+          nullable: false
+          type: integer
+          description: "The first time the player played"
+    MinecraftHivePlayerGravityStatistics:
+      required:
+        - xp
+        - played
+        - victories
+        - first_played
+        - deaths
+        - maps_completed
+        - maps_completed_without_dying
+      properties:
+        xp:
+          nullable: false
+          type: integer
+          description: "The amount of XP the player has"
+        played:
+          nullable: false
+          type: integer
+          description: "The amount of games the player has played"
+        victories:
+          nullable: false
+          type: integer
+          description: "The amount of games the player has won"
+        first_played:
+          nullable: false
+          type: integer
+          description: "The first time the player played"
+        deaths:
+          nullable: false
+          type: integer
+          description: "The number of times the player has died"
+        maps_completed:
+          nullable: false
+          type: integer
+          description: "The number of maps the player has completed"
+        maps_completed_without_dying:
+          nullable: false
+          type: integer
+          description: "The number of maps the player has completed without dying"
+    MinecraftHivePlayerCombinedData:
+      required:
+        - hide
+        - main
+        - deathrun
+        - war
+        - sg
+        - sky
+        - ctf
+        - drop
+        - ground
+        - build
+        - party
+        - bridge
+        - grav
+      properties:
+        hide:
+          nullable: false
+          type: '#/components/schemas/MinecraftHivePlayerHideGameStatistics'
+          description: "The hide game statistics of the player"
+        main:
+          nullable: false
+          type: '#/components/schemas/MinecraftHiveMainPlayerData'
+          description: "The main statistics of the player"
+        deathrun:
+          nullable: false
+          type: '#/components/schemas/MinecraftHivePlayerDeathrunStatistics'
+          description: "The deathrun statistics of the player"
+        war:
+          nullable: false
+          type: '#/components/schemas/MinecraftHivePlayerWarStatistics'
+          description: "The war statistics of the player"
+        sg:
+          nullable: false
+          type: '#/components/schemas/MinecraftHivePlayerSurvivalGamesStatistics'
+          description: "The survival games statistics of the player"
+        sky:
+          nullable: false
+          type: '#/components/schemas/MinecraftHivePlayerSkyWarsStatistics'
+          description: "The sky wars statistics of the player"
+        ctf:
+          nullable: false
+          type: '#/components/schemas/MinecraftHivePlayerCTFStatistics'
+          description: "The capture the flag statistics of the player"
+        drop:
+          nullable: false
+          type: '#/components/schemas/MinecraftHivePlayerDropStatistics'
+          description: "The drop statistics of the player"
+        ground:
+          nullable: false
+          type: '#/components/schemas/MinecraftHivePlayerGroundStatistics'
+          description: "The ground statistics of the player"
+        build:
+          nullable: false
+          type: '#/components/schemas/MinecraftHivePlayerBuildStatistics'
+          description: "The build statistics of the player"
+        party:
+          nullable: false
+          type: '#/components/schemas/MinecraftHivePlayerPartyStatistics'
+          description: "The party statistics of the player"
+        bridge:
+          nullable: false
+          type: '#/components/schemas/MinecraftHivePlayerBridgeStatistics'
+          description: "The bridge statistics of the player"
+        grav:
+          nullable: false
+          type: '#/components/schemas/MinecraftHivePlayerGravityStatistics'
+          description: "The gravity statistics of the player"
+    LocationAddressData:
+      required:
+        - full
+        - houseNumber
+        - street
+        - city
+        - region
+        - country
+        - postalCode
+      properties:
+        full:
+          nullable: false
+          type: string
+          description: "The full address"
+        houseNumber:
+          nullable: false
+          type: string
+          description: "The house number"
+        street:
+          nullable: false
+          type: string
+          description: "The street"
+        city:
+          nullable: false
+          type: string
+          description: "The city"
+        region:
+          nullable: false
+          type: string
+          description: "The region"
+        country:
+          nullable: false
+          type: string
+          description: "The country"
+        postalCode:
+          nullable: false
+          type: string
+          description: "The postal code"
+    LocationCoordData:
+      required:
+        - lat
+        - lng
+      properties:
+        lat:
+          nullable: false
+          type: number
+          description: "The latitude of the location"
+        lng:
+          nullable: false
+          type: number
+          description: "The longitude of the location"
+    LocationData:
+      required:
+        - address
+        - coords
+        - pluscode
+      properties:
+        address:
+          nullable: false
+          type: object
+          $ref: "#/components/schemas/LocationAddressData"
+          description: "The address of the location"
+        coords:
+          nullable: false
+          type: object
+          $ref: "#/components/schemas/LocationCoordData"
+          description: "The coordinates of the location"
+        pluscode:
+          nullable: false
+          type: string
+          description: "The plus code of the location"
+    PhoneNumberData:
+      required:
+        - status
+        - phone
+        - phone_valid
+        - phone_type
+        - phone_region
+        - country
+        - country_code
+        - country_prefix
+        - international_number
+        - local_number
+        - e164
+        - carrier
+      properties:
+        status:
+          nullable: false
+          type: string
+          description: "The status of the phone number"
+        phone:
+          nullable: false
+          type: string
+          description: "The phone number"
+        phone_valid:
+          nullable: false
+          type: boolean
+          description: "Whether or not the phone number is valid"
+        phone_type:
+          nullable: false
+          type: string
+          description: "The type of the phone number"
+        phone_region:
+          nullable: false
+          type: string
+          description: "The region of the phone number"
+        country:
+          nullable: false
+          type: string
+          description: "The country of the phone number"
+        country_code:
+          nullable: false
+          type: string
+          description: "The country code of the phone number"
+        country_prefix:
+          nullable: false
+          type: string
+          description: "The country prefix of the phone number"
+        international_number:
+          nullable: false
+          type: string
+          description: "The international number of the phone number"
+        local_number:
+          nullable: false
+          type: string
+          description: "The local number of the phone number"
+        e164:
+          nullable: false
+          type: string
+          description: "The E164 number of the phone number"
+        carrier:
+          nullable: false
+          type: string
+          description: "The carrier of the phone number"
+    WeatherLocationData:
+      required:
+        - lat
+        - lon
+      properties:
+        lat:
+          nullable: false
+          type: number
+          description: "The latitude of the location"
+        lon:
+          nullable: false
+          type: number
+          description: "The longitude of the location"
+    WeatherCurrentInformation:
+      required:
+        - id
+        - main
+        - description
+        - icon
+      properties:
+        id:
+          nullable: false
+          type: integer
+          description: "The ID of the weather"
+        main:
+          nullable: false
+          type: string
+          description: "The main description of the weather"
+        description:
+          nullable: false
+          type: string
+          description: "The description of the weather"
+        icon:
+          nullable: false
+          type: string
+          description: "The icon of the weather"
+    WeatherCurrentMainData:
+      required:
+        - temp
+        - feels_like
+        - temp_min
+        - temp_max
+        - pressure
+        - humidity
+      properties:
+        temp:
+          nullable: false
+          type: number
+          description: "The temperature"
+        feels_like:
+          nullable: false
+          type: number
+          description: "The temperature that it feels like"
+        temp_min:
+          nullable: false
+          type: number
+          description: "The minimum temperature"
+        temp_max:
+          nullable: false
+          type: number
+          description: "The maximum temperature"
+        pressure:
+          nullable: false
+          type: integer
+          description: "The pressure"
+        humidity:
+          nullable: false
+          type: integer
+          description: "The humidity"
+    WeatherCurrentWindData:
+      required:
+        - speed
+        - deg
+      properties:
+        speed:
+          nullable: false
+          type: number
+          description: "The speed of the wind"
+        deg:
+          nullable: false
+          type: integer
+          description: "The direction of the wind"
+    WeatherCurrentCloudData:
+      required:
+        - all
+      properties:
+        all:
+          nullable: false
+          type: integer
+          description: "The cloudiness"
+    WeatherCurrentSysData:
+      required:
+        - type
+        - id
+        - country
+        - sunrise
+        - sunset
+      properties:
+        type:
+          nullable: false
+          type: integer
+          description: "The type of the weather"
+        id:
+          nullable: false
+          type: integer
+          description: "The ID of the weather"
+        country:
+          nullable: false
+          type: string
+          description: "The country of the weather"
+        sunrise:
+          nullable: false
+          type: integer
+          description: "The sunrise time"
+        sunset:
+          nullable: false
+          type: integer
+          description: "The sunset time"
+    WeatherCurrentData:
+      required:
+        - coord
+        - weather
+        - base
+        - main
+        - visibility
+        - wind
+        - clouds
+        - dt
+        - sys
+        - timezone
+        - id
+        - name
+        - cod
+      properties:
+        coord:
+          nullable: false
+          type: object
+          $ref: "#/components/schemas/WeatherLocationData"
+          description: "The location of the weather"
+        weather:
+          nullable: false
+          type: array
+          items:
+            $ref: "#/components/schemas/WeatherCurrentInformation"
+          description: "The weather information"
+        base:
+          nullable: false
+          type: string
+          description: "The base of the weather"
+        main:
+          nullable: false
+          type: object
+          $ref: "#/components/schemas/WeatherCurrentMainData"
+          description: "The main weather information"
+        visibility:
+          nullable: false
+          type: integer
+          description: "The visibility of the weather"
+        wind:
+          nullable: false
+          type: object
+          $ref: "#/components/schemas/WeatherCurrentWindData"
+          description: "The wind information"
+        clouds:
+          nullable: false
+          type: object
+          $ref: "#/components/schemas/WeatherCurrentCloudData"
+          description: "The cloud information"
+        dt:
+          nullable: false
+          type: integer
+          description: "The time of the weather"
+        sys:
+          nullable: false
+          type: object
+          $ref: "#/components/schemas/WeatherCurrentSysData"
+          description: "The system information"
+        timezone:
+          nullable: false
+          type: integer
+          description: "The timezone of the weather"
+        id:
+          nullable: false
+          type: integer
+          description: "The ID of the weather"
+        name:
+          nullable: false
+          type: string
+          description: "The name of the weather"
+        cod:
+          nullable: false
+          type: integer
+          description: "The code of the weather"
+    WeatherForcastMainData:
+      required:
+        - temp
+        - feels_like
+        - temp_min
+        - temp_max
+        - pressure
+        - sea_level
+        - grnd_level
+        - humidity
+        - temp_kf
+      properties:
+        temp:
+          nullable: false
+          type: number
+          description: "The temperature"
+        feels_like:
+          nullable: false
+          type: number
+          description: "The temperature that it feels like"
+        temp_min:
+          nullable: false
+          type: number
+          description: "The minimum temperature"
+        temp_max:
+          nullable: false
+          type: number
+          description: "The maximum temperature"
+        pressure:
+          nullable: false
+          type: integer
+          description: "The pressure"
+        sea_level:
+          nullable: false
+          type: integer
+          description: "The sea level"
+        grnd_level:
+          nullable: false
+          type: integer
+          description: "The ground level"
+        humidity:
+          nullable: false
+          type: integer
+          description: "The humidity"
+        temp_kf:
+          nullable: false
+          type: number
+          description: "The temperature"
+    WeatherForcastSysData:
+      required:
+        - pod
+      properties:
+        pod:
+          nullable: false
+          type: string
+          description: "The pod of the weather"
+    WeatherForcastPointInTimeData:
+      required:
+        - dt
+        - main
+        - weather
+        - clouds
+        - wind
+        - visibility
+        - pop
+        - sys
+        - dt_txt
+      properties:
+        dt:
+          nullable: false
+          type: integer
+          description: "The time of the weather"
+        main:
+          nullable: false
+          type: object
+          $ref: "#/components/schemas/WeatherForcastMainData"
+          description: "The main weather information"
+        weather:
+          nullable: false
+          type: array
+          items:
+            $ref: "#/components/schemas/WeatherCurrentInformation"
+          description: "The weather information"
+        clouds:
+          nullable: false
+          type: object
+          $ref: "#/components/schemas/WeatherCurrentCloudData"
+          description: "The cloud information"
+        wind:
+          nullable: false
+          type: object
+          $ref: "#/components/schemas/WeatherCurrentWindData"
+          description: "The wind information"
+        visibility:
+          nullable: false
+          type: integer
+          description: "The visibility of the weather"
+        pop:
+          nullable: false
+          type: number
+          description: "The probability of precipitation"
+        sys:
+          nullable: false
+          type: object
+          $ref: "#/components/schemas/WeatherForcastSysData"
+          description: "The system information"
+        dt_txt:
+          nullable: false
+          type: string
+          description: "The time of the weather"
+    WeatherForecastData:
+      required:
+        - cod
+        - message
+        - cnt
+        - list
+        - city
+      properties:
+        cod:
+          nullable: false
+          type: string
+          description: "The code of the weather"
+        message:
+          nullable: false
+          type: integer
+          description: "The message of the weather"
+        cnt:
+          nullable: false
+          type: integer
+          description: "The count of the weather"
+        list:
+          nullable: false
+          type: array
+          items:
+            $ref: "#/components/schemas/WeatherForcastPointInTimeData"
+          description: "The list of weather information"
+        city:
+          nullable: false
+          type: object
+          $ref: "#/components/schemas/WeatherLocationData"
+          description: "The location of the weather"

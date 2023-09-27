@@ -3,13 +3,15 @@ require('dotenv').config();
 const { aprilFools } = require('../../functions/utilities');
 
 router
-    .get('/details/:number', async (req, res) => {
-        const AxiosRes = await req.axiosReq(`/verify?phone=${req.params.number}`,
+    .get('/details', async (req, res) => {
+        const numericalNumber = req.headers['x-number'].replace(/[^0-9]/gm, '')
+        const AxiosRes = await req.axiosReq(`/verify`,
             {
                 baseURL: 'https://api.veriphone.io/v2',
                 params: {
                     default_country: 'US',
                     key: process.env.VERIPHONE_TOKEN,
+                    phone: numericalNumber,
                 }
             })
         if (AxiosRes.status == 404) return res.sendError(13)
