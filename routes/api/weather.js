@@ -3,8 +3,24 @@ const { aprilFools } = require('../../functions/utilities');
 
 router
     .get('/current', async (req, res) => {
-        const { lat, lon } = req.query;
-        if (!lat || !lon) return res.status(400).json({ error: 'Missing lat or lon query' })
+        let lat, lon;
+        if (req.query.city) {
+            // use Google Geocoding API to get lat and lon
+            const AxiosRes = await req.axiosReq(`/json`, {
+                baseURL: 'https://maps.googleapis.com/maps/api/geocode',
+                params: {
+                    address: req.query.city,
+                    key: process.env.GMAPS_API_KEY,
+                }
+            })
+            const data = JSON.parse(AxiosRes.data)
+            if (data.status == 'ZERO_RESULTS') return res.sendError(13)
+            lat = data.results[0].geometry.location.lat
+            lon = data.results[0].geometry.location.lng
+        } else if (req.query.lat && req.query.lon) {
+            lat = req.query.lat
+            lon = req.query.lon
+        } else return res.sendError(4)
         const AxiosRes = await req.axiosReq(`/weather`, {
             baseURL: 'https://api.openweathermap.org/data/2.5',
             params: {

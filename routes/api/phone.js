@@ -4,8 +4,7 @@ const { aprilFools } = require('../../functions/utilities');
 
 router
     .get('/details/:number', async (req, res) => {
-        const AxiosRes = await req.axiosReq
-            .get(`/verify?phone=${req.params.number}`,
+        const AxiosRes = await req.axiosReq(`/verify?phone=${req.params.number}`,
             {
                 baseURL: 'https://api.veriphone.io/v2',
                 params: {

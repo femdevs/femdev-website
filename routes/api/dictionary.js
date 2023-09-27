@@ -4,18 +4,18 @@ const { aprilFools } = require('../../functions/utilities');
 
 router
     .get('/def/:word', async (req, res) => {
-        const { data: { meta: data } } = await req.axiosReq(
+        const { data } = await req.axiosReq(
             `/${req.params.word}`,
             {
-                baseURL: 'https://www.dictionaryapi.com/api/v3/references/thesaurus/json/',
+                baseURL: 'https://www.dictionaryapi.com/api/v3/references/collegiate/json',
                 params: {
-                    key: process.env.TAK,
+                    key: process.env.DAK,
                 }
             })
-        res.json(JSON.parse(data))
+        res.json({defs: JSON.parse(data)[0].shortdef})
     })
     .get('/syn/:word', async (req, res) => {
-        const { data: { meta: { syns } } } = await req.axiosReq(
+        const { data } = await req.axiosReq(
             `/${req.params.word}`,
             {
                 baseURL: 'https://www.dictionaryapi.com/api/v3/references/thesaurus/json/',
@@ -23,17 +23,18 @@ router
                     key: process.env.TAK,
                 },
             })
-        res.json(JSON.parse(syns))
+        const syns = JSON.parse(data)[0].meta.syns.reduce((acc, curr) => [...acc, ...curr], [])
+        res.json({syns})
     })
     .get('/ant/:word', async (req, res) => {
-        const { data: { meta: { ants } } } = await req.axiosReq(
+        const { data } = await req.axiosReq(
             `/${req.params.word}`,{
                 baseURL: 'https://www.dictionaryapi.com/api/v3/references/thesaurus/json/',
                 params: {
                     key: process.env.TAK,
                 }
             })
-        res.json(JSON.parse(ants))
+        res.json({ants: JSON.parse(data)[0].meta.ants})
     })
     .use((req, res, next) => {
         const { path } = req;
