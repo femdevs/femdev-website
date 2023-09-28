@@ -18,15 +18,15 @@ const api = require('./api/router');
 const { aprilFools } = require('../functions/utilities');
 
 //- Middleware
-const IPM = require('../middleware/IP'); // IP Middleware
-const SM = require('../middleware/session'); // Session Manager
-const MRL = require('../middleware/mainRateLimit'); // Main Rate Limiter
-const ARL = require('../middleware/assetRateLimit'); // Asset Rate Limiter
-const RL = require('../middleware/routeLogger'); // Route Logger
-const EPR = require('../middleware/errorPages'); // Error Page Renderer
-const IBC = require('../middleware/ipBlacklist'); // IP Blacklist Checker
-const Headers = require('../middleware/headers'); // Header Setter
-const four0four = require('../middleware/404'); // 404 Handler
+const IPM = require('../middleware/IP'); //? IP Middleware
+const SM = require('../middleware/session'); //? Session Manager
+const MRL = require('../middleware/mainRateLimit'); //? Main Rate Limiter
+const ARL = require('../middleware/assetRateLimit'); //? Asset Rate Limiter
+const RL = require('../middleware/routeLogger'); //? Route Logger
+const EPR = require('../middleware/errorPages'); //? Error Page Renderer
+const IBC = require('../middleware/ipBlacklist'); //? IP Blacklist Checker
+const Headers = require('../middleware/headers'); //? Header Setter
+const four0four = require('../middleware/404'); //? 404 Handler
 
 //- Sentry Initalization
 Sentry.init({
