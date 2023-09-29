@@ -54,9 +54,6 @@ Sentry.init({
 
 //- Router setup
 router
-    //- Settings
-    .set('trust proxy', true)
-    .set('x-powered-by', false)
     //- Key Middleware
     .use(RL)
     .use(Sentry.Handlers.requestHandler({ transaction: true }))
