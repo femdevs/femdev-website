@@ -59,10 +59,10 @@ router
     .use(Sentry.Handlers.requestHandler({ transaction: true }))
     .use(Sentry.Handlers.tracingHandler())
     .use(IPM.infoMiddleware)
-    .use(IPM.checkInfo)
+    .use(SM)
+    .use(IPM.checkLocation)
     .use(IPM.ipBlacklist)
     .use(TRACE)
-    .use(SM)
     .use(MRL)
     .use(Headers)
     //- Routes

@@ -1933,7 +1933,7 @@ paths:
                 type: string
               examples:
                 quote:
-                  value: ""
+                  value: "There's only one thing I hate more than lying: skim milk. Which is water that's lying about being milk."
         401:
           description: "Invalid/Missing API Token"
           content:
@@ -1970,6 +1970,11 @@ paths:
                   value:
                     quote: "The best way to predict the future is to create it."
                     author: "Abraham Lincoln"
+                    tags:
+                      - "future"
+                      - "inspire"
+                      - "life"
+                      - "wisdom"
         401:
           description: "Invalid/Missing API Token"
           content:
@@ -2692,6 +2697,7 @@ components:
         - deaths
         - coins
         - murders
+        - murderer_eliminations
       properties:
         xp:
           nullable: false
@@ -2721,6 +2727,10 @@ components:
           nullable: false
           type: integer
           description: "The number of murders the player has committed"
+        murderer_eliminations:
+          nullable: false
+          type: integer
+          description: "The number of murderers the user has eliminated"
     MinecraftHivePlayerSurvivalGamesStatistics:
       required:
         - xp
@@ -3478,6 +3488,7 @@ components:
       required:
         - quote
         - author
+        - tags
       properties:
         quote:
           nullable: false
@@ -3487,3 +3498,9 @@ components:
           nullable: false
           type: string
           description: "The author of the quote"
+        tags:
+          nullable: false
+          type: array
+          items:
+            type: string
+          description: "The tags of the quote"

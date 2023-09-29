@@ -4,15 +4,20 @@ const { aprilFools } = require('../../functions/utilities');
 router
     .get('/kanye', async (req, res) => {
         const { data } = await req.axiosReq('https://api.kanye.rest');
-        res.json(JSON.parse(data));
+        res.send(JSON.parse(data).quote);
     })
     .get('/ronswanson', async (req, res) => {
         const { data } = await req.axiosReq('https://ron-swanson-quotes.herokuapp.com/v2/quotes');
-        res.json(JSON.parse(data));
+        res.send(JSON.parse(data)[0]);
     })
     .get('/random', async (req, res) => {
         const { data } = await req.axiosReq('https://api.quotable.io/random');
-        res.json(JSON.parse(data));
+        const ResData = JSON.parse(data);
+        res.json({
+            content: ResData.content,
+            author: ResData.author,
+            tags: ResData.tags,
+        });
     })
     .use((req, res, next) => {
         const { path } = req;
