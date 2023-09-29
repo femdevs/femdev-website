@@ -18,6 +18,7 @@ const location = require('./location');
 const phone = require('./phone');
 const weather = require('./weather');
 const dictionary = require('./dictionary');
+const quotes = require('./quotes');
 const minecraft = require('./minecraft/router');
 
 const axiosReq = async (url, cfgs) => {
@@ -44,6 +45,7 @@ router
     .use('/phone', phone)
     .use('/weather', weather)
     .use('/dictionary', dictionary)
+    .use('/quotes', quotes)
     .use('/minecraft', minecraft)
     .get('/', (req, res) => res.redirect(301, 'https://docs.api.thefemdevs.com'))
     .use((req, res, next) => {

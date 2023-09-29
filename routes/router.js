@@ -21,13 +21,11 @@ const { aprilFools } = require('../functions/utilities');
 const IPM = require('../middleware/IP'); //? IP Middleware
 const SM = require('../middleware/session'); //? Session Manager
 const MRL = require('../middleware/mainRateLimit'); //? Main Rate Limiter
-const ARL = require('../middleware/assetRateLimit'); //? Asset Rate Limiter
+const TRACE = require('../middleware/traceHandler'); //? Tracing Middleware
 const RL = require('../middleware/routeLogger'); //? Route Logger
 const EPR = require('../middleware/errorPages'); //? Error Page Renderer
-const IBC = require('../middleware/ipBlacklist'); //? IP Blacklist Checker
 const Headers = require('../middleware/headers'); //? Header Setter
 const four0four = require('../middleware/404'); //? 404 Handler
-const TRACE = require('../middleware/traceHandler'); //? Tracing Middleware
 
 //- Sentry Initalization
 Sentry.init({
@@ -57,17 +55,16 @@ Sentry.init({
 //- Router setup
 router
     //- Key Middleware
+    .use(RL)
     .use(Sentry.Handlers.requestHandler({ transaction: true }))
     .use(Sentry.Handlers.tracingHandler())
     .use(IPM.infoMiddleware)
     .use(IPM.checkInfo)
-    .use(RL)
+    .use(IPM.ipBlacklist)
     .use(TRACE)
     .use(SM)
-    .use(Headers)
-    .use(IBC)
     .use(MRL)
-    .use('/assets', ARL)
+    .use(Headers)
     //- Routes
     .use('/ab', ab)
     .use('/api', api)
