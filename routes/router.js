@@ -27,6 +27,7 @@ const EPR = require('../middleware/errorPages'); //? Error Page Renderer
 const IBC = require('../middleware/ipBlacklist'); //? IP Blacklist Checker
 const Headers = require('../middleware/headers'); //? Header Setter
 const four0four = require('../middleware/404'); //? 404 Handler
+const TRACE = require('../middleware/traceHandler'); //? Tracing Middleware
 
 //- Sentry Initalization
 Sentry.init({
@@ -56,13 +57,14 @@ Sentry.init({
 //- Router setup
 router
     //- Key Middleware
-    .use(SM)
     .use(Sentry.Handlers.requestHandler({ transaction: true }))
     .use(Sentry.Handlers.tracingHandler())
     .use(IPM.infoMiddleware)
     .use(IPM.checkInfo)
-    .use(Headers)
     .use(RL)
+    .use(TRACE)
+    .use(SM)
+    .use(Headers)
     .use(IBC)
     .use(MRL)
     .use('/assets', ARL)
@@ -93,6 +95,7 @@ router
         allowedMethods.map(r => r.route.stack[0])
         allowedMethods = { ...allowedMethods[0] }
         allowedMethods = allowedMethods.route.methods;
+        if (req.method === 'OPTIONS') return res.setHeader('Allow', Object.keys(allowedMethods).map(m => m.toUpperCase()).join(', ')).setHeader('Access-Control-Allow-Methods', Object.keys(allowedMethods).map(m => m.toUpperCase()).join(', ')).status(204).send();
         if (allowedMethods[methodUsed]) return next();
         res.status(405).render(
             `${aprilFools() ? 'aprilfools/' : ''}misc/405.pug`,

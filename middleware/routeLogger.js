@@ -39,7 +39,11 @@ class ColorConverter {
             case 'HEAD':
                 return chalkPrep.rgb(65, 105, 225)(method);
             case 'OPTIONS':
-                return chalkPrep.rgb(255, 255, 255)(method);
+                return chalkPrep.rgb(255, 120, 0)(method);
+            case 'TRACE':
+                return chalkPrep.rgb(0, 191, 255)(method);
+            case 'CONNECT':
+                return chalkPrep.rgb(100, 255, 100)(method);
             default:
                 return chalkPrep.rgb(255, 255, 255)(method);
         }
