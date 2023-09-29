@@ -62,8 +62,8 @@ class Formatter {
 app
     .set('view engine', 'pug')
     .set('case sensitive routing', false)
-    .enable('trust proxy')
-    .disable('x-powered-by')
+    .set('trust proxy', true)
+    .set('x-powered-by', false)
     .use((req, _, next) => {
         function checkPerm(userbit, ...neededPerms) {
             const userPerms = Formatter.permissionBitToReadable(userbit);

@@ -54,6 +54,9 @@ Sentry.init({
 
 //- Router setup
 router
+    //- Settings
+    .set('trust proxy', true)
+    .set('x-powered-by', false)
     //- Key Middleware
     .use(RL)
     .use(Sentry.Handlers.requestHandler({ transaction: true }))
@@ -111,7 +114,7 @@ router
         );
     })
     //- Error Handler
-    .use((err, req, res, next) => EPR(err,req, res, next, Sentry))
+    .use((err, req, res, next) => EPR(err, req, res, next, Sentry))
     .use(four0four)
     .use(Sentry.Handlers.errorHandler());
 
