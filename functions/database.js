@@ -15,12 +15,12 @@ const pool = new pg.Pool({
 })
 
 /**
- * @param {{ip: string, date: string, method: string, url: string, status: number, time: number, bytes: number}} data 
+ * @param {{ip: string, method: string, url: string, status: number, time: number, bytes: number}} data 
  */
 const saveAccessLog = async (data) => {
     const connection = await pool.connect();
-    const query = `INSERT INTO public.accessLogs (ipAddress, time, method, route, statusCode, timing, dataTransferred) VALUES ($1, $2, $3, $4, $5, $6, $7)`;
-    const values = [data.ip, data.date, data.method, data.url, data.status, data.time, data.bytes];
+    const query = `INSERT INTO public.accessLogs (ipAddress, method, route, statusCode, timing, dataTransferred) VALUES ($1, $2, $3, $4, $5, $6, $7)`;
+    const values = [data.ip, data.method, data.url, data.status, data.time, data.bytes];
     await connection.query(query, values).catch(e => console.error(e));
     connection.release();
 }

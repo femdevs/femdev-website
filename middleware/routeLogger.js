@@ -80,7 +80,6 @@ function middleware(mreq, mres, next) {
             return responseTime((req, res, time) => {
                 const data = {
                     ip: ['::1', '127.0.0.1'].includes(mreq.ip.replace('::ffff:', '')) ? 'localhost' : (mreq.ip || 'unknown').replace('::ffff:', ''),
-                    date: new Intl.DateTimeFormat('en-us', { year: "numeric", month: "short", day: "numeric", hour: "numeric", minute: "numeric", second: "numeric", weekday: "short", timeZone: "America/Detroit", timeZoneName: undefined }).format(new Date()),
                     method: req.method,
                     url: new URL(mreq.originalUrl, 'https://thefemdevs.com/').pathname,
                     status: res.statusCode,
@@ -89,7 +88,7 @@ function middleware(mreq, mres, next) {
                 }
                 const coloredData = {
                     ip: chalk.grey(data.ip),
-                    date: chalk.bold(data.date),
+                    date: chalk.bold(new Intl.DateTimeFormat('en-us', { year: "numeric", month: "short", day: "numeric", hour: "numeric", minute: "numeric", second: "numeric", weekday: "short", timeZone: "America/Detroit", timeZoneName: undefined }).format(new Date())),
                     method: ColorConverter.method(data.method),
                     url: ColorConverter.path(data.url),
                     status: ColorConverter.status(data.status),
