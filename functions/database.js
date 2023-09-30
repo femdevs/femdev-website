@@ -1,4 +1,7 @@
 const MySQL = require('mysql2');
+const Sentry = require('@sentry/node');
+const Intigrations = require('@sentry/integrations');
+const Profiling = require('@sentry/profiling-node');
 require('dotenv').config();
 
 const Pool = MySQL.createPool({
@@ -33,8 +36,7 @@ const saveAccessLog = async (data) => {
  */
 const testIPBlacklisted = async (ip) => {
     const connection = await getConnection();
-    const query = `SELECT ipHash, reason FROM websiteBlacklist WHERE active = 1`;
-    const [rows] = await connection.query(query);
+    const [rows] = await connection.query(`SELECT ipHash, reason FROM websiteBlacklist WHERE active = 1`);
     closeConnection(connection);
     for (const row of rows) {
         if (row.ipHash === ip) return [true, row.reason];

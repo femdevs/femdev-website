@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const pg = require('pg')
+const pg = require('pg');
 const { aprilFools } = require('../functions/utilities');
 
 const pool = new pg.Pool({

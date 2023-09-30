@@ -3,13 +3,32 @@ script(
   src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1906373468377810"
   crossorigin="anonymous"
 )
+script(
+  src="https://browser.sentry-cdn.com/7.72.0/bundle.tracing.replay.min.js"
+  crossorigin="anonymous"
+)
+script(
+  src="https://browser.sentry-cdn.com/7.72.0/transaction.min.js"
+  crossorigin="anonymous"
+)
+script(type="module").
+  Sentry.init({
+    dsn: "https://1b96a35a22f4004da6f12e26a1472dbd@o4504516705058816.ingest.sentry.io/4505965045940224",
+    integrations: [
+      new Sentry.Integrations.BrowserTracing(),
+      new Sentry.Integrations.Replay({maskAllInputs: false, maskAllText: false, blockAllMedia: false})
+    ],
+    tracesSampleRate: 1.0,
+    profilesSampleRate: 1.0,
+    replaysSessionSampleRate: 1.0,
+    replaysOnErrorSampleRate: 1.0
+  });
 script(async src='/assets/js/o/GoogleAnalytics.min.js')
-script
-  | window.dataLayer = window.dataLayer || [];
-  | function gtag(){dataLayer.push(arguments);}
-  | gtag("js", new Date());
-  | 
-  | gtag("config", 'G-X9E281G0P3');
+script.
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag("js", new Date());
+  gtag("config", 'G-X9E281G0P3');
 meta(charset='UTF-8')
 meta(http-equiv='X-UA-Compatible' content='IE=edge')
 meta(http-equiv='Content-Type' content='text/html; charset=utf-8')
@@ -56,8 +75,8 @@ if file
     rel='stylesheet'
     type='text/css'
   )
-script(async src="https://fundingchoicesmessages.google.com/i/pub-1906373468377810?ers=1" nonce="OGd3JXTu01PnVKe3bosPtg"  type='application/javascript')
-script(nonce="OGd3JXTu01PnVKe3bosPtg"  type='application/javascript')
+script(async src="https://fundingchoicesmessages.google.com/i/pub-1906373468377810?ers=1" nonce="OGd3JXTu01PnVKe3bosPtg" type='application/javascript')
+script(nonce="OGd3JXTu01PnVKe3bosPtg" type='application/javascript')
   | (function() {function signalGooglefcPresent() {if (!window.frames['googlefcPresent']) {if (document.body) {const iframe = document.createElement('iframe'); iframe.style = 'width: 0; height: 0; border: none; z-index: -1000; left: -1000px; top: -1000px;'; iframe.style.display = 'none'; iframe.name = 'googlefcPresent'; document.body.appendChild(iframe);} else {setTimeout(signalGooglefcPresent, 0);}}}signalGooglefcPresent();})();
 script(asyc src="/assets/js/o/adRecovery.js" type='application/javascript')
 script(type='application/javascript')

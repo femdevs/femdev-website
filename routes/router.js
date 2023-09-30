@@ -1,8 +1,11 @@
 //- Packages
 const router = require('express').Router();
 const Sentry = require('@sentry/node');
-const Tracing = require('@sentry/tracing');
 const Intigrations = require('@sentry/integrations');
+const Profiling = require('@sentry/profiling-node');
+const cron = require('node-cron');
+const crypto = require('crypto');
+const http = require('http');
 require('dotenv').config();
 
 //- Routes
@@ -16,6 +19,7 @@ const api = require('./api/router');
 
 //- Functions
 const { aprilFools } = require('../functions/utilities');
+const Database = require('../functions/database');
 
 //- Middleware
 const IPM = require('../middleware/IP'); //? IP Middleware
@@ -27,10 +31,14 @@ const EPR = require('../middleware/errorPages'); //? Error Page Renderer
 const Headers = require('../middleware/headers'); //? Header Setter
 const four0four = require('../middleware/404'); //? 404 Handler
 
+let blacklistedIPAddresses = [];
+
 //- Sentry Initalization
 Sentry.init({
     dsn: process.env.SENTRY_DSN,
     sampleRate: 1.0,
+    tracesSampleRate: 1.0,
+    profilesSampleRate: 1.0,
     serverName: "Main PC",
     integrations: [
         new Intigrations.ExtraErrorData({ depth: 10 }),
@@ -44,7 +52,9 @@ Sentry.init({
             tracing: true,
             breadcrumbs: true
         }),
-        new Tracing.Integrations.Express({ router })
+        new Sentry.Integrations.Express({ router }),
+        new Profiling.ProfilingIntegration(),
+        new Sentry.Integrations.Postgres(),
     ],
     // @ts-ignore
     environment: "MasterDevelopment",
@@ -52,16 +62,67 @@ Sentry.init({
     sendDefaultPii: true
 });
 
+
 //- Router setup
 router
     //- Key Middleware
-    .use(RL)
     .use(Sentry.Handlers.requestHandler({ transaction: true }))
     .use(Sentry.Handlers.tracingHandler())
+    .use((req, _, next) => {
+        req.Sentry = Sentry;
+        next();
+    })
+    .use(RL)
     .use(IPM.infoMiddleware)
     .use(SM)
     .use(IPM.checkLocation)
-    .use(IPM.ipBlacklist)
+    .use((req, res, next) => {
+        req.Sentry.startSpan(
+            { op: "IPBlacklistCheck", name: "IP Blacklist Check Handler", data: { path: req.path } },
+            async () => {
+                const hash = (data) => {
+                    let currentHash = data;
+                    crypto.getHashes().forEach(hashAlg => { currentHash = crypto.createHash(hashAlg).update(currentHash).digest('base64url') })
+                    return crypto.createHash('id-rsassa-pkcs1-v1_5-with-sha3-512').update(currentHash).digest('base64url');
+                }
+                if (req.session.ipBanned) return res.status(403).render(
+                    `${aprilFools() ? 'april-fools/' : ''}misc/403.pug`,
+                    {
+                        errData: {
+                            path: req.path,
+                            code: 403,
+                            reason: 'You are banned from accessing this website.'
+                        },
+                        meta: {
+                            title: `403 - Forbidden`,
+                            desc: `403 - Forbidden`,
+                            url: `https://thefemdevs.com/errors/403`
+                        }
+                    }
+                )
+                const ip = ['::1', '127.0.0.1'].includes(req.ip.replace('::ffff:', '')) ? 'localhost' : (req.ip || 'unknown').replace('::ffff:', '')
+                if (blacklistedIPAddresses.includes(hash(ip))) {
+                    req.session.ipBanned = true;
+                    return res.status(403).render(
+                        `${aprilFools() ? 'april-fools/' : ''}misc/403.pug`,
+                        {
+                            errData: {
+                                path: req.path,
+                                code: 403,
+                                reason: 'You are banned from accessing this website.',
+                            },
+                            meta: {
+                                title: `403 - Forbidden`,
+                                desc: `403 - Forbidden`,
+                                url: `https://thefemdevs.com/errors/403`
+                            }
+                        }
+                    )
+                }
+                next();
+            }
+        );
+    })
     .use(TRACE)
     .use(MRL)
     .use(Headers)
@@ -111,8 +172,32 @@ router
         );
     })
     //- Error Handler
-    .use((err, req, res, next) => EPR(err, req, res, next, Sentry))
+    .use(EPR)
     .use(four0four)
     .use(Sentry.Handlers.errorHandler());
+
+cron
+    .schedule(
+        '*/5 * * * *',
+        async () => {
+            Sentry.startSpan({ op: "IPBlacklistUpdate", name: "IP Blacklist Updater" }, async () => {
+                const connection = await Database.getConnection();
+                blacklistedIPAddresses = (await connection.query(`SELECT ipHash FROM websiteBlacklist WHERE active = 1`))[0].map(r => r.ipHash);
+                Database.closeConnection(connection);
+                return;
+            });
+
+            const checkInId = Sentry.captureCheckIn({ monitorSlug: "website-running-check", status: "in_progress" });
+
+            http
+                .request({ host: 'https://thefemdevs.com', path: '/', method: 'GET' })
+                .on('response', (res) => (res.statusCode !== 200) ? Sentry.captureCheckIn({ checkInId, monitorSlug: "website-running-check", status: "error", error: new Error(`Website returned ${res.statusCode} instead of 200`) }) : Sentry.captureCheckIn({ checkInId, monitorSlug: "website-running-check", status: "ok" }))
+                .on('error', (err) => Sentry.captureCheckIn({ checkInId, monitorSlug: "website-running-check", status: "error", error: err }));
+        },
+        {
+            scheduled: true,
+            runOnInit: true,
+        }
+    )
 
 module.exports = router;
