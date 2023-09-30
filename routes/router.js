@@ -5,7 +5,6 @@ const Intigrations = require('@sentry/integrations');
 const Profiling = require('@sentry/profiling-node');
 const cron = require('node-cron');
 const crypto = require('crypto');
-const http = require('http');
 require('dotenv').config();
 
 //- Routes
@@ -184,15 +183,9 @@ cron
                 const connection = await Database.getConnection();
                 blacklistedIPAddresses = (await connection.query(`SELECT ipHash FROM websiteBlacklist WHERE active = 1`))[0].map(r => r.ipHash);
                 Database.closeConnection(connection);
+                Sentry.captureCheckIn({ monitorSlug: 'website-running-check', status: 'ok' })
                 return;
             });
-
-            const checkInId = Sentry.captureCheckIn({ monitorSlug: "website-running-check", status: "in_progress" });
-
-            http
-                .request({ host: 'https://thefemdevs.com', path: '/', method: 'GET' })
-                .on('response', (res) => (res.statusCode !== 200) ? Sentry.captureCheckIn({ checkInId, monitorSlug: "website-running-check", status: "error", error: new Error(`Website returned ${res.statusCode} instead of 200`) }) : Sentry.captureCheckIn({ checkInId, monitorSlug: "website-running-check", status: "ok" }))
-                .on('error', (err) => Sentry.captureCheckIn({ checkInId, monitorSlug: "website-running-check", status: "error", error: err }));
         },
         {
             scheduled: true,

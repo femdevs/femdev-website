@@ -1,7 +1,6 @@
 const app = require('express')()
 const http = require('http');
 const Admin = require('firebase-admin');
-const cron = require('node-cron');
 require('dotenv').config();
 
 const router = require('./routes/router');
