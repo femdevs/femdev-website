@@ -181,9 +181,9 @@ cron
         '*/5 * * * *',
         async () => {
             Sentry.startSpan({ op: "IPBlacklistUpdate", name: "IP Blacklist Updater" }, async () => {
-                const connection = await Database.getConnection();
-                blacklistedIPAddresses = (await connection.query(`SELECT ipHash FROM websiteBlacklist WHERE active = 1`))[0].map(r => r.ipHash);
-                Database.closeConnection(connection);
+                const connection = await Database.Pool.connect();
+                blacklistedIPAddresses = (await connection.query(`SELECT ipHash FROM public.websiteBlacklist WHERE active = 1`)).rows.map(r => r.ipHash);
+                connection.release();
                 Sentry.captureCheckIn({ monitorSlug: 'website-running-check', status: 'ok' })
                 return;
             });

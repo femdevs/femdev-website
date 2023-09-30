@@ -13,61 +13,68 @@ router
     .post('/create', async (req, res) => {
         if (!req.headers['authorization']) return res.sendError(1);
         const [_, token] = req.headers['authorization'].split(' ');
-        const connection = await req.Database.getConnection();
-        const [rows] = await connection.query(`SELECT * FROM APITokens WHERE token = '${token}'`)
+        const connection = await req.Database.Pool.connect();
+        const { rows } = await connection.query(`SELECT * FROM public.APITokens WHERE token = '${token}'`)
         if (rows.length == 0) return res.sendError(2);
-        const [userRows] = await connection.query(`SELECT * FROM users WHERE firebaseUID = '${rows[0].associatedFirebaseUID}'`)
-        if (userRows.length == 0) return res.sendError(13);
-        if (!req.checkPerms(userRows[0].permissions, 'developer', 'createTokens')) return res.sendError(12);
+        const { associatedFirebaseUID: firebaseUserID } = rows[0];
+        const { rows: userRows } = await connection.query(`SELECT * FROM public.users WHERE firebaseUID = '${firebaseUserID}'`)
+        if (!req.checkPerms(userRows[0].permissions, 'developer', 'createTokens')) {
+            connection.release();
+            return res.sendError(12)
+        };
         const { firebaseUID } = req.body
         if (!firebaseUID) return res.status(400).json({ error: 'No firebaseUID provided' });
         // if (!license) return res.status(400).json({ error: 'No license provided' });
         const { key } = await Cryptolens.Key.CreateKey(process.env.CRYPTOLENS_TOKEN, 21956)
         const generatedToken = TokenManager.generate({ firebaseUID, license: key, username: userRows[0].displayName });
-        await connection.query(`INSERT INTO APITokens (token, associatedFirebaseUID, licenseKey) VALUES ('${generatedToken}', '${firebaseUID}', '${key}')`)
-        await connection.query(`INSERT INTO apiUsage (apiToken, totalUses) VALUES ('${generatedToken}', 0)`)
+        await connection.query(`INSERT INTO public.APITokens (token, associatedFirebaseUID, licenseKey) VALUES ('${generatedToken}', '${firebaseUID}', '${key}')`)
+        await connection.query(`INSERT INTO public.apiUsage (apiToken, totalUses) VALUES ('${generatedToken}', 0)`)
         res.status(201).json({
             token: generatedToken,
             license: key,
         })
-        req.Database.closeConnection(connection);
+        connection.release();
         // const {associatedFirebaseUID: FirebaseUser} = rows[0];
         // AdminApp.auth().getUser(FirebaseUser)
     })
     .delete('/delete', async (req, res) => {
-        // using the above function, delete the token, and revoke the license
         if (!req.headers['authorization']) return res.sendError(1);
         const [_, token] = req.headers['authorization'].split(' ');
-        const connection = await req.Database.getConnection();
-        const [rows] = await connection.query(`SELECT * FROM APITokens WHERE token = '${token}'`)
+        const connection = await req.Database.Pool.connect();
+        const { rows } = await connection.query(`SELECT * FROM public.APITokens WHERE token = '${token}'`)
         if (rows.length == 0) return res.sendError(2);
-        const [userRows] = await connection.query(`SELECT * FROM users WHERE firebaseUID = '${rows[0].associatedFirebaseUID}'`)
-        if (userRows.length == 0) return res.sendError(13);
-        if (!req.checkPerms(userRows[0].permissions, 'developer', 'deleteTokens')) return res.sendError(12);
+        const { associatedFirebaseUID: firebaseUserID } = rows[0];
+        const { rows: userRows } = await connection.query(`SELECT * FROM public.users WHERE firebaseUID = '${firebaseUserID}'`)
+        if (!req.checkPerms(userRows[0].permissions, 'developer', 'deleteTokens')) {
+            connection.release();
+            return res.sendError(12)
+        }
         const { token: tokenToDelete } = req.body
         if (!tokenToDelete) return res.sendError(8);
-        const [tokenRows] = await connection.query(`SELECT * FROM APITokens WHERE token = '${tokenToDelete}'`)
+        const { rows: tokenRows } = await connection.query(`SELECT * FROM public.APITokens WHERE token = '${tokenToDelete}'`)
         if (tokenRows.length == 0) return res.sendError(9);
-        await connection.query(`DELETE FROM APITokens WHERE token = '${tokenToDelete}'`)
-        await connection.query(`DELETE FROM apiUsage WHERE apiToken = '${tokenToDelete}'`)
+        await connection.query(`DELETE FROM public.APITokens WHERE token = '${tokenToDelete}'`)
+        await connection.query(`DELETE FROM public.apiUsage WHERE apiToken = '${tokenToDelete}'`)
         Cryptolens.Key.BlockKey(process.env.CRYPTOLENS_TOKEN, tokenRows[0].licenseKey)
         res.status(200).json({ message: 'Token deleted' })
-        req.Database.closeConnection(connection);
+        connection.release();
     })
     .get('/list', async (req, res) => {
-        // using the above function, list all tokens
         if (!req.headers['authorization']) return res.sendError(1);
         const [_, token] = req.headers['authorization'].split(' ');
-        const connection = await req.Database.getConnection();
-        const [rows] = await connection.query(`SELECT * FROM APITokens WHERE token = '${token}'`)
+        const connection = await req.Database.Pool.connect();
+        const { rows } = await connection.query(`SELECT * FROM public.APITokens WHERE token = '${token}'`)
         if (rows.length == 0) return res.sendError(2);
-        const [userRows] = await connection.query(`SELECT * FROM users WHERE firebaseUID = '${rows[0].associatedFirebaseUID}'`)
-        if (userRows.length == 0) return res.sendError(13);
-        if (!req.checkPerms(userRows[0].permissions, 'developer', 'admin', 'owner')) return res.sendError(12);
-        const tokens  = (await connection.query(`SELECT * FROM APITokens`))[0]
+        const { associatedFirebaseUID: firebaseUserID } = rows[0];
+        const { rows: userRows } = await connection.query(`SELECT * FROM public.users WHERE firebaseUID = '${firebaseUserID}'`)
+        if (!req.checkPerms(userRows[0].permissions, 'developer', 'admin', 'owner')) {
+            connection.release();
+            return res.sendError(12)
+        }
+        const { rows: tokens } = (await connection.query(`SELECT * FROM public.APITokens`))
         const formattedTokens = []
         for (const tokenData of tokens) {
-            const [user] = (await connection.query(`SELECT * FROM users WHERE firebaseUID = '${tokenData.associatedFirebaseUID}' LIMIT 1`))[0]
+            const { rows: [user] } = (await connection.query(`SELECT * FROM public.users WHERE firebaseUID = '${tokenData.associatedFirebaseUID}' LIMIT 1`))
             formattedTokens.push({
                 token: tokenData.token,
                 license: tokenData.licenseKey,
@@ -76,23 +83,23 @@ router
             })
         }
         res.status(200).json(formattedTokens)
-        req.Database.closeConnection(connection);
+        connection.release();
     })
     .get('/info', async (req, res) => {
-        const connection = await req.Database.getConnection();
+        const connection = await req.Database.Pool.connect();
         const [_, token] = req.headers['authorization'].split(' ');
         if (req.query.token) {
-            const [rows] = await connection.query(`SELECT * FROM APITokens WHERE token = '${token}'`)
+            const { rows } = await connection.query(`SELECT * FROM public.APITokens WHERE token = '${token}'`)
             if (rows.length == 0) return res.sendError(5)
-            const [userRows] = await connection.query(`SELECT * FROM users WHERE firebaseUID = '${rows[0].associatedFirebaseUID}'`)
+            const { rows: userRows } = await connection.query(`SELECT * FROM public.users WHERE firebaseUID = '${rows[0].associatedFirebaseUID}'`)
             if (userRows.length == 0) return res.sendError(500); // misc error
             const { permissions } = userRows[0];
             if (!req.checkPerms(permissions, 'developer', 'readTokens')) return res.sendError(12);
             const { token: tokenToLookup } = req.query;
-            const [tokenRows] = await connection.query(`SELECT * FROM APITokens WHERE token = '${tokenToLookup}'`)
+            const { rows: tokenRows } = await connection.query(`SELECT * FROM public.APITokens WHERE token = '${tokenToLookup}'`)
             if (tokenRows.length == 0) return res.sendError(13)
-            const [user] = (await connection.query(`SELECT * FROM users WHERE firebaseUID = '${tokenRows[0].associatedFirebaseUID}' LIMIT 1`))[0]
-            await req.Database.closeConnection(connection);
+            const { rows: [user] } = (await connection.query(`SELECT * FROM public.users WHERE firebaseUID = '${tokenRows[0].associatedFirebaseUID}' LIMIT 1`))
+            await connection.release();
             return res.status(200).json({
                 token: tokenRows[0].token,
                 license: tokenRows[0].licenseKey,
@@ -100,11 +107,11 @@ router
                 firebaseUID: user.firebaseUID,
             })
         } else {
-            const [rows] = await connection.query(`SELECT * FROM APITokens WHERE token = '${token}'`)
+            const { rows } = await connection.query(`SELECT * FROM public.APITokens WHERE token = '${token}'`)
             if (rows.length == 0) return res.sendError(5)
-            const [userRows] = await connection.query(`SELECT * FROM users WHERE firebaseUID = '${rows[0].associatedFirebaseUID}'`)
+            const { rows: userRows } = await connection.query(`SELECT * FROM public.users WHERE firebaseUID = '${rows[0].associatedFirebaseUID}'`)
             if (userRows.length == 0) return res.sendError(13);
-            await req.Database.closeConnection(connection);
+            await connection.release();
             res.status(200).json({
                 token: rows[0].token,
                 license: rows[0].licenseKey,

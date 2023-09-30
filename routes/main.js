@@ -1,27 +1,13 @@
 const router = require('express').Router();
-const pg = require('pg');
 const { aprilFools } = require('../functions/utilities');
-
-const pool = new pg.Pool({
-    max: 10,
-    host: 'db.xbrshjvntcletdswsxtq.supabase.co',
-    port: 6543,
-    database: 'postgres',
-    user: 'postgres',
-    password: 'sparty182020RootAccess',
-    idleTimeoutMillis: 30000,
-    connectionTimeoutMillis: 2000,
-    query_timeout: 2000,
-    allowExitOnIdle: true,
-})
 
 router
     .get('/team', async (req, res) => {
-        const client = await pool.connect()
+        const client = await req.Database.Pool.connect()
         let staffRoles = {};
         const { rows: data } = await client.query('SELECT * FROM public.staff ORDER BY id ASC')
         data
-            .filter(staff => staff.isStaff)
+            .filter(staff => staff.isstaff)
             .forEach((staff, i) => {
                 if (staffRoles[staff.role] == undefined) { staffRoles[staff.role] = {} }
                 staffRoles[staff.role][i] = staff
@@ -38,7 +24,7 @@ router
                 }
             }
         );
-        await client.release(true);
+        client.release();
     })
     .get('/carrers', (req, res) => {
         res.render(

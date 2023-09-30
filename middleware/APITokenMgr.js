@@ -18,14 +18,11 @@ const authHandler = async (req, res, next) => {
             const [_, token] = req.headers['authorization'].split(' ');
             if (!token) return res.sendError(1);
             if (!TokenManager.verify(token)) return res.sendError(2);
-            const connection = await req.Database.getConnection();
-            const [rows] = await connection.query(`SELECT * FROM APITokens WHERE token = '${token}'`)
+            const connection = await req.Database.Pool.connect();
+            const { rows } = await connection.query(`SELECT * FROM public.apitokens WHERE token = '${token}'`)
             if (rows.length == 0) return res.sendError(2)
-            connection.query(`SELECT * FROM apiUsage WHERE apiToken = '${token}'`)
-                .then(async ([rows]) => {
-                    await connection.query(`UPDATE apiUsage SET totalUses = ${rows[0].totalUses + 1} WHERE apiToken = '${token}'`)
-                })
-                .finally(() => req.Database.closeConnection(connection));
+            await connection.query(`UPDATE public.apiUsage SET totaluses = totaluses + 1 WHERE apitoken = '${token}'`)
+            connection.release();
             return next();
         }
     );
