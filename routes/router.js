@@ -5,6 +5,7 @@ const Intigrations = require('@sentry/integrations');
 const Profiling = require('@sentry/profiling-node');
 const cron = require('node-cron');
 const crypto = require('crypto');
+const os = require('os');
 require('dotenv').config();
 
 //- Routes
@@ -38,7 +39,7 @@ Sentry.init({
     sampleRate: 1.0,
     tracesSampleRate: 1.0,
     profilesSampleRate: 1.0,
-    serverName: "Main PC",
+    serverName: os.hostname(),
     integrations: [
         new Intigrations.ExtraErrorData({ depth: 10 }),
         new Intigrations.SessionTiming(),
@@ -56,8 +57,8 @@ Sentry.init({
         new Sentry.Integrations.Postgres(),
     ],
     // @ts-ignore
-    environment: "MasterDevelopment",
-    release: "v1.1.2-Private_Alpha",
+    environment: process.env.NODE_ENV || 'development',
+    release: require('../package.json').version,
     sendDefaultPii: true
 });
 
