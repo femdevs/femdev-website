@@ -131,3 +131,6 @@ dist
 
 # css output files
 assets/stylesheets/styles.css
+
+# vscode
+.vscode/*
