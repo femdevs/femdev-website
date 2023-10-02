@@ -14,6 +14,7 @@ const cdn = require('./cdn');
 const legal = require('./legal');
 const error = require('./errors');
 const ab = require('./ab');
+const OSSProject = require('./project');
 const assets = require('./assets/router');
 const api = require('./api/router');
 
@@ -132,6 +133,7 @@ router
     .use('/cdn', cdn)
     .use('/legal', legal)
     .use('/error', error)
+    .use('/oss-project', OSSProject)
     .use('/assets', assets)
     .use('/', website)
     //- Static Files

@@ -10,9 +10,6 @@ contact_links:
     url: https://thefemdevs.com/legal/terms
     about: Learn what you can and can't do with our content
   - name: Code of Conduct
-    url: https://github.com/femdevs/femdev-website/blob/main/CODE_OF_CONDUCT.md
+    url: https://thefemdevs.com/oss-project/code-of-conduct
     about: Learn how to be a good community member
-  - name: Security Policy
-    url: https://thefemdevs.com/legal/security
-    about: Learn how we handle security issues
     

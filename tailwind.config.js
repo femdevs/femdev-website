@@ -2,9 +2,7 @@
 module.exports = {
   mode: "jit",
   content: [
-    "views/main/**/*.{js,ts,pug,html}",
-    "views/defaults/**/*.{js,ts,pug,html}",
-    "views/legal/**/*.{js,ts,pug,html}",
+    "views/**/**/*.{js,ts,pug,html}",
   ],
   theme: {
     extend: {
@@ -29,5 +27,9 @@ module.exports = {
     },
   },
   plugins: [],
+  experimental: {
+    matchVariant: true,
+    optimizeUniversalDefaults: true, 
+  }
 }
 
