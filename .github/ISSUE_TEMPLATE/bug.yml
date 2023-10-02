@@ -1,0 +1,77 @@
+name: Bug report
+description: File a bug report
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report!
+  - type: input
+    id: contact
+    attributes:
+      label: Contact Details
+      description: How can we get in touch with you if we need more info?
+      placeholder: ex. email@example.com
+    validations:
+      required: false
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Also tell us, what did you expect to happen?
+      placeholder: Tell us what you see!
+      value: "A bug happened!"
+    validations:
+      required: true
+  - type: input
+    id: useragent
+    attributes:
+      label: User Agent
+      description: What browser and operating system are you using?
+    validations:
+      required: true
+  - type: input
+    id: release
+    attributes:
+      label: Release
+      description: What version of the website are you using? (You can find this in the x-release header)
+    validations:
+      required: false 
+  - type: input
+    id: 501hash
+    attributes:
+      label: 501 Hash
+      description: If the page is returning a 501 error, what is the Error ID provided?
+    validations:
+      required: false     
+  - type: dropdown
+    id: browsers
+    attributes:
+      label: What browsers are you seeing the problem on?
+      multiple: true
+      options:
+        - Firefox
+        - Chrome
+        - Safari
+        - Microsoft Edge
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant log output
+      description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
+      render: plain text
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Legal Agreements
+      description: By submitting this issue, you agree to follow our Policies and Code of Conduct.
+      options:
+        - label: I agree to follow this project's Code of Conduct
+          required: true
+        - label: I agree to follow this project's Terms of Service
+          required: true
+        - label: I agree to follow this project's Privacy Policy
+          required: true
+        - label: I agree to follow this project's Security Policy
+          required: true

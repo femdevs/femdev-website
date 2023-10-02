@@ -1,0 +1,18 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Contact us
+    url: https://thefemdevs.com/contact
+    about: Have questions? Get in touch with us!
+  - name: Privacy Policy
+    url: https://thefemdevs.com/legal/privacy
+    about: Learn how we handle your data
+  - name: Terms of Service
+    url: https://thefemdevs.com/legal/terms
+    about: Learn what you can and can't do with our content
+  - name: Code of Conduct
+    url: https://github.com/femdevs/femdev-website/blob/main/CODE_OF_CONDUCT.md
+    about: Learn how to be a good community member
+  - name: Security Policy
+    url: https://thefemdevs.com/legal/security
+    about: Learn how we handle security issues
+    
