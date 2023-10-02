@@ -13,7 +13,7 @@ router
     .post('/create', async (req, res) => {
         if (!req.headers['authorization']) return res.sendError(1);
         const [_, token] = req.headers['authorization'].split(' ');
-        const connection = await req.Database.Pool.connect();
+        const connection = await req.Database.pool.connect();
         const { rows } = await connection.query(`SELECT * FROM public.APITokens WHERE token = '${token}'`)
         if (rows.length == 0) return res.sendError(2);
         const { associatedFirebaseUID: firebaseUserID } = rows[0];
@@ -40,7 +40,7 @@ router
     .delete('/delete', async (req, res) => {
         if (!req.headers['authorization']) return res.sendError(1);
         const [_, token] = req.headers['authorization'].split(' ');
-        const connection = await req.Database.Pool.connect();
+        const connection = await req.Database.pool.connect();
         const { rows } = await connection.query(`SELECT * FROM public.APITokens WHERE token = '${token}'`)
         if (rows.length == 0) return res.sendError(2);
         const { associatedFirebaseUID: firebaseUserID } = rows[0];
@@ -62,7 +62,7 @@ router
     .get('/list', async (req, res) => {
         if (!req.headers['authorization']) return res.sendError(1);
         const [_, token] = req.headers['authorization'].split(' ');
-        const connection = await req.Database.Pool.connect();
+        const connection = await req.Database.pool.connect();
         const { rows } = await connection.query(`SELECT * FROM public.APITokens WHERE token = '${token}'`)
         if (rows.length == 0) return res.sendError(2);
         const { associatedFirebaseUID: firebaseUserID } = rows[0];
@@ -86,7 +86,7 @@ router
         connection.release();
     })
     .get('/info', async (req, res) => {
-        const connection = await req.Database.Pool.connect();
+        const connection = await req.Database.pool.connect();
         const [_, token] = req.headers['authorization'].split(' ');
         if (req.query.token) {
             const { rows } = await connection.query(`SELECT * FROM public.APITokens WHERE token = '${token}'`)

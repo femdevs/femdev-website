@@ -64,6 +64,7 @@ app
     .set('trust proxy', true)
     .set('x-powered-by', false)
     .use((req, _, next) => {
+        const Database = require('./functions/database').database
         function checkPerm(userbit, ...neededPerms) {
             const userPerms = Formatter.permissionBitToReadable(userbit);
             if (userPerms.includes('owner') || userPerms.includes('admin')) return true;
@@ -71,7 +72,7 @@ app
         }
         req.FirebaseAdmin = AdminApp;
         req.auth = auth
-        req.Database = require('./functions/database');
+        req.Database = new Database();
         req.Formatter = Formatter;
         req.checkPerms = checkPerm;
         next();

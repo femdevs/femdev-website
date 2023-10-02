@@ -184,13 +184,14 @@ cron
                 const connection = await Database.Pool.connect();
                 blacklistedIPAddresses = (await connection.query(`SELECT ipHash FROM public.websiteBlacklist WHERE active = 1`)).rows.map(r => r.ipHash);
                 connection.release();
-                Sentry.captureCheckIn({ monitorSlug: 'website-running-check', status: 'ok' })
+                Sentry.captureCheckIn({ monitorSlug: 'website-running-check', status: 'ok', duration: 1000 })
                 return;
             });
         },
         {
-            scheduled: true,
             runOnInit: true,
+            timezone: 'America/Detroit',
+            scheduled: true
         }
     )
 
