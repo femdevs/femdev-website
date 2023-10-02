@@ -24,7 +24,7 @@ const headers = (req, res, next) => {
                                 'Other'
                 )
                 .setHeader('X-Node-Version', process.version)
-                .setHeader('X-Latest-Release', latestRelease.data.tag_name)
+                .setHeader('X-Release', latestRelease.data.tag_name)
                 .setHeader('X-Latest-Release-URL', latestRelease.data.html_url)
                 .setHeader('X-Latest-Release-Date', latestRelease.data.published_at)
                 .setHeader('Content-Security-Policy', "default-src *; script-src 'self' google.com *.google.com *.googlesyndication.com googlesyndication.com *.googleadservices.com googleadservices.com *.corbado.io corbado.io *.sentry-cdn.com sentry-cdn.com blob: 'unsafe-inline'; style-src 'self' 'unsafe-inline' fonts.googleapis.com; img-src *; font-src *; connect-src *; media-src *; object-src 'none';frame-ancestors *; form-action 'self'; upgrade-insecure-requests; block-all-mixed-content; sandbox allow-forms allow-same-origin allow-scripts; base-uri 'self'; manifest-src 'self'; require-trusted-types-for 'script';")
