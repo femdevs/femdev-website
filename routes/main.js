@@ -3,7 +3,7 @@ const { aprilFools } = require('../functions/utilities');
 
 router
     .get('/team', async (req, res) => {
-        const client = await req.Database.Pool.connect()
+        const client = await req.Database.pool.connect()
         let staffRoles = {};
         const { rows: data } = await client.query('SELECT * FROM public.staff ORDER BY id ASC')
         data

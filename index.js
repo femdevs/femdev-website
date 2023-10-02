@@ -64,7 +64,7 @@ app
     .set('trust proxy', true)
     .set('x-powered-by', false)
     .use((req, _, next) => {
-        const Database = require('./functions/database').database
+        const Database = require('./functions/database')
         function checkPerm(userbit, ...neededPerms) {
             const userPerms = Formatter.permissionBitToReadable(userbit);
             if (userPerms.includes('owner') || userPerms.includes('admin')) return true;
