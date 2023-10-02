@@ -1,5 +1,7 @@
 const app = require('express')()
 const http = require('http');
+const axios = require('axios');
+const cron = require('node-cron');
 const Admin = require('firebase-admin');
 require('dotenv').config();
 
@@ -78,6 +80,14 @@ app
         next();
     })
     .use('/', router);
+
+cron.schedule('*/5 * * * *', async () => {
+    axios.default.post(
+        'https://sentry.io/api/0/organizations/benpai/monitors/website-running-check/checkins/',
+        { status: 'ok' },
+        { headers: { Authorization: `Bearer ${process.env.SENTRY_API_TOKEN}` } }
+    )
+})
 
 http
     .createServer(app)
