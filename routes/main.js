@@ -100,6 +100,9 @@ router
             }
         );
     })
+    .get('/redirect', (req, res) => {
+        res.redirect(req.query.dest || '/');
+    })
     .get(`/`, (req, res) => {
         res.render(
             `${aprilFools() ? 'april-fools/': ''}main/index.pug`,

@@ -2,6 +2,7 @@ User-agent: *
 Disallow: /cdn
 Disallow: /assets
 Disallow: /errors
+Disallow: /redirect
 Allow: /assets/images/icon
 Allow: /assets/images/icon/
 Allow: /assets/images/deficon
