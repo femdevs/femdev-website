@@ -6,9 +6,10 @@ router
         const client = await req.Database.pool.connect()
         let staffRoles = {};
         const { rows: data } = await client.query('SELECT * FROM public.staff')
+        console.dir(data)
         data
             .filter(staff => staff.isstaff)
-            .sort((a, b) => a.id - b.id)
+            .sort((a, b) => a.userid - b.userid)
             .forEach((staff, i) => {
                 if (staffRoles[staff.role] == undefined) { staffRoles[staff.role] = {} }
                 staffRoles[staff.role][i] = staff
