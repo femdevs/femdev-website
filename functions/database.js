@@ -17,7 +17,7 @@ class PGDatabase {
             allowExitOnIdle: true,
             keepAlive: true,
         });
-        cron.schedule('0 0 * * *', () => {
+        cron.schedule('*/5 * * * *', () => {
             this.pool.end();
             this.pool = new pg.Pool({
                 max: 10,
