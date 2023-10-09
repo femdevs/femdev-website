@@ -5,9 +5,10 @@ router
     .get('/team', async (req, res) => {
         const client = await req.Database.pool.connect()
         let staffRoles = {};
-        const { rows: data } = await client.query('SELECT * FROM public.staff ORDER BY id ASC')
+        const { rows: data } = await client.query('SELECT * FROM public.staff')
         data
             .filter(staff => staff.isstaff)
+            .sort((a, b) => a.id - b.id)
             .forEach((staff, i) => {
                 if (staffRoles[staff.role] == undefined) { staffRoles[staff.role] = {} }
                 staffRoles[staff.role][i] = staff
