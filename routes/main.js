@@ -5,17 +5,14 @@ router
     .get('/team', async (req, res) => {
         const client = await req.Database.pool.connect()
         let staffRoles = {};
-        const { rows: data } = await client.query('SELECT * FROM public.staff')
-        data
+        (await client.query('SELECT * FROM public.staff'))
+            .rows
             .filter(staff => staff.isstaff)
-            .sort((a, b) => a.userid - b.userid)
-            .forEach((staff, i) => {
-                if (staffRoles[staff.role] == undefined) { staffRoles[staff.role] = {} }
-                staffRoles[staff.role][i] = staff
-            })
+            .sort((a, b) => a.id - b.id)
+            .forEach((staff, i) => (staffRoles[staff.role] == undefined) ? (staffRoles[staff.role] = { [i]: staff }) : (staffRoles[staff.role][i] = staff))
         Object.keys(staffRoles).forEach(role => staffRoles[role].title = role)
         res.render(
-            `${aprilFools() ? 'april-fools/': ''}main/team`,
+            `${aprilFools() ? 'april-fools/' : ''}main/team`,
             {
                 staff: staffRoles,
                 meta: {
@@ -29,7 +26,7 @@ router
     })
     .get('/carrers', (req, res) => {
         res.render(
-            `${aprilFools() ? 'april-fools/': ''}main/carrers.pug`,
+            `${aprilFools() ? 'april-fools/' : ''}main/carrers.pug`,
             {
                 meta: {
                     title: 'FemDev Carrers',
@@ -41,7 +38,7 @@ router
     })
     .get('/branding', (req, res) => {
         res.render(
-            `${aprilFools() ? 'april-fools/': ''}main/branding.pug`,
+            `${aprilFools() ? 'april-fools/' : ''}main/branding.pug`,
             {
                 meta: {
                     title: 'FemDev Branding',
@@ -53,7 +50,7 @@ router
     })
     .get('/products', (req, res) => {
         res.render(
-            `${aprilFools() ? 'april-fools/': ''}main/products.pug`,
+            `${aprilFools() ? 'april-fools/' : ''}main/products.pug`,
             {
                 meta: {
                     title: 'FemDev Products',
@@ -65,7 +62,7 @@ router
     })
     .get('/about', (req, res) => {
         res.render(
-            `${aprilFools() ? 'april-fools/': ''}main/about.pug`,
+            `${aprilFools() ? 'april-fools/' : ''}main/about.pug`,
             {
                 meta: {
                     title: 'About FemDev',
@@ -77,7 +74,7 @@ router
     })
     .get('/pds', (req, res) => {
         res.render(
-            `${aprilFools() ? 'april-fools/': ''}main/poland.pug`,
+            `${aprilFools() ? 'april-fools/' : ''}main/poland.pug`,
             {
                 file: 'pds',
                 meta: {
@@ -90,7 +87,7 @@ router
     })
     .get('/index', (req, res) => {
         res.render(
-            `${aprilFools() ? 'april-fools/': ''}main/index.pug`,
+            `${aprilFools() ? 'april-fools/' : ''}main/index.pug`,
             {
                 meta: {
                     title: 'FemDevs Home Page',
@@ -105,7 +102,7 @@ router
     })
     .get(`/`, (req, res) => {
         res.render(
-            `${aprilFools() ? 'april-fools/': ''}main/index.pug`,
+            `${aprilFools() ? 'april-fools/' : ''}main/index.pug`,
             {
                 meta: {
                     title: 'FemDevs Home Page',
