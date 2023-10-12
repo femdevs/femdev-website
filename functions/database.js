@@ -43,7 +43,7 @@ module.exports = class PGDatabase {
         const { rows } = await connection.query(`SELECT id FROM public.accesslogs ORDER BY id DESC LIMIT 1`);
         await connection.query(
             `INSERT INTO public.accesslogs (id, ipaddress, method, route, statuscode, timing, datatransferred) VALUES ($1, $2, $3, $4, $5, $6, $7)`,
-            [(rows[0]?.id ?? 0) + 1, data.ip, data.method, data.url, data.status, data.time, data.bytes]
+            [Number(rows[0]?.id ?? 0) + 1, data.ip, data.method, data.url, data.status, data.time, data.bytes]
         )
             .catch(e => console.error(e));
         connection.release();
