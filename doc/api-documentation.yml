@@ -742,11 +742,11 @@ paths:
                   value:
                     - license: "1234-5678-9012-3456"
                       token: "fjkh_fdasABc12.dshfa34287y_FDAS34_2"
-                      associatedFirebaseUID: "gPcqw6MAbXbZs6ARohHqT2vapFY2"
+                      associatedfirebaseuid: "gPcqw6MAbXbZs6ARohHqT2vapFY2"
                       username: "JohnDoe0001"
                     - license: "1234-5678-9012-3456"
                       token: "fjkh_fdasABc12.dshfa34287y_FDAS34_2"
-                      associatedFirebaseUID: "gPcqw6MAbXbZs6ARohHqT2vapFY2"
+                      associatedfirebaseuid: "gPcqw6MAbXbZs6ARohHqT2vapFY2"
                       username: "JohnDoe0001"
         401:
           description: "Invalid/Missing API Token"
@@ -813,7 +813,7 @@ paths:
                   value:
                     license: "1234-5678-9012-3456"
                     token: "fjkh_fdasABc12.dshfa34287y_FDAS34_2"
-                    associatedFirebaseUID: "gPcqw6MAbXbZs6ARohHqT2vapFY2"
+                    associatedfirebaseuid: "gPcqw6MAbXbZs6ARohHqT2vapFY2"
                     username: "JohnDoe0001"
         401:
           description: "Invalid/Missing API Token"
@@ -2422,7 +2422,7 @@ components:
       required:
         - license
         - token
-        - associatedFirebaseUID
+        - associatedfirebaseuid
         - username
       properties:
         license:
@@ -2433,7 +2433,7 @@ components:
           nullable: false
           type: string
           description: "The token"
-        associatedFirebaseUID:
+        associatedfirebaseuid:
           nullable: false
           type: string
           description: "The Firebase UID that the token is associated with"

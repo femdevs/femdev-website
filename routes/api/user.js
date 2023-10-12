@@ -8,7 +8,7 @@ router
         const connection = await req.Database.pool.connect();
         const { rows } = await connection.query(`SELECT * FROM public.APITokens WHERE token = '${token}'`)
         if (rows.length == 0) return res.sendError(2);
-        const { associatedFirebaseUID: firebaseUserID } = rows[0];
+        const { associatedfirebaseuid: firebaseUserID } = rows[0];
         const { rows: DBUserData } = await connection.query(`SELECT * FROM public.users WHERE firebaseuid = '${firebaseUserID}'`)
         if (req.headers['x-uid']) {
             if (!req.checkPerms(DBUserData[0].permissions, 'developer', 'readUsers')) {
@@ -43,7 +43,7 @@ router
         const connection = await req.Database.pool.connect();
         const { rows } = await connection.query(`SELECT * FROM public.APITokens WHERE token = '${token}'`)
         if (rows.length == 0) return res.sendError(2);
-        const { associatedFirebaseUID: firebaseUserID } = rows[0];
+        const { associatedfirebaseuid: firebaseUserID } = rows[0];
         const { rows: APIUser } = await connection.query(`SELECT * FROM public.users WHERE firebaseuid = '${firebaseUserID}'`)
         if (!req.checkPerms(APIUser[0].permissions, 'developer', 'createUsers')) {
             res.sendError(12);
@@ -77,7 +77,7 @@ router
         const connection = await req.Database.pool.connect();
         const { rows } = await connection.query(`SELECT * FROM public.APITokens WHERE token = '${token}'`)
         if (rows.length == 0) return res.sendError(2);
-        const { associatedFirebaseUID: firebaseUserID } = rows[0];
+        const { associatedfirebaseuid: firebaseUserID } = rows[0];
         const { rows: APIUser } = await connection.query(`SELECT * FROM public.users WHERE firebaseuid = '${firebaseUserID}'`)
         if (!req.checkPerms(APIUser[0].permissions, 'developer', 'writeUsers')) {
             res.sendError(12);
