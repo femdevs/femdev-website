@@ -10,12 +10,6 @@ const assetRateLimiter = new RateLimiterMemory({
     duration: 1,
 })
 
-module.exports = rateLimiterMiddleware;
-
-/**
- * @type {import('express').RequestHandler}
- */
-
 const baseLimiter = (req, res, next) => {
     req.Sentry.startSpan(
         { op: "RateLimit", name: "Rate Limit Handler", data: { path: req.path } },
