@@ -23,10 +23,10 @@ const authHandler = async (req, res, next) => {
             if (rows.length == 0) return res.sendError(2)
             await connection.query(`UPDATE public.apiUsage SET totaluses = totaluses + 1 WHERE apitoken = '${token}'`)
             connection.release();
-            return next();
+            return
         }
     );
-
+    next();
 }
 
 module.exports = authHandler;

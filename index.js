@@ -7,15 +7,6 @@ require('dotenv').config();
 
 const router = require('./routes/router');
 
-const FirebaseServiceAccount = JSON.parse(process.env.FIREBASE_SA);
-
-const AdminApp = Admin.initializeApp({
-    credential: Admin.credential.cert(FirebaseServiceAccount),
-    databaseURL: `https://${FirebaseServiceAccount.projectId}-default-rtdb.firebaseio.com`
-})
-
-const auth = AdminApp.auth();
-
 class Formatter {
     static perms = {
         readData: 1 << 0,   // 1
@@ -60,23 +51,29 @@ class Formatter {
     }
 }
 
+const FirebaseServiceAccount = JSON.parse(process.env.FIREBASE_SA);
+const AdminApp = Admin.initializeApp({
+    credential: Admin.credential.cert(FirebaseServiceAccount),
+    databaseURL: `https://${FirebaseServiceAccount.projectId}-default-rtdb.firebaseio.com`
+})
+
+const db = require('./functions/database');
+
 app
     .set('view engine', 'pug')
     .set('case sensitive routing', false)
     .set('trust proxy', true)
     .set('x-powered-by', false)
     .use((req, _, next) => {
-        const Database = require('./functions/database')
-        function checkPerm(userbit, ...neededPerms) {
+        req.FirebaseAdmin = AdminApp;
+        req.auth = AdminApp.auth();
+        req.Database = new db();
+        req.Formatter = Formatter;
+        req.checkPerms = function (userbit, ...neededPerms) {
             const userPerms = Formatter.permissionBitToReadable(userbit);
             if (userPerms.includes('owner') || userPerms.includes('admin')) return true;
             return neededPerms.some(perm => userPerms.includes(perm));
-        }
-        req.FirebaseAdmin = AdminApp;
-        req.auth = auth
-        req.Database = new Database();
-        req.Formatter = Formatter;
-        req.checkPerms = checkPerm;
+        };
         next();
     })
     .use('/', router);
