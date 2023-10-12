@@ -14,11 +14,12 @@ const baseLimiter = (req, res, next) => {
     req.Sentry.startSpan(
         { op: "RateLimit", name: "Rate Limit Handler", data: { path: req.path } },
         async () => {
-            (req.originalUrl.startsWith('/assets') ? assetRateLimiter : baseRateLimiter).consume(req.ip)
+            (req.originalUrl.startsWith('/assets') ? assetRateLimiter : baseRateLimiter)
+                .consume(req.ip)
                 .then((data) => {
                     //success
                     res
-                        .setHeader('X-RateLimit-Limit', data.points)
+                        .setHeader('X-RateLimit-Limit', data.remainingPoints + data.consumedPoints)
                         .setHeader('X-RateLimit-Remaining', data.remainingPoints)
                         .setHeader('X-RateLimit-Reset', data.msBeforeNext);
                     next();
@@ -26,7 +27,7 @@ const baseLimiter = (req, res, next) => {
                 .catch((rej) => {
                     //failure
                     res
-                        .setHeader('Retry-After', rej.msBeforeNext)
+                        .setHeader('Retry-After', 1000)
                         .status(429)
                         .render(
                             'misc/429.pug',
