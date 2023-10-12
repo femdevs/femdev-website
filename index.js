@@ -48,7 +48,7 @@ Sentry.init({
     ],
     // @ts-ignore
     environment: process.env.NODE_ENV || 'development',
-    release: require('../package.json').version,
+    release: require(`${process.cwd()}/package.json`).version,
     sendDefaultPii: true
 });
 
