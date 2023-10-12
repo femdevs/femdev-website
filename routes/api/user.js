@@ -9,13 +9,13 @@ router
         const { rows } = await connection.query(`SELECT * FROM public.APITokens WHERE token = '${token}'`)
         if (rows.length == 0) return res.sendError(2);
         const { associatedFirebaseUID: firebaseUserID } = rows[0];
-        const { rows: DBUserData } = await connection.query(`SELECT * FROM public.users WHERE firebaseUID = '${firebaseUserID}'`)
+        const { rows: DBUserData } = await connection.query(`SELECT * FROM public.users WHERE firebaseuid = '${firebaseUserID}'`)
         if (req.headers['x-uid']) {
             if (!req.checkPerms(DBUserData[0].permissions, 'developer', 'readUsers')) {
                 res.sendError(12);
                 return connection.release();
             }
-            const { rows: userRows } = await connection.query(`SELECT * FROM public.users WHERE firebaseUID = '${req.headers['x-uid']}'`)
+            const { rows: userRows } = await connection.query(`SELECT * FROM public.users WHERE firebaseuid = '${req.headers['x-uid']}'`)
             if (userRows.length == 0) return res.sendError(13);
             const userData = await req.FirebaseAdmin.auth().getUser(req.headers['x-uid']);
             if (!userData) return res.sendError(13);
@@ -44,7 +44,7 @@ router
         const { rows } = await connection.query(`SELECT * FROM public.APITokens WHERE token = '${token}'`)
         if (rows.length == 0) return res.sendError(2);
         const { associatedFirebaseUID: firebaseUserID } = rows[0];
-        const { rows: APIUser } = await connection.query(`SELECT * FROM public.users WHERE firebaseUID = '${firebaseUserID}'`)
+        const { rows: APIUser } = await connection.query(`SELECT * FROM public.users WHERE firebaseuid = '${firebaseUserID}'`)
         if (!req.checkPerms(APIUser[0].permissions, 'developer', 'createUsers')) {
             res.sendError(12);
             return connection.release();
@@ -61,7 +61,7 @@ router
                 console.error(err);
                 return res.sendError(500);
             })
-        await connection.query(`INSERT INTO public.users (firebaseUID, displayname, firstname, lastname, email) VALUES ('${newUser.uid}', '${username}', '${firstname}', '${lastname}', '${email}')`)
+        await connection.query(`INSERT INTO public.users (firebaseuid, displayname, firstname, lastname, email) VALUES ('${newUser.uid}', '${username}', '${firstname}', '${lastname}', '${email}')`)
         await connection.release();
         return res.status(201).json({
             user: newUser,
@@ -78,7 +78,7 @@ router
         const { rows } = await connection.query(`SELECT * FROM public.APITokens WHERE token = '${token}'`)
         if (rows.length == 0) return res.sendError(2);
         const { associatedFirebaseUID: firebaseUserID } = rows[0];
-        const { rows: APIUser } = await connection.query(`SELECT * FROM public.users WHERE firebaseUID = '${firebaseUserID}'`)
+        const { rows: APIUser } = await connection.query(`SELECT * FROM public.users WHERE firebaseuid = '${firebaseUserID}'`)
         if (!req.checkPerms(APIUser[0].permissions, 'developer', 'writeUsers')) {
             res.sendError(12);
             return connection.release();
@@ -90,13 +90,13 @@ router
                     req.auth.updateUser(uid, { displayName: value || null })
                         .catch(_ => req.sendError(500))
                     connection
-                        .query(`UPDATE public.users SET displayname = '${value}' WHERE firebaseUID = '${uid}'`)
+                        .query(`UPDATE public.users SET displayname = '${value}' WHERE firebaseuid = '${uid}'`)
                     break;
                 case `email`:
                     req.auth.updateUser(uid, { email: value })
                         .catch(_ => req.sendError(500))
                     connection
-                        .query(`UPDATE public.users SET email = '${value}' WHERE firebaseUID = '${uid}'`)
+                        .query(`UPDATE public.users SET email = '${value}' WHERE firebaseuid = '${uid}'`)
                     break;
                 case `password`:
                     req.auth.updateUser(uid, { password: value })
@@ -104,12 +104,12 @@ router
                     break;
                 case `perms`:
                     connection
-                        .query(`UPDATE public.users SET permissions = '${value}' WHERE firebaseUID = '${uid}'`)
+                        .query(`UPDATE public.users SET permissions = '${value}' WHERE firebaseuid = '${uid}'`)
                         .catch(_ => req.sendError(500))
                     break;
             }
         }
-        const { rows: updatedDBUser } = await connection.query(`SELECT * FROM public.users WHERE firebaseUID = '${uid}'`)
+        const { rows: updatedDBUser } = await connection.query(`SELECT * FROM public.users WHERE firebaseuid = '${uid}'`)
         await connection.release();
         return res.status(200).json({
             id: uid,
@@ -125,8 +125,8 @@ router
         const connection = await req.Database.pool.connect();
         const { rows } = await connection.query(`SELECT * FROM public.APITokens WHERE token = '${token}'`)
         if (rows.length == 0) return res.sendError(2);
-        const { associatedFirebaseUID: firebaseUserID } = rows[0];
-        const { rows: APIUser } = await connection.query(`SELECT * FROM public.users WHERE firebaseUID = '${firebaseUserID}'`)
+        const { associatedfirebaseuid: firebaseUserID } = rows[0];
+        const { rows: APIUser } = await connection.query(`SELECT * FROM public.users WHERE firebaseuid = '${firebaseUserID}'`)
         if (!req.checkPerms(APIUser[0].permissions, 'developer', 'deleteUsers')) {
             res.sendError(12);
             return connection.release();
@@ -134,7 +134,7 @@ router
         const uid = req.headers['x-uid'];
         await req.auth.deleteUser(uid)
             .catch(_ => req.sendError(500))
-        await connection.query(`DELETE FROM public.users WHERE firebaseUID = '${uid}'`)
+        await connection.query(`DELETE FROM public.users WHERE firebaseuid = '${uid}'`)
             .catch(_ => req.sendError(500))
         await connection.release();
         return res.status(200).json({

@@ -133,7 +133,7 @@ paths:
                     id: "gPcqw6MAbXbZs6ARohHqT2vapFY2"
                     updatedUser:
                       id: 19
-                      firebaseUID: "gPcqw6MAbXbZs6ARohHqT2vapFY2"
+                      firebaseuid: "gPcqw6MAbXbZs6ARohHqT2vapFY2"
                       firstname: "John"
                       lastname: "Doe"
                       displayname: "newDisplayName"
@@ -147,7 +147,7 @@ paths:
                     id: "gPcqw6MAbXbZs6ARohHqT2vapFY2"
                     updatedUser:
                       id: 19
-                      firebaseUID: "gPcqw6MAbXbZs6ARohHqT2vapFY2"
+                      firebaseuid: "gPcqw6MAbXbZs6ARohHqT2vapFY2"
                       firstname: "John"
                       lastname: "Doe"
                       displayname: "JohnDoe0001"
@@ -161,7 +161,7 @@ paths:
                     id: "gPcqw6MAbXbZs6ARohHqT2vapFY2"
                     updatedUser:
                       id: 19
-                      firebaseUID: "gPcqw6MAbXbZs6ARohHqT2vapFY2"
+                      firebaseuid: "gPcqw6MAbXbZs6ARohHqT2vapFY2"
                       firstname: "John"
                       lastname: "Doe"
                       displayname: "JohnDoe0001"
@@ -175,7 +175,7 @@ paths:
                     id: "gPcqw6MAbXbZs6ARohHqT2vapFY2"
                     updatedUser:
                       id: 19
-                      firebaseUID: "gPcqw6MAbXbZs6ARohHqT2vapFY2"
+                      firebaseuid: "gPcqw6MAbXbZs6ARohHqT2vapFY2"
                       firstname: "John"
                       lastname: "Doe"
                       displayname: "JohnDoe0001"
@@ -592,7 +592,7 @@ paths:
             examples:
               token:
                 value:
-                  firebaseUID: "gPcqw6MAbXbZs6ARohHqT2vapFY2"
+                  firebaseuid: "gPcqw6MAbXbZs6ARohHqT2vapFY2"
       responses:
         201:
           description: "The information on the generated token"
@@ -2201,7 +2201,7 @@ components:
     FullUserInformation:
       required:
         - id
-        - firebaseUID
+        - firebaseuid
         - firstname
         - lastname
         - displayname
@@ -2214,7 +2214,7 @@ components:
           nullable: false
           type: integer
           description: "The ID of the user"
-        firebaseUID:
+        firebaseuid:
           nullable: false
           type: string
           description: "The Firebase UID of the user"
@@ -2391,9 +2391,9 @@ components:
           description: "The error message"
     TokenCreationRequestBody:
       required:
-        - firebaseUID
+        - firebaseuid
       properties:
-        firebaseUID:
+        firebaseuid:
           nullable: false
           type: string
           description: "The Firebase UID of the user"
