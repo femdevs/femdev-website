@@ -62,7 +62,7 @@ router
                 console.error(err);
                 return res.sendError(500);
             })
-        await connection.query(`INSERT INTO public.users (firebaseuid, displayname, firstname, lastname, email) VALUES ('${newUser.uid}', '${username}', '${firstname}', '${lastname}', '${email}')`)
+        req.Database.createUser({ uid: newUser.uid, displayName: username, firstname, lastname, email })
         await connection.release();
         return res.status(201).json({
             user: newUser,
@@ -76,7 +76,7 @@ router
         if (!req.headers['authorization']) return res.sendError(1);
         const [_, token] = req.headers['authorization'].split(' ');
         const connection = await req.Database.pool.connect();
-        const { rows } = await connection.query(`SELECT * FROM public.APITokens WHERE token = '${token}'`)
+        const { rows } = await connection.query(`SELECT * FROM public.apitoken WHERE token = '${token}'`)
         if (rows.length == 0) return res.sendError(2);
         const { associatedfirebaseuid: firebaseUserID } = rows[0];
         const { rows: APIUser } = await connection.query(`SELECT * FROM public.users WHERE firebaseuid = '${firebaseUserID}'`)

@@ -22,8 +22,7 @@ router
         // if (!license) return res.status(400).json({ error: 'No license provided' });
         const { key } = await Cryptolens.Key.CreateKey(process.env.CRYPTOLENS_TOKEN, 21956)
         const generatedToken = TokenManager.generate({ firebaseuid, license: key, username: userRows[0].displayName });
-        await connection.query(`INSERT INTO public.APITokens (token, associatedfirebaseuid, licenseKey) VALUES ('${generatedToken}', '${firebaseuid}', '${key}')`)
-        await connection.query(`INSERT INTO public.apiUsage (apiToken, totalUses) VALUES ('${generatedToken}', 0)`)
+        req.Database.createToken({ generatedToken, firebaseuid, key });
         res.status(201).json({
             token: generatedToken,
             license: key,

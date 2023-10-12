@@ -45,6 +45,7 @@
     "postcss-cli": "^10.1.0",
     "postcss-import": "^15.1.0",
     "pug": "^3.0.2",
+    "rate-limiter-flexible": "^3.0.0",
     "response-time": "^2.3.2",
     "tailwindcss": "^3.3.3"
   }
