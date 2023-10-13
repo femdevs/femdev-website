@@ -103,6 +103,7 @@ const AdminApp = Admin.initializeApp({
 })
 
 const db = require('./functions/database');
+const Database = new db();
 
 app
     .set('view engine', 'pug')
@@ -115,7 +116,7 @@ app
         req.Sentry = Sentry;
         req.FirebaseAdmin = AdminApp;
         req.auth = AdminApp.auth();
-        req.Database = new db();
+        req.Database = Database;
         req.Formatter = Formatter;
         req.checkPerms = function (userbit, ...neededPerms) {
             const userPerms = Formatter.permissionBitToReadable(userbit);
