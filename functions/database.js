@@ -30,12 +30,16 @@ module.exports = class PGDatabase extends events.EventEmitter {
                 staff: 0
             }
         }
+
+        this.ipBlacklist = [];
+
         this.pool.connect().then(async (connection) => {
             this.cache.ids.access = Number((await connection.query(`SELECT id FROM public.accesslogs ORDER BY id DESC LIMIT 1`)).rows[0]?.id ?? 0);
             this.cache.ids.token = Number((await connection.query(`SELECT id FROM public.apitokens ORDER BY id DESC LIMIT 1`)).rows[0]?.id ?? 0);
             this.cache.ids.usage = Number((await connection.query(`SELECT id FROM public.apiUsage ORDER BY id DESC LIMIT 1`)).rows[0]?.id ?? 0);
             this.cache.ids.user = Number((await connection.query(`SELECT id FROM public.users ORDER BY id DESC LIMIT 1`)).rows[0]?.id ?? 0);
             this.cache.ids.staff = Number((await connection.query(`SELECT id FROM public.staff ORDER BY id DESC LIMIT 1`)).rows[0]?.id ?? 0);
+            this.ipBlacklist = (await connection.query(`SELECT * FROM public.websiteblacklist WHERE active = 1`)).rows.map(row => ({hash: row.iphash, reason: row.reason}));
             connection.release();
         })
         
@@ -73,17 +77,20 @@ module.exports = class PGDatabase extends events.EventEmitter {
                     .catch(console.error)
                     .finally(_ => connection.release());
             })
+            .on('updateBlacklist', async () => {
+                const connection = await this.pool.connect();
+                const { rows } = await connection.query(`SELECT * FROM public.websiteblacklist WHERE active = 1`)
+                connection.release();
+                this.ipBlacklist = rows.map(row => ({hash: row.iphash, reason: row.reason}))
+            })
     }
     /**
      * @param {string} ip
      * @returns {Promise<[boolean, string | null]>}
      */
     testIPBlacklisted = async (ip) => {
-        const connection = await this.pool.connect();
-        const { rows } = await connection.query(`SELECT * FROM public.websiteblacklist WHERE active = TRUE`);
-        connection.release();
-        for (const row of rows) {
-            if (row.ipHash === ip) return [true, row.reason];
+        for (const {hash, reason} of this.ipBlacklist) {
+            if (hash == ip) return [true, reason];
         }
         return [false, null];
     }
