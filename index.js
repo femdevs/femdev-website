@@ -179,11 +179,11 @@ app
     .use(MRL)
     .use(Headers)
     .use('/', router)
-    .get(`/robots.txt`, (req, res) => {
+    .get(`/robots.txt`, (_, res) => {
         res
             .sendFile(`${process.cwd()}/metadata/robots.txt`)
     })
-    .get(`/sitemap`, (req, res) => {
+    .get(`/sitemap`, (_, res) => {
         res
             .setHeader(`Content-Type`, `text/xml`)
             .sendFile(`${process.cwd()}/metadata/sitemap.xml`)

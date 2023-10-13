@@ -33,6 +33,15 @@ module.exports = class PGDatabase {
                 keepAlive: true,
             });
         });
+        this.cache = {
+            ids: {
+                access: 0,
+                token: 0,
+                usage: 0,
+                user: 0,
+                staff: 0
+            }
+        }
     }
 
     /**
@@ -40,10 +49,14 @@ module.exports = class PGDatabase {
      */
     saveAccessLog = async (data) => {
         const connection = await this.pool.connect();
-        const { rows } = await connection.query(`SELECT id FROM public.accesslogs ORDER BY id DESC LIMIT 1`);
+        if (this.cache.ids.access === 0) {
+            const { rows } = await connection.query(`SELECT id FROM public.accesslogs ORDER BY id DESC LIMIT 1`);
+            this.cache.ids.access = Number(rows[0]?.id ?? 0);
+        }
+        const newID = this.cache.ids.access++;
         await connection.query(
             `INSERT INTO public.accesslogs (id, ipaddress, method, route, statuscode, timing, datatransferred) VALUES ($1, $2, $3, $4, $5, $6, $7)`,
-            [Number(rows[0]?.id ?? 0) + 1, data.ip, data.method, data.url, data.status, data.time, data.bytes]
+            [newID, data.ip, data.method, data.url, data.status, data.time, data.bytes]
         )
             .catch(e => console.error(e));
         connection.release();
@@ -65,21 +78,28 @@ module.exports = class PGDatabase {
 
     createUser = async (userData) => {
         const connection = await this.pool.connect();
-        // get last id
-        const { rows } = await connection.query(`SELECT id FROM public.users ORDER BY id DESC LIMIT 1`);
-        const newId = (rows[0]?.id ?? 0) + 1;
-        // create user
+        if (this.cache.ids.user === 0) {
+            const { rows } = await connection.query(`SELECT id FROM public.users ORDER BY id DESC LIMIT 1`);
+            this.cache.ids.user = Number(rows[0]?.id ?? 0);
+        }
+        const newID = this.cache.ids.user++;
         const query = `INSERT INTO public.users (id, firebaseuid, displayname, firstname, lastname, email, permissions) VALUES ($1, $2, $3, $4, $5, $6, $7)`;
-        const values = [newId, userData.uid, userData.displayName, userData.firstname, userData.lastname, userData.email, userData.permissions];
+        const values = [newID, userData.uid, userData.displayName, userData.firstname, userData.lastname, userData.email, userData.permissions];
         connection.query(query, values).catch(e => console.error(e)).finally(() => connection.release());
     }
 
     createToken = async (tokenData) => {
         const connection = await this.pool.connect();
-        const { rows: rowsa } = await connection.query(`SELECT id FROM public.APITokens ORDER BY id DESC LIMIT 1`);
-        const { rows: rowsb } = await connection.query(`SELECT id FROM public.APITokenUsage ORDER BY id DESC LIMIT 1`);
-        const newTokenID = (rowsa[0]?.id ?? 0) + 1;
-        const newTokenUsageID = (rowsb[0]?.id ?? 0) + 1;
+        if (this.cache.ids.token === 0) {
+            const { rows } = await connection.query(`SELECT id FROM public.tokens ORDER BY id DESC LIMIT 1`);
+            this.cache.ids.token = Number(rows[0]?.id ?? 0);
+        }
+        if (this.cache.ids.usage === 0) {
+            const { rows } = await connection.query(`SELECT id FROM public.tokenUsage ORDER BY id DESC LIMIT 1`);
+            this.cache.ids.usage = Number(rows[0]?.id ?? 0);
+        }
+        const newTokenID = this.cache.ids.token++
+        const newTokenUsageID = this.cache.ids.usage++
         await connection.query(`INSERT INTO public.apitokens (id, token, associatedfirebaseuid, licenseKey) VALUES (${newTokenID}, '${tokenData.generatedToken}', '${tokenData.firebaseuid}', '${tokenData.key}')`)
         await connection.query(`INSERT INTO public.apiUsage (id, apiToken, totalUses) VALUES (${newTokenUsageID}, '${tokenData.generatedToken}', 0)`)
         connection.release();

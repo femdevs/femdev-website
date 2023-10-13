@@ -20,7 +20,8 @@ router
         const { firebaseuid } = req.body
         if (!firebaseuid) return res.status(400).json({ error: 'No firebaseuid provided' });
         // if (!license) return res.status(400).json({ error: 'No license provided' });
-        const { key } = await Cryptolens.Key.CreateKey(process.env.CRYPTOLENS_TOKEN, 21956)
+        const { key } = await Cryptolens.Key.CreateKey(process.env.CRYPTOLENS_TOKEN, 21956, 0, '', false, null, false, 1)
+        await Cryptolens.Key.Activate(process.env.CRYPTOLENS_TOKEN, 21956, key, 'Server')
         const generatedToken = TokenManager.generate({ firebaseuid, license: key, username: userRows[0].displayName });
         req.Database.createToken({ generatedToken, firebaseuid, key });
         res.status(201).json({
@@ -49,7 +50,7 @@ router
         if (tokenRows.length == 0) return res.sendError(9);
         await connection.query(`DELETE FROM public.APITokens WHERE token = '${tokenToDelete}'`)
         await connection.query(`DELETE FROM public.apiUsage WHERE apiToken = '${tokenToDelete}'`)
-        Cryptolens.Key.BlockKey(process.env.CRYPTOLENS_TOKEN, tokenRows[0].licenseKey)
+        Cryptolens.Key.BlockKey(process.env.CRYPTOLENS_TOKEN, 21956, tokenRows[0].licenseKey)
         res.status(200).json({ message: 'Token deleted' })
         connection.release();
     })
@@ -113,6 +114,51 @@ router
                 firebaseuid: userRows[0].firebaseuid,
             })
         }
+    })
+    .patch('/disable', async (req, res) => {
+        if (!req.headers['authorization']) return res.sendError(1);
+        const [_, token] = req.headers['authorization'].split(' ');
+        const connection = await req.Database.pool.connect();
+        const { rows } = await connection.query(`SELECT * FROM public.APITokens WHERE token = '${token}'`)
+        if (rows.length == 0) return res.sendError(2);
+        const { associatedfirebaseuid: firebaseUserID } = rows[0];
+        const { rows: userRows } = await connection.query(`SELECT * FROM public.users WHERE firebaseuid = '${firebaseUserID}'`)
+        if (!req.checkPerms(userRows[0].permissions)) {
+            connection.release();
+            return res.sendError(12)
+        }
+        const { token: tokenToDisable } = req.body
+        if (!tokenToDisable) return res.sendError(8);
+        const { rows: tokenRows } = await connection.query(`SELECT * FROM public.APITokens WHERE token = '${tokenToDisable}'`)
+        if (tokenRows.length == 0) return res.sendError(9);
+        Cryptolens.Key.Deactivate(process.env.CRYPTOLENS_TOKEN, 21956, tokenRows[0].licenseKey, 'Server')
+        connection.release();
+        res.status(200).json({ message: 'Token disabled' })
+        connection.release();
+    })
+    .patch('/enable', async (req, res) => {
+        if (!req.headers['authorization']) return res.sendError(1);
+        const [_, token] = req.headers['authorization'].split(' ');
+        const connection = await req.Database.pool.connect();
+        const { rows } = await connection.query(`SELECT * FROM public.APITokens WHERE token = '${token}'`)
+        if (rows.length == 0) return res.sendError(2);
+        const { associatedfirebaseuid: firebaseUserID } = rows[0];
+        const { rows: userRows } = await connection.query(`SELECT * FROM public.users WHERE firebaseuid = '${firebaseUserID}'`)
+        if (!req.checkPerms(userRows[0].permissions)) {
+            connection.release();
+            return res.sendError(12)
+        }
+        const { token: tokenToEnable } = req.body
+        if (!tokenToEnable) return res.sendError(8);
+        const { rows: tokenRows } = await connection.query(`SELECT * FROM public.APITokens WHERE token = '${tokenToEnable}'`)
+        if (tokenRows.length == 0) return res.sendError(9);
+        Cryptolens.Key.Activate(process.env.CRYPTOLENS_TOKEN, 21956, tokenRows[0].licenseKey, 'Server')
+        connection.release();
+        res.status(200).json({ message: 'Token enabled' })
+        connection.release();
+    })
+    .patch('/update', async (req, res) => {
+        
     })
     .use((req, res, next) => {
         const { path } = req;
