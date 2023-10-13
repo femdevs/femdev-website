@@ -39,7 +39,7 @@ module.exports = class PGDatabase extends events.EventEmitter {
             this.cache.ids.usage = Number((await connection.query(`SELECT id FROM public.apiUsage ORDER BY id DESC LIMIT 1`)).rows[0]?.id ?? 0);
             this.cache.ids.user = Number((await connection.query(`SELECT id FROM public.users ORDER BY id DESC LIMIT 1`)).rows[0]?.id ?? 0);
             this.cache.ids.staff = Number((await connection.query(`SELECT id FROM public.staff ORDER BY id DESC LIMIT 1`)).rows[0]?.id ?? 0);
-            this.ipBlacklist = (await connection.query(`SELECT * FROM public.websiteblacklist WHERE active = 1`)).rows.map(row => ({hash: row.iphash, reason: row.reason}));
+            this.ipBlacklist = (await connection.query(`SELECT * FROM public.websiteblacklist WHERE active = TRUE`)).rows.map(row => ({hash: row.iphash, reason: row.reason}));
             connection.release();
         })
         
@@ -79,7 +79,7 @@ module.exports = class PGDatabase extends events.EventEmitter {
             })
             .on('updateBlacklist', async () => {
                 const connection = await this.pool.connect();
-                const { rows } = await connection.query(`SELECT * FROM public.websiteblacklist WHERE active = 1`)
+                const { rows } = await connection.query(`SELECT * FROM public.websiteblacklist WHERE active = TRUE`)
                 connection.release();
                 this.ipBlacklist = rows.map(row => ({hash: row.iphash, reason: row.reason}))
             })
