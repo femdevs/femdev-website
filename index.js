@@ -50,6 +50,8 @@ Sentry.init({
     sendDefaultPii: true
 });
 
+const reqLogs = [];
+
 class Formatter {
     static perms = {
         readData: 1 << 0,   // 1
@@ -103,6 +105,8 @@ const AdminApp = Admin.initializeApp({
 const db = require('./functions/database');
 const Database = new db();
 
+setInterval(function() {for (const log of reqLogs) Database.emit('access', log)},5_000)
+
 app
     .set('view engine', 'pug')
     .set('case sensitive routing', false)
@@ -111,6 +115,7 @@ app
     .use(Sentry.Handlers.requestHandler({ transaction: true }))
     .use(Sentry.Handlers.tracingHandler())
     .use((req, _, next) => {
+        req.reqLogs = reqLogs;
         req.Sentry = Sentry;
         req.FirebaseAdmin = AdminApp;
         req.auth = AdminApp.auth();
