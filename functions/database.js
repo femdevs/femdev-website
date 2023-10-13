@@ -30,31 +30,48 @@ module.exports = class PGDatabase extends events.EventEmitter {
                 staff: 0
             }
         }
+        this.pool.connect().then(async (connection) => {
+            this.cache.ids.access = Number((await connection.query(`SELECT id FROM public.accesslogs ORDER BY id DESC LIMIT 1`)).rows[0]?.id ?? 0);
+            this.cache.ids.token = Number((await connection.query(`SELECT id FROM public.apitokens ORDER BY id DESC LIMIT 1`)).rows[0]?.id ?? 0);
+            this.cache.ids.usage = Number((await connection.query(`SELECT id FROM public.apiUsage ORDER BY id DESC LIMIT 1`)).rows[0]?.id ?? 0);
+            this.cache.ids.user = Number((await connection.query(`SELECT id FROM public.users ORDER BY id DESC LIMIT 1`)).rows[0]?.id ?? 0);
+            this.cache.ids.staff = Number((await connection.query(`SELECT id FROM public.staff ORDER BY id DESC LIMIT 1`)).rows[0]?.id ?? 0);
+            connection.release();
+        })
+        
         this
             .on('access', async (data) => {
+                this.cache.ids.access++
                 const connection = await this.pool.connect();
-                if (this.cache.ids.access === 0) this.cache.ids.access = Number((await connection.query(`SELECT id FROM public.accesslogs ORDER BY id DESC LIMIT 1`)).rows[0]?.id ?? 0);
                 await connection.query(
                     `INSERT INTO public.accesslogs (id, ipaddress, method, route, statuscode, timing, datatransferred) VALUES ($1, $2, $3, $4, $5, $6, $7)`,
-                    [++this.cache.ids.access, data.ip, data.method, data.url, data.status, data.time, data.bytes]
+                    [this.cache.ids.access, data.ip, data.method, data.url, data.status, data.time, data.bytes]
                 )
-                    .catch(e => console.error(e));
-                connection.release();
+                    .catch(console.error)
+                    .finally(_ => connection.release());
             })
             .on('token', async (data) => {
+                this.cache.ids.token++
+                this.cache.ids.usage++
                 const connection = await this.pool.connect();
-                if (this.cache.ids.token === 0) this.cache.ids.token = Number((await connection.query(`SELECT id FROM public.tokens ORDER BY id DESC LIMIT 1`)).rows[0]?.id ?? 0);
-                if (this.cache.ids.usage === 0) this.cache.ids.usage = Number((await connection.query(`SELECT id FROM public.tokenUsage ORDER BY id DESC LIMIT 1`)).rows[0]?.id ?? 0);
-                await connection.query(`INSERT INTO public.apitokens (id, token, associatedfirebaseuid, licenseKey) VALUES (${++this.cache.ids.token}, '${data.generatedToken}', '${data.firebaseuid}', '${tokenData.key}')`)
-                await connection.query(`INSERT INTO public.apiUsage (id, apiToken, totalUses) VALUES (${++this.cache.ids.usage}, '${data.generatedToken}', 0)`)
+                await connection.query(
+                    `INSERT INTO public.apitokens (id, token, associatedfirebaseuid, licenseKey) VALUES ($1, $2, $3, $4)`,
+                    [this.cache.ids.token, data.generatedToken, data.firebaseuid, tokenData.key])
+                await connection.query(
+                    `INSERT INTO public.apiUsage (id, apiToken, totalUses) VALUES ($1, $2, $3)`,
+                    [this.cache.ids.usage, data.generatedToken, 0]
+                )
                 connection.release();
             })
             .on('user', async (data) => {
+                this.cache.ids.user++
                 const connection = await this.pool.connect();
-                if (this.cache.ids.user === 0) this.cache.ids.user = Number((await connection.query(`SELECT id FROM public.users ORDER BY id DESC LIMIT 1`)).rows[0]?.id ?? 0);
-                const query = `INSERT INTO public.users (id, firebaseuid, displayname, firstname, lastname, email, permissions) VALUES ($1, $2, $3, $4, $5, $6, $7)`;
-                const values = [++this.cache.ids.user, data.uid, data.displayName, data.firstname, data.lastname, data.email, data.permissions];
-                connection.query(query, values).catch(e => console.error(e)).finally(() => connection.release());
+                connection.query(
+                    `INSERT INTO public.users (id, firebaseuid, displayname, firstname, lastname, email, permissions) VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+                    [this.cache.ids.user, data.uid, data.displayName, data.firstname, data.lastname, data.email, data.permissions]
+                )
+                    .catch(console.error)
+                    .finally(_ => connection.release());
             })
     }
     /**
@@ -63,7 +80,7 @@ module.exports = class PGDatabase extends events.EventEmitter {
      */
     testIPBlacklisted = async (ip) => {
         const connection = await this.pool.connect();
-        const { rows } = await connection.query(`SELECT ipHash, reason FROM public.websiteblacklist WHERE active = TRUE`);
+        const { rows } = await connection.query(`SELECT * FROM public.websiteblacklist WHERE active = TRUE`);
         connection.release();
         for (const row of rows) {
             if (row.ipHash === ip) return [true, row.reason];
