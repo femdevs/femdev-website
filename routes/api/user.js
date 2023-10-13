@@ -62,7 +62,7 @@ router
                 console.error(err);
                 return res.sendError(500);
             })
-        req.Database.createUser({ uid: newUser.uid, displayName: username, firstname, lastname, email })
+        req.Database.emit('user', { uid: newUser.uid, displayName: username, firstname, lastname, email })
         await connection.release();
         return res.status(201).json({
             user: newUser,

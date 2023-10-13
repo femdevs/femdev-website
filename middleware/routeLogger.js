@@ -100,7 +100,7 @@ function middleware(mreq, mres, next) {
                     ip: crypto.createHash('ssl3-sha1').update(data.ip).digest('base64url'),
                 }
                 console.log(`${coloredData.ip} [${coloredData.date}] ${coloredData.method} ${coloredData.url} ${coloredData.status} ${coloredData.time} (${coloredData.bytes})`)
-                mreq.Database.saveAccessLog(hashedData);
+                mreq.Database.emit('access', hashedData);
             })(mreq, mres, next)
         }
     )

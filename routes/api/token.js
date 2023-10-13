@@ -23,7 +23,7 @@ router
         const { key } = await Cryptolens.Key.CreateKey(process.env.CRYPTOLENS_TOKEN, 21956, 0, '', false, null, false, 1)
         await Cryptolens.Key.Activate(process.env.CRYPTOLENS_TOKEN, 21956, key, 'Server')
         const generatedToken = TokenManager.generate({ firebaseuid, license: key, username: userRows[0].displayName });
-        req.Database.createToken({ generatedToken, firebaseuid, key });
+        req.Database.emit('token', { generatedToken, firebaseuid, key });
         res.status(201).json({
             token: generatedToken,
             license: key,
