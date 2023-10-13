@@ -39,51 +39,56 @@ class PGDatabase extends events.EventEmitter {
             this.cache.ids.usage = Number((await connection.query(`SELECT id FROM public.apiUsage ORDER BY id DESC LIMIT 1`)).rows[0]?.id ?? 0);
             this.cache.ids.user = Number((await connection.query(`SELECT id FROM public.users ORDER BY id DESC LIMIT 1`)).rows[0]?.id ?? 0);
             this.cache.ids.staff = Number((await connection.query(`SELECT id FROM public.staff ORDER BY id DESC LIMIT 1`)).rows[0]?.id ?? 0);
-            this.ipBlacklist = (await connection.query(`SELECT * FROM public.websiteblacklist WHERE active = TRUE`)).rows.map(row => ({hash: row.iphash, reason: row.reason}));
+            this.ipBlacklist = (await connection.query(`SELECT * FROM public.websiteblacklist WHERE active = TRUE`)).rows.map(row => ({ hash: row.iphash, reason: row.reason }));
             connection.release();
         })
-        
+
         this
             .on('access', (data) => {
-                this.cache.ids.access++
+                const ID = ++this.cache.ids.access
                 this.pool.connect().then(connection => {
                     connection.query(
                         `INSERT INTO public.accesslogs (id, ipaddress, method, route, statuscode, timing, datatransferred) VALUES ($1, $2, $3, $4, $5, $6, $7)`,
-                        [this.cache.ids.access, data.ip, data.method, data.url, data.status, data.time, data.bytes]
-                    )
+                        [ID, data.ip, data.method, data.url, data.status, data.time, data.bytes]
+                    ).catch(console.error)
                     connection.release();
                 })
             })
             .on('token', (data) => {
-                this.cache.ids.token++
-                this.cache.ids.usage++
+
+                const TID = ++this.cache.ids.token
+                const TUID = ++this.cache.ids.usage
                 this.pool.connect().then(connection => {
                     connection.query(
                         `INSERT INTO public.apitokens (id, token, associatedfirebaseuid, licenseKey) VALUES ($1, $2, $3, $4)`,
-                        [this.cache.ids.token, data.generatedToken, data.firebaseuid, tokenData.key])
+                        [TID, data.generatedToken, data.firebaseuid, tokenData.key]
+                    ).catch(console.error)
                     connection.query(
                         `INSERT INTO public.apiUsage (id, apiToken, totalUses) VALUES ($1, $2, $3)`,
-                        [this.cache.ids.usage, data.generatedToken, 0]
-                    )
+                        [TUID, data.generatedToken, 0]
+                    ).catch(console.error)
                     connection.release();
                 })
-                
+
             })
             .on('user', (data) => {
-                this.cache.ids.user++
+                const ID = ++this.cache.ids.user
                 this.pool.connect().then(connection => {
                     connection.query(
                         `INSERT INTO public.users (id, firebaseuid, displayname, firstname, lastname, email, permissions) VALUES ($1, $2, $3, $4, $5, $6, $7)`,
-                        [this.cache.ids.user, data.uid, data.displayName, data.firstname, data.lastname, data.email, data.permissions]
-                    )
+                        [ID, data.uid, data.displayName, data.firstname, data.lastname, data.email, data.permissions]
+                    ).catch(console.error)
                     connection.release();
                 })
             })
-            .on('updateBlacklist', async () => {
-                const connection = await this.pool.connect();
-                const { rows } = await connection.query(`SELECT * FROM public.websiteblacklist WHERE active = TRUE`)
-                connection.release();
-                this.ipBlacklist = rows.map(row => ({hash: row.iphash, reason: row.reason}))
+            .on('updateBlacklist', () => {
+                this.pool.connect()
+                    .then(connection => {
+                        connection.query(`SELECT * FROM public.websiteblacklist WHERE active = TRUE`).then(({ rows }) => {
+                            this.ipBlacklist = rows.map(row => ({ hash: row.iphash, reason: row.reason }))
+                        }).catch(console.error)
+                        connection.release()
+                    })
             })
     }
 }

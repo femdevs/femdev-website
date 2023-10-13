@@ -51,7 +51,6 @@ Sentry.init({
 });
 
 const reqLogs = [];
-
 class Formatter {
     static perms = {
         readData: 1 << 0,   // 1
@@ -224,9 +223,9 @@ app
             }
         );
     })
+    .use(Sentry.Handlers.errorHandler())
     .use(EPR)
     .use(four0four)
-    .use(Sentry.Handlers.errorHandler());
 
 cron
     .schedule('*/5 * * * *', async () => {
