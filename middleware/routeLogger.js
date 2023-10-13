@@ -95,12 +95,8 @@ function middleware(mreq, mres, next) {
                     time: ColorConverter.resTime(data.time),
                     bytes: ColorConverter.bytes(data.bytes),
                 }
-                const hashedData = {
-                    ...data,
-                    ip: crypto.createHash('ssl3-sha1').update(data.ip).digest('base64url'),
-                }
                 console.log(`${coloredData.ip} [${coloredData.date}] ${coloredData.method} ${coloredData.url} ${coloredData.status} ${coloredData.time} (${coloredData.bytes})`)
-                mreq.reqLogs.push(hashedData);
+                mreq.reqLogs.push({ ...data, ip: crypto.createHash('ssl3-sha1').update(data.ip).digest('base64url') });
             })(mreq, mres, next)
         }
     )

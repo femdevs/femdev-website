@@ -105,7 +105,10 @@ const AdminApp = Admin.initializeApp({
 const db = require('./functions/database');
 const Database = new db();
 
-setInterval(function() {for (const log of reqLogs) Database.emit('access', log)},5_000)
+setInterval(function() {
+    if (reqLogs.length === 0) return;
+    Database.emit('access', reqLogs.shift())
+},500)
 
 app
     .set('view engine', 'pug')
