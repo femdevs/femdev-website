@@ -6,6 +6,9 @@ require('dotenv').config();
 class PGDatabase extends events.EventEmitter {
     constructor() {
         super();
+        /**
+         * @type {pg.PoolConfig}
+         */
         this.cfgs = {
             max: 10,
             host: process.env.HOST,
@@ -13,8 +16,11 @@ class PGDatabase extends events.EventEmitter {
             database: process.env.DATABASE,
             user: process.env.USER,
             password: process.env.PASSWORD,
-            query_timeout: 2000,
+            query_timeout: 5_000,
             allowExitOnIdle: true,
+            statement_timeout: 2_000,
+            idle_in_transaction_session_timeout: 5_000,
+            connectionTimeoutMillis: 5_000,
         }
         this.pool = new pg.Pool(this.cfgs);
         cron.schedule('*/5 * * * *', () => {
@@ -55,7 +61,6 @@ class PGDatabase extends events.EventEmitter {
                 })
             })
             .on('token', (data) => {
-
                 const TID = ++this.cache.ids.token
                 const TUID = ++this.cache.ids.usage
                 this.pool.connect().then(connection => {
