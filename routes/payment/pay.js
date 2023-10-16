@@ -1,29 +1,6 @@
-//- Packages
-const router = require('express').Router();
-require('dotenv').config();
+const router = require('express').Router()
 
-//- Routes
-const website = require('./main');
-const cdn = require('./cdn');
-const legal = require('./legal');
-const error = require('./errors');
-const ab = require('./ab');
-const OSSProject = require('./project');
-const assets = require('./assets/router');
-const api = require('./api/router');
-const stripe = require('./payment/router')
-
-//- Router setup
 router
-    .use('/ab', ab)
-    .use('/api', api)
-    .use('/cdn', cdn)
-    .use('/legal', legal)
-    .use('/error', error)
-    .use('/oss-project', OSSProject)
-    .use('/assets', assets)
-    .use('/stripe', stripe)
-    .use('/', website)
     .use((req, res, next) => {
         const { path } = req;
         const methodUsed = req.method.toUpperCase();
@@ -51,4 +28,4 @@ router
         );
     });
 
-module.exports = router;
+module.exports = router

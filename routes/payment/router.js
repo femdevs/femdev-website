@@ -1,29 +1,23 @@
-//- Packages
-const router = require('express').Router();
-require('dotenv').config();
+const router = require('express').Router()
+const { default: Stripe } = require('stripe')
+require('dotenv').config()
 
-//- Routes
-const website = require('./main');
-const cdn = require('./cdn');
-const legal = require('./legal');
-const error = require('./errors');
-const ab = require('./ab');
-const OSSProject = require('./project');
-const assets = require('./assets/router');
-const api = require('./api/router');
-const stripe = require('./payment/router')
+const pay = require('./pay')
+const customer = require('./customer')
+const invoice = require('./invoice')
+const webhook = require('./webhook')
 
-//- Router setup
+const StripeSDK = new Stripe(process.env.STRIPE_KEY)
+
 router
-    .use('/ab', ab)
-    .use('/api', api)
-    .use('/cdn', cdn)
-    .use('/legal', legal)
-    .use('/error', error)
-    .use('/oss-project', OSSProject)
-    .use('/assets', assets)
-    .use('/stripe', stripe)
-    .use('/', website)
+    .use((req, _, next) => {
+        req.Stripe = StripeSDK;
+        next()
+    })
+    .use('/pay', pay)
+    .use('/customer', customer)
+    .use('/invoice', invoice)
+    .use('/webhook', webhook)
     .use((req, res, next) => {
         const { path } = req;
         const methodUsed = req.method.toUpperCase();
@@ -51,4 +45,4 @@ router
         );
     });
 
-module.exports = router;
+module.exports = router

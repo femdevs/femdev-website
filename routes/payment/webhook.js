@@ -1,29 +1,21 @@
-//- Packages
-const router = require('express').Router();
-require('dotenv').config();
+const router = require('express').Router()
+const DiscordJS = require('discord.js')
+require('dotenv').config()
 
-//- Routes
-const website = require('./main');
-const cdn = require('./cdn');
-const legal = require('./legal');
-const error = require('./errors');
-const ab = require('./ab');
-const OSSProject = require('./project');
-const assets = require('./assets/router');
-const api = require('./api/router');
-const stripe = require('./payment/router')
-
-//- Router setup
 router
-    .use('/ab', ab)
-    .use('/api', api)
-    .use('/cdn', cdn)
-    .use('/legal', legal)
-    .use('/error', error)
-    .use('/oss-project', OSSProject)
-    .use('/assets', assets)
-    .use('/stripe', stripe)
-    .use('/', website)
+    .post('/', async (req, res) => {
+        // accept Stripe webhook events and forward them to discord in a proper format
+        const DiscordWebhook = new DiscordJS.WebhookClient({ url: process.env.DISCORD_WEBHOOK })
+        const { body: {type} } = req;
+        const embed = new DiscordJS.EmbedBuilder()
+            .setTitle(`Stripe Webhook Event`)
+            .setColor('#00FF00')
+            .setDescription(`**Event Type:** ${type}`)
+            .setTimestamp()
+            .setFooter(`Stripe Webhook Event`)
+        DiscordWebhook.send(embed)
+        res.status(200).send()
+    })
     .use((req, res, next) => {
         const { path } = req;
         const methodUsed = req.method.toUpperCase();
@@ -51,4 +43,4 @@ router
         );
     });
 
-module.exports = router;
+module.exports = router
