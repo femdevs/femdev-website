@@ -3,7 +3,7 @@ const cron = require('node-cron');
 const events = require('events');
 require('dotenv').config();
 
-class PGDatabase extends events.EventEmitter {
+module.exports = class PGDatabase extends events.EventEmitter {
     constructor() {
         super();
         /**
@@ -25,12 +25,9 @@ class PGDatabase extends events.EventEmitter {
             .schedule(
                 '*/5 * * * *',
                 () => {
-                    if (this.pool instanceof pg.Pool) return this.pool = new pg.Pool(this.cfgs);
+                    if (!(this.pool instanceof pg.Pool)) return this.pool = new pg.Pool(this.cfgs);
                     this.pool.end();
                     this.pool = new pg.Pool(this.cfgs);
-                },
-                {
-                    runOnInit: true
                 }
             )
         this.cache = {
@@ -103,6 +100,4 @@ class PGDatabase extends events.EventEmitter {
                     })
             })
     }
-}
-
-module.exports = PGDatabase;
+};

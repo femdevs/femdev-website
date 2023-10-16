@@ -1,8 +1,10 @@
-const router = require('express').Router()
+const express = require('express')
+const router = express.Router()
 const DiscordJS = require('discord.js')
 require('dotenv').config()
 
 router
+    .use(express.json())
     .post('/', async (req, res) => {
         // accept Stripe webhook events and forward them to discord in a proper format
         const DiscordWebhook = new DiscordJS.WebhookClient({ url: process.env.DISCORD_WEBHOOK })
@@ -13,7 +15,11 @@ router
             .setDescription(`**Event Type:** ${type}`)
             .setTimestamp()
             .setFooter(`Stripe Webhook Event`)
-        DiscordWebhook.send(embed)
+        DiscordWebhook.send({
+            embeds: [embed],
+            username: 'Stripe',
+            avatarURL: 'https://b.stripecdn.com/manage-statics-srv/assets/public/favicon.ico'
+        })
         res.status(200).send()
     })
     .use((req, res, next) => {
