@@ -1,7 +1,6 @@
 const router = require('express').Router();
 const Cryptolens = require('cryptolens');
 
-const { aprilFools } = require('../../functions/utilities');
 const TokenManager = require('../../functions/crypto');
 
 router
@@ -171,7 +170,7 @@ router
         if (req.method === 'OPTIONS') return res.setHeader('Allow', Object.keys(allowedMethods).map(m => m.toUpperCase()).join(', ')).setHeader('Access-Control-Allow-Methods', Object.keys(allowedMethods).map(m => m.toUpperCase()).join(', ')).status(204).send();
         if (allowedMethods[methodUsed]) return next();
         res.status(405).render(
-            `${aprilFools() ? 'aprilfools/' : ''}misc/405.pug`,
+            `${req.aprilFools()}misc/405.pug`,
             {
                 errData: {
                     path,

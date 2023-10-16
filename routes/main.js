@@ -1,5 +1,4 @@
 const router = require('express').Router();
-const { aprilFools } = require('../functions/utilities');
 
 router
     .get('/team', async (req, res) => {
@@ -12,7 +11,7 @@ router
             .forEach((staff, i) => (staffRoles[staff.role] == undefined) ? (staffRoles[staff.role] = { [i]: staff }) : (staffRoles[staff.role][i] = staff))
         Object.keys(staffRoles).forEach(role => staffRoles[role].title = role)
         res.render(
-            `${aprilFools() ? 'april-fools/' : ''}main/team`,
+            `${req.aprilFools()}main/team`,
             {
                 staff: staffRoles,
                 meta: {
@@ -26,7 +25,7 @@ router
     })
     .get('/carrers', (req, res) => {
         res.render(
-            `${aprilFools() ? 'april-fools/' : ''}main/carrers.pug`,
+            `${req.aprilFools()}main/carrers.pug`,
             {
                 meta: {
                     title: 'FemDev Carrers',
@@ -38,7 +37,7 @@ router
     })
     .get('/branding', (req, res) => {
         res.render(
-            `${aprilFools() ? 'april-fools/' : ''}main/branding.pug`,
+            `${req.aprilFools()}main/branding.pug`,
             {
                 meta: {
                     title: 'FemDev Branding',
@@ -50,7 +49,7 @@ router
     })
     .get('/products', (req, res) => {
         res.render(
-            `${aprilFools() ? 'april-fools/' : ''}main/products.pug`,
+            `${req.aprilFools()}main/products.pug`,
             {
                 meta: {
                     title: 'FemDev Products',
@@ -62,7 +61,7 @@ router
     })
     .get('/about', (req, res) => {
         res.render(
-            `${aprilFools() ? 'april-fools/' : ''}main/about.pug`,
+            `${req.aprilFools()}main/about.pug`,
             {
                 meta: {
                     title: 'About FemDev',
@@ -74,7 +73,7 @@ router
     })
     .get('/pds', (req, res) => {
         res.render(
-            `${aprilFools() ? 'april-fools/' : ''}main/poland.pug`,
+            `${req.aprilFools()}main/poland.pug`,
             {
                 file: 'pds',
                 meta: {
@@ -87,7 +86,7 @@ router
     })
     .get('/index', (req, res) => {
         res.render(
-            `${aprilFools() ? 'april-fools/' : ''}main/index.pug`,
+            `${req.aprilFools()}main/index.pug`,
             {
                 meta: {
                     title: 'FemDevs Home Page',
@@ -102,7 +101,7 @@ router
     })
     .get(`/`, (req, res) => {
         res.render(
-            `${aprilFools() ? 'april-fools/' : ''}main/index.pug`,
+            `${req.aprilFools()}main/index.pug`,
             {
                 meta: {
                     title: 'FemDevs Home Page',
@@ -123,7 +122,7 @@ router
         if (req.method === 'OPTIONS') return res.setHeader('Allow', Object.keys(allowedMethods).map(m => m.toUpperCase()).join(', ')).setHeader('Access-Control-Allow-Methods', Object.keys(allowedMethods).map(m => m.toUpperCase()).join(', ')).status(204).send();
         if (allowedMethods[methodUsed]) return next();
         res.status(405).render(
-            `${aprilFools() ? 'aprilfools/' : ''}misc/405.pug`,
+            `${req.aprilFools()}misc/405.pug`,
             {
                 errData: {
                     path,

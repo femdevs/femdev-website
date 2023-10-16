@@ -1,16 +1,6 @@
 const router = require('express').Router();
-const { aprilFools } = require('../../functions/utilities');
 
 router
-    .get(`/robots.txt`, (req, res) => {
-        res
-            .sendFile(`${process.cwd()}/metadata/robots.txt`)
-    })
-    .get(`/sitemap`, (req, res) => {
-        res
-            .setHeader(`Content-Type`, `text/xml`)
-            .sendFile(`${process.cwd()}/metadata/sitemap.xml`)
-    })
     .get(`/thumbnail`, (req, res) => {
         res
             .setHeader('Cache-Control', 'no-cache')
@@ -27,7 +17,7 @@ router
         if (req.method === 'OPTIONS') return res.setHeader('Allow', Object.keys(allowedMethods).map(m => m.toUpperCase()).join(', ')).setHeader('Access-Control-Allow-Methods', Object.keys(allowedMethods).map(m => m.toUpperCase()).join(', ')).status(204).send();
         if (allowedMethods[methodUsed]) return next();
         res.status(405).render(
-            `${aprilFools() ? 'aprilfools/' : ''}misc/405.pug`,
+            `${req.aprilFools()}misc/405.pug`,
             {
                 errData: {
                     path,

@@ -73,14 +73,17 @@ class ColorConverter {
     }
 }
 
-function middleware(mreq, mres, next) {
+/**
+ * @type {import('express').RequestHandler}
+ */
+module.exports = (mreq, mres, next) => {
     mreq.Sentry.startSpan(
         { op: "routeLogger", name: "Route Logger Handler", data: { path: mreq.path } },
         () => {
             return responseTime((req, res, time) => {
                 const data = {
-                    ip: ['::1', '127.0.0.1'].includes(mreq.ip.replace('::ffff:', '')) ? 'localhost' : (mreq.ip || 'unknown').replace('::ffff:', ''),
-                    method: req.method,
+                    ip: ['::1', '127.0.0.1'].includes(mreq.ip.replace('::ffff:', '')) ? 'localhost' : (mreq.ip.replace('::ffff:', '') || 'unknown'),
+                    method: mreq.method,
                     url: new URL(mreq.originalUrl, 'https://thefemdevs.com/').pathname,
                     status: res.statusCode,
                     time: time.toFixed(2),
@@ -101,5 +104,3 @@ function middleware(mreq, mres, next) {
         }
     )
 }
-
-module.exports = middleware

@@ -1,5 +1,4 @@
 const router = require('express').Router();
-const { aprilFools } = require('../../functions/utilities');
 
 router
     .get('/icon', (req, res) => {
@@ -49,6 +48,9 @@ router
             .setHeader(`Content-Type`, `image/svg+xml`)
             .sendFile(`${process.cwd()}/assets/media/logos/default.svg`)
     })
+    .get('/cus', (req, res) => {
+        res.sendFile(`${process.cwd()}/assets/media/images/custom-icon.png`)
+    })
     .get('/team/:name', (req, res) => {
         res
             .setHeader('Cache-Control', 'public, max-age 10800, max-stale 10800, stale-if-error 86400, no-transform')
@@ -69,7 +71,7 @@ router
         if (req.method === 'OPTIONS') return res.setHeader('Allow', Object.keys(allowedMethods).map(m => m.toUpperCase()).join(', ')).setHeader('Access-Control-Allow-Methods', Object.keys(allowedMethods).map(m => m.toUpperCase()).join(', ')).status(204).send();
         if (allowedMethods[methodUsed]) return next();
         res.status(405).render(
-            `${aprilFools() ? 'aprilfools/' : ''}misc/405.pug`,
+            `${req.aprilFools()}misc/405.pug`,
             {
                 errData: {
                     path,

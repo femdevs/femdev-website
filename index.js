@@ -1,7 +1,8 @@
+//- Modules
 const app = require('express')();
 const Sentry = require('@sentry/node');
-const Intigrations = require('@sentry/integrations');
 const Profiling = require('@sentry/profiling-node');
+const Integrations = { ...require('@sentry/integrations'), ...require('@sentry/node').Integrations, Profiling: Profiling.ProfilingIntegration };
 const http = require('http');
 const axios = require('axios');
 const cron = require('node-cron');
@@ -15,36 +16,41 @@ const router = require('./routes/router');
 //- Middleware
 const IPM = require('./middleware/IP'); //? IP Middleware
 const SM = require('./middleware/session'); //? Session Manager
-const MRL = require('./middleware/rateLimit') //? Main Rate Limiter
-const RL = require('./middleware/routeLogger'); //? Route Logger
+const RL = require('./middleware/rateLimit') //? Main Rate Limiter
+const Routes = require('./middleware/routeLogger'); //? Route Logger
 const Headers = require('./middleware/headers'); //? Header Setter
 const EPR = require('./middleware/errorPages'); //? Error Page Renderer
 const four0four = require('./middleware/404'); //? 404 Handler
 
+//- Functions
+const { aprilFools } = require('./functions/utilities');
+
+//- Sentry
 Sentry.init({
     dsn: process.env.SENTRY_DSN,
     sampleRate: 1.0,
     tracesSampleRate: 1.0,
     profilesSampleRate: 1.0,
     serverName: require('os').hostname(),
+    includeLocalVariables: true,
     integrations: [
-        new Intigrations.ExtraErrorData({ depth: 10 }),
-        new Intigrations.SessionTiming(),
-        new Intigrations.Transaction(),
-        new Intigrations.ReportingObserver(),
-        new Intigrations.CaptureConsole({ levels: ['error', 'critical', 'fatal', 'warn'] }),
-        new Sentry.Integrations.Http({ tracing: true, breadcrumbs: true }),
-        new Sentry.Integrations.Express({ app }),
-        new Profiling.ProfilingIntegration(),
-        new Sentry.Integrations.Postgres(),
+        new Integrations.ExtraErrorData({ depth: 10 }),
+        new Integrations.SessionTiming(),
+        new Integrations.Transaction(),
+        new Integrations.CaptureConsole({ levels: ['error', 'critical', 'fatal', 'warn'] }),
+        new Integrations.LocalVariables({ captureAllExceptions: true }),
+        new Integrations.RequestData({ include: { ip: true } }),
+        new Integrations.Http({ tracing: true, breadcrumbs: true }),
+        new Integrations.Express({ app }),
+        new Integrations.Postgres(),
+        new Integrations.Profiling(),
     ],
     environment: process.env.NODE_ENV || 'development',
-    release: require(`${process.cwd()}/package.json`).version,
+    release: require(`./package.json`).version,
     sendDefaultPii: true
 });
 
-const reqLogs = [];
-
+//- Formatting
 class Formatter {
     static perms = {
         readData: 1 << 0,   // 1
@@ -63,35 +69,26 @@ class Formatter {
         admin: 1 << 13,   // 8192
         owner: 1 << 14,   // 16384
     }
-    static permissionBitToReadable(bit) {
-        const permissions = [];
-        Object.entries(this.perms).forEach(([key, value]) => {
-            if ((value & bit) === value) permissions.push(key);
-        })
-        return permissions;
-    }
-    static permissionStringArrayToBit(string) {
-        const bitArray = [];
-        string.forEach((permission) => {
-            const bit = this.perms[permission];
-            if (bit) bitArray.push(bit);
-        })
-        return bitArray.reduce((a, b) => a + b, 0);
-    }
+    static permissionBitToReadable = (bit) => [...Object.entries(this.perms).filter(([_, value]) => (value & bit) === value).map(([key, _]) => key)]
+    static permissionStringArrayToBit = (arr) => [...arr.map((perm) => this.perms[perm]).filter((perm) => perm !== undefined)].reduce((a, b) => a + b, 0);
     static formatDateTime = (v) => new Intl.DateTimeFormat('en-US', { year: "numeric", month: "long", day: "numeric", hour: "2-digit", minute: "2-digit", second: "2-digit", weekday: "long", timeZone: "America/Detroit", timeZoneName: "longGeneric" }).format(v);
     static formatDate = (v) => new Intl.DateTimeFormat('en-US', { year: "numeric", month: "long", day: "numeric", weekday: "long" }).format(v);
     static formatTime = (v) => new Intl.DateTimeFormat('en-US', { hour: "2-digit", minute: "2-digit", second: "2-digit", timeZone: "America/Detroit", timeZoneName: "shortOffset" }).format(v);
     static dobToAge = (dob) => Math.abs(new Date(Date.now() - new Date(dob).getTime()).getUTCFullYear() - 1970)
 }
 
+//- Firebase
 const FirebaseServiceAccount = JSON.parse(process.env.FIREBASE_SA);
 const AdminApp = Admin.initializeApp({
     credential: Admin.credential.cert(FirebaseServiceAccount),
     databaseURL: `https://${FirebaseServiceAccount.projectId}-default-rtdb.firebaseio.com`
 })
 
+//- Database
 const Database = new (require('./functions/database'))()
+const reqLogs = [];
 
+//- Routing Setup
 app
     .set('view engine', 'pug')
     .set('case sensitive routing', false)
@@ -107,9 +104,10 @@ app
         req.Database = Database;
         req.Formatter = Formatter;
         req.checkPerms = (userbit, ...neededPerms) => (Formatter.permissionBitToReadable(userbit).some(['admin', 'owner'].includes)) ? true : neededPerms.some(Formatter.permissionBitToReadable(userbit).includes);
+        req.aprilFools = () => aprilFools() ? 'april-fools/' : '';
         next();
     })
-    .use(RL)
+    .use(Routes)
     .use(IPM.infoMiddleware)
     .use(SM)
     .use(IPM.checkLocation)
@@ -163,9 +161,26 @@ app
             }
         );
     })
-    .use((req, res, next) => (req.method !== 'TRACE') ? next() : res.set('Content-Type', 'message/http').set('X-Content-Type-Options', 'nosniff').send([`HTTP/${req.httpVersion} 200 OK`, ...req.rawHeaders.map((header, i) => (i % 2 === 0) ? `${header}: ${req.rawHeaders[i + 1]}` : '').filter(header => header !== ''), '', req.body].join('\r\n')))
-    .use(MRL)
+    .use(RL)
     .use(Headers)
+    .use((req, res, next) => {
+        if (req.method !== "TRACE") return next();
+        res
+            .set('Content-Type', 'message/http')
+            .set('X-Content-Type-Options', 'nosniff')
+            .send(
+                [
+                    `HTTP/${req.httpVersion} 200 OK`,
+                    ...req.rawHeaders
+                        .map((header, i) => (i % 2 === 0) ? `${header}: ${req.rawHeaders[i + 1]}` : '')
+                        .filter(header => header !== ''),
+                    '',
+                    req.body
+                ]
+                    .join('\r\n')
+            )
+    })
+    .use(router)
     .get(`/robots.txt`, (_, res) => {
         res
             .sendFile(`${process.cwd()}/metadata/robots.txt`)
@@ -175,7 +190,6 @@ app
             .setHeader(`Content-Type`, `text/xml`)
             .sendFile(`${process.cwd()}/metadata/sitemap.xml`)
     })
-    .use(router)
     .use((req, res, next) => {
         const { path } = req;
         const methodUsed = req.method.toUpperCase();
@@ -187,7 +201,7 @@ app
         if (req.method === 'OPTIONS') return res.setHeader('Allow', Object.keys(allowedMethods).map(m => m.toUpperCase()).join(', ')).setHeader('Access-Control-Allow-Methods', Object.keys(allowedMethods).map(m => m.toUpperCase()).join(', ')).status(204).send();
         if (allowedMethods[methodUsed]) return next();
         res.status(405).render(
-            `${aprilFools() ? 'aprilfools/' : ''}misc/405.pug`,
+            `${req.aprilFools()}misc/405.pug`,
             {
                 errData: {
                     path,
@@ -202,22 +216,31 @@ app
             }
         );
     })
-    .use(Sentry.Handlers.errorHandler())
     .use(EPR)
     .use(four0four)
+    .use(Sentry.Handlers.errorHandler())
 
+//- Scheduled Tasks
 cron
-    .schedule('*/5 * * * *', async () => {
-        Database.emit('updateBlacklist')
-        axios.default.post(
-            'https://sentry.io/api/0/organizations/benpai/monitors/website-running-check/checkins/',
-            { status: 'ok' },
-            { headers: { Authorization: `Bearer ${process.env.SENTRY_API_TOKEN}` } }
-        )
-    })
+    .schedule(
+        '*/5 * * * *',
+        async () => {
+            Database.emit('updateBlacklist')
+            axios.default.post(
+                'https://sentry.io/api/0/organizations/benpai/monitors/website-running-check/checkins/',
+                { status: 'ok' },
+                { headers: { Authorization: `Bearer ${process.env.SENTRY_API_TOKEN}` } }
+            )
+        },
+        {
+            runOnInit: true
+        }
+    )
 
+//- Initalization
 http
     .createServer(app)
-    .listen(3001, () => console.log('http server is up'));
+    .listen(3001, () => console.log('HTTP server is up'));
 
-setInterval(() => { (reqLogs.length === 0) ? '' : Database.emit('access', reqLogs.shift()) }, 500)
+//- Access Logging
+setInterval(function () { if (reqLogs.length !== 0) return Database.emit('access', reqLogs.shift()) }, 500)
