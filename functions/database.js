@@ -18,6 +18,7 @@ class PGDatabase extends events.EventEmitter {
             password: process.env.PASSWORD,
             query_timeout: 5_000,
             allowExitOnIdle: true,
+            idle_in_transaction_session_timeout: 5_000,
             connectionTimeoutMillis: 5_000,
         }
         this.pool = new pg.Pool(this.cfgs);

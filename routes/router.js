@@ -11,7 +11,6 @@ const ab = require('./ab');
 const OSSProject = require('./project');
 const assets = require('./assets/router');
 const api = require('./api/router');
-const stripe = require('./payment/router')
 
 //- Router setup
 router
@@ -22,7 +21,6 @@ router
     .use('/error', error)
     .use('/oss-project', OSSProject)
     .use('/assets', assets)
-    .use('/stripe', stripe)
     .use('/', website)
     .use((req, res, next) => {
         const { path } = req;
