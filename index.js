@@ -16,6 +16,7 @@ const router = require('./routes/router');
 const IPM = require('./middleware/IP'); //? IP Middleware
 const SM = require('./middleware/session'); //? Session Manager
 const MRL = require('./middleware/rateLimit') //? Main Rate Limiter
+const TRACE = require('./middleware/traceHandler'); //? Tracing Middleware
 const RL = require('./middleware/routeLogger'); //? Route Logger
 const Headers = require('./middleware/headers'); //? Header Setter
 const EPR = require('./middleware/errorPages'); //? Error Page Renderer
@@ -32,19 +33,24 @@ Sentry.init({
         new Intigrations.SessionTiming(),
         new Intigrations.Transaction(),
         new Intigrations.ReportingObserver(),
-        new Intigrations.CaptureConsole({ levels: ['error', 'critical', 'fatal', 'warn'] }),
-        new Sentry.Integrations.Http({ tracing: true, breadcrumbs: true }),
+        new Intigrations.CaptureConsole({
+            levels: ['error', 'critical', 'fatal', 'warn']
+        }),
+        new Sentry.Integrations.Http({
+            tracing: true,
+            breadcrumbs: true
+        }),
         new Sentry.Integrations.Express({ app }),
         new Profiling.ProfilingIntegration(),
         new Sentry.Integrations.Postgres(),
     ],
+    // @ts-ignore
     environment: process.env.NODE_ENV || 'development',
     release: require(`${process.cwd()}/package.json`).version,
     sendDefaultPii: true
 });
 
 const reqLogs = [];
-
 class Formatter {
     static perms = {
         readData: 1 << 0,   // 1
@@ -78,10 +84,15 @@ class Formatter {
         })
         return bitArray.reduce((a, b) => a + b, 0);
     }
-    static formatDateTime = (v) => new Intl.DateTimeFormat('en-US', { year: "numeric", month: "long", day: "numeric", hour: "2-digit", minute: "2-digit", second: "2-digit", weekday: "long", timeZone: "America/Detroit", timeZoneName: "longGeneric" }).format(v);
-    static formatDate = (v) => new Intl.DateTimeFormat('en-US', { year: "numeric", month: "long", day: "numeric", weekday: "long" }).format(v);
-    static formatTime = (v) => new Intl.DateTimeFormat('en-US', { hour: "2-digit", minute: "2-digit", second: "2-digit", timeZone: "America/Detroit", timeZoneName: "shortOffset" }).format(v);
-    static dobToAge = (dob) => Math.abs(new Date(Date.now() - new Date(dob).getTime()).getUTCFullYear() - 1970)
+    static formatDateTime = new Intl.DateTimeFormat('en-US', { year: "numeric", month: "long", day: "numeric", hour: "2-digit", minute: "2-digit", second: "2-digit", weekday: "long", timeZone: "America/Detroit", timeZoneName: "longGeneric" }).format;
+    static formatDate = new Intl.DateTimeFormat('en-US', { year: "numeric", month: "long", day: "numeric", weekday: "long" }).format;
+    static formatTime = new Intl.DateTimeFormat('en-US', { hour: "2-digit", minute: "2-digit", second: "2-digit", timeZone: "America/Detroit", timeZoneName: "shortOffset" }).format;
+    static dobToAge(dob) {
+        const date = new Date(dob);
+        const diff = Date.now() - date.getTime();
+        const age = new Date(diff);
+        return Math.abs(age.getUTCFullYear() - 1970);
+    }
 }
 
 const FirebaseServiceAccount = JSON.parse(process.env.FIREBASE_SA);
@@ -90,7 +101,13 @@ const AdminApp = Admin.initializeApp({
     databaseURL: `https://${FirebaseServiceAccount.projectId}-default-rtdb.firebaseio.com`
 })
 
-const Database = new (require('./functions/database'))()
+const db = require('./functions/database');
+const Database = new db();
+
+setInterval(function() {
+    if (reqLogs.length === 0) return;
+    Database.emit('access', reqLogs.shift())
+},500)
 
 app
     .set('view engine', 'pug')
@@ -163,9 +180,10 @@ app
             }
         );
     })
-    .use((req, res, next) => (req.method !== 'TRACE') ? next() : res.set('Content-Type', 'message/http').set('X-Content-Type-Options', 'nosniff').send([`HTTP/${req.httpVersion} 200 OK`, ...req.rawHeaders.map((header, i) => (i % 2 === 0) ? `${header}: ${req.rawHeaders[i + 1]}` : '').filter(header => header !== ''), '', req.body].join('\r\n')))
+    .use(TRACE)
     .use(MRL)
     .use(Headers)
+    .use('/', router)
     .get(`/robots.txt`, (_, res) => {
         res
             .sendFile(`${process.cwd()}/metadata/robots.txt`)
@@ -175,7 +193,6 @@ app
             .setHeader(`Content-Type`, `text/xml`)
             .sendFile(`${process.cwd()}/metadata/sitemap.xml`)
     })
-    .use(router)
     .use((req, res, next) => {
         const { path } = req;
         const methodUsed = req.method.toUpperCase();
@@ -219,5 +236,3 @@ cron
 http
     .createServer(app)
     .listen(3001, () => console.log('http server is up'));
-
-setInterval(() => { (reqLogs.length === 0) ? '' : Database.emit('access', reqLogs.shift()) }, 500)

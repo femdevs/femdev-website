@@ -1,6 +1,6 @@
 const { aprilFools } = require('../functions/utilities');
 
-const four0four = (req, res, _) => {
+const four0four = (req, res) => {
     req.Sentry.startSpan(
         { op: "404", name: "404 Page Not Found Handler", data: { path: req.path } },
         () => {
