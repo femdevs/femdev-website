@@ -18,22 +18,15 @@ class PGDatabase extends events.EventEmitter {
             password: process.env.PASSWORD,
             query_timeout: 5_000,
             allowExitOnIdle: true,
+            statement_timeout: 2_000,
             idle_in_transaction_session_timeout: 5_000,
             connectionTimeoutMillis: 5_000,
         }
         this.pool = new pg.Pool(this.cfgs);
-        cron
-            .schedule(
-                '*/5 * * * *',
-                () => {
-                    if (this.pool instanceof pg.Pool) return this.pool = new pg.Pool(this.cfgs);
-                    this.pool.end();
-                    this.pool = new pg.Pool(this.cfgs);
-                },
-                {
-                    runOnInit: true
-                }
-            )
+        cron.schedule('*/5 * * * *', () => {
+            this.pool.end();
+            this.pool = new pg.Pool(this.cfgs);
+        })
         this.cache = {
             ids: {
                 access: 0,
@@ -46,16 +39,15 @@ class PGDatabase extends events.EventEmitter {
 
         this.ipBlacklist = [];
 
-        this.pool.connect()
-            .then(async (connection) => {
-                this.cache.ids.access = Number((await connection.query(`SELECT id FROM public.accesslogs ORDER BY id DESC LIMIT 1`)).rows[0]?.id ?? 0);
-                this.cache.ids.token = Number((await connection.query(`SELECT id FROM public.apitokens ORDER BY id DESC LIMIT 1`)).rows[0]?.id ?? 0);
-                this.cache.ids.usage = Number((await connection.query(`SELECT id FROM public.apiUsage ORDER BY id DESC LIMIT 1`)).rows[0]?.id ?? 0);
-                this.cache.ids.user = Number((await connection.query(`SELECT id FROM public.users ORDER BY id DESC LIMIT 1`)).rows[0]?.id ?? 0);
-                this.cache.ids.staff = Number((await connection.query(`SELECT id FROM public.staff ORDER BY id DESC LIMIT 1`)).rows[0]?.id ?? 0);
-                this.ipBlacklist = (await connection.query(`SELECT * FROM public.websiteblacklist WHERE active = TRUE`)).rows.map(row => ({ hash: row.iphash, reason: row.reason }));
-                connection.release();
-            })
+        this.pool.connect().then(async (connection) => {
+            this.cache.ids.access = Number((await connection.query(`SELECT id FROM public.accesslogs ORDER BY id DESC LIMIT 1`)).rows[0]?.id ?? 0);
+            this.cache.ids.token = Number((await connection.query(`SELECT id FROM public.apitokens ORDER BY id DESC LIMIT 1`)).rows[0]?.id ?? 0);
+            this.cache.ids.usage = Number((await connection.query(`SELECT id FROM public.apiUsage ORDER BY id DESC LIMIT 1`)).rows[0]?.id ?? 0);
+            this.cache.ids.user = Number((await connection.query(`SELECT id FROM public.users ORDER BY id DESC LIMIT 1`)).rows[0]?.id ?? 0);
+            this.cache.ids.staff = Number((await connection.query(`SELECT id FROM public.staff ORDER BY id DESC LIMIT 1`)).rows[0]?.id ?? 0);
+            this.ipBlacklist = (await connection.query(`SELECT * FROM public.websiteblacklist WHERE active = TRUE`)).rows.map(row => ({ hash: row.iphash, reason: row.reason }));
+            connection.release();
+        })
 
         this
             .on('access', (data) => {
