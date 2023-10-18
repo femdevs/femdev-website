@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { aprilFools } = require('../../functions/utilities');
+const fs = require('fs');
 
 router
     .get('/icon', (req, res) => {
@@ -24,18 +24,17 @@ router
             'pink',
             'darkpink',
             'default'
-        ]
-        const selection = options[Math.floor(Math.random() * options.length)]
+        ].map(i => fs.readFileSync(`${process.cwd()}/assets/media/logos/${i}.svg`, { encoding: 'utf-8' }))
         res
             .setHeader('Cache-Control', 'no-store')
             .setHeader(`Content-Type`, `image/svg+xml`)
-            .sendFile(`${process.cwd()}/assets/media/logos/${selection}.svg`)
+            .send(options.at(Math.floor(Math.random() * options.length)))
     })
     .get('/icon/:name', (req, res) => {
         res
             .setHeader('Cache-Control', 'public, max-age 10800, max-stale 10800, stale-if-error 86400, no-transform, immutable')
             .setHeader(`Content-Type`, `image/svg+xml`)
-            .sendFile(`${process.cwd()}/assets/media/logos/${req.params.name.toLowerCase()}.svg`)
+            .send(fs.readFileSync(`${process.cwd()}/assets/media/logos/${req.params.name.toLowerCase()}.svg`))
     })
     .get('/deficon', (req, res) => {
         res
@@ -48,6 +47,12 @@ router
             .setHeader('Cache-Control', 'no-store')
             .setHeader(`Content-Type`, `image/svg+xml`)
             .sendFile(`${process.cwd()}/assets/media/logos/default.svg`)
+    })
+    .get('/cus', (req, res) => {
+        res
+            .setHeader('Cache-Control', 'no-store')
+            .setHeader(`Content-Type`, `image/svg+xml`)
+            .sendFile(`${process.cwd()}/assets/media/images/custom-icon.png`)
     })
     .get('/team/:name', (req, res) => {
         res
@@ -69,7 +74,7 @@ router
         if (req.method === 'OPTIONS') return res.setHeader('Allow', Object.keys(allowedMethods).map(m => m.toUpperCase()).join(', ')).setHeader('Access-Control-Allow-Methods', Object.keys(allowedMethods).map(m => m.toUpperCase()).join(', ')).status(204).send();
         if (allowedMethods[methodUsed]) return next();
         res.status(405).render(
-            `${aprilFools() ? 'aprilfools/' : ''}misc/405.pug`,
+            `misc/405.pug`,
             {
                 errData: {
                     path,

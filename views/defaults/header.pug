@@ -22,7 +22,7 @@ script(type="module").
     replaysSessionSampleRate: 1.0,
     replaysOnErrorSampleRate: 1.0
   });
-script(defer src='/assets/js/o/GoogleAnalytics.min.js')
+script(defer src='/assets/js/ga')
 script.
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -54,9 +54,9 @@ meta(property='twitter:image' content='/assets/misc/thumbnail')
 meta(name='apple-mobile-web-app-status-bar-style' content='black')
 meta(name='apple-mobile-web-app-title' content='The FemDevs Website')
 meta(name="google-adsense-account" content="ca-pub-1906373468377810")
-link(rel='apple-touch-icon' href='/assets/images/static/custom-icon.png' type='image/png')
-link(rel='icon' href='/assets/images/deficon' type='image/svg+xml')
-link(href='/assets/css/d' rel='stylesheet' type='text/css' defer='')
+link(rel='apple-touch-icon' href='/assets/images/cus' type='image/png' async='')
+link(rel='icon' href='/assets/images/deficon' type='image/svg+xml' async='')
+link(href='/assets/css/d' rel='stylesheet' type='text/css')
 script(type='application/ld+json').
   {
     "@context": "https://schema.org",

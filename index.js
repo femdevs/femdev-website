@@ -7,20 +7,16 @@ const axios = require('axios');
 const cron = require('node-cron');
 const crypto = require('crypto');
 const Admin = require('firebase-admin');
+const { RateLimiterMemory } = require('rate-limiter-flexible');
 require('dotenv').config();
 
 //- Routers
 const router = require('./routes/router');
 
-//- Middleware
-const IPM = require('./middleware/IP'); //? IP Middleware
-const SM = require('./middleware/session'); //? Session Manager
-const MRL = require('./middleware/rateLimit') //? Main Rate Limiter
-const TRACE = require('./middleware/traceHandler'); //? Tracing Middleware
-const RL = require('./middleware/routeLogger'); //? Route Logger
-const Headers = require('./middleware/headers'); //? Header Setter
-const EPR = require('./middleware/errorPages'); //? Error Page Renderer
-const four0four = require('./middleware/404'); //? 404 Handler
+const RateLimiter = new RateLimiterMemory({
+    points: 30,
+    duration: 1,
+})
 
 Sentry.init({
     dsn: process.env.SENTRY_DSN,
@@ -33,22 +29,26 @@ Sentry.init({
         new Intigrations.SessionTiming(),
         new Intigrations.Transaction(),
         new Intigrations.ReportingObserver(),
-        new Intigrations.CaptureConsole({
-            levels: ['error', 'critical', 'fatal', 'warn']
-        }),
-        new Sentry.Integrations.Http({
-            tracing: true,
-            breadcrumbs: true
-        }),
+        new Intigrations.CaptureConsole({ levels: ['error', 'critical', 'fatal', 'warn'] }),
+        new Sentry.Integrations.Http({ tracing: true, breadcrumbs: true }),
         new Sentry.Integrations.Express({ app }),
         new Profiling.ProfilingIntegration(),
         new Sentry.Integrations.Postgres(),
     ],
-    // @ts-ignore
     environment: process.env.NODE_ENV || 'development',
-    release: require(`${process.cwd()}/package.json`).version,
+    release: require(`./package.json`).version,
     sendDefaultPii: true
 });
+
+//- Middleware
+const IPM = require('./middleware/IP'); //? IP Middleware
+const SM = require('./middleware/session'); //? Session Manager
+const MRL = require('./middleware/rateLimit')(RateLimiter); //? Rate Limiter
+const TRACE = require('./middleware/traceHandler'); //? Tracing Middleware
+const RL = require('./middleware/routeLogger'); //? Route Logger
+const Headers = require('./middleware/headers'); //? Header Setter
+const EPR = require('./middleware/errorPages')(Sentry) //? Error Page Renderer
+const four0four = require('./middleware/404'); //? 404 Handler
 
 const reqLogs = [];
 class Formatter {
@@ -69,30 +69,12 @@ class Formatter {
         admin: 1 << 13,   // 8192
         owner: 1 << 14,   // 16384
     }
-    static permissionBitToReadable(bit) {
-        const permissions = [];
-        Object.entries(this.perms).forEach(([key, value]) => {
-            if ((value & bit) === value) permissions.push(key);
-        })
-        return permissions;
-    }
-    static permissionStringArrayToBit(string) {
-        const bitArray = [];
-        string.forEach((permission) => {
-            const bit = this.perms[permission];
-            if (bit) bitArray.push(bit);
-        })
-        return bitArray.reduce((a, b) => a + b, 0);
-    }
-    static formatDateTime = new Intl.DateTimeFormat('en-US', { year: "numeric", month: "long", day: "numeric", hour: "2-digit", minute: "2-digit", second: "2-digit", weekday: "long", timeZone: "America/Detroit", timeZoneName: "longGeneric" }).format;
-    static formatDate = new Intl.DateTimeFormat('en-US', { year: "numeric", month: "long", day: "numeric", weekday: "long" }).format;
-    static formatTime = new Intl.DateTimeFormat('en-US', { hour: "2-digit", minute: "2-digit", second: "2-digit", timeZone: "America/Detroit", timeZoneName: "shortOffset" }).format;
-    static dobToAge(dob) {
-        const date = new Date(dob);
-        const diff = Date.now() - date.getTime();
-        const age = new Date(diff);
-        return Math.abs(age.getUTCFullYear() - 1970);
-    }
+    static permissionBitToReadable = (bit) => [...Object.entries(this.perms).filter(([_, value]) => (value & bit) === value).map(([key, _]) => key)]
+    static permissionStringArrayToBit = (arr) => [...arr.map((perm) => this.perms[perm]).filter((perm) => perm !== undefined)].reduce((a, b) => a + b, 0);
+    static formatDateTime = (v) => new Intl.DateTimeFormat('en-US', { year: "numeric", month: "long", day: "numeric", hour: "2-digit", minute: "2-digit", second: "2-digit", weekday: "long", timeZone: "America/Detroit", timeZoneName: "longGeneric" }).format(v)
+    static formatDate = (v) => new Intl.DateTimeFormat('en-US', { year: "numeric", month: "long", day: "numeric", weekday: "long" }).format(v)
+    static formatTime = (v) => new Intl.DateTimeFormat('en-US', { hour: "2-digit", minute: "2-digit", second: "2-digit", timeZone: "America/Detroit", timeZoneName: "shortOffset" }).format(v)
+    static dobToAge = (dob) => Math.abs(new Date(Date.now() - new Date(dob).getTime()).getUTCFullYear() - 1970);
 }
 
 const FirebaseServiceAccount = JSON.parse(process.env.FIREBASE_SA);
@@ -101,13 +83,9 @@ const AdminApp = Admin.initializeApp({
     databaseURL: `https://${FirebaseServiceAccount.projectId}-default-rtdb.firebaseio.com`
 })
 
-const db = require('./functions/database');
-const Database = new db();
+const Database = new (require('./functions/database'))();
 
-setInterval(function() {
-    if (reqLogs.length === 0) return;
-    Database.emit('access', reqLogs.shift())
-},500)
+setInterval(_ => (!reqLogs[0]) ? null : Database.emit('access', reqLogs.shift()), 500)
 
 app
     .set('view engine', 'pug')
@@ -123,11 +101,7 @@ app
         req.auth = AdminApp.auth();
         req.Database = Database;
         req.Formatter = Formatter;
-        req.checkPerms = function (userbit, ...neededPerms) {
-            const userPerms = Formatter.permissionBitToReadable(userbit);
-            if (userPerms.includes('owner') || userPerms.includes('admin')) return true;
-            return neededPerms.some(perm => userPerms.includes(perm));
-        };
+        req.checkPerms = (userbit, ...neededPerms) => (Formatter.permissionBitToReadable(userbit).some(['admin', 'owner'].includes)) ? true : neededPerms.some(Formatter.permissionBitToReadable(userbit).includes);
         next();
     })
     .use(RL)
@@ -166,7 +140,7 @@ app
 
                     )
                 ) return res.status(403).render(
-                    `${aprilFools() ? 'april-fools/' : ''}misc/403.pug`,
+                    `misc/403.pug`,
                     {
                         errData: {
                             path: req.path,
@@ -208,7 +182,7 @@ app
         if (req.method === 'OPTIONS') return res.setHeader('Allow', Object.keys(allowedMethods).map(m => m.toUpperCase()).join(', ')).setHeader('Access-Control-Allow-Methods', Object.keys(allowedMethods).map(m => m.toUpperCase()).join(', ')).status(204).send();
         if (allowedMethods[methodUsed]) return next();
         res.status(405).render(
-            `${aprilFools() ? 'aprilfools/' : ''}misc/405.pug`,
+            `misc/405.pug`,
             {
                 errData: {
                     path,

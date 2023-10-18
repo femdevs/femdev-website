@@ -3,7 +3,6 @@ const crypto = require('crypto');
 const { Buffer } = require('buffer');
 require('dotenv').config();
 
-const { aprilFools } = require('../../functions/utilities');
 
 const publicKey = crypto.createPublicKey(process.env.CRYPT_PUB);
 const privateKey = crypto.createPrivateKey(process.env.CRYPT_PRIV);
@@ -40,7 +39,7 @@ router
         if (req.method === 'OPTIONS') return res.setHeader('Allow', Object.keys(allowedMethods).map(m => m.toUpperCase()).join(', ')).setHeader('Access-Control-Allow-Methods', Object.keys(allowedMethods).map(m => m.toUpperCase()).join(', ')).status(204).send();
         if (allowedMethods[methodUsed]) return next();
         res.status(405).render(
-            `${aprilFools() ? 'aprilfools/' : ''}misc/405.pug`,
+            `misc/405.pug`,
             {
                 errData: {
                     path,

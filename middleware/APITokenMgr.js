@@ -2,15 +2,12 @@
 require('dotenv').config();
 
 const TokenManager = require('../functions/crypto')
+const { RequestHandler } = require('express');
 
 /**
- * 
- * @param {import('express').Request} req 
- * @param {import('express').Response} res 
- * @param {import('express').NextFunction} next 
- * @returns 
+ * @type {RequestHandler}
  */
-const authHandler = async (req, res, next) => {
+module.exports = async (req, res, next) => {
     req.Sentry.startSpan(
         { op: "Auth", name: "API Authentication Handler", data: { path: req.path } },
         async () => {
@@ -28,5 +25,3 @@ const authHandler = async (req, res, next) => {
     );
     next();
 }
-
-module.exports = authHandler;
