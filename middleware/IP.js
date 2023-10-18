@@ -2,6 +2,7 @@ const { default: IPInfoExpress, } = require('ipinfo-express');
 const { LruCache } = require('node-ipinfo');
 require('dotenv').config();
 
+const { aprilFools } = require('../functions/utilities');
 
 const cache = new LruCache({ max: 1000, maxAge: 1000 * 60 * 60 * 24 })
 

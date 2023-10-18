@@ -1,5 +1,7 @@
 const router = require('express').Router();
 
+const { aprilFools } = require('../../functions/utilities');
+
 const css = require('./css');
 const images = require('./images');
 const javascript = require('./javascript');
@@ -25,7 +27,7 @@ router
         if (req.method === 'OPTIONS') return res.setHeader('Allow', Object.keys(allowedMethods).map(m => m.toUpperCase()).join(', ')).setHeader('Access-Control-Allow-Methods', Object.keys(allowedMethods).map(m => m.toUpperCase()).join(', ')).status(204).send();
         if (allowedMethods[methodUsed]) return next();
         res.status(405).render(
-            `${req.aprilFools()}misc/405.pug`,
+            `${aprilFools() ? 'aprilfools/' : ''}misc/405.pug`,
             {
                 errData: {
                     path,

@@ -146,11 +146,6 @@ const errorRes = (code) => {
                 message: 'Unable to create requested user',
             }
         case 25:
-        case 26:
-        case 27:
-        case 28:
-        case 29:
-        case 30:
         default:
             return {
                 httpCode: 500,

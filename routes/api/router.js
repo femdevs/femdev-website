@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const axios = require('axios');
+const { aprilFools } = require('../../functions/utilities');
 
 //- Middleware
 const APIAuth = require('../../middleware/APITokenMgr');
@@ -58,7 +59,7 @@ router
         if (req.method === 'OPTIONS') return res.setHeader('Allow', Object.keys(allowedMethods).map(m => m.toUpperCase()).join(', ')).setHeader('Access-Control-Allow-Methods', Object.keys(allowedMethods).map(m => m.toUpperCase()).join(', ')).status(204).send();
         if (allowedMethods[methodUsed]) return next();
         res.status(405).render(
-            `${req.aprilFools()}misc/405.pug`,
+            `${aprilFools() ? 'aprilfools/' : ''}misc/405.pug`,
             {
                 errData: {
                     path,

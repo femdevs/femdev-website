@@ -4,7 +4,11 @@ require('dotenv').config();
 const TokenManager = require('../functions/crypto')
 
 /**
- * @type {Promise<import('express').RequestHandler>}
+ * 
+ * @param {import('express').Request} req 
+ * @param {import('express').Response} res 
+ * @param {import('express').NextFunction} next 
+ * @returns 
  */
 const authHandler = async (req, res, next) => {
     req.Sentry.startSpan(

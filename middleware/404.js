@@ -1,12 +1,11 @@
-/**
- * @type {import('express').RequestHandler}
- */
-module.exports = (req, res, _) => {
+const { aprilFools } = require('../functions/utilities');
+
+const four0four = (req, res, _) => {
     req.Sentry.startSpan(
         { op: "404", name: "404 Page Not Found Handler", data: { path: req.path } },
         () => {
             return res.status(404).render(
-                `${req.aprilFools()}misc/404.pug`,
+                `${aprilFools() ? 'april-fools/' : ''}misc/404.pug`,
                 {
                     errData: {
                         path: req.path,
@@ -19,4 +18,7 @@ module.exports = (req, res, _) => {
                 }
             );
         });
-};
+
+}
+
+module.exports = four0four;

@@ -1,5 +1,6 @@
 const router = require('express').Router();
 require('dotenv').config();
+const { aprilFools } = require('../../functions/utilities');
 
 router
     .get('/details', async (req, res) => {
@@ -27,7 +28,7 @@ router
         if (req.method === 'OPTIONS') return res.setHeader('Allow', Object.keys(allowedMethods).map(m => m.toUpperCase()).join(', ')).setHeader('Access-Control-Allow-Methods', Object.keys(allowedMethods).map(m => m.toUpperCase()).join(', ')).status(204).send();
         if (allowedMethods[methodUsed]) return next();
         res.status(405).render(
-            `${req.aprilFools()}misc/405.pug`,
+            `${aprilFools() ? 'aprilfools/' : ''}misc/405.pug`,
             {
                 errData: {
                     path,

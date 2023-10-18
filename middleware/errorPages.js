@@ -1,7 +1,6 @@
-/**
- * @type {import('express').ErrorRequestHandler}
- */
-module.exports = (err, req, res, next) => {
+const { aprilFools } = require('../functions/utilities');
+
+const errorHandler = (err, req, res, next) => {
     req.Sentry.startSpan(
         { op: "miscRoutes", name: "Misc Routes Handler", data: { path: req.path } },
         () => {
@@ -9,7 +8,7 @@ module.exports = (err, req, res, next) => {
                 case 401:
                 case 403:
                     return res.status(err.status).render(
-                        `${req.aprilFools()}misc/401.pug`,
+                        `${aprilFools() ? 'april-fools/' : ''}misc/401.pug`,
                         {
                             errData: {
                                 path: req.path,
@@ -32,7 +31,7 @@ module.exports = (err, req, res, next) => {
                 //         }
                 //     })
                 //     res.status(405).render(
-                //         `${req.aprilFools()}misc/405.pug`,
+                //         `${aprilFools() ? 'aprilfools/' : ''}misc/405.pug`,
                 //         {
                 //             errData: {
                 //                 path,
@@ -55,7 +54,7 @@ module.exports = (err, req, res, next) => {
                         .status(501)
                         .setHeader('X-Error-ID', errorId)
                         .render(
-                            `${req.aprilFools()}misc/501.pug`,
+                            `${aprilFools() ? 'april-fools/' : ''}misc/501.pug`,
                             {
                                 errData: {
                                     errorId
@@ -72,4 +71,6 @@ module.exports = (err, req, res, next) => {
             return next();
         }
     )
-};
+}
+
+module.exports = errorHandler;
