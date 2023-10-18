@@ -214,6 +214,6 @@ cron
         )
     })
 
-http
-    .createServer(app)
-    .listen(8008, () => console.log('http server is up'));
+
+app
+    .listen(process.env.PORT || 3000, () => console.log('server is up'));
