@@ -123,7 +123,11 @@ app
         req.auth = AdminApp.auth();
         req.Database = Database;
         req.Formatter = Formatter;
-        req.checkPerms = (userbit, ...neededPerms) => (Formatter.permissionBitToReadable(userbit).some(['admin', 'owner'].includes)) ? true : neededPerms.some(Formatter.permissionBitToReadable(userbit).includes);
+        req.checkPerms = function (userbit, ...neededPerms) {
+            const userPerms = Formatter.permissionBitToReadable(userbit);
+            if (userPerms.includes('owner') || userPerms.includes('admin')) return true;
+            return neededPerms.some(perm => userPerms.includes(perm));
+        };
         next();
     })
     .use(RL)
