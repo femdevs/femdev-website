@@ -18,23 +18,26 @@ const RateLimiter = new RateLimiterMemory({
     duration: 1,
 })
 
+const integrations = [
+    new Intigrations.ExtraErrorData({ depth: 10 }),
+    new Intigrations.SessionTiming(),
+    new Intigrations.Transaction(),
+    new Intigrations.CaptureConsole({ levels: ['error', 'critical', 'fatal', 'warn'] }),
+    new Sentry.Integrations.Http({ tracing: true, breadcrumbs: true }),
+    new Sentry.Integrations.Express({ app }),
+    new Sentry.Integrations.Postgres(),
+]
+
+if (process.env.NODE_ENV !== 'production') integrations.push(new Profiling.ProfilingIntegration())
+
+
 Sentry.init({
     dsn: process.env.SENTRY_DSN,
     sampleRate: 1.0,
     tracesSampleRate: 1.0,
     profilesSampleRate: 1.0,
     serverName: require('os').hostname(),
-    integrations: [
-        new Intigrations.ExtraErrorData({ depth: 10 }),
-        new Intigrations.SessionTiming(),
-        new Intigrations.Transaction(),
-        new Intigrations.ReportingObserver(),
-        new Intigrations.CaptureConsole({ levels: ['error', 'critical', 'fatal', 'warn'] }),
-        new Sentry.Integrations.Http({ tracing: true, breadcrumbs: true }),
-        new Sentry.Integrations.Express({ app }),
-        new Profiling.ProfilingIntegration(),
-        new Sentry.Integrations.Postgres(),
-    ],
+    integrations,
     environment: process.env.NODE_ENV || 'development',
     release: require(`./package.json`).version,
     sendDefaultPii: true
