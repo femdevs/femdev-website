@@ -1,7 +1,6 @@
 const app = require('express')();
 const Sentry = require('@sentry/node');
 const Intigrations = require('@sentry/integrations');
-const Profiling = require('@sentry/profiling-node');
 const http = require('http');
 const axios = require('axios');
 const cron = require('node-cron');
@@ -18,30 +17,29 @@ const RateLimiter = new RateLimiterMemory({
     duration: 1,
 })
 
-const integrations = [
-    new Intigrations.ExtraErrorData({ depth: 10 }),
-    new Intigrations.SessionTiming(),
-    new Intigrations.Transaction(),
-    new Intigrations.CaptureConsole({ levels: ['error', 'critical', 'fatal', 'warn'] }),
-    new Sentry.Integrations.Http({ tracing: true, breadcrumbs: true }),
-    new Sentry.Integrations.Express({ app }),
-    new Sentry.Integrations.Postgres(),
-]
-
-if (process.env.NODE_ENV !== 'production') integrations.push(new Profiling.ProfilingIntegration())
-
-
-Sentry.init({
+const sentryInit = {
     dsn: process.env.SENTRY_DSN,
     sampleRate: 1.0,
     tracesSampleRate: 1.0,
     profilesSampleRate: 1.0,
     serverName: require('os').hostname(),
-    integrations,
+    integrations: [
+        new Intigrations.ExtraErrorData({ depth: 10 }),
+        new Intigrations.SessionTiming(),
+        new Intigrations.Transaction(),
+        new Intigrations.CaptureConsole({ levels: ['error', 'critical', 'fatal', 'warn'] }),
+        new Sentry.Integrations.Http({ tracing: true, breadcrumbs: true }),
+        new Sentry.Integrations.Express({ app }),
+        new Sentry.Integrations.Postgres(),
+    ],
     environment: process.env.NODE_ENV || 'development',
     release: require(`./package.json`).version,
     sendDefaultPii: true
-});
+}
+
+// if (process.env.NODE_ENV !== 'production') sentryInit.integrations.push(new Profiling.ProfilingIntegration())
+
+Sentry.init(sentryInit);
 
 //- Middleware
 const IPM = require('./middleware/IP'); //? IP Middleware
@@ -52,8 +50,16 @@ const RL = require('./middleware/routeLogger'); //? Route Logger
 const Headers = require('./middleware/headers'); //? Header Setter
 const EPR = require('./middleware/errorPages')(Sentry) //? Error Page Renderer
 const four0four = require('./middleware/404'); //? 404 Handler
+const errPages = require('./middleware/errpages')
 
 const reqLogs = [];
+
+/**
+ * @type {Map<String, Map<String, any>|String>}
+ * @desciption
+ * Used to store data throughout requests
+ */
+const Persistance = new Map()
 class Formatter {
     static perms = {
         readData: 1 << 0,   // 1
@@ -99,11 +105,13 @@ app
     .use(Sentry.Handlers.tracingHandler())
     .use((req, _, next) => {
         req.reqLogs = reqLogs;
+        req.Persistance = Persistance
         req.Sentry = Sentry;
         req.FirebaseAdmin = AdminApp;
         req.auth = AdminApp.auth();
         req.Database = Database;
         req.Formatter = Formatter;
+        req.getErrPage = (c, d) => errPages.get(c).call(d)
         req.checkPerms = (userbit, ...neededPerms) => (Formatter.permissionBitToReadable(userbit).some(['admin', 'owner'].includes)) ? true : neededPerms.some(Formatter.permissionBitToReadable(userbit).includes);
         next();
     })
@@ -144,18 +152,7 @@ app
                     )
                 ) return res.status(403).render(
                     `misc/403.pug`,
-                    {
-                        errData: {
-                            path: req.path,
-                            code: 403,
-                            reason: 'You are banned from accessing this website.'
-                        },
-                        meta: {
-                            title: `403 - Forbidden`,
-                            desc: `403 - Forbidden`,
-                            url: `https://thefemdevs.com/errors/403`
-                        }
-                    }
+                    req.getErrPage(403, { path: req.path })
                 )
                 next();
             }
@@ -186,23 +183,16 @@ app
         if (allowedMethods[methodUsed]) return next();
         res.status(405).render(
             `misc/405.pug`,
-            {
-                errData: {
-                    path,
-                    allowedMethods: Object.keys(allowedMethods).map(m => m.toUpperCase()).join(', '),
-                    methodUsed: methodUsed,
-                },
-                meta: {
-                    title: '405 - Method Not Allowed',
-                    desc: '405 - Method Not Allowed',
-                    url: 'https://thefemdevs.com/errors/405',
-                }
-            }
+            req.getErrPage(405, { path, allowedMethods, methodUsed })
         );
     })
     .use(Sentry.Handlers.errorHandler())
     .use(EPR)
-    .use(four0four)
+    .use(four0four);
+
+const server = http
+    .createServer(app)
+    .on('listening', _ => console.log("HTTP Server is UP"))
 
 cron
     .schedule('*/5 * * * *', async () => {
@@ -215,5 +205,5 @@ cron
     })
 
 
-app
-    .listen(process.env.PORT || 3000, () => console.log('server is up'));
+server
+    .listen(process.env.PORT || 3000)

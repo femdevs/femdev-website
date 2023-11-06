@@ -9,6 +9,7 @@ const legal = require('./legal');
 const error = require('./errors');
 const ab = require('./ab');
 const OSSProject = require('./project');
+const Payment = require('./pay/router')
 const assets = require('./assets/router');
 const api = require('./api/router');
 
@@ -21,6 +22,7 @@ router
     .use('/error', error)
     .use('/oss-project', OSSProject)
     .use('/assets', assets)
+    .use('/pay', Payment)
     .use('/', website)
     .use((req, res, next) => {
         const { path } = req;
@@ -34,18 +36,7 @@ router
         if (allowedMethods[methodUsed]) return next();
         res.status(405).render(
             `misc/405.pug`,
-            {
-                errData: {
-                    path,
-                    allowedMethods: Object.keys(allowedMethods).map(m => m.toUpperCase()).join(', '),
-                    methodUsed: methodUsed,
-                },
-                meta: {
-                    title: '405 - Method Not Allowed',
-                    desc: '405 - Method Not Allowed',
-                    url: 'https://thefemdevs.com/errors/405',
-                }
-            }
+            req.getErrPage(405, { path, allowedMethods, methodUsed })
         );
     });
 

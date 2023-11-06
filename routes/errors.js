@@ -1,52 +1,16 @@
-const { aprilFools } = require(`../functions/util-fuctions`)
-
 const router = require('express').Router();
 
 router
-    .get(`/400`, (req, res) => {
-        res.render(
-            `misc/400.pug`,
-            {
-                errData: {
-                    path: req.path,
-                },
-                meta: {
-                    title: `400 - Invalid Request`,
-                    desc: `400 - Invalid Request`,
-                    url: `https://thefemdevs.com/errors/400`
-                }
-            }
-        )
-    })
     .get(`/401`, (req, res) => {
         res.render(
             `misc/401.pug`,
-            {
-                errData: {
-                    path: req.path,
-                    code: 401,
-                },
-                meta: {
-                    title: `401 - Unauthorized`,
-                    desc: `401 - Unauthorized`,
-                    url: `https://thefemdevs.com/errors/401`
-                }
-            }
+            req.getErrPage(401, { path: req.path })
         )
     })
     .get(`/404`, (req, res) => {
         res.render(
             `misc/404.pug`,
-            {
-                errData: {
-                    path: req.path,
-                },
-                meta: {
-                    title: `404 - Page Not Found`,
-                    desc: `404 - Page Not Found`,
-                    url: `https://thefemdevs.com/errors/404`
-                }
-            }
+            req.getErrPage(404, { path: req.path })
         );
     })
     .get(`/405`, (req, res) => {
@@ -58,105 +22,25 @@ router
         const methodUsed = req.method.toUpperCase();
         res.render(
             `misc/405.pug`,
-            {
-                errData: {
-                    path,
-                    allowedMethods: Object.keys(allowedMethods).map(m => m.toUpperCase()).join(', '),
-                    methodUsed: methodUsed,
-                },
-                meta: {
-                    title: '405 - Method Not Allowed',
-                    desc: '405 - Method Not Allowed',
-                    url: 'https://thefemdevs.com/errors/405',
-                }
-            }
+            req.getErrPage(405, { path, allowedMethods, methodUsed })
         );
     })
     .get(`/429`, (req, res) => {
         res.render(
             `misc/429.pug`,
-            {
-                meta: {
-                    title: `429 - Too Many Requests`,
-                    desc: `429 - Too Many Requests`,
-                    url: `https://thefemdevs.com/errors/429`
-                }
-            }
+            req.getErrPage(429, { path: req.path })
         )
     })
     .get(`/501`, (req, res) => {
         res.render(
             `misc/501.pug`,
-            {
-                errData: {
-                    errorId: require(`../functions/util-fuctions`).Utils.Crypto.FullHash("Testing Error"),
-                },
-                meta: {
-                    title: `501 - Internal Server Error`,
-                    desc: `501 - Internal Server Error`,
-                    url: `https://thefemdevs.com/errors/501`
-                }
-            }
+            req.getErrPage(501, { errorId: require(`../functions/util-fuctions`).Utils.Crypto.FullHash("Testing Error") })
         )
     })
     .get(`/location`, (req, res) => {
         return res.render(
             `misc/location_denial.pug`,
-            {
-                meta: {
-                    title: `451 - Forbidden for Legal Reasons`,
-                    desc: `Location Denied`,
-                    url: `https://thefemdevs.com/errors/location`
-                }
-            }
-        );
-    })
-    .get(`/vpn`, (req, res) => {
-        return res.render(
-            `misc/vpn_block.pug`,
-            {
-                meta: {
-                    title: `VPN Blocked`,
-                    desc: `VPN Blocked`,
-                    url: `https://thefemdevs.com/errors/vpn`
-                }
-            }
-        );
-    })
-    .get(`/proxy`, (req, res) => {
-        return res.render(
-            `misc/vpn_block.pug`,
-            {
-                meta: {
-                    title: `VPN Blocked`,
-                    desc: `VPN Blocked`,
-                    url: `https://thefemdevs.com/errors/vpn`
-                }
-            }
-        );
-    })
-    .get(`/tor`, (req, res) => {
-        return res.render(
-            `misc/vpn_block.pug`,
-            {
-                meta: {
-                    title: `VPN Blocked`,
-                    desc: `VPN Blocked`,
-                    url: `https://thefemdevs.com/errors/vpn`
-                }
-            }
-        );
-    })
-    .get(`/relay`, (req, res) => {
-        return res.render(
-            `misc/vpn_block.pug`,
-            {
-                meta: {
-                    title: `VPN Blocked`,
-                    desc: `VPN Blocked`,
-                    url: `https://thefemdevs.com/errors/vpn`
-                }
-            }
+            req.getErrPage(451, { path: req.path })
         );
     })
     .use((req, res, next) => {
@@ -171,18 +55,7 @@ router
         if (allowedMethods[methodUsed]) return next();
         res.status(405).render(
             `misc/405.pug`,
-            {
-                errData: {
-                    path,
-                    allowedMethods: Object.keys(allowedMethods).map(m => m.toUpperCase()).join(', '),
-                    methodUsed: methodUsed,
-                },
-                meta: {
-                    title: '405 - Method Not Allowed',
-                    desc: '405 - Method Not Allowed',
-                    url: 'https://thefemdevs.com/errors/405',
-                }
-            }
+            req.getErrPage(405, { path, allowedMethods, methodUsed })
         );
     })
 

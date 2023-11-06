@@ -24,13 +24,7 @@ module.exports = (rateLimiter) => (function (req, res, next) {
                             .status(429)
                             .render(
                                 'misc/429.pug',
-                                {
-                                    meta: {
-                                        title: '429 - Too Many Requests',
-                                        desc: '429 - Too Many Requests',
-                                        url: 'https://thefemdevs.com/errors/429',
-                                    }
-                                }
+                                req.getErrPage(429, {})
                             )
                     }
                 )

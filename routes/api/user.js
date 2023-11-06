@@ -59,7 +59,7 @@ router
             })
             .catch((err) => {
                 console.error(err);
-                return res.sendError(500);
+                return res.sendError(0);
             })
         req.Database.emit('user', { uid: newUser.uid, displayName: username, firstname, lastname, email })
         await connection.release();
@@ -88,24 +88,24 @@ router
             switch (key) {
                 case `displayname`:
                     req.auth.updateUser(uid, { displayName: value || null })
-                        .catch(_ => req.sendError(500))
+                        .catch(_ => req.sendError(0))
                     connection
                         .query(`UPDATE public.users SET displayname = '${value}' WHERE firebaseuid = '${uid}'`)
                     break;
                 case `email`:
                     req.auth.updateUser(uid, { email: value })
-                        .catch(_ => req.sendError(500))
+                        .catch(_ => req.sendError(0))
                     connection
                         .query(`UPDATE public.users SET email = '${value}' WHERE firebaseuid = '${uid}'`)
                     break;
                 case `password`:
                     req.auth.updateUser(uid, { password: value })
-                        .catch(_ => req.sendError(500))
+                        .catch(_ => req.sendError(0))
                     break;
                 case `perms`:
                     connection
                         .query(`UPDATE public.users SET permissions = '${value}' WHERE firebaseuid = '${uid}'`)
-                        .catch(_ => req.sendError(500))
+                        .catch(_ => req.sendError(0))
                     break;
             }
         }
@@ -133,9 +133,9 @@ router
         }
         const uid = req.headers['x-uid'];
         await req.auth.deleteUser(uid)
-            .catch(_ => req.sendError(500))
+            .catch(_ => req.sendError(0))
         await connection.query(`DELETE FROM public.users WHERE firebaseuid = '${uid}'`)
-            .catch(_ => req.sendError(500))
+            .catch(_ => req.sendError(0))
         await connection.release();
         return res.status(200).json({
             id: uid,
@@ -154,18 +154,7 @@ router
         if (allowedMethods[methodUsed]) return next();
         res.status(405).render(
             `misc/405.pug`,
-            {
-                errData: {
-                    path,
-                    allowedMethods: Object.keys(allowedMethods).map(m => m.toUpperCase()).join(', '),
-                    methodUsed: methodUsed,
-                },
-                meta: {
-                    title: '405 - Method Not Allowed',
-                    desc: '405 - Method Not Allowed',
-                    url: 'https://thefemdevs.com/errors/405',
-                }
-            }
+            req.getErrPage(405, { path, allowedMethods, methodUsed })
         );
     })
 

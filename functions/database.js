@@ -37,8 +37,8 @@ class PGDatabase extends events.EventEmitter {
             .on('token', (data) => {
                 this.pool.connect().then(connection => {
                     connection.query(
-                        `INSERT INTO public.apitokens (token, associatedfirebaseuid, licenseKey) VALUES ($1, $2, $3)`,
-                        [data.generatedToken, data.firebaseuid, tokenData.key]
+                        `INSERT INTO public.apitokens (token, associatedfirebaseuid, stripesub) VALUES ($1, $2, $3)`,
+                        [data.generatedToken, data.firebaseuid, data.sub]
                     ).catch(console.error)
                     connection.query(
                         `INSERT INTO public.apiUsage (apiToken, totalUses) VALUES ($1, $2)`,

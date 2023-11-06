@@ -14,18 +14,7 @@ router
         if (allowedMethods[methodUsed]) return next();
         res.status(405).render(
             `misc/405.pug`,
-            {
-                errData: {
-                    path,
-                    allowedMethods: Object.keys(allowedMethods).map(m => m.toUpperCase()).join(', '),
-                    methodUsed: methodUsed,
-                },
-                meta: {
-                    title: '405 - Method Not Allowed',
-                    desc: '405 - Method Not Allowed',
-                    url: 'https://thefemdevs.com/errors/405',
-                }
-            }
+            req.getErrPage(405, { path, allowedMethods, methodUsed })
         );
     })
 

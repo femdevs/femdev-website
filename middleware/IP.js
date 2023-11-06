@@ -16,22 +16,9 @@ module.exports = {
         req.Sentry.startSpan(
             { op: "IPInfoCheck", name: "IP Info Check Handler", data: { path: req.path } },
             () => {
-                // Russia, China, North Korea
                 if (req.ipinfo.bogon) return next();
-                if (req.ipinfo.error) return res.sendError(500);
-                if (['RU', 'CN', 'KP'].includes(req.ipinfo.country) || (req.ipinfo.country == 'US' && req.ipinfo.region == 'California')) return res.render(
-                    `misc/403.pug`,
-                    {
-                        errData: {
-                            path: req.path,
-                        },
-                        meta: {
-                            title: `451 - Forbidden for Legal Reasons`,
-                            desc: `Location Denied`,
-                            url: `https://thefemdevs.com/errors/location`
-                        }
-                    }
-                )
+                if (req.ipinfo.error) throw new Error(error)
+                if (['RU', 'CN', 'KP'].includes(req.ipinfo.country) || (req.ipinfo.country == 'US' && req.ipinfo.region == 'California')) return res.render(`misc/location_denial.pug`, req.getErrPage(451, { path: req.path }))
                 return next();
             }
         );

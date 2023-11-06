@@ -63,9 +63,10 @@ class Formatter {
 }
 
 class ArrayAndJSON {
-    static combineArrays = (array1, array2) => [...array1, ...array2]
-    static combineJSON = (json1, json2) => ({ ...json1, ...json2 })
+    static combineArrays = new Array().concat
+    static combineJSON = (d1, d2) => Object.fromEntries([...Object.entries(d1), ...Object.entries(d2)])
     static arrayToJSON = (array) => {
+        if (array.every(subdata => Array.isArray(subdata) && subdata.length == 2)) return Object.fromEntries(array)
         let json = {};
         array.forEach((v, i) => {
             json[i] = v;
@@ -77,12 +78,10 @@ class ArrayAndJSON {
     static setToArray = (set) => [...set]
     static arrayToMap = (array) => new Map(array)
     static mapToArray = (map) => [...map]
-    static #privateArrayRandomizer = (array) => array.sort(() => Math.random() > 0.5 ? 1 : -1)
-    static arrayRandomizer = (array, iterations = 25) => {
-        let newArray = array,
-            i = 0;
-        while (i < iterations) newArray = this.#privateArrayRandomizer(newArray); i++;
-        return newArray;
+    static _par = (array) => array = array.sort(() => Math.random() > 0.5 ? 1 : -1)
+    static arrayRandomizer = (a, it = 25) => {
+        for (let i = 0; i < it; ++i) this._par(a);
+        return a
     }
 }
 

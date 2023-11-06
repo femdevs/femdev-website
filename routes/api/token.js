@@ -4,33 +4,6 @@ const Cryptolens = require('cryptolens');
 const TokenManager = require('../../functions/crypto');
 
 router
-    .post('/create', async (req, res) => {
-        if (!req.headers['authorization']) return res.sendError(1);
-        const [_, token] = req.headers['authorization'].split(' ');
-        const connection = await req.Database.pool.connect();
-        const { rows } = await connection.query(`SELECT * FROM public.APITokens WHERE token = '${token}'`)
-        if (rows.length == 0) return res.sendError(2);
-        const { associatedfirebaseuid: firebaseUserID } = rows[0];
-        const { rows: userRows } = await connection.query(`SELECT * FROM public.users WHERE firebaseuid = '${firebaseUserID}'`)
-        if (!req.checkPerms(userRows[0].permissions, 'developer', 'createTokens')) {
-            connection.release();
-            return res.sendError(12)
-        };
-        const { firebaseuid } = req.body
-        if (!firebaseuid) return res.status(400).json({ error: 'No firebaseuid provided' });
-        // if (!license) return res.status(400).json({ error: 'No license provided' });
-        const { key } = await Cryptolens.Key.CreateKey(process.env.CRYPTOLENS_TOKEN, 21956, 0, '', false, null, false, 1)
-        await Cryptolens.Key.Activate(process.env.CRYPTOLENS_TOKEN, 21956, key, 'Server')
-        const generatedToken = TokenManager.generate({ firebaseuid, license: key, username: userRows[0].displayName });
-        req.Database.emit('token', { generatedToken, firebaseuid, key });
-        res.status(201).json({
-            token: generatedToken,
-            license: key,
-        })
-        connection.release();
-        // const {associatedfirebaseuid: FirebaseUser} = rows[0];
-        // AdminApp.auth().getUser(FirebaseUser)
-    })
     .delete('/delete', async (req, res) => {
         if (!req.headers['authorization']) return res.sendError(1);
         const [_, token] = req.headers['authorization'].split(' ');
@@ -86,7 +59,7 @@ router
             const { rows } = await connection.query(`SELECT * FROM public.APITokens WHERE token = '${token}'`)
             if (rows.length == 0) return res.sendError(5)
             const { rows: userRows } = await connection.query(`SELECT * FROM public.users WHERE firebaseuid = '${rows[0].associatedfirebaseuid}'`)
-            if (userRows.length == 0) return res.sendError(500); // misc error
+            if (userRows.length == 0) return res.sendError(0); // misc error
             const { permissions } = userRows[0];
             if (!req.checkPerms(permissions, 'developer', 'readTokens')) return res.sendError(12);
             const { token: tokenToLookup } = req.query;
@@ -171,18 +144,7 @@ router
         if (allowedMethods[methodUsed]) return next();
         res.status(405).render(
             `misc/405.pug`,
-            {
-                errData: {
-                    path,
-                    allowedMethods: Object.keys(allowedMethods).map(m => m.toUpperCase()).join(', '),
-                    methodUsed: methodUsed,
-                },
-                meta: {
-                    title: '405 - Method Not Allowed',
-                    desc: '405 - Method Not Allowed',
-                    url: 'https://thefemdevs.com/errors/405',
-                }
-            }
+            req.getErrPage(405, { path, allowedMethods, methodUsed })
         );
     })
 
