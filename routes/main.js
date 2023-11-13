@@ -5,12 +5,16 @@ router
     .get('/team', async (req, res) => {
         const client = await req.Database.pool.connect()
         let staffRoles = {};
-        (await client.query('SELECT * FROM public.staff'))
+        (await client.query('SELECT * FROM public.staff')) /*: {rows: Array<>} */
             .rows
             .filter(staff => staff.isstaff)
             .sort((a, b) => a.id - b.id)
-            .forEach(async (staff, i) => (staffRoles[staff.role] == undefined) ? (staffRoles[staff.role] = {i: {...staff, avatarUrl: `https://cdn.discordapp.com/avatar/${staff.userid}/${(await axios.get(`https://discord.com/api/v10/users/${staff.userid}`, {headers: {'Authorization': `Bot ${process.env.DISCORD_TOKEN}`},validateStatus: _ => true})).data.avatar}`}}) : (staffRoles[staff.role][i] = {...staff, avatarUrl: `https://cdn.discordapp.com/avatar/${staff.userid}/${(await axios.get(`https://discord.com/api/v10/users/${staff.userid}`, {headers: {'Authorization': `Bot ${process.env.DISCORD_TOKEN}`},validateStatus: _ => true})).data.avatar}`}))
+            .forEach(async (staff, i) => {
+                if (staffRoles[staff.role] == undefined) staffRoles[staff.role] = {}
+                staffRoles[staff.role][i] = {...staff, avatarUrl: `https://cdn.discordapp.com/avatar/${staff.userid}/${(await axios.get(`https://discord.com/api/v10/users/${staff.userid}`, {headers: {'Authorization': `Bot ${process.env.DISCORD_TOKEN}`},validateStatus: _ => true})).data.avatar}`}
+            })
         Object.keys(staffRoles).forEach(role => staffRoles[role].title = role)
+        console.dir(staffRoles)
         res.render(
             `main/team.pug`,
             {
