@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const axios = require('axios/dist/node/axios.cjs')
+const axios = require('axios')
 
 router
     .get('/team', async (req, res) => {
