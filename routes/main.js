@@ -1,11 +1,10 @@
 const router = require('express').Router();
-const axios = require('axios')
 
 router
     .get('/team', async (req, res) => {
         const client = await req.Database.pool.connect()
         let staffRoles = {};
-        (await client.query('SELECT * FROM public.staff')) /*: {rows: Array<>} */
+        (await client.query('SELECT * FROM public.staff'))
             .rows
             .filter(staff => staff.isstaff)
             .sort((a, b) => a.id - b.id)
