@@ -9,9 +9,9 @@ router
             .rows
             .filter(staff => staff.isstaff)
             .sort((a, b) => a.id - b.id)
-            .forEach(async (staff, i) => {
+            .forEach((staff, i) => {
                 if (staffRoles[staff.role] == undefined) staffRoles[staff.role] = {}
-                staffRoles[staff.role][i] = {...staff, avatarUrl: `https://cdn.discordapp.com/avatar/${staff.userid}/${(await axios.get(`https://discord.com/api/v10/users/${staff.userid}`, {headers: {'Authorization': `Bot ${process.env.DISCORD_TOKEN}`},validateStatus: _ => true})).data.avatar}`}
+                staffRoles[staff.role][i] = {...staff, avatarUrl: `https://api.daad.wtf/discord/user/${staff.userid}/avatar`}
             })
         Object.keys(staffRoles).forEach(role => staffRoles[role].title = role)
         console.dir(staffRoles)
