@@ -19,10 +19,9 @@ html(lang='en-us')
                     href=member.website,
                     class='hover:ring-1 hover:ring-brand-black hover:drop-shadow-xl'
                   )
-                    - var userSRCURL = '/assets/images/team/' + member.displayname
                     - var imgAlt = member.displayname + "'s profile picture"
                     img.h-32.rounded-t-xl.object-cover.transition-all(
-                      src= userSRCURL
+                      src= member.avatarUrl
                       alt= imgAlt
                       type="image/webp"
                       loading="lazy"

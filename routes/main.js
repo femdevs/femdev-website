@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const axios = require('axios/dist/node/axios.cjs')
 
 router
     .get('/team', async (req, res) => {
@@ -7,11 +8,21 @@ router
         (await client.query('SELECT * FROM public.staff'))
             .rows
             .filter(staff => staff.isstaff)
+            .map(async (staff) => {
+                const req = await axios.get('https://discord.com/api/v10/users/' + staff.userid, {
+                    headers: {
+                        Authorization: `Bot ${process.env.DISCORD_TOKEN}`
+                    },
+                    validateStatus: _ => true
+                })
+                const url = `https://cdn.discordapp.com/avatar/${staff.userid}/${req.data.avatar}`
+                return {...staff, avatarUrl: url}
+            })
             .sort((a, b) => a.id - b.id)
             .forEach((staff, i) => (staffRoles[staff.role] == undefined) ? (staffRoles[staff.role] = { [i]: staff }) : (staffRoles[staff.role][i] = staff))
         Object.keys(staffRoles).forEach(role => staffRoles[role].title = role)
         res.render(
-            `main/team`,
+            `main/team.pug`,
             {
                 staff: staffRoles,
                 meta: {
