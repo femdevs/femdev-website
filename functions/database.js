@@ -13,7 +13,7 @@ class PGDatabase extends events.EventEmitter {
             database: process.env.DATABASE,
             user: process.env.USER,
             password: process.env.PASSWORD,
-            query_timeout: 2000,
+            query_timeout: 7500,
             allowExitOnIdle: true,
         }
         this.pool = new pg.Pool(this.cfgs);
