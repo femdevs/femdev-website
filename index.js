@@ -1,6 +1,4 @@
 const app = require('express')();
-const Sentry = require('@sentry/node');
-const Intigrations = require('@sentry/integrations');
 const http = require('http');
 const axios = require('axios');
 const cron = require('node-cron');
@@ -17,30 +15,6 @@ const RateLimiter = new RateLimiterMemory({
     duration: 1,
 })
 
-const sentryInit = {
-    dsn: process.env.SENTRY_DSN,
-    sampleRate: 1.0,
-    tracesSampleRate: 1.0,
-    profilesSampleRate: 1.0,
-    serverName: require('os').hostname(),
-    integrations: [
-        new Intigrations.ExtraErrorData({ depth: 10 }),
-        new Intigrations.SessionTiming(),
-        new Intigrations.Transaction(),
-        new Intigrations.CaptureConsole({ levels: ['error', 'critical', 'fatal', 'warn'] }),
-        new Sentry.Integrations.Http({ tracing: true, breadcrumbs: true }),
-        new Sentry.Integrations.Express({ app }),
-        new Sentry.Integrations.Postgres(),
-    ],
-    environment: process.env.NODE_ENV || 'development',
-    release: require(`./package.json`).version,
-    sendDefaultPii: true
-}
-
-// if (process.env.NODE_ENV !== 'production') sentryInit.integrations.push(new Profiling.ProfilingIntegration())
-
-Sentry.init(sentryInit);
-
 //- Middleware
 const IPM = require('./middleware/IP'); //? IP Middleware
 const SM = require('./middleware/session'); //? Session Manager
@@ -48,7 +22,7 @@ const MRL = require('./middleware/rateLimit')(RateLimiter); //? Rate Limiter
 const TRACE = require('./middleware/traceHandler'); //? Tracing Middleware
 const RL = require('./middleware/routeLogger'); //? Route Logger
 const Headers = require('./middleware/headers'); //? Header Setter
-const EPR = require('./middleware/errorPages')(Sentry) //? Error Page Renderer
+const EPR = require('./middleware/errorPages') //? Error Page Renderer
 const four0four = require('./middleware/404'); //? 404 Handler
 const errPages = require('./middleware/errpages')
 
@@ -101,18 +75,17 @@ app
     .set('case sensitive routing', false)
     .set('trust proxy', true)
     .set('x-powered-by', false)
-    .use(Sentry.Handlers.requestHandler({ transaction: true }))
-    .use(Sentry.Handlers.tracingHandler())
     .use((req, _, next) => {
-        req.reqLogs = reqLogs;
-        req.Persistance = Persistance
-        req.Sentry = Sentry;
-        req.FirebaseAdmin = AdminApp;
-        req.auth = AdminApp.auth();
-        req.Database = Database;
-        req.Formatter = Formatter;
-        req.getErrPage = (c, d) => errPages.get(c).call(d)
-        req.checkPerms = (userbit, ...neededPerms) => (Formatter.permissionBitToReadable(userbit).some(['admin', 'owner'].includes)) ? true : neededPerms.some(Formatter.permissionBitToReadable(userbit).includes);
+        Object.assign(req, {
+            reqLogs,
+            Persistance,
+            AdminApp,
+            auth: AdminApp.auth(),
+            Database,
+            Formatter,
+            getErrPage: (c, d) => errPages.get(c).call(d),
+            checkPerms: (userbit, ...neededPerms) => (Formatter.permissionBitToReadable(userbit).some(['admin', 'owner'].includes)) ? true : neededPerms.some(Formatter.permissionBitToReadable(userbit).includes)
+        })
         next();
     })
     .use(RL)
@@ -120,43 +93,38 @@ app
     .use(SM)
     .use(IPM.checkLocation)
     .use((req, res, next) => {
-        Sentry.startSpan(
-            { op: "IPBlacklistCheck", name: "IP Blacklist Check Handler", data: { path: req.path } },
-            async () => {
-                if (
-                    req.Database.ipBlacklist.some(
-                        ipData =>
-                            ipData.hash === (
-                                function (data) {
-                                    let currentHash = data;
-                                    crypto.getHashes().forEach(
-                                        hashAlg => {
-                                            currentHash = crypto
-                                                .createHash(hashAlg)
-                                                .update(currentHash)
-                                                .digest('base64url')
-                                        }
-                                    );
-                                    return crypto
-                                        .createHash('id-rsassa-pkcs1-v1_5-with-sha3-512')
+        if (
+            req.Database.ipBlacklist.some(
+                ipData =>
+                    ipData.hash === (
+                        function (data) {
+                            let currentHash = data;
+                            crypto.getHashes().forEach(
+                                hashAlg => {
+                                    currentHash = crypto
+                                        .createHash(hashAlg)
                                         .update(currentHash)
                                         .digest('base64url')
                                 }
-                            )(
-                                ['::1', '127.0.0.1']
-                                    .includes(req.ip.replace('::ffff:', '')) ?
-                                    'localhost' :
-                                    (req.ip || 'unknown').replace('::ffff:', '')
-                            )
-
+                            );
+                            return crypto
+                                .createHash('id-rsassa-pkcs1-v1_5-with-sha3-512')
+                                .update(currentHash)
+                                .digest('base64url')
+                        }
+                    )(
+                        ['::1', '127.0.0.1']
+                            .includes(req.ip.replace('::ffff:', '')) ?
+                            'localhost' :
+                            (req.ip || 'unknown').replace('::ffff:', '')
                     )
-                ) return res.status(403).render(
-                    `misc/403.pug`,
-                    req.getErrPage(403, { path: req.path })
-                )
-                next();
-            }
-        );
+
+            )
+        ) return res.status(403).render(
+            `misc/403.pug`,
+            req.getErrPage(403, { path: req.path })
+        )
+        next();
     })
     .use(TRACE)
     .use(MRL)
@@ -186,24 +154,12 @@ app
             req.getErrPage(405, { path, allowedMethods, methodUsed })
         );
     })
-    .use(Sentry.Handlers.errorHandler())
     .use(EPR)
     .use(four0four);
 
 const server = http
     .createServer(app)
     .on('listening', _ => console.log("HTTP Server is UP"))
-
-cron
-    .schedule('*/5 * * * *', async () => {
-        Database.emit('updateBlacklist')
-        axios.default.post(
-            'https://sentry.io/api/0/organizations/benpai/monitors/website-running-check/checkins/',
-            { status: 'ok' },
-            { headers: { Authorization: `Bearer ${process.env.SENTRY_API_TOKEN}` } }
-        )
-    })
-
 
 server
     .listen(process.env.PORT || 3000)

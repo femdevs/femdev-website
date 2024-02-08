@@ -3,34 +3,30 @@
 */
 
 class RandomGenerators {
-    static ranNum(max=10) {
-        if (max < 1) throw new RangeError('max must be at least 1');
-        return Math.round(Math.random() * max);
+    static ranNum(m=10) {
+        if (m < 1) throw new RangeError('max must be at least 1');
+        return Math.round(Math.random() * m);
     }
 
-    static bRanNum(amount=1,max=10) {
-        if (amount <= 1) throw new RangeError("Both number and max must be greater than 1");
-        let bnum = "s"
-        for (let i = 0; i < amount; i++) bnum += `.${this.ranNum(max)}`;
-        return bnum.split('s.').join('').split('.')
+    static bRanNum(a=1,m=10) {
+        if (a <= 1) throw new RangeError("Both number and max must be greater than 1");
+        return new Array(a).map(() => this.ranNum(m))
     }
     
-    static randHex(prefix='') {
-        return `${prefix}${Math.floor(Math.random()*Math.pow(16,6)).toString(16)}`
+    static randHex(p='') {
+        const { floor: f, random: r } = Math
+        return `${p}${f(r()* (16**6)).toString(16)}`
     }
     
-    static bRandHex(amount=1,prefix='') {
-        if (amount <= 1) throw new RangeError('amount must be greater than one');
-        let hexRaw = 's'
-        for (let i = 0; i < amount; i++) hexRaw += `.${this.randHex(prefix)}`;
-        return hexRaw.split('s.').join('').split('.')
+    static bRandHex(a=1,p='') {
+        if (a <= 1) throw new RangeError('amount must be greater than one');
+        return new Array(a).map(() => this.randHex(p))
     }
     
-    static customNumberGenerator(min=0,max=100) {
-        if (max <= 0 || min <= 0) throw new RangeError("Both min and max need to be above 0");
-        if (!(min < max)) throw new RangeError("min must be less than max");
-        if (max > Math.pow(10,6)) throw new RangeError(`max must be less than ${Math.pow(10,6)}`);
-        const fmax = Number(max) - Number(min)
-        return Math.round(Math.random()*fmax) + Number(min)
+    static customNumberGenerator(m=0,u=100) {
+        if ([u,m].some(v => v <= 0)) throw new RangeError("Both min and max need to be above 0");
+        if (m >= u) throw new RangeError("min must be less than max");
+        if (u > 100_000) throw new RangeError(`max must be less than 100,000`);
+        return Math.round(Math.random()*Number(u) - Number(m)) + Number(m)
     }
 }

@@ -1,9 +1,8 @@
 const responseTime = require('response-time');
 const Chalk = require('chalk');
 const crypto = require('crypto');
-const { RequestHandler } = require('express');
 
-class ColorConverter {
+class CC {
     static chalk = new Chalk.Instance({ level: 3 });
     static chalkPrep = this.chalk.underline.bold;
     static status(code) {
@@ -71,34 +70,26 @@ class ColorConverter {
     }
 }
 
-/**
- * @type {RequestHandler}
- */
-module.exports = function (mreq, mres, next) {
-    mreq.Sentry.startSpan(
-        { op: "routeLogger", name: "Route Logger Handler", data: { path: mreq.path } },
-        () => {
-            return responseTime((req, res, time) => {
-                const data = {
-                    ip: ['::1', '127.0.0.1'].includes(mreq.ip.replace('::ffff:', '')) ? 'localhost' : (mreq.ip || 'unknown').replace('::ffff:', ''),
-                    method: req.method,
-                    url: new URL(mreq.originalUrl, 'https://thefemdevs.com/').pathname,
-                    status: res.statusCode,
-                    time: time.toFixed(2),
-                    bytes: Number(res.getHeader('Content-Length')) | 0,
-                }
-                const coloredData = {
-                    ip: ColorConverter.chalk.grey(data.ip),
-                    date: ColorConverter.chalk.bold(new Intl.DateTimeFormat('en-us', { year: "numeric", month: "short", day: "numeric", hour: "numeric", minute: "numeric", second: "numeric", weekday: "short", timeZone: "America/Detroit", timeZoneName: undefined }).format(new Date())),
-                    method: ColorConverter.method(data.method),
-                    url: ColorConverter.path(data.url),
-                    status: ColorConverter.status(data.status),
-                    time: ColorConverter.resTime(data.time),
-                    bytes: ColorConverter.bytes(data.bytes),
-                }
-                console.log(`${coloredData.ip} [${coloredData.date}] ${coloredData.method} ${coloredData.url} ${coloredData.status} ${coloredData.time} (${coloredData.bytes})`)
-                mreq.reqLogs.push({ ...data, ip: crypto.createHash('ssl3-sha1').update(data.ip).digest('base64url') });
-            })(mreq, mres, next)
+/** @type {import('express').RequestHandler} */ module.exports = function (mreq, mres, next) {
+    return responseTime((req, res, time) => {
+        const data = {
+            ip: ['::1', '127.0.0.1'].includes(mreq.ip.replace('::ffff:', '')) ? 'localhost' : (mreq.ip || 'unknown').replace('::ffff:', ''),
+            method: req.method,
+            url: new URL(mreq.originalUrl, 'https://thefemdevs.com/').pathname,
+            status: res.statusCode,
+            time: time.toFixed(2),
+            bytes: Number(res.getHeader('Content-Length')) | 0,
         }
-    )
+        const coloredData = {
+            ip: CC.chalk.grey(data.ip),
+            date: CC.chalk.bold(new Intl.DateTimeFormat('en-us', { year: "numeric", month: "short", day: "numeric", hour: "numeric", minute: "numeric", second: "numeric", weekday: "short", timeZone: "America/Detroit", timeZoneName: undefined }).format(new Date())),
+            method: CC.method(data.method),
+            url: CC.path(data.url),
+            status: CC.status(data.status),
+            time: CC.resTime(data.time),
+            bytes: CC.bytes(data.bytes),
+        }
+        console.log(`${coloredData.ip} [${coloredData.date}] ${coloredData.method} ${coloredData.url} ${coloredData.status} ${coloredData.time} (${coloredData.bytes})`)
+        mreq.reqLogs.push({ ...data, ip: crypto.createHash('ssl3-sha1').update(data.ip).digest('base64url') });
+    })(mreq, mres, next)
 }

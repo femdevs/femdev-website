@@ -1,2 +1,1 @@
-/** @type {import('express').RequestHandler} */
-module.exports = (req, res, _) => req.Sentry.startSpan({ op: "404", name: "404 Page Not Found Handler", data: { path: req.path } }, () => res.status(404).render(`misc/404.pug`, req.getErrPage(404, { path: req.path })));
+/** @type {import('express').RequestHandler} */ module.exports = (req, res, _) => () => res.status(404).render(`misc/404.pug`, req.getErrPage(404, { path: req.path }));

@@ -10,7 +10,7 @@ router
             .sort((a, b) => a.id - b.id)
             .forEach((staff, i) => {
                 if (staffRoles[staff.role] == undefined) staffRoles[staff.role] = {}
-                staffRoles[staff.role][i] = {...staff, avatarUrl: `https://api.daad.wtf/discord/user/${staff.userid}/avatar`}
+                staffRoles[staff.role][i] = { ...staff, avatarUrl: `/assets/images/team/${staff.userid}` }
             })
         Object.keys(staffRoles).forEach(role => staffRoles[role].title = role)
         console.dir(staffRoles)
@@ -101,7 +101,9 @@ router
         );
     })
     .get('/redirect', (req, res) => {
-        res.redirect(req.query.dest || '/');
+        const { dest } = req.query;
+        const sanitizedDest = (dest || '/').replace(/[^a-zA-Z0-9-_\.\/]/g, '');
+        res.redirect(sanitizedDest);
     })
     .get(`/`, (req, res) => {
         res.render(

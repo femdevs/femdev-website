@@ -54,11 +54,13 @@ router
             .setHeader(`Content-Type`, `image/svg+xml`)
             .sendFile(`${process.cwd()}/assets/media/images/custom-icon.png`)
     })
-    .get('/team/:name', (req, res) => {
+    .get('/team/:id', async (req, res) => {
+        const imgArrayBuffer = await fetch(`https://api.daad.wtf/discord/user/${req.params.id}/avatar`).then(r => r.arrayBuffer());
+        const imgBuffer = Buffer.from(imgArrayBuffer);
         res
-            .setHeader('Cache-Control', 'public, max-age 10800, max-stale 10800, stale-if-error 86400, no-transform')
-            .setHeader(`Content-Type`, `image/webp`)
-            .sendFile(`${process.cwd()}/assets/media/team_avatars/${req.params.name.toLowerCase()}.webp`)
+            .setHeader('Cache-Control', 'public, max-age 10800, max-stale 10800, stale-if-error 86400, no-transform, immutable')
+            .setHeader(`Content-Type`, `image/png`)
+            .send(imgBuffer)
     })
     .get('/static/:file', (req, res) => {
         res.sendFile(`${process.cwd()}/assets/media/images/${req.params.file}`);

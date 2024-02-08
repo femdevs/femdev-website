@@ -3,25 +3,6 @@
 //-   src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1906373468377810"
 //-   crossorigin="anonymous"
 //- )
-script(
-  src="https://browser.sentry-cdn.com/7.72.0/bundle.tracing.min.js"
-  crossorigin="anonymous"
-)
-script(
-  src="https://browser.sentry-cdn.com/7.72.0/transaction.min.js"
-  crossorigin="anonymous"
-)
-script(type="module").
-  Sentry.init({
-    dsn: "https://90738d20a91d4f169081dfbea05bc8d4@o4504516705058816.ingest.sentry.io/4504771825303552",
-    integrations: [
-      new Sentry.Integrations.BrowserTracing(),
-    ],
-    tracesSampleRate: 1.0,
-    profilesSampleRate: 1.0,
-    replaysSessionSampleRate: 1.0,
-    replaysOnErrorSampleRate: 1.0
-  });
 script(defer src='/assets/js/ga')
 script.
   window.dataLayer = window.dataLayer || [];

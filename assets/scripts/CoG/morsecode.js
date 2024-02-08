@@ -69,7 +69,6 @@ const stmca = {
  * @returns {String}
  */
 function stmc(string) {
-    let output = ''
     const splitstr = string
         .toLowerCase()
         .split('')

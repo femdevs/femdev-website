@@ -63,25 +63,18 @@ class Formatter {
 }
 
 class ArrayAndJSON {
-    static combineArrays = (array1, array2) => [...array1, ...array2]
-    static combineJSON = (json1, json2) => ({ ...json1, ...json2 })
-    static arrayToJSON = (array) => {
-        let json = {};
-        array.forEach((v, i) => {
-            json[i] = v;
-        });
-        return json;
-    }
+    static combineArrays = (array1, array2) => Array.from(array1).concat(array2)
+    static combineJSON = (json1, json2) => Object.assign({}, json1, json2)
+    static arrayToJSON = (array) => Object.fromEntries(Array.from(array).entries())
     static JSONToArray = (json, keys = false) => (keys) ? Object.entries(json) : Object.values(json)
     static arrayToSet = (array) => new Set(array)
-    static setToArray = (set) => [...set]
-    static arrayToMap = (array) => new Map(array)
-    static mapToArray = (map) => [...map]
+    static setToArray = (set) => Array.from(set.values())
+    static JSONToMap = (JSON) => new Map(Object.entries(JSON))
+    static mapToJSON = (map) => Object.fromEntries(map.entries())
     static #privateArrayRandomizer = (array) => array.sort(() => Math.random() > 0.5 ? 1 : -1)
     static arrayRandomizer = (array, iterations = 25) => {
-        let newArray = array,
-            i = 0;
-        while (i < iterations) newArray = this.#privateArrayRandomizer(newArray); i++;
+        let newArray = array;
+        for (const _ in new Array(iterations)) newArray = this.#privateArrayRandomizer(newArray);
         return newArray;
     }
 }

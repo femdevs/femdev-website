@@ -1,11 +1,8 @@
 //@ts-nocheck
 // Disclamer Function for usage in special windows
-/**
- * 
- * @param {string?} disclamer 
- */
-function disclamer(disclamer = null) {
-    if (disclamer == null || typeof disclamer !== "string") return;
+/** @param {string?} disclamer */
+function disclamer(disclamer) {
+    if (typeof disclamer !== "string") return;
     let reason;
     switch (disclamer) {
         case "ep":
@@ -18,16 +15,14 @@ function disclamer(disclamer = null) {
             reason = "Buggy code and/or Beta pages"
             break;
         default:
-            console.error(TypeError("Disclaimer Type isn't valid"))
-            return;
+            throw new TypeError("Disclaimer Type isn't valid");
     }
-    const disclamerPrompt = confirm(
-        `WARNING!
-By opening this window type, you understand the fact that this may happen:
-${reason}
-To continue, press OK. Otherwise, press cancel`
-    )
-    return disclamerPrompt;
+    return confirm([
+        'Warning!',
+        `By opening this window type, you understand the fact that this may happen:`,
+        reason,
+        `To continue, press OK. Otherwise, press cancel`
+    ].join('\n'));
 }
 
 /**
@@ -59,53 +54,28 @@ async function genwin(version, width, height) {
     if (width < mindem[version][0] || height < mindem[version][1]) throw new RangeError("Dimensions value is invalid");
     const nw = window.open('about:blank', '', `height:500,width:500`)
     nw.resizeTo(width, height)
-    const {style: bodyareastyle} = nw.document.body
+    const { style: bodyareastyle } = nw.document.body
     // Writes Styleing Function
     const writeStyles = () => {
         const buttonElement = nw.document.createElement('button')
         buttonElement.innerText = "Press This Button To Close The Window"
         bodyareastyle.fontFamily = 'monospace, Comic Sans MS, cursive, sans-serif, serif'
-        buttonElement.style.background = 'linear-gradient(45deg,red,blue)'
-        buttonElement.style.border = '0px solid transparent'
-        buttonElement.style.borderRadius = '16px'
-        buttonElement.style.padding = '16px'
-        buttonElement.style.margin = '8px'
-        buttonElement.style.position = 'fixed'
-        buttonElement.style.left = `50%`
-        buttonElement.style.top = '50%'
-        buttonElement.style.transform = 'translate(-50%,-50%)'
-        buttonElement.style.fontFamily = 'initial'
-        buttonElement.onclick = function() {nw.close()}
+        Object.assign(buttonElement.style, {
+            background: 'linear-gradient(45deg,red,blue)',
+            border: '0px solid transparent',
+            borderRadius: '16px',
+            padding: '16px',
+            margin: '8px',
+            position: 'fixed',
+            left: '50%',
+            top: '50%',
+            transform: 'translate(-50%,-50%)',
+            fontFamily: 'initial'
+        })
+        buttonElement.onclick = function () { nw.close() }
         nw.document.body.insertAdjacentElement('afterbegin', buttonElement)
         const cStyle = nw.document.createElement('style')
-        cStyle.innerHTML = `html {
-    overflow: hidden;
-}
-        
-body > * {
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    font-size: 32px;
-    font-weight: bolder;
-}
-
-button {
-    background: linear-gradient(45deg, red, blue);
-    border: 0px solid transparent;
-    border-radius: 16px;
-    padding: 16px;
-    margin: 8px;
-    position: fixed;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    font-family: initial;
-    font-size: 12px;
-}`
+        cStyle.innerHTML = `html {\n\toverflow: hidden;\n}\n\nbody > * {\n\t-webkit-touch-callout: none;\n\t-webkit-user-select: none;\n\t-khtml-user-select: none;\n\t-moz-user-select: none;\n\t-ms-user-select: none;\n\tuser-select: none;\n\tfont-size: 32px;\n\tfont-weight: bolder;\n}\n\nbutton {\n\tbackground: linear-gradient(45deg, red, blue);\n\tborder: 0px solid transparent;\n\tborder-radius: 16px;\n\tpadding: 16px;\n\tmargin: 8px;\n\tposition: fixed;\n\tleft: 50%;\n\ttop: 50%;\n\ttransform: translate(-50%, -50%);\n\tfont-family: initial;\n\tfont-size: 12px;\n}`
         nw.document.getElementsByTagName('head')[0].insertAdjacentElement('beforeend', cStyle)
     }
     const p = nw.document.createElement('p')
@@ -116,16 +86,7 @@ button {
             // 1 -> mouseMove Black and White Background Switch
             p.innerText = "Move Your Mouse"
             nw.document.body.insertAdjacentElement('beforeend', p)
-            const baw = () => {
-                if (nw.document.body.style.backgroundColor == 'black') {
-                    nw.document.body.style.backgroundColor = 'white'
-                    nw.document.body.style.color = 'black'
-                    return;
-                }
-                nw.document.body.style.backgroundColor = 'black'
-                nw.document.body.style.color = 'white'
-            }
-            nw.document.onmousemove = baw
+            nw.document.onmousemove = () => Object.assign(nw.document.body.style, (nw.document.body.style.backgroundColor == 'black') ? {backgroundColor: 'white',color: 'black'} : {backgroundColor: 'black',color: 'white'})
             break
         case 2:
             // 2 -> Click Counter
@@ -136,40 +97,27 @@ button {
             const incr = () => i++
             nw.document.onclick = _ => {
                 const counter = incr()
-                nw.document.getElementById('counter')
-                    .innerText = `Counter = ${counter}`;
+                nw.document.getElementById('counter').innerText = `Counter = ${counter}`;
             }
             break;
         case 3:
             // 3 -> Random Number
-            const randnum = () => Math.round(Math.random() * Math.pow(10, 6))
-            p.innerText = `Your Number is: ${randnum()}`
+            const { floor: f, random: r } = Math
+            p.innerText = `Your Number is: ${(() => f(r() * 100_000))()}`
             nw.document.body.insertAdjacentElement('beforeend', p)
             break;
         case 4:
             // 4 -> Random Name
             const randname = function () {
-                let name = ''
-                const letters = Math.floor(
-                    Math.random() * 5
-                ) + 3;
-                for (let i = 0; i < letters; i++) {
-                    const lettergen = (
-                        Math.floor(
-                            Math.random() * 22
-                        ) + 10
-                    ).toString(32);
-                    name += lettergen;
-                }
-                return name;
+                const { floor: f, random: r } = Math
+                return new Array(f(r() * 5) + 3).map(() => (f(r() * 22) + 10).toString(32)).join('');
             }
             p.innerText = `Your name is: ${randname()}`
             nw.document.body.insertAdjacentElement('beforeend', p)
             break;
         case 5:
             // 5 -> Random Color
-            const hgen = () => `#${Math.floor(Math.random() * Math.pow(16, 6)).toString(16)}`
-            const thex = hgen();
+            const thex = (() => `#${Math.floor(Math.random() * (16**6)).toString(16)}`)();
             p.innerText = `Your color is ${thex}`;
             nw.document.body.style.background = thex;
             nw.document.body.insertAdjacentElement('beforeend', p)

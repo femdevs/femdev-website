@@ -444,7 +444,8 @@ class SortingAlgoritms {
             for (let r = 1; r < t.length - e; r++)
                 if (t[r - 1] > t[r]) {
                     let l = t[r - 1];
-                    t[r - 1] = t[r], t[r] = l
+                    t[r - 1] = t[r]
+                    t[r] = l
                 } return t
     }
     static selectionSort(t) {
@@ -453,7 +454,8 @@ class SortingAlgoritms {
             for (let l = e + 1; l < t.length; l++) t[r] > t[l] && (r = l);
             if (r != e) {
                 let o = t[e];
-                t[e] = t[r], t[r] = o
+                t[e] = t[r],
+                t[r] = o
             }
         }
         return t
@@ -470,7 +472,7 @@ class SortingAlgoritms {
     static mergeSort(t) {
         return t.length < 2 ? t : function (t, e) {
             let r = [];
-            for (; t.length && e.length;) t[0] <= e[0] ? r.push(t.shift()) : r.push(e.shift());
+            for (; t.length && e.length;) r.push(t[0] <= e[0] ? t.shift() : e.shift())
             for (; t.length;) r.push(t.shift());
             for (; e.length;) r.push(e.shift());
             return r
