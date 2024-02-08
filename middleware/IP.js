@@ -5,7 +5,11 @@ require('dotenv').config();
 module.exports = {
     infoMiddleware: IPInfoExpress({
         token: process.env.IPINFO_AT,
-        cache: new LruCache({ max: 1000, maxAge: 1000 * 60 * 60 * 24 }),
+        cache: new LruCache({
+            max: 1000,
+            ttl: 1000 * 60 * 60 * 24,
+            disposeAfter: 1000 * 60 * 60 * 24 * 7,
+        }),
         timeout: 15_000,
     }),
     /** @type {import('express').RequestHandler} */
