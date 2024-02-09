@@ -1,42 +1,59 @@
-module.exports = class {
-    static _c = require('node:crypto')
-    static _dCrypt = { h: { alg: 'RSA-RIPEMD160' }, c: { alg: 'chacha20-poly1305', s: { k: 32, iv: 12 } } }
-    static _dEnc = 'base64url'
-    static _dbobj = () => ({ _a: '', _b: '', _c: '', _d: '', _e: '' })
-    static _h = () => this._c.createHash(this._dCrypt.h.alg)
-    static _enc = (x, y) => this._c.createCipheriv(this._dCrypt.c.alg, x, y)
-    static _dec = (x, y) => this._c.createDecipheriv(this._dCrypt.c.alg, x, y)
-    static _sttd(a, b, _e = new Array(0)) {
-        Object.keys(this._dbobj()).forEach((k) => { if (!new Object(JSON.parse(Buffer.from(a, b).toString('utf-8'))).hasOwnProperty(k)) _e.push(`Missing ${k} value`) })
-        return (_e.length > 0) ? _e.forEach(console.error) : JSON.parse(Buffer.from(a, b).toString('utf-8'));
-    }
-    static e(d) {
+const crypto = require('node:crypto');
+const assert = require('node:assert/strict');
+
+const cryptoDefaults = {
+    hashAlgorithm: 'RSA-RIPEMD160',
+    crypt: crypto.getCipherInfo("chacha20-poly1305"),
+    encoding: 'base64url',
+};
+
+class CCrypto {
+    static encrypt(inputData) {
         const
-            _d = this._dbobj,
-            _in = Buffer.from(d),
-            _giv = this._c.randomBytes(this._dCrypt.c.s.iv),
-            _k = this._c.randomBytes(this._dCrypt.c.s.k)
-        _d._c = this._h().update(_in).digest(this._dEnc)
-        _d._a = _giv.toString(this._dEnc)
-        _d._b = _k.toString(this._dEnc)
-        const _encdata = this._enc(_k, _giv).update(_in)
-        _d._d = this._h().update(_encdata).digest(this._dEnc)
-        _d._e = _encdata.toString(this._dEnc)
-        return Buffer.from(JSON.stringify(_d), 'utf8').toString(this._dEnc)
+            data = { iv: '', key: '', prehash: '', posthash: '', data: '' },
+            input = Buffer.from(inputData),
+            generatedIV = crypto.randomBytes(cryptoDefaults.crypt.ivLength),
+            key = crypto.randomBytes(cryptoDefaults.crypt.keyLength)
+        data.prehash = crypto
+            .createHash(cryptoDefaults.hashAlgorithm)
+            .update(input)
+            .digest(cryptoDefaults.encoding)
+        data.iv = generatedIV.toString(cryptoDefaults.encoding)
+        data.key = key.toString(cryptoDefaults.encoding)
+        const encdata = crypto
+            .createCipheriv(cryptoDefaults.crypt.name, key, generatedIV)
+            .update(input)
+        data.posthash = crypto
+            .createHash(cryptoDefaults.hashAlgorithm)
+            .update(encdata)
+            .digest(cryptoDefaults.encoding)
+        data.data = encdata.toString(cryptoDefaults.encoding)
+        return Buffer.from(JSON.stringify(data), 'utf8').toString(cryptoDefaults.encoding)
     }
-    static d(d) {
-        const _d = this._sttd(d, this._dEnc)
-        if (!_d) return;
-        const _fd = Buffer.from(_d._e, this._dEnc)
-        const _psvh = this._h().update(_fd).digest(this._dEnc);
-        if (!(_d._d == _psvh)) throw new TypeError("The Post-Verification Checksum failed to resolve to the provided data")
+    static decrypt(inputData) {
+        const data = JSON.parse(Buffer.from(inputData, cryptoDefaults.encoding).toString('utf-8'))
+        for (const key of Object.keys({ iv: '', key: '', prehash: '', posthash: '', data: '' })) {
+            if (!Object.hasOwn(data, key)) assert.fail(`Missing ${key} value`)
+        }
+        const formattedData = Buffer.from(data.data, cryptoDefaults.encoding)
+        const postVerificationHash = crypto
+            .createHash(cryptoDefaults.hashAlgorithm)
+            .update(formattedData)
+            .digest(cryptoDefaults.encoding);
+        assert.equal(data.posthash, postVerificationHash);
         const
-            _giv = Buffer.from(_d._a, this._dEnc),
-            _k = Buffer.from(_d._b, this._dEnc),
-            _outData = this._dec(_k, _giv).update(_fd),
-            _pevh = this._h().update(_outData).digest(this._dEnc);
-        if (!(_d._c == _pevh)) throw new TypeError("The Pre-Verification Checksum failed to resolve to the provided data")
-        const _out = _outData.toString('utf-8')
-        return _out
+            generatedIV = Buffer.from(data.iv, cryptoDefaults.encoding),
+            key = Buffer.from(data.key, cryptoDefaults.encoding),
+            outData = crypto
+                .createDecipheriv(cryptoDefaults.crypt.name, key, generatedIV)
+                .update(formattedData),
+            preVerificationHash = crypto
+                .createHash(cryptoDefaults.hashAlgorithm)
+                .update(outData)
+                .digest(cryptoDefaults.encoding);
+        assert.equal(data.prehash, preVerificationHash);
+        return outData.toString('utf-8')
     }
 }
+
+module.exports = CCrypto

@@ -1,4 +1,4 @@
-module.exports = new Map()
+/** @type {Map<number,Function>} */ module.exports = new Map()
     .set(401, (d) => ({ errData: { path: d.path, code: d.status }, meta: { title: `401 - Unauthorized`, desc: `401 - Unauthorized`, url: `https://thefemdevs.com/errors/401` } }))
     .set(403, (d) => ({ errData: { path: d.path, code: 403, reason: 'You are banned from accessing this website.' }, meta: { title: `403 - Forbidden`, desc: `403 - Forbidden`, url: `https://thefemdevs.com/errors/403` } }))
     .set(404, (d) => ({ errData: { path: d.path }, meta: { title: '404 - Page Not Found', desc: '404 - Page Not Found', url: 'https://thefemdevs.com/errors/404' } }))

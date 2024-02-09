@@ -74,7 +74,7 @@ module.exports = function (mreq, mres, next) {
         const data = {
             ip: ['::1', '127.0.0.1'].includes(mreq.ip.replace('::ffff:', '')) ? 'localhost' : (mreq.ip || 'unknown').replace('::ffff:', ''),
             method: req.method,
-            url: new URL(mreq.originalUrl, 'https://thefemdevs.com/').pathname,
+            url: new URL(mreq.originalUrl, `${mreq.protocol}://${mreq.hostname}`).pathname,
             status: res.statusCode,
             time: time.toFixed(2),
             bytes: String(res.getHeader('Content-Length') || 0),
