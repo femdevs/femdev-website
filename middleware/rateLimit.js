@@ -8,10 +8,11 @@ module.exports = (rateLimiter) => (function (req, res, next) {
         .consume(req.ip, (req.originalUrl.startsWith('/assets') ? 1 : 2))
         .then(
             (data) => {
+                const { remainingPoints: r, consumedPoints: c, msBeforeNext: m } = data;
                 res
-                    .setHeader('X-RateLimit-Limit', data.remainingPoints + data.consumedPoints)
-                    .setHeader('X-RateLimit-Remaining', data.remainingPoints)
-                    .setHeader('X-RateLimit-Reset', data.msBeforeNext);
+                    .setHeader('X-RateLimit-Limit', r + c)
+                    .setHeader('X-RateLimit-Remaining', r)
+                    .setHeader('X-RateLimit-Reset', m);
                 next();
             },
             (rej) => {

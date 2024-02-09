@@ -4,24 +4,18 @@ require('dotenv').config();
 
 //- Routes
 const website = require('./main');
-const cdn = require('./cdn');
 const legal = require('./legal');
 const error = require('./errors');
 const ab = require('./ab');
-const OSSProject = require('./project');
+const OSSProject = require('../oss/routes/project');
 const Payment = require('./pay/router')
-const assets = require('./assets/router');
-const api = require('./api/router');
 
 //- Router setup
 router
     .use('/ab', ab)
-    .use('/api', api)
-    .use('/cdn', cdn)
     .use('/legal', legal)
     .use('/error', error)
     .use('/oss-project', OSSProject)
-    .use('/assets', assets)
     .use('/pay', Payment)
     .use('/', website)
     .use((req, res, next) => {

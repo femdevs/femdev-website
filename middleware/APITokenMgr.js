@@ -1,15 +1,13 @@
 // const Cryptolens = require('cryptolens');
 require('dotenv').config();
 
-const TokenManager = require('../functions/crypto')
-const { RequestHandler } = require('express');
 
-/** @type {import('express').RequestHandler} */ module.exports = async (req, res, next) => {
-
+/** @type {import('express').RequestHandler} */
+module.exports = async (req, res, next) => {
     if (!req.headers['authorization']) return res.sendError(1);
-    const [_, token] = req.headers['authorization'].split(' ');
+    const token = req.headers['authorization'].split(' ')[1];
     if (!token) return res.sendError(1);
-    if (!TokenManager.verify(token)) return res.sendError(2);
+    if (!require('../functions/crypto').verify(token)) return res.sendError(2);
     const connection = await req.Database.Pool.connect();
     const { rows } = await connection.query(`SELECT * FROM public.apitokens WHERE token = '${token}'`)
     if (rows.length == 0) return res.sendError(2)

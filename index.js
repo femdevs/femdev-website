@@ -1,14 +1,11 @@
 const app = require('express')();
 const http = require('http');
-const axios = require('axios');
-const cron = require('node-cron');
+const cors = require('cors');
+const vhost = require('vhost');
 const crypto = require('crypto');
 const Admin = require('firebase-admin');
 const { RateLimiterMemory } = require('rate-limiter-flexible');
 require('dotenv').config();
-
-//- Routers
-const router = require('./routes/router');
 
 const RateLimiter = new RateLimiterMemory({
     points: 30,
@@ -70,6 +67,14 @@ const Database = new (require('./functions/database'))();
 
 setInterval(_ => (!reqLogs[0]) ? null : Database.emit('access', reqLogs.shift()), 500)
 
+/** @type {cors.CorsOptions} */
+const CORSPerms = {
+    credentials: true,
+    maxAge: 86400,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'TRACE', 'HEAD'],
+    optionsSuccessStatus: 200,
+}
+
 app
     .set('view engine', 'pug')
     .set('case sensitive routing', false)
@@ -129,7 +134,13 @@ app
     .use(TRACE)
     .use(MRL)
     .use(Headers)
-    .use('/', router)
+    .use(cors(CORSPerms))
+    .use(vhost('api.thefemdevs.com', require('./api/')))
+    .use(vhost('oss.thefemdevs.com', require('./oss/')))
+    .use(vhost('cdn.thefemdevs.com', require('./cdn/')))
+    .use(vhost('www.thefemdevs.com', require('./routes/router')))
+    .use(vhost('thefemdevs.com', require('./routes/router')))
+    .use(vhost('localhost', require('./routes/router')))
     .get(`/robots.txt`, (_, res) => {
         res
             .sendFile(`${process.cwd()}/metadata/robots.txt`)
@@ -142,7 +153,7 @@ app
     .use((req, res, next) => {
         const { path } = req;
         const methodUsed = req.method.toUpperCase();
-        let allowedMethods = router.stack.filter(r => r.route && r.route.path === path)
+        let allowedMethods = app._router.stack.filter(r => r.route && r.route.path === path)
         if (allowedMethods.length == 0) return next();
         allowedMethods.map(r => r.route.stack[0])
         allowedMethods = { ...allowedMethods[0] }

@@ -29,7 +29,7 @@ class Timer {
         }
     }
     static timestamp = v => new Intl.DateTimeFormat(this.#timesettings.locale, this.#timesettings.options).format(v)
-    static elapsedTime = (timestamp) => isNaN(timestamp) ? TypeError("Timestamp must be a number") : Object.entries({ year: Math.floor(Math.floor(timestamp) / (60 ** 2) / 24 / 30 / 12), month: Math.floor(Math.floor(timestamp) / (60 ** 2) / 24 / 30) % 12, day: Math.floor(Math.floor(timestamp) / (60 ** 2) / 24) % 30, hour: Math.floor(Math.floor(timestamp) / (60 ** 2)) % 24, minute: Math.floor(Math.floor(timestamp) / 60) % 60, second: Math.floor(timestamp) % 60 }).map(([key, value]) => value !== 0 ? `${value} ${key}${value == 1 ? '' : 's'}` : null).filter(value => value !== null).join(', ')
+    static elapsedTime = (timestamp) => isNaN(timestamp) ? TypeError("Timestamp must be a number") : Object.entries({ year: Math.floor(Math.floor(timestamp) / (60*60*24*30*12)), month: Math.floor(Math.floor(timestamp) / (60*60*24*30)) % 12, day: Math.floor(Math.floor(timestamp) / (60*60*24)) % 30, hour: Math.floor(Math.floor(timestamp) / (60*60)) % 24, minute: Math.floor(Math.floor(timestamp) / 60) % 60, second: Math.floor(timestamp) % 60 }).map(([key, value]) => value !== 0 ? `${value} ${key}${value == 1 ? '' : 's'}` : null).filter(value => value !== null).join(', ')
     static stringToMilliseconds = (timeString) => typeof timeString !== 'string' ? TypeError("Time String must be a string") : timeString.split(' ').map(value => { switch (value.slice(-1)) { case 'w': return value.slice(0, -1) * 604800000; case 'd': return value.slice(0, -1) * 86400000; case 'h': return value.slice(0, -1) * 3600000; case 'm': return value.slice(0, -1) * 60000; case 's': return value.slice(0, -1) * 1000; } }).reduce((a, b) => a + b, 0);
     static stringToSeconds = (timeString) => this.stringToMilliseconds(timeString) / 1000;
     static unixTime = (date) => (!(date instanceof Date) && typeof date !== 'number') ? TypeError("Date must be a Date object") : Math.round(date.getTime() / 1000)
@@ -63,30 +63,19 @@ class Formatter {
 }
 
 class ArrayAndJSON {
-    static combineArrays = new Array().concat
-    static combineJSON = (d1, d2) => Object.fromEntries([...Object.entries(d1), ...Object.entries(d2)])
-    static arrayToJSON = (array) => {
-        if (array.every(subdata => Array.isArray(subdata) && subdata.length == 2)) return Object.fromEntries(array)
-        let json = {};
-        array.forEach((v, i) => {
-            json[i] = v;
-        });
-        return json;
-    }
+    static combineArrays = Array.prototype.concat
+    static combineJSON = Object.assign
+    static arrayToJSON = (array) => Object.fromEntries(array.map((v, i) => (Array.isArray(v) && v.length == 2) ? v : [i, v]))
     static JSONToArray = (json, keys = false) => (keys) ? Object.entries(json) : Object.values(json)
     static arrayToSet = (array) => new Set(array)
-    static setToArray = (set) => [...set]
-    static arrayToMap = (array) => new Map(array)
-    static mapToArray = (map) => [...map]
-    static _par = (array) => array = array.sort(() => Math.random() > 0.5 ? 1 : -1)
-    static arrayRandomizer = (a, it = 25) => {
-        for (let i = 0; i < it; ++i) this._par(a);
-        return a
-    }
+    static setToArray = (set) => Array.from(set)
+    static objectToMap = (obj) => new Map(Object.entries(obj))
+    static mapToObject = (map) => Object.fromEntries(map.entries())
+    static arrayRandomizer = (a) => Array.from(a).sort(() => Math.random() > 0.5 ? 1 : -1);
 }
 
 class Cryptography {
-    static Utf8Encode = (string) => string.replace(/\r\n/g, '\n').split('').map((c) => c.charCodeAt(0)).map(char => { if (char < 128) return String.fromCharCode(char); else if ((char > 127) && (char < 2048)) return String.fromCharCode((char >> 6) | 192) + String.fromCharCode((char & 63) | 128); else return String.fromCharCode((char >> 12) | 224) + String.fromCharCode(((char >> 6) & 63) | 128) + String.fromCharCode((char & 63) | 128); }).join('');
+    static Utf8Encode = (string) => string.replace(/\r\n/g, '\n').split('').map((c) => c.charCodeAt(0)).map(char => (char < 128) ? String.fromCharCode(char) : ((char > 127) && (char < 2048)) ? String.fromCharCode((char >> 6) | 192) + String.fromCharCode((char & 63) | 128) : String.fromCharCode((char >> 12) | 224) + String.fromCharCode(((char >> 6) & 63) | 128) + String.fromCharCode((char & 63) | 128)).join('');
     static SHA1 = (msg) => {
         const rotate_left = (n, s) => (n << s) | (n >>> (32 - s))
         const cvt_hex = (val) => {
