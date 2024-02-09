@@ -6,7 +6,7 @@ const axios = require('axios');
 const APIAuth = require('../../middleware/APITokenMgr');
 
 //- Functions
-const errorResponse = require('../../functions/errorResponse');
+const errorResponse = (k) => require('../../functions/errorResponse').get(k)
 
 //- Routes
 const user = require('./user');

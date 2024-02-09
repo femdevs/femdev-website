@@ -24,4 +24,3 @@ module.exports = new Map()
     .set(22, { httpCode: 500, code: 22, message: 'Unable to create requested user', })
     .set(23, { httpCode: 500, code: 23, message: 'Unable to update requested user', })
     .set(24, { httpCode: 500, code: 24, message: 'Unable to create requested user', })
-    .get
