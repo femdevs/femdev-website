@@ -73,6 +73,8 @@ const CORSPerms = {
     maxAge: 86400,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'TRACE', 'HEAD'],
     optionsSuccessStatus: 200,
+    preflightContinue: true,
+    exposedHeaders: ['X-Repo', 'X-Live-Deploy', 'X-Repository-License', 'X-OS', 'X-Node-Version', 'X-RateLimit-Limit', 'X-RateLimit-Remaining', 'X-RateLimit-Reset', 'Retry-After', 'Content-Type', 'Content-Length', 'Content-Security-Policy', 'Cross-Origin-Opener-Policy', 'Cross-Origin-Embedder-Policy', 'Cross-Origin-Resource-Policy']
 }
 
 app
