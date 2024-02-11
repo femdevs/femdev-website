@@ -3,12 +3,12 @@ const router = require('express').Router();
 router
     .get('/code-of-conduct', (req, res) => {
         res.render(
-            `project/codeOfConduct.pug`,
+            `oss/codeOfConduct.pug`,
             {
                 meta: {
                     title: 'Code of Conduct',
                     desc: 'Code of Conduct',
-                    url: 'https://thefemdevs.com/oss-project/code-of-conduct',
+                    url: 'https://oss.thefemdevs.com/code-of-conduct',
                 }
             }
         );

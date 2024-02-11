@@ -5,7 +5,9 @@ Frontend code is writen in Pug.js and TailwindCSS.
 API uses many free APIs provided by [Free APIs](https://free-apis.github.io/).
 
 ## How To Run
+
 First, you need to install [Node.js](https://nodejs.org/) and [npm](https://npmjs.com). Then, you can run the following commands to start the server:
+
 ```bash
 npm i
 npm run build
@@ -15,6 +17,7 @@ node .
 The Webpage will be available at `http://localhost:3000`. (Note; CDNs, assets, and APIs are automatically setup to pull from the official server (`SUBDOMAIN.thefemdevs.com`), and therefore will not work regualarly on localhost. You will need to make additional modifications to the code to be able to access said resources locally.)
 
 ## List of Tools
+
 - [Node.js](https://nodejs.org/) => JavaScript runtime
 - [Express](https://expressjs.com/) => Web framework for Node.js
 - [Pug.js](https://pugjs.org/) => Template engine for Node.js

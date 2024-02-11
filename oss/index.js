@@ -1,9 +1,11 @@
-const router = require('express').Router();
+const leadRouter = require('express').Router();
+const RateLimiter = require('../middleware/rateLimit')
 require('dotenv').config();
 
-const mainRoutes = require('./routes/router');
+const router = require('./routes/router');
 
-router
-    .use('/', mainRoutes);
+leadRouter
+    .use(RateLimiter.main)
+    .use(router);
 
-module.exports = router;
+module.exports = leadRouter;

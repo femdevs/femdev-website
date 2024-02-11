@@ -7,7 +7,6 @@ const website = require('./main');
 const legal = require('./legal');
 const error = require('./errors');
 const ab = require('./ab');
-const OSSProject = require('../../oss/routes/project');
 const Payment = require('./pay/router')
 
 //- Router setup
@@ -15,7 +14,6 @@ router
     .use('/ab', ab)
     .use('/legal', legal)
     .use('/error', error)
-    .use('/oss-project', OSSProject)
     .use('/pay', Payment)
     .use('/', website)
     .use((req, res, next) => {

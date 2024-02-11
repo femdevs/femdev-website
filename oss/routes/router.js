@@ -1,9 +1,9 @@
 const router = require('express').Router();
 require('dotenv').config();
 
-const projects = require('./project');
+const main = require('./main');
 
 router
-    .use('/projects', projects)
+    .use('/', main)
 
 module.exports = router;
