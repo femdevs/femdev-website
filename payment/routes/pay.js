@@ -36,7 +36,7 @@ router
                     optional: true
                 }
             ],
-            success_url: `${p}://${h}${h === 'localhost' ? ':3000' : ''}/pay/api/token/r/{CHECKOUT_SESSION_ID}`,
+            success_url: `${p}://${h}${h === 'localhost' ? ':3000' : ''}/api/token/r/{CHECKOUT_SESSION_ID}`,
         })
         res.redirect(session.url)
     })

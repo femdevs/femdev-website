@@ -1,7 +1,7 @@
 const router = require('express').Router()
 require('dotenv').config()
 const { default: StripeSDK } = require('stripe')
-const StripeInstance = new StripeSDK('sk_test_51O2gfrBeqjdZxel2weZc8YAOTGvnj15TCZzoFjr1kuM8nzvpAI7lGsXPW1mqamRXTZ3VWoISpdhTRUtC2v29Nf2l00JHlh2VkX')
+const StripeInstance = new StripeSDK(process.env.STRIPE)
 
 router
     .get('/token/r/:id', async (req, res) => {

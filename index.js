@@ -4,6 +4,7 @@ const cors = require('cors');
 const vhost = require('vhost');
 const crypto = require('crypto');
 const Admin = require('firebase-admin');
+const { RateLimiterMemory } = require('rate-limiter-flexible');
 require('dotenv').config();
 
 //- Middleware
@@ -14,7 +15,7 @@ const RL = require('./middleware/routeLogger'); //? Route Logger
 const Headers = require('./middleware/headers'); //? Header Setter
 const EPR = require('./middleware/errorPages') //? Error Page Renderer
 const four0four = require('./middleware/404'); //? 404 Handler
-const errPages = require('./middleware/errpages')
+const errPages = require('./middleware/errpages'); //? Error Pages
 
 const reqLogs = [];
 
@@ -23,7 +24,13 @@ const reqLogs = [];
  * @desciption
  * Used to store data throughout requests
  */
-const Persistance = new Map()
+const Persistance = new Map();
+
+const RateLimiter = new RateLimiterMemory({
+    points: 30,
+    duration: 1,
+})
+
 class Formatter {
     static perms = {
         readData: 1 << 0,   // 1
@@ -83,6 +90,7 @@ app
             auth: AdminApp.auth(),
             Database,
             Formatter,
+            RateLimitMem: RateLimiter,
             getErrPage: (c, d) => errPages.get(c).call(d),
             checkPerms: (userbit, ...neededPerms) => (Formatter.permissionBitToReadable(userbit).some(['admin', 'owner'].includes)) ? true : neededPerms.some(Formatter.permissionBitToReadable(userbit).includes)
         })
@@ -135,6 +143,9 @@ app
     .use(vhost('oss.thefemdevs.com', require('./oss/')))
     .use(vhost('cdn.thefemdevs.com', require('./cdn/')))
     .use(vhost('legal.thefemdevs.com', require('./legal/')))
+    .use(vhost('ab.thefemdevs.com', require('./ab/')))
+    .use(vhost('errors.thefemdevs.com', require('./errors/')))
+    .use(vhost('pay.thefemdevs.com', require('./payment/')))
     .use(vhost('*.thefemdevs.com', require('./core/')))
     .use(vhost('thefemdevs.com', require('./core/')))
     .use(vhost('localhost', require('./core/')))

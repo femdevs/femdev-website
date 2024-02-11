@@ -1,13 +1,14 @@
-//- Packages
 const router = require('express').Router();
 require('dotenv').config();
 
-//- Routes
-const website = require('./main');
+const main = require('./main')
+const pay = require('./pay')
+const api = require('./api')
 
-//- Router setup
 router
-    .use('/', website)
+    .use('/pay', pay)
+    .use('/api', api)
+    .use('/', main)
     .use((req, res, next) => {
         const { path } = req;
         const methodUsed = req.method.toUpperCase();

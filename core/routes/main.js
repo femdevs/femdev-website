@@ -8,12 +8,8 @@ router
             .rows
             .filter(staff => staff.isstaff)
             .sort((a, b) => a.id - b.id)
-            .forEach((staff, i) => {
-                if (staffRoles[staff.role] == undefined) staffRoles[staff.role] = {}
-                staffRoles[staff.role][i] = { ...staff, avatarUrl: `https://cdn.thefemdevs.com/assets/images/team/${staff.userid}` }
-            })
+            .forEach((staff, i) => Object.assign(staffRoles[staff.role],{[i]: {...staff,avatarUrl: `https://cdn.thefemdevs.com/assets/images/team/${staff.userid}`}}))
         Object.keys(staffRoles).forEach(role => staffRoles[role].title = role)
-        console.dir(staffRoles)
         res.render(
             `main/team.pug`,
             {

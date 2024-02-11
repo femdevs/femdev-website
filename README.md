@@ -38,19 +38,19 @@ The Webpage will be available at `http://localhost:3000`. (Note; CDNs, assets, a
 
 ## Contributing
 
-If you would like to contribute to the project, please read the [CONTRIBUTING.md](CONTRIBUTING.md) file.
+If you would like to contribute to the project, please read the [Contributing Guidelines](https://oss.thefemdevs.com/contributing).
 
 ## License
 
-This project is licensed under the Affero General Public License v3.0 - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the Affero General Public License v3.0 - see the [License](https://oss.thefemdevs.com/license) for details.
 
 ## Code of Conduct
 
-Please read the [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) file for details on our code of conduct.
+Please read the [Code Of Conduct](https://oss.thefemdevs.com/code-of-conduct) for details on our code of conduct.
 
 ## Contributors
 
-We have a list of contributors [here](Contributors). If you would like to be added to the list, please read the [CONTRIBUTING.md](CONTRIBUTING.md) file.
+We have a list of contributors [here](https://oss.thefemdevs.com/contributors). If you would like to be added to the list, please read our [Contributing Guidelines](#contributing).
 
 ## Contact
 
