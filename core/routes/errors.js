@@ -34,7 +34,7 @@ router
     .get(`/501`, (req, res) => {
         res.render(
             `misc/501.pug`,
-            req.getErrPage(501, { errorId: require(`../functions/util-fuctions`).Utils.Crypto.FullHash("Testing Error") })
+            req.getErrPage(501, { errorId: require(`../../functions/util-fuctions`).Utils.Crypto.FullHash("Testing Error") })
         )
     })
     .get(`/location`, (req, res) => {

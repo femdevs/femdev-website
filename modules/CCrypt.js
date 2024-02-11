@@ -54,6 +54,15 @@ class CCrypto {
         assert.equal(data.prehash, preVerificationHash);
         return outData.toString('utf-8')
     }
+    static fullHash(inputData) {
+        let currentHash = inputData;
+        crypto.getHashes().forEach(hashAlg => { currentHash = crypto.createHash(hashAlg).update(currentHash).digest(cryptoDefaults.encoding) });
+        return crypto
+            .createHash('id-rsassa-pkcs1-v1_5-with-sha3-512')
+            .update(currentHash)
+            .digest('base64url')
+    }
+    
 }
 
 module.exports = CCrypto

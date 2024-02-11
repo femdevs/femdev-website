@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const { default: StripeSDK } = require('stripe')
 const StripeInstance = new StripeSDK('sk_test_51O2gfrBeqjdZxel2weZc8YAOTGvnj15TCZzoFjr1kuM8nzvpAI7lGsXPW1mqamRXTZ3VWoISpdhTRUtC2v29Nf2l00JHlh2VkX')
-const TokenManager = require('../../functions/crypto');
+const TokenManager = require('../../../functions/crypto');
 
 const payment = require('./pay')
 const api = require('./api')

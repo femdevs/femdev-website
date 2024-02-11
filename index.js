@@ -4,18 +4,11 @@ const cors = require('cors');
 const vhost = require('vhost');
 const crypto = require('crypto');
 const Admin = require('firebase-admin');
-const { RateLimiterMemory } = require('rate-limiter-flexible');
 require('dotenv').config();
-
-const RateLimiter = new RateLimiterMemory({
-    points: 30,
-    duration: 1,
-})
 
 //- Middleware
 const IPM = require('./middleware/IP'); //? IP Middleware
 const SM = require('./middleware/session'); //? Session Manager
-const MRL = require('./middleware/rateLimit')(RateLimiter); //? Rate Limiter
 const TRACE = require('./middleware/traceHandler'); //? Tracing Middleware
 const RL = require('./middleware/routeLogger'); //? Route Logger
 const Headers = require('./middleware/headers'); //? Header Setter
@@ -106,14 +99,7 @@ app
                     ipData.hash === (
                         function (data) {
                             let currentHash = data;
-                            crypto.getHashes().forEach(
-                                hashAlg => {
-                                    currentHash = crypto
-                                        .createHash(hashAlg)
-                                        .update(currentHash)
-                                        .digest('base64url')
-                                }
-                            );
+                            crypto.getHashes().forEach(hashAlg => { currentHash = crypto.createHash(hashAlg).update(currentHash).digest('base64url') });
                             return crypto
                                 .createHash('id-rsassa-pkcs1-v1_5-with-sha3-512')
                                 .update(currentHash)
@@ -134,15 +120,8 @@ app
         next();
     })
     .use(TRACE)
-    .use(MRL)
     .use(Headers)
     .use(cors(CORSPerms))
-    .use(vhost('api.thefemdevs.com', require('./api/')))
-    .use(vhost('oss.thefemdevs.com', require('./oss/')))
-    .use(vhost('cdn.thefemdevs.com', require('./cdn/')))
-    .use(vhost('www.thefemdevs.com', require('./routes/router')))
-    .use(vhost('thefemdevs.com', require('./routes/router')))
-    .use(vhost('localhost', require('./routes/router')))
     .get(`/robots.txt`, (_, res) => {
         res
             .sendFile(`${process.cwd()}/metadata/robots.txt`)
@@ -152,6 +131,12 @@ app
             .setHeader(`Content-Type`, `text/xml`)
             .sendFile(`${process.cwd()}/metadata/sitemap.xml`)
     })
+    .use(vhost('api.thefemdevs.com', require('./api/')))
+    .use(vhost('oss.thefemdevs.com', require('./oss/')))
+    .use(vhost('cdn.thefemdevs.com', require('./cdn/')))
+    .use(vhost('*.thefemdevs.com', require('./core/')))
+    .use(vhost('thefemdevs.com', require('./core/')))
+    .use(vhost('localhost', require('./core/')))
     .use((req, res, next) => {
         const { path } = req;
         const methodUsed = req.method.toUpperCase();

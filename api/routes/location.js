@@ -1,37 +1,21 @@
 const router = require('express').Router();
 
-const fullDataToLocationData = (data) => {
-    const finalObj = {
-        address: {
-            full: '',
-            houseNumber: '',
-            street: '',
-            city: '',
-            region: '',
-            country: '',
-            postalCode: '',
-        },
-        pluscode: '',
-        coords: {
-            lat: '',
-            lng: '',
-        },
+const fullDataToLocationData = (data) => Object.assign({ address: { full: '', houseNumber: '', street: '', city: '', region: '', country: '', postalCode: '' }, pluscode: '', coords: { lat: '', lng: '' } }, {
+    address: {
+        full: data.results[0].formatted_address,
+        houseNumber: (data.results[0].address_components).filter(a => a.types.includes('street_number'))[0]?.long_name,
+        street: (data.results[0].address_components).filter(a => a.types.includes('route'))[0]?.long_name,
+        city: (data.results[0].address_components).filter(a => a.types.includes('locality'))[0].long_name,
+        region: (data.results[0].address_components).filter(a => a.types.includes('administrative_area_level_1'))[0].long_name,
+        country: (data.results[0].address_components).filter(a => a.types.includes('country'))[0].long_name,
+        postalCode: (data.results[0].address_components).filter(a => a.types.includes('postal_code'))[0].long_name,
+    },
+    pluscode: (data?.plus_code)?.global_code,
+    coords: {
+        lat: (data.results[0].geometry).location.lat,
+        lng: (data.results[0].geometry).location.lng,
     }
-    const address = data.results[0].address_components
-    const geometry = data.results[0].geometry
-    const pluscode = data?.plus_code
-    finalObj.address.full = data.results[0].formatted_address
-    finalObj.address.houseNumber = address.filter(a => a.types.includes('street_number'))[0]?.long_name
-    finalObj.address.street = address.filter(a => a.types.includes('route'))[0]?.long_name
-    finalObj.address.city = address.filter(a => a.types.includes('locality'))[0].long_name
-    finalObj.address.region = address.filter(a => a.types.includes('administrative_area_level_1'))[0].long_name
-    finalObj.address.country = address.filter(a => a.types.includes('country'))[0].long_name
-    finalObj.address.postalCode = address.filter(a => a.types.includes('postal_code'))[0].long_name
-    finalObj.pluscode = pluscode?.global_code
-    finalObj.coords.lat = geometry.location.lat
-    finalObj.coords.lng = geometry.location.lng
-    return finalObj;
-}
+});
 
 router
     .get('/coords', async (req, res) => {
@@ -46,7 +30,7 @@ router
         })
         const data = JSON.parse(results.data)
         if (data.status == 'ZERO_RESULTS') return res.sendError(13)
-        res.json({data: fullDataToLocationData(data)});
+        res.json({ data: fullDataToLocationData(data) });
     })
     .get('/pluscode', async (req, res) => {
         const pluscode = req.headers['x-pluscode']
@@ -60,7 +44,7 @@ router
         })
         const data = JSON.parse(results.data)
         if (data.status == 'ZERO_RESULTS') return res.sendError(13)
-        res.json({data: fullDataToLocationData(data)});
+        res.json({ data: fullDataToLocationData(data) });
     })
     .get('/address', async (req, res) => {
         const address = req.headers['x-address']
@@ -74,7 +58,7 @@ router
         })
         const data = JSON.parse(results.data)
         if (data.status == 'ZERO_RESULTS') return res.sendError(13)
-        res.json({data: fullDataToLocationData(data)});
+        res.json({ data: fullDataToLocationData(data) });
     })
     .use((req, res, next) => {
         const { path } = req;
