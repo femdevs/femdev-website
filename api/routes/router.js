@@ -34,6 +34,7 @@ const axiosReq = async (url, cfgs) => {
 
 router
     .use((req, res, next) => { req.axiosReq = axiosReq; res.sendError = (code) => res.status(errorResponse(code).httpCode).json({ code: errorResponse(code).code, message: errorResponse(code).message }); next(); })
+    .get('/', (req, res) => res.redirect(301, 'https://docs.api.thefemdevs.com'))
     .use(APIAuth)
     .use(express.json())
     .use('/user', user)
@@ -46,7 +47,6 @@ router
     .use('/dictionary', dictionary)
     .use('/quotes', quotes)
     .use('/minecraft', minecraft)
-    .get('/', (req, res) => res.redirect(301, 'https://docs.api.thefemdevs.com'))
     .use((req, res, next) => {
         const { path } = req;
         const methodUsed = req.method.toUpperCase();

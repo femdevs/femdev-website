@@ -1,0 +1,27 @@
+doctype html
+html(lang='en-us')
+  include ../defaults/header.pug
+  body.bg-neutral-200
+    include ../defaults/nav.pug
+    content.flex.flex-col.items-center.justify-center
+      hero.flex.w-full.max-w-6xl.flex-row.items-center.justify-between.p-8(class='md:my-16')
+        .flex.w-full.flex-col.space-y-8
+          .flex.w-full.flex-col.space-y-4
+            h1.select-none.font-poppins.text-5xl.font-bold.text-neutral-900 Contributing Policy
+            h3.select-none.font-poppins.text-xl.text-neutral-900 Last Updated 11th Febuary 2024
+          .flex.w-full.flex-col.space-y-4
+            h2.select-none.font-poppins.text-3xl.font-bold.text-neutral-900 How to Contribute to the Repository
+            h3.select-none.font-poppins.text-xl.text-neutral-900 To contribute to this repository, please follow the following steps:
+            h3.select-none.font-poppins.text-xl.text-neutral-900 1. 
+              .select-none.font-poppins.text-xl.text-neutral-900.font-bold Fork 
+              | this repository and edit it on your own repository.
+            h3.select-none.font-poppins.text-xl.text-neutral-900 2. If you would like to have them merged, make a 
+              .select-none.font-poppins.text-xl.text-neutral-900.font-bold pull 
+              | request where my repository matches yours.
+            h3.select-none.font-poppins.text-xl.text-neutral-900 3. I will 
+              .select-none.font-poppins.text-xl.text-neutral-900.font-bold review
+              | your code and pull request information and then decide if I should merge.
+            h3.select-none.font-poppins.text-xl.text-neutral-900.font-bold For more information, please contact me at 
+              a.font-bold(href="mailto:support@thefemdevs.com" target="_blank") this email address
+              | and explain.
+    include ../defaults/footer.pug

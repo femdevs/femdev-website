@@ -13,6 +13,66 @@ router
             }
         );
     })
+    .get('/contributing', (req, res) => {
+        res.render(
+            `oss/contributing.pug`,
+            {
+                meta: {
+                    title: 'Contributing',
+                    desc: 'Contributing',
+                    url: 'https://oss.thefemdevs.com/contributing',
+                }
+            }
+        );
+    })
+    .get('/license', (req, res) => {
+        res.render(
+            `oss/license.pug`,
+            {
+                meta: {
+                    title: 'License',
+                    desc: 'License',
+                    url: 'https://oss.thefemdevs.com/license',
+                }
+            }
+        );
+    })
+    .get('/security', (req, res) => {
+        res.render(
+            `oss/security.pug`,
+            {
+                meta: {
+                    title: 'Security',
+                    desc: 'Security',
+                    url: 'https://oss.thefemdevs.com/security',
+                }
+            }
+        );
+    })
+    .get('/contributors', (req, res) => {
+        res.render(
+            `oss/contributors.pug`,
+            {
+                meta: {
+                    title: 'Contributors',
+                    desc: 'Contributors',
+                    url: 'https://oss.thefemdevs.com/contributors',
+                }
+            }
+        );
+    })
+    .get('/', (req, res) => {
+        res.render(
+            `oss/index.pug`,
+            {
+                meta: {
+                    title: 'Open Source Software',
+                    desc: 'Open Source Software',
+                    url: 'https://oss.thefemdevs.com/',
+                }
+            }
+        );
+    })
     .use((req, res, next) => {
         const { path, method } = req;
         const methodUsed = method.toUpperCase();

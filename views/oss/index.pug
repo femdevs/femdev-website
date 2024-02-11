@@ -1,0 +1,16 @@
+doctype html
+html(lang='en-us')
+  head
+    include ../defaults/header.pug
+  body.bg-neutral-200
+    include ../defaults/nav.pug
+    content.flex.flex-col.items-center.justify-center
+      hero.flex.w-full.max-w-6xl.flex-row.items-center.justify-between.p-8(class='md:my-16')
+        .flex.w-full.flex-col.space-y-4
+          h1.select-none.font-poppins.text-5xl.font-medium.text-neutral-900 Contributing to Open Source
+          h2.select-none.font-poppins.text-3xl.font-medium.text-neutral-900 Introduction
+          h3.select-none.font-poppins.text-xl.text-neutral-900 Here at FemDevs, we believe that code should be open-sourced. With very few exceptions (such as paid commissions), all code should be available to the public. Open-sourced codebases have been shown to be more updated and in reality secure than propriatary codebases which don't allow users to view the code and create public bug fixes. Along with that, it also can help new developers learn how to program. For these reasons and many more, we have made this website open-source on GitHub. To access it, head to our 
+            a(href='https://github.com/femdevs/femdev-website' target='_blank') official website repository 
+            | and follow our guide on 
+            a(href='/oss/contributing') how to contributing to our open source repository.
+    include ../defaults/footer.pug
