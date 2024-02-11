@@ -1,10 +1,11 @@
 const router = require('express').Router()
 require('dotenv').config()
 const { default: StripeSDK } = require('stripe')
-const StripeInstance = new StripeSDK('sk_test_51O2gfrBeqjdZxel2weZc8YAOTGvnj15TCZzoFjr1kuM8nzvpAI7lGsXPW1mqamRXTZ3VWoISpdhTRUtC2v29Nf2l00JHlh2VkX')
+const StripeInstance = new StripeSDK(process.env.STRIPE)
 
 router
     .get('/apiKey', async (req, res) => {
+        const { protocol: p, hostname: h } = req;
         const session = await StripeInstance.checkout.sessions.create({
             mode: 'subscription',
             line_items: [
@@ -35,7 +36,7 @@ router
                     optional: true
                 }
             ],
-            success_url: `${req.protocol}://${req.hostname === 'localhost' ? 'localhost:3000' : 'thefemdevs.com'}/pay/api/token/r/{CHECKOUT_SESSION_ID}`,
+            success_url: `${p}://${h}${h === 'localhost' ? ':3000' : ''}/pay/api/token/r/{CHECKOUT_SESSION_ID}`,
         })
         res.redirect(session.url)
     })

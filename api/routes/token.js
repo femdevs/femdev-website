@@ -1,7 +1,4 @@
 const router = require('express').Router();
-const Cryptolens = require('cryptolens');
-
-const TokenManager = require('../../functions/crypto');
 
 router
     .delete('/delete', async (req, res) => {
@@ -22,7 +19,6 @@ router
         if (tokenRows.length == 0) return res.sendError(9);
         await connection.query(`DELETE FROM public.APITokens WHERE token = '${tokenToDelete}'`)
         await connection.query(`DELETE FROM public.apiUsage WHERE apiToken = '${tokenToDelete}'`)
-        Cryptolens.Key.BlockKey(process.env.CRYPTOLENS_TOKEN, 21956, tokenRows[0].licenseKey)
         res.status(200).json({ message: 'Token deleted' })
         connection.release();
     })
@@ -103,7 +99,6 @@ router
         if (!tokenToDisable) return res.sendError(8);
         const { rows: tokenRows } = await connection.query(`SELECT * FROM public.APITokens WHERE token = '${tokenToDisable}'`)
         if (tokenRows.length == 0) return res.sendError(9);
-        Cryptolens.Key.Deactivate(process.env.CRYPTOLENS_TOKEN, 21956, tokenRows[0].licenseKey, 'Server')
         connection.release();
         res.status(200).json({ message: 'Token disabled' })
         connection.release();
@@ -124,7 +119,6 @@ router
         if (!tokenToEnable) return res.sendError(8);
         const { rows: tokenRows } = await connection.query(`SELECT * FROM public.APITokens WHERE token = '${tokenToEnable}'`)
         if (tokenRows.length == 0) return res.sendError(9);
-        Cryptolens.Key.Activate(process.env.CRYPTOLENS_TOKEN, 21956, tokenRows[0].licenseKey, 'Server')
         connection.release();
         res.status(200).json({ message: 'Token enabled' })
         connection.release();

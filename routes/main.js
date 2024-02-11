@@ -10,7 +10,7 @@ router
             .sort((a, b) => a.id - b.id)
             .forEach((staff, i) => {
                 if (staffRoles[staff.role] == undefined) staffRoles[staff.role] = {}
-                staffRoles[staff.role][i] = { ...staff, avatarUrl: `/assets/images/team/${staff.userid}` }
+                staffRoles[staff.role][i] = { ...staff, avatarUrl: `https://cdn.thefemdevs.com/assets/images/team/${staff.userid}` }
             })
         Object.keys(staffRoles).forEach(role => staffRoles[role].title = role)
         console.dir(staffRoles)

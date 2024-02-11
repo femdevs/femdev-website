@@ -12,9 +12,40 @@
     "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "FemDevs",
+  "author": {
+    "name": "Benjamin",
+    "email": "therealbenpai@gmail.com",
+    "url": "https://sparty18.com"
+  },
+  "contributors": [
+    {
+      "name": "Benjamin",
+      "email": "therealbenpai@gmail.com",
+      "url": "https://sparty18.com"
+    },
+    {
+      "name": "Alex",
+      "email": "alex@thefemdevs.com",
+      "url": "https://auxiliaryfrfr.com"
+    },
+    {
+      "name": "Oblong",
+      "email": "oblong@thefemdevs.com",
+      "url": "https://oblong101.com"
+    }
+  ],
+  "funding": [
+    {
+      "type": "individual",
+      "url": "https://github.com/sponsors/therealbenpai"
+    },
+    {
+      "type": "organization",
+      "url": "https://donate.stripe.com/6oE3ge8OU6hS93OcMM"
+    }
+  ],
   "license": "AGPL-3.0-or-later",
-  "description": "",
+  "description": "The source code for the FemDevs Website",
   "types": "@types/index.d.ts",
   "engines": {
     "node": ">=20.0.0",
