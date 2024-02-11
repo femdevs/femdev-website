@@ -3,12 +3,12 @@ const router = require('express').Router();
 require('dotenv').config();
 
 //- Routes
-const website = require('./routes/main');
-const legal = require('./routes/legal');
-const error = require('./routes/errors');
-const ab = require('./routes/ab');
-const OSSProject = require('../oss/routes/project');
-const Payment = require('./routes/pay/router')
+const website = require('./main');
+const legal = require('./legal');
+const error = require('./errors');
+const ab = require('./ab');
+const OSSProject = require('../../oss/routes/project');
+const Payment = require('./pay/router')
 
 //- Router setup
 router
