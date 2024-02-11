@@ -27,14 +27,14 @@ router
         );
         client.release();
     })
-    .get('/carrers', (req, res) => {
+    .get('/careers', (req, res) => {
         res.render(
-            `main/carrers.pug`,
+            `main/careers.pug`,
             {
                 meta: {
-                    title: 'FemDev Carrers',
+                    title: 'FemDev Careers',
                     desc: 'Join the FemDev Team!',
-                    url: 'https://thefemdevs.com/carrers',
+                    url: 'https://thefemdevs.com/careers',
                 }
             }
         );
