@@ -1,7 +1,5 @@
 const router = require('express').Router();
 
-// Legal Pages including Privacy Policy and Terms and Conditions
-
 router
     .get('/privacy', (req, res) => {
         res

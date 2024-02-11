@@ -134,6 +134,7 @@ app
     .use(vhost('api.thefemdevs.com', require('./api/')))
     .use(vhost('oss.thefemdevs.com', require('./oss/')))
     .use(vhost('cdn.thefemdevs.com', require('./cdn/')))
+    .use(vhost('legal.thefemdevs.com', require('./legal/')))
     .use(vhost('*.thefemdevs.com', require('./core/')))
     .use(vhost('thefemdevs.com', require('./core/')))
     .use(vhost('localhost', require('./core/')))

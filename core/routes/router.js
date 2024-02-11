@@ -4,7 +4,6 @@ require('dotenv').config();
 
 //- Routes
 const website = require('./main');
-const legal = require('./legal');
 const error = require('./errors');
 const ab = require('./ab');
 const Payment = require('./pay/router')
@@ -12,7 +11,6 @@ const Payment = require('./pay/router')
 //- Router setup
 router
     .use('/ab', ab)
-    .use('/legal', legal)
     .use('/error', error)
     .use('/pay', Payment)
     .use('/', website)
