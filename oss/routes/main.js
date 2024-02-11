@@ -1,10 +1,11 @@
 const router = require('express').Router();
 
 router
-    .get('/code-of-conduct', (req, res) => {
+    .get('/code-of-conduct', async (req, res) => {
         res.render(
             `oss/codeOfConduct.pug`,
             {
+                status: (await req.Database.getServerStatus()),
                 meta: {
                     title: 'Code of Conduct',
                     desc: 'Code of Conduct',
@@ -13,10 +14,11 @@ router
             }
         );
     })
-    .get('/contributing', (req, res) => {
+    .get('/contributing', async (req, res) => {
         res.render(
             `oss/contributing.pug`,
             {
+                status: (await req.Database.getServerStatus()),
                 meta: {
                     title: 'Contributing',
                     desc: 'Contributing',
@@ -25,10 +27,11 @@ router
             }
         );
     })
-    .get('/license', (req, res) => {
+    .get('/license', async (req, res) => {
         res.render(
             `oss/license.pug`,
             {
+                status: (await req.Database.getServerStatus()),
                 meta: {
                     title: 'License',
                     desc: 'License',
@@ -37,10 +40,11 @@ router
             }
         );
     })
-    .get('/security', (req, res) => {
+    .get('/security', async (req, res) => {
         res.render(
             `oss/security.pug`,
             {
+                status: (await req.Database.getServerStatus()),
                 meta: {
                     title: 'Security',
                     desc: 'Security',
@@ -49,10 +53,11 @@ router
             }
         );
     })
-    .get('/contributors', (req, res) => {
+    .get('/contributors', async (req, res) => {
         res.render(
             `oss/contributors.pug`,
             {
+                status: (await req.Database.getServerStatus()),
                 meta: {
                     title: 'Contributors',
                     desc: 'Contributors',
@@ -61,10 +66,11 @@ router
             }
         );
     })
-    .get('/', (req, res) => {
+    .get('/', async (req, res) => {
         res.render(
             `oss/index.pug`,
             {
+                status: (await req.Database.getServerStatus()),
                 meta: {
                     title: 'Open Source Software',
                     desc: 'Open Source Software',

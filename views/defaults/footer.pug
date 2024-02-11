@@ -31,16 +31,23 @@ hero.flex.w-full.justify-center.bg-neutral-900.p-12.text-neutral-100
     .flex.flex-row.items-center.justify-between.pt-8
       h2.select-none.font-poppins.text-lg FemDevs &copy; 2024
       .flex.flex-row.items-center.justify-center.space-x-4
-        h2.select-none.font-poppins.text-lg Service Status
         if status == "down"
+          h2.select-none.font-poppins.text-base Service Status: Down
           span.relative.flex.rounded-full.bg-red-500(class="min-h-[12px] min-w-[12px] max-h-[12px] max-w-[12px]")
             span.absolute.flex.animate-ping.rounded-full.bg-red-500(class="min-h-[12px] min-w-[12px] max-h-[12px] max-w-[12px]")
-        else if status == "degrated"
+        else if status == "degraded"
+          h2.select-none.font-poppins.text-base Service Status: Degraded
           span.relative.flex.rounded-full.bg-yellow-500(class="min-h-[12px] min-w-[12px] max-h-[12px] max-w-[12px]")
             span.absolute.flex.animate-ping.rounded-full.bg-yellow-500(class="min-h-[12px] min-w-[12px] max-h-[12px] max-w-[12px]")
         else if status == "maintenance"
+          h2.select-none.font-poppins.text-base Service Status: Maintenance
           span.relative.flex.rounded-full.bg-blue-500(class="min-h-[12px] min-w-[12px] max-h-[12px] max-w-[12px]")
             span.absolute.flex.animate-ping.rounded-full.bg-blue-500(class="min-h-[12px] min-w-[12px] max-h-[12px] max-w-[12px]")
-        else
+        else if status == "up"
+          h2.select-none.font-poppins.text-base Service Status: Up
           span.relative.flex.rounded-full.bg-green-500(class="min-h-[12px] min-w-[12px] max-h-[12px] max-w-[12px]")
             span.absolute.flex.animate-ping.rounded-full.bg-green-500(class="min-h-[12px] min-w-[12px] max-h-[12px] max-w-[12px]")
+        else
+          h2.select-none.font-poppins.text-base Service Status: Unknown
+          span.relative.flex.rounded-full.bg-gray-500(class="min-h-[12px] min-w-[12px] max-h-[12px] max-w-[12px]")
+            span.absolute.flex.animate-ping.rounded-full.bg-gray-500(class="min-h-[12px] min-w-[12px] max-h-[12px] max-w-[12px]")

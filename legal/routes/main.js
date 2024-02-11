@@ -1,7 +1,7 @@
 const router = require('express').Router();
 
 router
-    .get('/privacy', (req, res) => {
+    .get('/privacy', async (req, res) => {
         res
             .setHeader('Max-Age', 60 * 60 * 24 * 30)
             .setHeader('Cache-Control', 'public')
@@ -9,6 +9,7 @@ router
             .render(
                 `legal/privacy.pug`,
                 {
+                    status: (await req.Database.getServerStatus()),
                     meta: {
                         title: 'Privacy Policy',
                         desc: 'Privacy Policy',
@@ -17,7 +18,7 @@ router
                 }
             );
     })
-    .get('/terms', (req, res) => {
+    .get('/terms', async (req, res) => {
         res
             .setHeader('Max-Age', 60 * 60 * 24 * 30)
             .setHeader('Cache-Control', 'public')
@@ -25,6 +26,7 @@ router
             .render(
                 `legal/TaC.pug`,
                 {
+                    status: (await req.Database.getServerStatus()),
                     meta: {
                         title: 'Terms and Conditions',
                         desc: 'Terms and Conditions',
@@ -33,7 +35,7 @@ router
                 }
             );
     })
-    .get('/cookies', (req, res) => {
+    .get('/cookies', async (req, res) => {
         res
             .setHeader('Max-Age', 60 * 60 * 24 * 30)
             .setHeader('Cache-Control', 'public')
@@ -41,6 +43,7 @@ router
             .render(
                 `legal/cookies.pug`,
                 {
+                    status: (await req.Database.getServerStatus()),
                     meta: {
                         title: 'Cookie Policy',
                         desc: 'Cookie Policy',

@@ -8,12 +8,13 @@ router
             .rows
             .filter(staff => staff.isstaff)
             .sort((a, b) => a.id - b.id)
-            .forEach((staff, i) => Object.assign(staffRoles[staff.role],{[i]: {...staff,avatarUrl: `https://cdn.thefemdevs.com/assets/images/team/${staff.userid}`}}))
+            .forEach((staff, i) => Object.assign(staffRoles[staff.role], { [i]: { ...staff, avatarUrl: `https://cdn.thefemdevs.com/assets/images/team/${staff.userid}` } }))
         Object.keys(staffRoles).forEach(role => staffRoles[role].title = role)
         res.render(
             `main/team.pug`,
             {
                 staff: staffRoles,
+                status: (await req.Database.getServerStatus()),
                 meta: {
                     title: 'FemDev Staff Team',
                     desc: 'Meet the FemDev Staff Team!',
@@ -23,10 +24,11 @@ router
         );
         client.release();
     })
-    .get('/careers', (req, res) => {
+    .get('/careers', async (req, res) => {
         res.render(
             `main/careers.pug`,
             {
+                status: (await req.Database.getServerStatus()),
                 meta: {
                     title: 'FemDev Careers',
                     desc: 'Join the FemDev Team!',
@@ -35,10 +37,11 @@ router
             }
         );
     })
-    .get('/branding', (req, res) => {
+    .get('/branding', async (req, res) => {
         res.render(
             `main/branding.pug`,
             {
+                status: (await req.Database.getServerStatus()),
                 meta: {
                     title: 'FemDev Branding',
                     desc: 'FemDev Branding',
@@ -47,10 +50,11 @@ router
             }
         );
     })
-    .get('/products', (req, res) => {
+    .get('/products', async (req, res) => {
         res.render(
             `main/products.pug`,
             {
+                status: (await req.Database.getServerStatus()),
                 meta: {
                     title: 'FemDev Products',
                     desc: 'FemDev Products',
@@ -59,10 +63,11 @@ router
             }
         );
     })
-    .get('/about', (req, res) => {
+    .get('/about', async (req, res) => {
         res.render(
             `main/about.pug`,
             {
+                status: (await req.Database.getServerStatus()),
                 meta: {
                     title: 'About FemDev',
                     desc: 'About us, the FemDevs!',
@@ -71,11 +76,12 @@ router
             }
         );
     })
-    .get('/pds', (req, res) => {
+    .get('/pds', async (req, res) => {
         res.render(
             `main/poland.pug`,
             {
                 file: 'pds',
+                status: (await req.Database.getServerStatus()),
                 meta: {
                     title: 'Poland Destruction Simulator',
                     desc: 'Poland Destruction Simulator Game',
@@ -84,10 +90,11 @@ router
             }
         )
     })
-    .get('/index', (req, res) => {
+    .get('/index', async (req, res) => {
         res.render(
             `main/index.pug`,
             {
+                status: (await req.Database.getServerStatus()),
                 meta: {
                     title: 'FemDevs Home Page',
                     desc: 'The home of the FemDevs!',
@@ -101,10 +108,11 @@ router
         const sanitizedDest = (dest || '/').replace(/[^a-zA-Z0-9-_\.\/]/g, '');
         res.redirect(sanitizedDest);
     })
-    .get(`/`, (req, res) => {
+    .get(`/`, async (req, res) => {
         res.render(
             `main/index.pug`,
             {
+                status: (await req.Database.getServerStatus()),
                 meta: {
                     title: 'FemDevs Home Page',
                     desc: 'The home of the FemDevs!',

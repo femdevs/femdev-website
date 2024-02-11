@@ -67,6 +67,12 @@ class PGDatabase extends events.EventEmitter {
                     })
             })
     }
+    async getServerStatus() {
+        const connection = await this.pool.connect();
+        const status = (await connection.query('SELECT * FROM public.websitestatus')).rows[0];
+        connection.release();
+        return ['unknown', 'up', 'down', 'degraded', 'maintenance'][status.upstatus];
+    }
 }
 
 module.exports = PGDatabase;
