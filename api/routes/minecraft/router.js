@@ -1,5 +1,4 @@
 const router = require('express').Router();
-const { aprilFools } = require('../../../functions/utilities');
 
 const hive = require('./hive');
 const hypixel = require('./hypixel');

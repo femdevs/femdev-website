@@ -1,5 +1,4 @@
 const router = require('express').Router();
-const { aprilFools } = require('../../../functions/utilities');
 
 router
     .all('*', (req, res, next) => {
