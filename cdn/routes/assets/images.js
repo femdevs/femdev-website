@@ -3,33 +3,12 @@ const fs = require('fs');
 
 router
     .get('/icon', (req, res) => {
-        const options = [
-            'lightred',
-            'red',
-            'darkred',
-            'lightorange',
-            'orange',
-            'darkorange',
-            'yellow',
-            'lightgreen',
-            'green',
-            'darkgreen',
-            'lightblue',
-            'blue',
-            'darkblue',
-            'lightpurple',
-            'purple',
-            'darkpurple',
-            'lightpink',
-            'pink',
-            'darkpink',
-            'default'
-        ].map(i => fs.readFileSync(`${process.cwd()}/assets/media/logos/${i}.svg`, { encoding: 'utf-8' }))
+        const options = fs.readdirSync(`${process.cwd()}/assets/media/logos/`)
         res
             .setHeader('Cache-Control', 'no-store')
             .setHeader('Expires', '0')
             .setHeader(`Content-Type`, `image/svg+xml`)
-            .send(options.at(Math.floor(Math.random() * options.length)))
+            .sendFile(`${process.cwd()}/assets/media/logos/${options.at(Math.floor(Math.random() * options.length))}`)
     })
     .get('/icon/:name', (req, res) => {
         res
@@ -52,7 +31,7 @@ router
     .get('/cus', (req, res) => {
         res
             .setHeader('Cache-Control', 'no-store')
-            .setHeader(`Content-Type`, `image/svg+xml`)
+            .setHeader(`Content-Type`, `image/png`)
             .sendFile(`${process.cwd()}/assets/media/images/custom-icon.png`)
     })
     .get('/team/:id', async (req, res) => {
