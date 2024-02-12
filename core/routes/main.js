@@ -4,11 +4,9 @@ router
     .get('/team', async (req, res) => {
         const client = await req.Database.pool.connect()
         let staffRoles = {};
-        (await client.query('SELECT * FROM public.staff'))
-            .rows
-            .filter(staff => staff.isstaff)
-            .sort((a, b) => a.id - b.id)
-            .forEach((staff, i) => Object.assign(staffRoles[staff.role], { [i]: { ...staff, avatarUrl: `https://cdn.thefemdevs.com/assets/images/team/${staff.userid}` } }))
+        const responses = (await client.query('SELECT * FROM public.staff')).rows.filter(staff => staff.isstaff).sort((a, b) => a.id - b.id);
+        responses.forEach(staff => staffRoles[staff.role] = staffRoles[staff.role] || {});
+        responses.forEach((staff, i) => Object.assign(staffRoles[staff.role], { [i]: { ...staff, avatarUrl: `https://cdn.thefemdevs.com/assets/images/team/${staff.userid}` } }))
         Object.keys(staffRoles).forEach(role => staffRoles[role].title = role)
         res.render(
             `main/team.pug`,

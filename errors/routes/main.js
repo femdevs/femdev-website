@@ -1,6 +1,12 @@
 const router = require('express').Router();
 
 router
+    .get('/400', (req, res) => {
+        res.render(
+            `misc/400.pug`,
+            req.getErrPage(400, { path: req.path })
+        )
+    })
     .get(`/401`, (req, res) => {
         res.render(
             `misc/401.pug`,

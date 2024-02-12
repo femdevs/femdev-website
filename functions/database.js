@@ -6,6 +6,7 @@ require('dotenv').config();
 class PGDatabase extends events.EventEmitter {
     constructor() {
         super({ captureRejections: true });
+        /** @type {pg.PoolConfig} */
         this.cfgs = {
             max: 10,
             host: process.env.HOST,

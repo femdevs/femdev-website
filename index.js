@@ -5,6 +5,7 @@ const vhost = require('vhost');
 const crypto = require('crypto');
 const Admin = require('firebase-admin');
 const { RateLimiterMemory } = require('rate-limiter-flexible');
+const fs = require('fs');
 require('dotenv').config();
 
 //- Middleware
@@ -13,8 +14,6 @@ const SM = require('./middleware/session'); //? Session Manager
 const TRACE = require('./middleware/traceHandler'); //? Tracing Middleware
 const RL = require('./middleware/routeLogger'); //? Route Logger
 const Headers = require('./middleware/headers'); //? Header Setter
-const EPR = require('./middleware/errorPages') //? Error Page Renderer
-const four0four = require('./middleware/404'); //? 404 Handler
 const errPages = require('./middleware/errpages'); //? Error Pages
 
 const reqLogs = [];
@@ -64,6 +63,9 @@ const AdminApp = Admin.initializeApp({
 })
 
 const Database = new (require('./functions/database'))();
+
+const robotstxt = fs.readFileSync(`${process.cwd()}/metadata/robots.txt`, 'utf-8');
+const sitemap = fs.readFileSync(`${process.cwd()}/metadata/sitemap.xml`, 'utf-8');
 
 setInterval(_ => (!reqLogs[0]) ? null : Database.emit('access', reqLogs.shift()), 500)
 
@@ -130,20 +132,12 @@ app
     .use(TRACE)
     .use(Headers)
     .use(cors(CORSPerms))
-    .get(`/robots.txt`, (_, res) => {
-        res
-            .sendFile(`${process.cwd()}/metadata/robots.txt`)
-    })
-    .get(`/sitemap`, (_, res) => {
-        res
-            .setHeader(`Content-Type`, `text/xml`)
-            .sendFile(`${process.cwd()}/metadata/sitemap.xml`)
-    })
+    .get(`/robots.txt`, (_, res) => {res.setHeader(`Content-Type`, `text/plain`).send(robotstxt)})
+    .get(`/sitemap`, (_, res) => {res.setHeader(`Content-Type`, `text/xml`).send(sitemap)})
     .use(vhost('api.thefemdevs.com', require('./api/')))
     .use(vhost('oss.thefemdevs.com', require('./oss/')))
     .use(vhost('cdn.thefemdevs.com', require('./cdn/')))
     .use(vhost('legal.thefemdevs.com', require('./legal/')))
-    .use(vhost('ab.thefemdevs.com', require('./ab/')))
     .use(vhost('errors.thefemdevs.com', require('./errors/')))
     .use(vhost('pay.thefemdevs.com', require('./payment/')))
     .use(vhost('*.thefemdevs.com', require('./core/')))
@@ -164,8 +158,17 @@ app
             req.getErrPage(405, { path, allowedMethods, methodUsed })
         );
     })
-    .use(EPR)
-    .use(four0four);
+    .use((err, req, res, next) => {
+        console.log(err)
+        res
+            .status(501)
+            .setHeader('X-Error-ID', '')
+            .render(
+                `misc/501.pug`,
+                req.getErrPage(501, { errorId: '' })
+            )
+    })
+    .use((req, res, _) => () => res.status(404).render(`misc/404.pug`, req.getErrPage(404, { path: req.path })));
 
 const server = http
     .createServer(app)
