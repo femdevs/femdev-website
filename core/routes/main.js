@@ -55,7 +55,7 @@ router
                 status: (await req.Database.getServerStatus()),
                 meta: {
                     title: 'FemDev Products',
-                    desc: 'FemDev Products',
+                    desc: 'The products we offer here at the FemDevs!',
                     url: 'https://thefemdevs.com/products',
                 }
             }

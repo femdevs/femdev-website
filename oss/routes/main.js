@@ -8,7 +8,7 @@ router
                 status: (await req.Database.getServerStatus()),
                 meta: {
                     title: 'Code of Conduct',
-                    desc: 'Code of Conduct',
+                    desc: 'FemDevs Website Code of Conduct',
                     url: 'https://oss.thefemdevs.com/code-of-conduct',
                 }
             }
@@ -21,7 +21,7 @@ router
                 status: (await req.Database.getServerStatus()),
                 meta: {
                     title: 'Contributing',
-                    desc: 'Contributing',
+                    desc: 'How to Contribute to the FemDevs Website',
                     url: 'https://oss.thefemdevs.com/contributing',
                 }
             }
@@ -34,7 +34,7 @@ router
                 status: (await req.Database.getServerStatus()),
                 meta: {
                     title: 'License',
-                    desc: 'License',
+                    desc: 'FemDevs Website License',
                     url: 'https://oss.thefemdevs.com/license',
                 }
             }
@@ -47,7 +47,7 @@ router
                 status: (await req.Database.getServerStatus()),
                 meta: {
                     title: 'Security',
-                    desc: 'Security',
+                    desc: 'FemDevs Website Security Policy',
                     url: 'https://oss.thefemdevs.com/security',
                 }
             }
@@ -60,7 +60,7 @@ router
                 status: (await req.Database.getServerStatus()),
                 meta: {
                     title: 'Contributors',
-                    desc: 'Contributors',
+                    desc: 'Contributors to the FemDevs Website',
                     url: 'https://oss.thefemdevs.com/contributors',
                 }
             }
@@ -73,7 +73,7 @@ router
                 status: (await req.Database.getServerStatus()),
                 meta: {
                     title: 'Open Source Software',
-                    desc: 'Open Source Software',
+                    desc: 'FemDevs Open Source Software Homepage',
                     url: 'https://oss.thefemdevs.com/',
                 }
             }

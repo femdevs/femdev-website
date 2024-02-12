@@ -16,12 +16,6 @@ router
     .get(`/o/:file`, (req, res) => {
         res.sendFile(`${process.cwd()}/assets/scripts/Other/${req.params.file}`);
     })
-    .get('/ga', (req, res) => {
-        res
-            .setHeader('Content-Type', 'application/javascript')
-            .setHeader('Cache-Control', 'public, max-age=31536000')
-            .sendFile(`${process.cwd()}/assets/scripts/Other/GoogleAnalytics.min.js`);
-    })
     .use((req, res, next) => {
         const { path, method } = req;
         const methodUsed = method.toUpperCase();

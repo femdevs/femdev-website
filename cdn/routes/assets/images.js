@@ -27,6 +27,7 @@ router
         ].map(i => fs.readFileSync(`${process.cwd()}/assets/media/logos/${i}.svg`, { encoding: 'utf-8' }))
         res
             .setHeader('Cache-Control', 'no-store')
+            .setHeader('Expires', '0')
             .setHeader(`Content-Type`, `image/svg+xml`)
             .send(options.at(Math.floor(Math.random() * options.length)))
     })
