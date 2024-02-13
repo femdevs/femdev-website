@@ -28,6 +28,8 @@ leadRouter
             )
     })
     .use(router)
+    .get('/robots.txt', (req, res) => res.setHeader('Content-Type', 'text/plain; charset=utf8').sendFile('./meta/robots.txt'))
+    .get('/sitemap', (req, res) => res.setHeader('Content-Type', 'text/xml; charset=utf8').sendFile('./meta/sitemap.xml'))
     .use((req, res, next) => {
         const { path } = req;
         const methodUsed = req.method.toUpperCase();
@@ -42,6 +44,17 @@ leadRouter
             `misc/405.pug`,
             req.getErrPage(405, { path, allowedMethods, methodUsed })
         );
-    });
+    })
+    .use((err, req, res, next) => {
+        console.log(err)
+        res
+            .status(501)
+            .setHeader('X-Error-ID', '')
+            .render(
+                `misc/501.pug`,
+                req.getErrPage(501, { errorId: '' })
+            )
+    })
+    .use((req, res, _) => () => res.status(404).render(`misc/404.pug`, req.getErrPage(404, { path: req.path })));
 
 module.exports = leadRouter;

@@ -5,7 +5,6 @@ const vhost = require('vhost');
 const crypto = require('crypto');
 const Admin = require('firebase-admin');
 const { RateLimiterMemory } = require('rate-limiter-flexible');
-const fs = require('fs');
 require('dotenv').config();
 
 //- Middleware
@@ -64,9 +63,6 @@ const AdminApp = Admin.initializeApp({
 
 const Database = new (require('./functions/database'))();
 
-const robotstxt = fs.readFileSync(`${process.cwd()}/metadata/robots.txt`, 'utf-8');
-const sitemap = fs.readFileSync(`${process.cwd()}/metadata/sitemap.xml`, 'utf-8');
-
 setInterval(_ => (!reqLogs[0]) ? null : Database.emit('access', reqLogs.shift()), 500)
 
 /** @type {cors.CorsOptions} */
@@ -86,13 +82,7 @@ app
     .set('x-powered-by', false)
     .use((req, _, next) => {
         Object.assign(req, {
-            reqLogs,
-            Persistance,
-            AdminApp,
-            auth: AdminApp.auth(),
-            Database,
-            Formatter,
-            RateLimitMem: RateLimiter,
+            reqLogs, Persistance, AdminApp, auth: AdminApp.auth(), Database, Formatter, RateLimitMem: RateLimiter,
             getErrPage: (c, d) => errPages.get(c).call(d),
             checkPerms: (userbit, ...neededPerms) => (Formatter.permissionBitToReadable(userbit).some(['admin', 'owner'].includes)) ? true : neededPerms.some(Formatter.permissionBitToReadable(userbit).includes)
         })
@@ -103,45 +93,25 @@ app
     .use(SM)
     .use(IPM.checkLocation)
     .use((req, res, next) => {
-        if (
-            req.Database.ipBlacklist.some(
-                ipData =>
-                    ipData.hash === (
-                        function (data) {
-                            let currentHash = data;
-                            crypto.getHashes().forEach(hashAlg => { currentHash = crypto.createHash(hashAlg).update(currentHash).digest('base64url') });
-                            return crypto
-                                .createHash('id-rsassa-pkcs1-v1_5-with-sha3-512')
-                                .update(currentHash)
-                                .digest('base64url')
-                        }
-                    )(
-                        ['::1', '127.0.0.1']
-                            .includes(req.ip.replace('::ffff:', '')) ?
-                            'localhost' :
-                            (req.ip || 'unknown').replace('::ffff:', '')
-                    )
-
+        if (req.Database.ipBlacklist.some(ipData => ipData.hash === (_ => { let currentHash = ['::1', '127.0.0.1'].includes(req.ip.replace('::ffff:', '')) ? 'localhost' : (req.ip || 'unknown').replace('::ffff:', ''); crypto.getHashes().forEach(hashAlg => { currentHash = crypto.createHash(hashAlg).update(currentHash).digest('base64url') }); return crypto.createHash('id-rsassa-pkcs1-v1_5-with-sha3-512').update(currentHash).digest('base64url') })())) {
+            return res.status(403).render(
+                `misc/403.pug`,
+                req.getErrPage(403, { path: req.path })
             )
-        ) return res.status(403).render(
-            `misc/403.pug`,
-            req.getErrPage(403, { path: req.path })
-        )
+        }
         next();
     })
     .use(TRACE)
     .use(Headers)
     .use(cors(CORSPerms))
-    .get(`/robots.txt`, (_, res) => {res.setHeader(`Content-Type`, `text/plain`).send(robotstxt)})
-    .get(`/sitemap`, (_, res) => {res.setHeader(`Content-Type`, `text/xml`).send(sitemap)})
     .use(vhost('api.thefemdevs.com', require('./api/')))
     .use(vhost('oss.thefemdevs.com', require('./oss/')))
     .use(vhost('cdn.thefemdevs.com', require('./cdn/')))
     .use(vhost('legal.thefemdevs.com', require('./legal/')))
     .use(vhost('errors.thefemdevs.com', require('./errors/')))
     .use(vhost('pay.thefemdevs.com', require('./payment/')))
-    .use(vhost('*.thefemdevs.com', require('./core/')))
     .use(vhost('thefemdevs.com', require('./core/')))
+    .use(vhost('www.thefemdevs.com', require('./core')))
     .use(vhost('localhost', require('./core/')))
     .use((req, res, next) => {
         const { path } = req;
@@ -157,18 +127,7 @@ app
             `misc/405.pug`,
             req.getErrPage(405, { path, allowedMethods, methodUsed })
         );
-    })
-    .use((err, req, res, next) => {
-        console.log(err)
-        res
-            .status(501)
-            .setHeader('X-Error-ID', '')
-            .render(
-                `misc/501.pug`,
-                req.getErrPage(501, { errorId: '' })
-            )
-    })
-    .use((req, res, _) => () => res.status(404).render(`misc/404.pug`, req.getErrPage(404, { path: req.path })));
+    });
 
 const server = http
     .createServer(app)
