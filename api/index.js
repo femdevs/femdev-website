@@ -28,8 +28,6 @@ leadRouter
             )
     })
     .use(router)
-    .get('/robots.txt', (req, res) => res.setHeader('Content-Type', 'text/plain; charset=utf8').sendFile(`${__dirname}/meta/robots.txt`))
-    .get('/sitemap', (req, res) => res.setHeader('Content-Type', 'text/xml; charset=utf8').sendFile(`${__dirname}/meta/sitemap.xml`))
     .use((req, res, next) => {
         const { path } = req;
         const methodUsed = req.method.toUpperCase();

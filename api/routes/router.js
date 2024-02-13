@@ -35,6 +35,8 @@ const axiosReq = async (url, cfgs) => {
 router
     .use((req, res, next) => { req.axiosReq = axiosReq; res.sendError = (code) => res.status(errorResponse(code).httpCode).json({ code: errorResponse(code).code, message: errorResponse(code).message }); next(); })
     .get('/', (req, res) => res.redirect(301, 'https://docs.api.thefemdevs.com'))
+    .get('/robots.txt', (req, res) => res.setHeader('Content-Type', 'text/plain; charset=utf8').sendFile(`${__dirname}/meta/robots.txt`))
+    .get('/sitemap', (req, res) => res.setHeader('Content-Type', 'text/xml; charset=utf8').sendFile(`${__dirname}/meta/sitemap.xml`))
     .use(APIAuth)
     .use(express.json())
     .use('/user', user)
