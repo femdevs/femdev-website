@@ -77,7 +77,7 @@ body::-webkit-scrollbar {
 }
 
 body::-webkit-scrollbar-track {
-    background: #f1f1f1;
+    background: #f9b;
 }
 
 body::-webkit-scrollbar-thumb {
@@ -280,31 +280,6 @@ header {
 }
 
 @media only screen and (max-width: 768px) {
-    .menu-icon {
-        display: block;
-    }
-
-    .menu {
-        display: none;
-        position: absolute;
-        top: 60px;
-        left: 20px;
-        flex-direction: column;
-        background-color: rgba(255, 255, 255, 0.9);
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        padding: 10px 0;
-        border-radius: 5px;
-        backdrop-filter: blur(10px);
-    }
-
-    .menu.active {
-        display: flex;
-    }
-
-    .menu li {
-        margin: 10px 0;
-    }
-
     .social-icons {
         display: grid;
         justify-content: space-evenly;
