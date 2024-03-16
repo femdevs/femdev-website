@@ -8,7 +8,7 @@ class WebSecurity {
                 corsStr += `'none'; `;
                 continue;
             }
-            if (fValue.inititives.length > 0) corsStr += ` ${fValue.inititives.join(' ')}`;
+            if (fValue.inititives.length > 0) corsStr += ` ${fValue.inititives.map(i => `'${i}'`).join(' ')}`
             if (fValue.self) corsStr += ` 'self'`;
             if (fValue.wildcard) corsStr += ` *`;
             if (fValue.domains.length > 0) corsStr += ` ${fValue.domains.join(' ')}`;
