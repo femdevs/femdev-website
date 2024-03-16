@@ -45,7 +45,7 @@ const CORS = (data) => {
                     '*.fontawesome.com',
                     'blob:'
                 ],
-                inititives: ['unsafe-inline']
+                inititives: ['unsafe-inline', 'unsafe-eval']
             },
             styleSrc: {
                 self: true,
@@ -55,7 +55,7 @@ const CORS = (data) => {
                     'fontawesome.com',
                     '*.fontawesome.com',
                 ],
-                inititives: ['unsafe-inline']
+                inititives: ['unsafe-inline', 'unsafe-eval']
             },
             imgSrc: {wildcard: true},
             fontSrc: {wildcard: true},

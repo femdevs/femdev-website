@@ -325,7 +325,3 @@ html(lang="en")
         Additionaly, although I'm not great at it, I love playing the piano.
         I also love spending my free time either watching movies or films, or playing video games
         As well as socializing with friends and hanging out :D
-    script.
-      const q = (el) => document.querySelector(el);
-      window.onload = () => setTimeout(() => { q('.loading-screen').classList.add('fade-out'); q('.loading-screen').addEventListener('transitionend', () => { q('.loading-screen').style.display = 'none' }) }, 2000);
-      q('.menu-icon').addEventListener('click', () => { q('.header-menu').classList.toggle('open'); q('.menu').classList.toggle('active') });
