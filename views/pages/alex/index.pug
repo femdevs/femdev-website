@@ -11,6 +11,7 @@ html(lang="en")
     meta(property="og:type" content="website")
     link(rel="icon" href="/cdn/img/webicon.png" type="image/x-icon")
     link(href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600&display=swap" rel="stylesheet" type="text/css")
+    link(rel="stylesheet" href="/cdn/css/index.css" type="text/css")
     script(src="https://kit.fontawesome.com/7cffc2ccb5.js" crossorigin="anonymous")
     script.
       const q = (e) => document.querySelector(e);
@@ -35,252 +36,6 @@ html(lang="en")
           "name": "The FemDevs"
         }
       }
-    style.
-      body,
-      h1,
-      h2 {
-        margin: 0;
-        padding: 0;
-        font-family: 'Nunito', sans-serif;
-        font-size: 18px;
-      }
-
-      .loading-screen {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(255, 192, 203, 0.8);
-        backdrop-filter: blur(20px);
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        z-index: 9999;
-        opacity: 1;
-        transition: opacity 2s ease-in-out;
-      }
-
-      .loading-screen img {
-        max-width: 150px;
-        height: auto;
-        margin-bottom: 20px;
-      }
-
-      .loading-screen p {
-        font-size: 20px;
-        margin-top: 10px;
-      }
-
-      .loading-content {
-        opacity: 0;
-        animation: fade-in 2s ease-in-out forwards;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        text-align: center;
-      }
-
-      @keyframes fade-in {
-        0% {
-          opacity: 0;
-        }
-
-        100% {
-          opacity: 1;
-        }
-      }
-
-      .loading-screen.fade-out {
-        opacity: 0;
-        animation: fade-out 2s ease-in-out forwards;
-      }
-
-      @keyframes fade-out {
-        0% {
-          opacity: 1;
-        }
-
-        100% {
-          opacity: 0;
-          display: none;
-        }
-      }
-
-      /* Styling for Chrome, Safari, and newer Edge */
-      body::-webkit-scrollbar {
-        width: 12px;
-      }
-
-      body::-webkit-scrollbar-track {
-        background: #f1f1f1;
-      }
-
-      body::-webkit-scrollbar-thumb {
-        background-color: #888;
-        border-radius: 6px;
-      }
-
-      /* Styling for Firefox */
-      body {
-        scrollbar-width: thin;
-        scrollbar-color: #888 #f1f1f1;
-      }
-
-      h1 {
-        font-size: 28px;
-      }
-
-      h2 {
-        font-size: 24px;
-      }
-
-      header {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        background-color: #ffc0cb;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        z-index: 1000;
-        text-align: center;
-      }
-
-      .header-menu {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(255, 192, 203, 0.8);
-        backdrop-filter: blur(10px);
-        z-index: 1000;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: flex-start;
-        padding-left: 20px;
-        transition: background-color 0.3s, backdrop-filter 0.3s;
-      }
-
-      .header-menu.open {
-        background-color: transparent;
-        backdrop-filter: none;
-      }
-
-      .menu-icon {
-        display: none;
-        cursor: pointer;
-      }
-
-      .menu-icon .bar {
-        display: block;
-        width: 25px;
-        height: 3px;
-        margin: 5px 0;
-        background-color: #fff;
-      }
-
-      .menu {
-        list-style: none;
-        display: flex;
-        justify-content: center;
-      }
-
-      .menu li {
-        margin: 0 20px;
-      }
-
-      .menu a {
-        text-decoration: none;
-        color: #fff;
-        font-weight: bold;
-        font-size: 20px;
-      }
-
-      #socials,
-      #femdevs,
-      #language,
-      #interests {
-        padding: 25px 0;
-        text-align: center;
-        background-color: rgba(255, 192, 203, 0.8);
-        font-size: 24px;
-        color: rgba(0, 0, 0, 1);
-      }
-
-      #main {
-        padding: 75px 0;
-        text-align: center;
-        background-color: rgba(255, 192, 203, 0.8);
-        font-size: 24px;
-      }
-
-      .social-icons {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        margin-top: 20px;
-      }
-
-      .social-icons > a {
-        width: 80px;
-        height: 80px;
-        border-radius: 50%;
-        margin: 0 10px;
-        transition: transform 0.3s;
-        color: inherit;
-        padding: 0px 8px;
-        border: 1px solid transparent;
-        border-radius: 10%;
-        text-decoration: none;
-      }
-
-      .social-icons a:first-child {
-        margin-left: 0;
-      }
-
-      .social-icons:last-child {
-        margin-right: 0;
-      }
-
-      .social-icons a:hover {
-        transform: scale(1.1);
-        background-color: #FF1493;
-      }
-
-      .txt {
-        font-family: 'Nunito', sans-serif;
-      }
-
-      @media only screen and (max-width: 768px) {
-        .menu-icon {
-          display: block;
-        }
-
-        .menu {
-          display: none;
-          position: absolute;
-          top: 60px;
-          left: 20px;
-          flex-direction: column;
-          background-color: rgba(255, 255, 255, 0.9);
-          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-          padding: 10px 0;
-          border-radius: 5px;
-          backdrop-filter: blur(10px);
-        }
-
-        .menu.active {
-          display: flex;
-        }
-
-        .menu li {
-          margin: 10px 0;
-        }
-      }
   body
     .loading-screen
       .loading-content
@@ -303,45 +58,47 @@ html(lang="en")
             a(href="#language") Language
           li
             a(href="#interests") Interests
-    section#main
+    section#main.sect
       h1 Hai, I'm Alex! :3 (She/They)
       p A 16 year old, transgender, pansexual person with lots of passion and enthusiasm. Learn even more about me below!
-    section#socials
+    section#socials.sect
       h2 Connect with Me
       p You can find most of my socials here, if you're interested in contacting me
       .social-icons
-        a(href="https://discord.com/users/1112774630416076850").fab.fa-discord
-          p.txt Discord
-        a(href="https://www.instagram.com/auxiliaryfrfr/").fab.fa-instagram
-          p.txt Instagram
-        a(href="https://github.com/auxiliaryfrfr").fab.fa-github
-          p.txt Github
-        a(href="https://open.spotify.com/user/31a3c3jitxf3fde24p5ohiqfrmnm").fab.fa-spotify
-          p.txt Spotify
-        a(href="https://twitter.com/auxiliaryfrfr").fab.fa-twitter
-          p.txt Twitter
-        a(href="https://thefemdevs.com").fas.fa-users
-          p.txt FemDevs
-        a(href="https://en.pronouns.page/@auxiliaryfrfr").fas.fa-users
-          p.txt Pronouns Page
-        a(href="https://www.youtube.com/channel/UCfK45ILqng9SMe7EcCzd57g").fab.fa-youtube
-          p.txt Youtube
-        a(href="https://www.snapchat.com/add/auxiliaryfrfr").fab.fa-snapchat
-          p.txt Snapchat
-        a(href="https://www.last.fm/user/auxiliaryfrfr").fab.fa-lastfm
-          p.txt Last.fm
-        a(href="https://www.threads.net/@auxiliaryfrfr").fab.fa-threads
-          p.txt Threads
-        a(href="mailto:alex@thefemdevs.com").fas.fa-envelope
-          p.txt Email
-    section#femdevs
+        .row
+          a(href="https://discord.com/users/1112774630416076850").fab.fa-discord
+            p.txt Discord
+          a(href="https://www.instagram.com/auxiliaryfrfr/").fab.fa-instagram
+            p.txt Instagram
+          a(href="https://github.com/auxiliaryfrfr").fab.fa-github
+            p.txt Github
+          a(href="https://open.spotify.com/user/31a3c3jitxf3fde24p5ohiqfrmnm").fab.fa-spotify
+            p.txt Spotify
+          a(href="https://twitter.com/auxiliaryfrfr").fab.fa-twitter
+            p.txt Twitter
+          a(href="https://thefemdevs.com").fas.fa-users
+            p.txt FemDevs
+        .row
+          a(href="https://en.pronouns.page/@auxiliaryfrfr").fas.fa-users
+            p.txt Pronouns Page
+          a(href="https://www.youtube.com/channel/UCfK45ILqng9SMe7EcCzd57g").fab.fa-youtube
+            p.txt Youtube
+          a(href="https://www.snapchat.com/add/auxiliaryfrfr").fab.fa-snapchat
+            p.txt Snapchat
+          a(href="https://www.last.fm/user/auxiliaryfrfr").fab.fa-lastfm
+            p.txt Last.fm
+          a(href="https://www.threads.net/@auxiliaryfrfr").fab.fa-threads
+            p.txt Threads
+          a(href="mailto:alex@thefemdevs.com").fas.fa-envelope
+            p.txt Email
+    section#femdevs.sect
       h2 FemDevs
       p
         | My journey extends into the world of entrepreneurship. As a co-owner of 
         strong
           a(href="https://thefemdevs.com") FemDevs, 
         | along with my fellow owners, colleagues, and most importantly, friends, Oblong and Ben. I'm committed to helping talented individuals, regardless of gender, to thrive in the tech industry.
-    section#language
+    section#language.sect
       h2 Language Proficiency
       p
         | Beyond coding, I'm also talented in many other areas, like language.
@@ -350,8 +107,7 @@ html(lang="en")
         strong
           a(href="https://en.pronouns.page/") Pronouns Page 
         | team, I contribute my expertise as an Arabic translator, to make it more inclusive and diverse.
-
-    section#interests
+    section#interests.sect
       h2 General Interests
       p.
         I have loved cooking, and the culinary world since I was child.
