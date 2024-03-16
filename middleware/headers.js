@@ -13,7 +13,7 @@ const CORS = (data) => {
         if (fValue.self) corsStr += ` 'self'`;
         corsStr += `; `;
     }
-    return corsStr.slice(0, -2);
+    return corsStr.slice(0, -1);
 }
 
 
@@ -41,7 +41,8 @@ const CORS = (data) => {
                     '*.sentry-cdn.com',
                     'sentry-cdn.com',
                     '*.thefemdevs.com',
-                    'kits.fontawesome.com',
+                    'fontawesome.com',
+                    '*.fontawesome.com',
                     'blob:'
                 ],
                 inititives: ['unsafe-inline']
@@ -50,7 +51,9 @@ const CORS = (data) => {
                 self: true,
                 domains: [
                     'fonts.googleapis.com',
-                    'cdn.thefemdevs.com'
+                    'cdn.thefemdevs.com',
+                    'fontawesome.com',
+                    '*.fontawesome.com',
                 ],
                 inititives: ['unsafe-inline']
             },
