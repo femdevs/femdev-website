@@ -1,0 +1,13 @@
+User-agent: Teoma
+User-agent: Gigabot
+User-agent: Robozilla
+User-agent: Nutch
+User-agent: baiduspider
+User-agent: naverbot
+User-agent: yeti
+User-agent: yahoo-mmcrawler
+User-agent: yahoo-blogs/v3.9
+Disallow: /
+User-Agent: *
+Crawl-delay: 20
+Sitemap: https://legal.thefemdevs.com/sitemap
