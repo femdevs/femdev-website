@@ -13,8 +13,3 @@
     font-family: "tenoriteBold";
     src: url(../fonts/tenoriteBold.ttf);
 }
-
-.fade-out {
-    opacity: 0;
-    animation: fade-out 2s ease-in-out forwards;
-}
