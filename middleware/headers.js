@@ -3,17 +3,17 @@ class WebSecurity {
     static CSP(CSPs) {
         let corsStr = '';
         for (const info of Array.from(CSPs)) {
-            corsStr += `${info.key.replace(/([A-Z])/g, '-$1').toLowerCase()}`;
+            corsStr += ` ${info.key.replace(/([A-Z])/g, '-$1').toLowerCase()}`;
             const v = info.getOptions();
             if (v.none) {
-                corsStr += `'none'; `;
+                corsStr += ` 'none';`;
                 continue;
             }
             if (v.inititives.length > 0) corsStr += ` ${v.inititives.map(i => `'${i}'`).join(' ')}`
             if (v.self) corsStr += ` 'self'`;
             if (v.wildcard) corsStr += ` *`;
             if (v.domains.length > 0) corsStr += ` ${v.domains.join(' ')}`;
-            corsStr += `; `;
+            corsStr += `;`;
         }
         return corsStr.trim();
     }
@@ -92,7 +92,8 @@ const CSPs = new Set()
     .add(new CSPObj('baseUri', { self: true }))
     .add(new CSPObj('manifestSrc', { self: true }))
     .add(new CSPObj('requireTrustedTypesFor', { inititives: ['script'] }))
-    .add(new CSPObj('report-to', { domains: ['csp'] }));
+    .add(new CSPObj('reportTo', { domains: ['csp'] }))
+    .add(new CSPObj('reportUri', { domains: ['security.thefemdevs.com/csp/new'] }));
 
 /** @type {import('express').RequestHandler} */
 module.exports = (req, res, next) => {
