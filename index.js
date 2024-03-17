@@ -111,6 +111,7 @@ app
     .use(vhost('legal.thefemdevs.com', require('./web/legal/')))
     .use(vhost('errors.thefemdevs.com', require('./web/errors/')))
     .use(vhost('pay.thefemdevs.com', require('./web/payment/')))
+    .use(vhost('security.thefemdevs.com', require('./web/security/')))
     .use(vhost('thefemdevs.com', require('./web/core/')))
     .use(vhost('www.thefemdevs.com', require('./web/core')))
     .use(vhost('localhost', require('./web/core/')))

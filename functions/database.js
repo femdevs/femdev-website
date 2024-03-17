@@ -1,7 +1,10 @@
 const pg = require('pg');
 const cron = require('node-cron');
+const SQL = require('sql-template-strings');
 const events = require('events');
 require('dotenv').config();
+
+const Security = require('./security');
 
 class PGDatabase extends events.EventEmitter {
     constructor() {
@@ -51,10 +54,8 @@ class PGDatabase extends events.EventEmitter {
             })
             .on('user', (data) => {
                 this.pool.connect().then(connection => {
-                    connection.query(
-                        `INSERT INTO public.users (firebaseuid, displayname, firstname, lastname, email, permissions) VALUES ($1, $2, $3, $4, $5, $6)`,
-                        [data.uid, data.displayName, data.firstname, data.lastname, data.email, data.permissions]
-                    ).catch(console.error)
+                    const { uid, displayName: dn, firstname: fn, lastname: ln, email, permissions: perms } = data;
+                    connection.query(SQL`INSERT INTO public.users(firebaseuid, displayname, firstname, lastname, email, permissions) VALUES (${uid}, ${dn}, ${fn}, ${ln}, ${email}, ${perms})`).catch(console.error)
                     connection.release();
                 })
             })
@@ -73,6 +74,15 @@ class PGDatabase extends events.EventEmitter {
         const status = (await connection.query('SELECT * FROM public.websitestatus')).rows[0];
         connection.release();
         return ['unknown', 'up', 'down', 'degraded', 'maintenance'][status.upstatus];
+    }
+
+    /** @param {Security.CSPReport} data */
+    async SaveCSPReport(data) {
+        const connection = await this.pool.connect();
+        await connection.query(
+            SQL`INSERT INTO public.cspreports (blockeduri, documenturi, disposition, effectivedirective, violateddirective, originalpolicy, referrer, statuscode, samplescript, ts, repid) VALUES (${data.blockedURI}, ${data.documentURI}, ${data.disposition}, ${data.effectiveDirective}, ${data.violatedDirective}, ${data.originalPolicy}, ${data.referrer}, ${data.statusCode}, ${data.scriptSample}, ${data.timestamp}, ${data.reportId})`
+        )
+        connection.release();
     }
 }
 
