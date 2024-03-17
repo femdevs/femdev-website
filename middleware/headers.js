@@ -17,7 +17,7 @@ class WebSecurity {
         ['Access-Control-Max-Age', accessControl.maxAge || 0],
         ['Access-Control-Allow-Origin', accessControl.allowOrigin || '*'],
         ['Access-Control-Allow-Credentials', accessControl.allowCredentials ?? false],
-        ['Cross-Origin-Opener-Policy', crossOrigin.openerPolicy || 'same-origin'],
+        ['Cross-Origin-Opener-Policy', crossOrigin.openerPolicy || 'cross-origin'],
         ['Cross-Origin-Resource-Policy', crossOrigin.resourcePolicy || 'cross-origin'],
         ['Cross-Origin-Embedder-Policy', crossOrigin.embedderPolicy || 'require-corp']
     ];
