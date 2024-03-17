@@ -132,19 +132,6 @@ header {
     backdrop-filter: none;
 }
 
-.menu-icon {
-    display: none;
-    cursor: pointer;
-}
-
-.menu-icon .bar {
-    display: block;
-    width: 25px;
-    height: 3px;
-    margin: 5px 0;
-    background-color: #fff;
-}
-
 .menu {
     list-style: none;
     display: flex;
