@@ -1,7 +1,7 @@
 const router = require('express').Router();
 
 router
-    .get('/', async (_, res) => res.render(
+    .get('/', async (req, res) => res.render(
         'pages/ben/index.pug',
         {
             status: (await req.Database.getServerStatus()),
