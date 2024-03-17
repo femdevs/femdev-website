@@ -15,7 +15,6 @@ html(lang="en")
     script(src="https://kit.fontawesome.com/7cffc2ccb5.js" crossorigin="anonymous")
     script.
       const q = (e) => document.querySelector(e);
-      window.onload = () => ;
     script(type="application/ld+json").
       {
         "@context": "https://schema.org/",
@@ -33,13 +32,7 @@ html(lang="en")
           "name": "The FemDevs"
         }
       }
-  body.font-nanito.p-0.m-0.text-lg(
-    onload="setTimeout(()=>{document.querySelector('.loading-screen').classList.add('fade-out');document.querySelector('.loading-screen').addEventListener('transitionend',()=>{document.querySelector('.loading-screen').style.display = 'none'})},2000)" 
-    )
-    .loading-screen.fixed.top-0.left-0.w-max.h-max.bg-rose-200.backdrop-blur-xl.flex.flex-col.items-center.justify-center.z-50.opacity-100.transition-opacity.duration-1000.ease-in-out.delay-1000
-      .loading-content(class="animate-[fade-in_2000ms_ease-in-out_forwards] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2").opacity-0.absolute
-        img(src="/cdn/img/webicon.png" alt="Astolfo").max-w-40.h-auto.mb-5
-        p.text-xl(class="mt-2.5") Welcome to alex.thefemdevs.com!
+  body.font-nunito.p-0.m-0.text-lg
     header.fixed.top-0.left-0.w-full.z-40.bg-rose-200.shadow-md.text-center
       nav
         ul.menu.list-none.flex.justify-center
@@ -64,40 +57,40 @@ html(lang="en")
         )
         .justify-evenly.align-center.w-full.h-full.flex(class="p-[3px]")
           a(href="https://discord.com/users/1112774630416076850" title="Discord User" class="hover:scale-110 hover:bg-rose-500").fab.fa-discord.transition-all.duration-300.text-inherit.p-0.border-1.border-solid.border-transparent.rounded-3xl.no-underline.align-center.justify-center.h-7xl.w-7xl.flex.flex-col
-            p.txt.font-nanito.p-0.m-0 Discord
+            p.font-nunito.p-0.m-0 Discord
         .justify-evenly.align-center.w-full.h-full.flex(class="p-[3px]")
           a(href="https://www.instagram.com/auxiliaryfrfr/" title="Instagram" class="hover:scale-110 hover:bg-rose-500").fab.fa-instagram.transition-all.duration-300.text-inherit.p-0.border-1.border-solid.border-transparent.rounded-3xl.no-underline.align-center.justify-center.h-7xl.w-7xl.flex.flex-col
-            p.font-nanito.p-0.m-0 Instagram
+            p.font-nunito.p-0.m-0 Instagram
         .justify-evenly.align-center.w-full.h-full.flex(class="p-[3px]")
           a(href="https://github.com/auxiliaryfrfr" title="GitHub Profile" class="hover:scale-110 hover:bg-rose-500").fab.fa-github.transition-all.duration-300.text-inherit.p-0.border-1.border-solid.border-transparent.rounded-3xl.no-underline.align-center.justify-center.h-7xl.w-7xl.flex.flex-col
-            p.txt.font-nanito.p-0.m-0 Github
+            p.font-nunito.p-0.m-0 Github
         .justify-evenly.align-center.w-full.h-full.flex(class="p-[3px]")
           a(href="https://open.spotify.com/user/31a3c3jitxf3fde24p5ohiqfrmnm" title="Spotify User" class="hover:scale-110 hover:bg-rose-500").fab.fa-spotify.transition-all.duration-300.text-inherit.p-0.border-1.border-solid.border-transparent.rounded-3xl.no-underline.align-center.justify-center.h-7xl.w-7xl.flex.flex-col
-            p.font-nanito.p-0.m-0 Spotify
+            p.font-nunito.p-0.m-0 Spotify
         .justify-evenly.align-center.w-full.h-full.flex(class="p-[3px]")
           a(href="https://twitter.com/auxiliaryfrfr" title="Twitter Account" class="hover:scale-110 hover:bg-rose-500").fab.fa-twitter.transition-all.duration-300.text-inherit.p-0.border-1.border-solid.border-transparent.rounded-3xl.no-underline.align-center.justify-center.h-7xl.w-7xl.flex.flex-col
-            p.font-nanito.p-0.m-0 Twitter
+            p.font-nunito.p-0.m-0 Twitter
         .justify-evenly.align-center.w-full.h-full.flex(class="p-[3px]")
           a(href="https://thefemdevs.com" title="The FemDevs Homepage" class="hover:scale-110 hover:bg-rose-500").fas.fa-users.transition-all.duration-300.text-inherit.p-0.border-1.border-solid.border-transparent.rounded-3xl.no-underline.align-center.justify-center.h-7xl.w-7xl.flex.flex-col
-            p.font-nanito.p-0.m-0 FemDevs
+            p.font-nunito.p-0.m-0 FemDevs
         .justify-evenly.align-center.w-full.h-full.flex(class="p-[3px]")
           a(href="https://en.pronouns.page/@auxiliaryfrfr" title="Pronouns.Page Profile" class="hover:scale-110 hover:bg-rose-500").fas.fa-users.transition-all.duration-300.text-inherit.p-0.border-1.border-solid.border-transparent.rounded-3xl.no-underline.align-center.justify-center.h-7xl.w-7xl.flex.flex-col
-            p.font-nanito.p-0.m-0 Pronouns Page
+            p.font-nunito.p-0.m-0 Pronouns Page
         .justify-evenly.align-center.w-full.h-full.flex(class="p-[3px]")
           a(href="https://www.youtube.com/channel/UCfK45ILqng9SMe7EcCzd57g" title="YouTube Account" class="hover:scale-110 hover:bg-rose-500").fab.fa-youtube.transition-all.duration-300.text-inherit.p-0.border-1.border-solid.border-transparent.rounded-3xl.no-underline.align-center.justify-center.h-7xl.w-7xl.flex.flex-col
-            p.font-nanito.p-0.m-0 Youtube
+            p.font-nunito.p-0.m-0 Youtube
         .justify-evenly.align-center.w-full.h-full.flex(class="p-[3px]")
           a(href="https://www.snapchat.com/add/auxiliaryfrfr" title="Snapchat User" class="hover:scale-110 hover:bg-rose-500").fab.fa-snapchat.transition-all.duration-300.text-inherit.p-0.border-1.border-solid.border-transparent.rounded-3xl.no-underline.align-center.justify-center.h-7xl.w-7xl.flex.flex-col
-            p.font-nanito.p-0.m-0 Snapchat
+            p.font-nunito.p-0.m-0 Snapchat
         .justify-evenly.align-center.w-full.h-full.flex(class="p-[3px]")
           a(href="https://www.last.fm/user/auxiliaryfrfr" title="LastFM User" class="hover:scale-110 hover:bg-rose-500").fab.fa-lastfm.transition-all.duration-300.text-inherit.p-0.border-1.border-solid.border-transparent.rounded-3xl.no-underline.align-center.justify-center.h-7xl.w-7xl.flex.flex-col
-            p.font-nanito.p-0.m-0 Last.fm
+            p.font-nunito.p-0.m-0 Last.fm
         .justify-evenly.align-center.w-full.h-full.flex(class="p-[3px]")
           a(href="https://www.threads.net/@auxiliaryfrfr" title="Threads Account" class="hover:scale-110 hover:bg-rose-500").fab.fa-threads.transition-all.duration-300.text-inherit.p-0.border-1.border-solid.border-transparent.rounded-3xl.no-underline.align-center.justify-center.h-7xl.w-7xl.flex.flex-col
-            p.font-nanito.p-0.m-0 Threads
+            p.font-nunito.p-0.m-0 Threads
         .justify-evenly.align-center.w-full.h-full.flex(class="p-[3px]")
           a(href="mailto:alex@thefemdevs.com" title="Contact/Email" class="hover:scale-110 hover:bg-rose-500").fas.fa-envelope.transition-all.duration-300.text-inherit.p-0.border-1.border-solid.border-transparent.rounded-3xl.no-underline.align-center.justify-center.h-7xl.w-7xl.flex.flex-col
-            p.font-nanito.p-0.m-0 Email
+            p.font-nunito.p-0.m-0 Email
     section#femdevs.text-black.text-2xl.py-6.text-center.bg-rose-100
       h2 FemDevs
       p
