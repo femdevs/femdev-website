@@ -10,6 +10,7 @@ module.exports = {
         poppins: ['Poppins', 'sans-serif'],
         roboto: ['Roboto', 'sans-serif'],
         inner: ["Inner", "sans-serif"],
+        nunito: ["Nunito", "sans-serif"],
         "tenorite-regular": ["tenoriteRegular", "sans-serif"],
         "tenorite-bold": ["tenoriteBold", "sans-serif"],
       },
@@ -21,9 +22,20 @@ module.exports = {
         'brand-black': '#1A1A1A',
         'brand-black-dark': '#0D0D0D',
         'white': '#FFFFFF',
+        'black': '#000000',
       },
       backdropBlur: {
         '10xl': '10rem',
+      },
+      keyframes: {
+        'fade-in': {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
+        },
+        'fade-out': {
+          '0%': { opacity: '1' },
+          '100%': { opacity: '0', display: 'none' },
+        },
       },
     },
   },

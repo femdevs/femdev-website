@@ -3,7 +3,7 @@
   "version": "2.0.0",
   "main": "index.js",
   "scripts": {
-    "build": "npx postcss ./assets/stylesheets/tailwind.css -o ./assets/stylesheets/styles.css --watch",
+    "build": "npx postcss ./assets/stylesheets/tailwind.css -o ./assets/stylesheets/styles.css",
     "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

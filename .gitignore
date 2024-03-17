@@ -135,4 +135,4 @@ assets/stylesheets/styles.css
 # vscode
 .vscode/*
 
-package_lock.json
+package-lock.json
