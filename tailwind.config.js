@@ -9,6 +9,7 @@ module.exports = {
       fontFamily: {
         poppins: ['Poppins', 'sans-serif'],
         roboto: ['Roboto', 'sans-serif'],
+        inner: ["Inner", "sans-serif"],
         "tenorite-regular": ["tenoriteRegular", "sans-serif"],
         "tenorite-bold": ["tenoriteBold", "sans-serif"],
       },
