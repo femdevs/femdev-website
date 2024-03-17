@@ -15,7 +15,7 @@ router
                 status: (await req.Database.getServerStatus()),
                 meta: {
                     title: 'FemDev Staff Team',
-                    desc: 'Meet the FemDev Staff Team!',
+                    desc: 'A complete and comprehensive list of the entire FemDev Staff Team!',
                     url: 'https://thefemdevs.com/team',
                 }
             }
@@ -42,7 +42,7 @@ router
                 status: (await req.Database.getServerStatus()),
                 meta: {
                     title: 'FemDev Branding',
-                    desc: 'FemDev Branding',
+                    desc: 'The branding assets of the FemDevs!',
                     url: 'https://thefemdevs.com/branding',
                 }
             }
@@ -55,7 +55,7 @@ router
                 status: (await req.Database.getServerStatus()),
                 meta: {
                     title: 'FemDev Products',
-                    desc: 'The products we offer here at the FemDevs!',
+                    desc: 'The products we offer here at FemDevs!',
                     url: 'https://thefemdevs.com/products',
                 }
             }
