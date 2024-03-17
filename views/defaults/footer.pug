@@ -32,17 +32,17 @@ hero.flex.w-full.justify-center.bg-neutral-900.p-12.text-neutral-100
       h2.select-none.font-poppins.text-lg FemDevs &copy; 2024
       .flex.flex-row.items-center.justify-center.space-x-4
         if status == "down"
-          span.relative.flex.rounded-full.bg-red-500(class="min-h-[12px] min-w-[12px] max-h-[12px] max-w-[12px]")
+          span.relative.flex.rounded-full.bg-red-500(class="min-h-[12px] min-w-[12px] max-h-[12px] max-w-[12px]" title="Service Status: Down")
             span.absolute.flex.animate-ping.rounded-full.bg-red-500(class="min-h-[12px] min-w-[12px] max-h-[12px] max-w-[12px]")
         else if status == "degraded"
-          span.relative.flex.rounded-full.bg-yellow-500(class="min-h-[12px] min-w-[12px] max-h-[12px] max-w-[12px]")
+          span.relative.flex.rounded-full.bg-yellow-500(class="min-h-[12px] min-w-[12px] max-h-[12px] max-w-[12px]" title="Service Status: Degraded")
             span.absolute.flex.animate-ping.rounded-full.bg-yellow-500(class="min-h-[12px] min-w-[12px] max-h-[12px] max-w-[12px]")
         else if status == "maintenance"
-          span.relative.flex.rounded-full.bg-blue-500(class="min-h-[12px] min-w-[12px] max-h-[12px] max-w-[12px]")
+          span.relative.flex.rounded-full.bg-blue-500(class="min-h-[12px] min-w-[12px] max-h-[12px] max-w-[12px]" title="Service Status: Under Maintenance")
             span.absolute.flex.animate-ping.rounded-full.bg-blue-500(class="min-h-[12px] min-w-[12px] max-h-[12px] max-w-[12px]")
         else if status == "up"
-          span.relative.flex.rounded-full.bg-green-500(class="min-h-[12px] min-w-[12px] max-h-[12px] max-w-[12px]")
+          span.relative.flex.rounded-full.bg-green-500(class="min-h-[12px] min-w-[12px] max-h-[12px] max-w-[12px]" title="Service Status: Up")
             span.absolute.flex.animate-ping.rounded-full.bg-green-500(class="min-h-[12px] min-w-[12px] max-h-[12px] max-w-[12px]")
         else
-          span.relative.flex.rounded-full.bg-gray-500(class="min-h-[12px] min-w-[12px] max-h-[12px] max-w-[12px]")
+          span.relative.flex.rounded-full.bg-gray-500(class="min-h-[12px] min-w-[12px] max-h-[12px] max-w-[12px]" title="Service Status: Unknown")
             span.absolute.flex.animate-ping.rounded-full.bg-gray-500(class="min-h-[12px] min-w-[12px] max-h-[12px] max-w-[12px]")
