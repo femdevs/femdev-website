@@ -2,7 +2,7 @@ class WebSecurity {
     /** @param {Array<CSPObj>} CSPs */
     static CSP = (...CSPs) => CSPs
         .reduce((acc, info) => acc += ` ${info.key.replace(/([A-Z])/g, '-$1').toLowerCase()
-            }${(v.none)
+            }${(info.none)
                 ? " 'none'"
                 : `${(info.inititives.length > 0) ? ` ${info.inititives.map(i => `'${i}'`).join(' ')}` : ''
                 }${(info.self) ? ' \'self\'' : ''
