@@ -14,13 +14,13 @@ class CSPReport {
         this.scriptSample = data['script-sample'];
         this.violatedDirective = data['violated-directive'];
         this.statusCode = data['status-code'];
-        this.timestamp = data.timeStamp;
-        this.reportId = data.reportId;
+        this.timestamp = new Date().toISOString();
+        this.reportId = crypto.randomBytes(16).toString('base64url');
     }
 }
 
 class CSP {
-    static process = (data) => new CSPReport(Object.assign({}, data, { timeStamp: new Date().toISOString(), reportId: crypto.randomBytes(16).toString('base64url') }));
+    static process = (data) => new CSPReport(data);
 }
 
-module.exports = { CSP, CSPReport };
+module.exports = CSPReport;

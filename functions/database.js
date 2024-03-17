@@ -4,7 +4,7 @@ const SQL = require('sql-template-strings');
 const events = require('events');
 require('dotenv').config();
 
-const Security = require('./security');
+const CSPData = require('./security');
 
 class PGDatabase extends events.EventEmitter {
     constructor() {
@@ -76,7 +76,7 @@ class PGDatabase extends events.EventEmitter {
         return ['unknown', 'up', 'down', 'degraded', 'maintenance'][status.upstatus];
     }
 
-    /** @param {Security.CSPReport} data */
+    /** @param {CSPData} data */
     async SaveCSPReport(data) {
         const connection = await this.pool.connect();
         await connection.query(

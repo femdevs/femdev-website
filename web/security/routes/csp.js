@@ -1,7 +1,6 @@
 const router = require('express').Router();
-const express = require('express');
 
-const Security = require('../../../functions/security');
+const CSPData = require('../../../functions/security');
 
 router
     .post('/new', (req, res) => {
@@ -9,7 +8,7 @@ router
             case 'application/csp-report':
                 // Firefox
                 const body = JSON.parse(req.body);
-                const data = Security.CSP.process(body);
+                const data = new CSPData(body);
                 req.Database.SaveCSPReport(data);
                 res.status(204).end();
                 break;
@@ -17,7 +16,7 @@ router
                 // Chrome
                 for (const report of Array.from(req.body.replace(/\[|\]/g,'').split(',')).map(JSON.parse)) {
                     if (report['type'] !== 'csp-violation') continue;
-                    const data = Security.CSP.process(report['body']);
+                    const data = new CSPData(report['body']);
                     req.Database.SaveCSPReport(data);
                 }
                 res.status(204).end();
