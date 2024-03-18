@@ -6,13 +6,13 @@ info:
     The documentation for the FemDevs API.
     Do note that some routes have permission-based requirements that your user must be quilified for in order to access them.
     Check the description for each route in case you are unsure.
-    
-    "Permissions Overrides:"
 
-    "The following permissions will bypass all permissions unless its marked otherwise:"
-    "- `Global::Developer (4096)`"
-    "- `Global::Administrator (8192)`"
-    "- `Global::Owner (16384)`"
+    Permissions Overrides:
+
+    The following permissions will bypass all permissions unless its marked otherwise:
+    * `Global::Role.Developer`
+    * `Global::Role.Administrator`
+    * `Global::Role.Owner`
   termsOfService: "https://legal.thefemdevs.com/terms"
   contact:
     name: "FemDevs"
@@ -29,10 +29,10 @@ paths:
     get:
       operationId: "GetUser"
       description: |-
-        "Gets the user information for the user with the given ID."
-        "Returns the user information if the user exists, otherwise returns an error."
-        
-        "Permissions Required: `Global::User.Read (4)` unless requesting own information"
+        Gets the user information for the user with the given ID.
+        Returns the user information if the user exists, otherwise returns an error.
+
+        Permissions Required: `Global::User.Read` unless requesting own information"
       summary: "Get User Info by ID"
       parameters:
         - in: "header"
@@ -90,6 +90,17 @@ paths:
                   value:
                     code: 2
                     message: "Invalid API Token"
+        403:
+          description: "Missing Permissions"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-Permissions:
+                  value:
+                    code: 12
+                    message: "You are not authorized to access this resource"
         404:
           description: "Error with the given ID"
           content:
@@ -108,9 +119,9 @@ paths:
       operationId: "UpdateUser"
       description: |-
         Updates the user information for the user with the given ID.
-        "Returns the user information if the user exists, otherwise returns an error."
-        
-        "Permissions Required: `Global::User.Write (32)` unless updating own user information with few field exceptions"
+        Returns the user information if the user exists, otherwise returns an error.
+
+        Permissions Required: `Global::User.Write` unless updating own user information with few field exceptions
       summary: "Update User Info by ID"
       parameters:
         - in: "header"
@@ -236,6 +247,17 @@ paths:
                   value:
                     code: 2
                     message: "Invalid API Token"
+        403:
+          description: "Missing Permissions"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-Permissions:
+                  value:
+                    code: 12
+                    message: "You are not authorized to access this resource"
         404:
           description: "Error with the given ID"
           content:
@@ -265,9 +287,9 @@ paths:
       operationId: "CreateUser"
       description: |-
         Creates a user using the provided information.
-        "Returns the user information if successful, otherwise returns an error."
-        
-        "Permissions Required: `Global::User.Create (256)`"
+        Returns the user information if successful, otherwise returns an error.
+
+        Permissions Required: `Global::User.Create`
       summary: "Create a User"
       requestBody:
         description: "The new user information"
@@ -331,16 +353,15 @@ paths:
                   summary: "Invalid API Token"
                   value:
                     code: 2
-                    message: "Invalid API Token"      
+                    message: "Invalid API Token"
         403:
-          description: "Unauthorized to create user"
+          description: "Missing Permissions"
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorData"
               examples:
-                error:
-                  summary: "Unauthorized to create user"
+                Missing-Permissions:
                   value:
                     code: 12
                     message: "You are not authorized to access this resource"
@@ -373,9 +394,9 @@ paths:
       operationId: "DeleteUser"
       description: |-
         Deletes the user with the given ID.
-        "Returns `true if successful, otherwise returns an error."
-        
-        "Permissions Required: `Global::User.Delete (2048)`"
+        Returns `true if successful, otherwise returns an error.
+
+        Permissions Required: `Global::User.Delete`
       summary: "Delete User by ID"
       parameters:
         - in: "header"
@@ -431,14 +452,13 @@ paths:
                     code: 2
                     message: "Invalid API Token"
         403:
-          description: "Unauthorized to delete user"
+          description: "Missing Permissions"
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorData"
               examples:
-                error:
-                  summary: "Unauthorized to delete user"
+                Missing-Permissions:
                   value:
                     code: 12
                     message: "You are not authorized to access this resource"
@@ -469,7 +489,10 @@ paths:
   /crypto/enc:
     get:
       operationId: "CryptographyEnc"
-      description: "API Endpoint for encrypting data"
+      description: |-
+        API Endpoint for encrypting data
+
+        Permissions Required: `Cryptography::Encrypt`
       summary: "Encryption Endpoint"
       parameters:
         - in: "query"
@@ -522,6 +545,17 @@ paths:
                   value:
                     code: 2
                     message: "Invalid API Token"
+        403:
+          description: "Missing Permissions"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-Permissions:
+                  value:
+                    code: 12
+                    message: "You are not authorized to access this resource"
         500:
           description: "Error With Encryption (Server Caused)"
           content:
@@ -538,7 +572,10 @@ paths:
   /crypto/dec:
     get:
       operationId: "CryptographyDecr"
-      description: "API Endpoint for decrypting data"
+      description: |-
+        API Endpoint for decrypting data
+
+        Permissions Required: `Cryptography::Decrypt`
       summary: "Decryption Endpoint"
       parameters:
         - in: "query"
@@ -591,6 +628,17 @@ paths:
                   value:
                     code: 2
                     message: "Invalid API Token"
+        403:
+          description: "Missing Permissions"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-Permissions:
+                  value:
+                    code: 12
+                    message: "You are not authorized to access this resource"
         500:
           description: "Error with Decryption (Server Caused)"
           content:
@@ -609,9 +657,9 @@ paths:
       operationId: "CreateToken"
       description: |-
         Creates a token using the provided information.
-        "Returns the token information if successful, otherwise returns an error."
-        
-        "Permissions Required: `Global::Token.Create (128)`"
+        Returns the token information if successful, otherwise returns an error.
+
+        Permissions Required: `Global::Token.Create`
       summary: "Create a Token"
       requestBody:
         description: "The new token information"
@@ -654,16 +702,14 @@ paths:
                   value:
                     code: 2
                     message: "Invalid API Token"
-                  
         403:
-          description: "Unauthorized to create token"
+          description: "Missing Permissions"
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorData"
               examples:
-                error:
-                  summary: "Unauthorized to create token"
+                Missing-Permissions:
                   value:
                     code: 12
                     message: "You are not authorized to access this resource"
@@ -696,9 +742,9 @@ paths:
       operationId: "DeleteToken"
       description: |-
         Deletes the given token.
-        "Returns `true` if successful, otherwise returns an error."
-        
-        "Permissions Required: `Global::Token.Delete (1024)`"
+        Returns `true` if successful, otherwise returns an error.
+
+        Permissions Required: `Global::Token.Delete`
       summary: "Delete Token"
       parameters:
         - in: "query"
@@ -734,16 +780,14 @@ paths:
                   value:
                     code: 2
                     message: "Invalid API Token"
-                  
         403:
-          description: "Unauthorized to delete token"
+          description: "Missing Permissions"
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorData"
               examples:
-                error:
-                  summary: "Unauthorized to delete token"
+                Missing-Permissions:
                   value:
                     code: 12
                     message: "You are not authorized to access this resource"
@@ -765,9 +809,9 @@ paths:
       operationId: "ListTokens"
       description: |-
         Lists all API keys along with the information associated with it.
-        "Returns the list of tokens if successful, otherwise returns an error."
-        
-        "Permissions Required: `Global::Token.Read (2)`"
+        Returns the list of tokens if successful, otherwise returns an error.
+
+        Permissions Required: `Global::Token.ReadAll`
       summary: "List Tokens"
       responses:
         200:
@@ -803,16 +847,15 @@ paths:
                   summary: "Invalid API Token"
                   value:
                     code: 2
-                    message: "Invalid API Token"    
+                    message: "Invalid API Token"
         403:
-          description: "Unauthorized to list tokens"
+          description: "Missing Permissions"
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorData"
               examples:
-                error:
-                  summary: "Unauthorized to list tokens"
+                Missing-Permissions:
                   value:
                     code: 12
                     message: "You are not authorized to access this resource"
@@ -834,9 +877,9 @@ paths:
       operationId: "GetTokenInfo"
       description: |-
         Gets the token information for the given token.
-        "Returns the token information if the token exists, otherwise returns an error."
-        
-        "Permissions Required: `Global::Token.Read (2)`"
+        Returns the token information if the token exists, otherwise returns an error.
+
+        Permissions Required: `Global::Token.Read`
       summary: "Get Token Info"
       parameters:
         - in: "query"
@@ -874,16 +917,15 @@ paths:
                   summary: "Invalid API Token"
                   value:
                     code: 2
-                    message: "Invalid API Token"              
+                    message: "Invalid API Token"
         403:
-          description: "Unauthorized to get token information"
+          description: "Missing Permissions"
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorData"
               examples:
-                error:
-                  summary: "Unauthorized to get token information"
+                Missing-Permissions:
                   value:
                     code: 12
                     message: "You are not authorized to access this resource"
@@ -914,7 +956,11 @@ paths:
   /minecraft/hive/player:
     get:
       operationId: "GetHivePlayer"
-      description: "Gets the player information for the given username. Returns the player information if the player exists, otherwise returns an error."
+      description: |-
+        Gets the player information for the given username.
+        Returns the player information if the player exists, otherwise returns an error.
+
+        Permissions Required: `Minecraft::Hive.Player`
       summary: "Get Hive Player Info"
       parameters:
         - in: "header"
@@ -950,26 +996,26 @@ paths:
                       longest_daily_login_streak: 6
                       hub_title_count: 6
                       hub_title_unlocked:
-                      - "&cThe Short Sighted"
-                      - "&cThe Defender"
-                      - "&eAir &aSwimmer"
-                      - "&aThe Good Citizen"
-                      - "&aThe Snail"
-                      - "&eClickety &6Clack"
+                        - "&cThe Short Sighted"
+                        - "&cThe Defender"
+                        - "&eAir &aSwimmer"
+                        - "&aThe Good Citizen"
+                        - "&aThe Snail"
+                        - "&eClickety &6Clack"
                       avatar_count: 6
                       avatar_unlocked:
-                      - url: https://cdn.playhive.com/avatars/monster-drew.png
-                        name: Drew (Monster)
-                      - url: https://cdn.playhive.com/avatars/pet-endolotl.png
-                        name: Endolotl Pet
-                      - url: https://cdn.playhive.com/avatars/monster-harper.png
-                        name: Harper (Monster)
-                      - url: https://cdn.playhive.com/avatars/monster-reese.png
-                        name: Reese (Monster)
-                      - url: https://cdn.playhive.com/avatars/monster-riley.png
-                        name: Riley (Monster)
-                      - url: https://cdn.playhive.com/avatars/grav-zoomies.png
-                        name: Zoomies
+                        - url: https://cdn.playhive.com/avatars/monster-drew.png
+                          name: Drew (Monster)
+                        - url: https://cdn.playhive.com/avatars/pet-endolotl.png
+                          name: Endolotl Pet
+                        - url: https://cdn.playhive.com/avatars/monster-harper.png
+                          name: Harper (Monster)
+                        - url: https://cdn.playhive.com/avatars/monster-reese.png
+                          name: Reese (Monster)
+                        - url: https://cdn.playhive.com/avatars/monster-riley.png
+                          name: Riley (Monster)
+                        - url: https://cdn.playhive.com/avatars/grav-zoomies.png
+                          name: Zoomies
                       costume_count: 0
                       friend_count: 8
                       equipped_hub_title: "&eClickety &6Clack"
@@ -978,8 +1024,8 @@ paths:
                         name: Zoomies
                       quest_count: 20
                       pets:
-                      - Rock
-                      - Endolotl
+                        - Rock
+                        - Endolotl
                       mounts: []
                       hats: []
                     dr:
@@ -1095,7 +1141,7 @@ paths:
                 Invalid-User:
                   value:
                     code: 7
-                    message: "Invalid Header Parameter(s)" 
+                    message: "Invalid Header Parameter(s)"
         401:
           description: "Invalid/Missing API Token"
           content:
@@ -1113,6 +1159,17 @@ paths:
                   value:
                     code: 2
                     message: "Invalid API Token"
+        403:
+          description: "Missing Permissions"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-Permissions:
+                  value:
+                    code: 12
+                    message: "You are not authorized to access this resource"
         404:
           description: "Error with the given username"
           content:
@@ -1129,7 +1186,11 @@ paths:
   /minecraft/hive/maps:
     get:
       operationId: "GetHiveMaps"
-      description: "Gets the list of maps for the given game. Returns the list of maps if the game exists, otherwise returns an error."
+      description: |-
+        Gets the list of maps for the given game.
+        Returns the list of maps if the game exists, otherwise returns an error.
+
+        Permissions Required: `Minecraft::Hive.Map`
       summary: "Get Hive Maps"
       parameters:
         - in: "header"
@@ -1144,6 +1205,7 @@ paths:
             application/json:
               schema:
                 type: array
+                maxItems: 100
                 items:
                   type: object
                   $ref: "#/components/schemas/MinecraftHiveMapData"
@@ -1238,6 +1300,17 @@ paths:
                   value:
                     code: 2
                     message: "Invalid API Token"
+        403:
+          description: "Missing Permissions"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-Permissions:
+                  value:
+                    code: 12
+                    message: "You are not authorized to access this resource"
         404:
           description: "Error with the given game"
           content:
@@ -1254,7 +1327,11 @@ paths:
   /dictionary/def:
     get:
       operationId: "GetDictionaryDefinition"
-      description: "Gets the definition for the given word. Returns the definition if the word exists, otherwise returns an error."
+      description: |-
+        Gets the definition for the given word.
+        Returns the definition if the word exists, otherwise returns an error.
+
+        Permissions Required: `Dictionary::Definition`
       summary: "Get Dictionary Definition"
       parameters:
         - in: "header"
@@ -1269,6 +1346,7 @@ paths:
             application/json:
               schema:
                 type: array
+                maxItems: 100
                 items:
                   type: string
               example:
@@ -1309,6 +1387,17 @@ paths:
                   value:
                     code: 2
                     message: "Invalid API Token"
+        403:
+          description: "Missing Permissions"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-Permissions:
+                  value:
+                    code: 12
+                    message: "You are not authorized to access this resource"
         404:
           description: "Error with the given word"
           content:
@@ -1325,7 +1414,11 @@ paths:
   /dictionary/syn:
     get:
       operationId: "GetDictionarySynonyms"
-      description: "Gets the synonyms for the given word. Returns the synonyms if the word exists, otherwise returns an error."
+      description: |-
+        Gets the synonyms for the given word.
+        Returns the synonyms if the word exists, otherwise returns an error.
+
+        Permissions Required: `Dictionary::Synonym`
       summary: "Get Dictionary Synonyms"
       parameters:
         - in: "header"
@@ -1340,6 +1433,7 @@ paths:
             application/json:
               schema:
                 type: array
+                maxItems: 100
                 items:
                   type: string
               examples:
@@ -1384,6 +1478,17 @@ paths:
                   value:
                     code: 2
                     message: "Invalid API Token"
+        403:
+          description: "Missing Permissions"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-Permissions:
+                  value:
+                    code: 12
+                    message: "You are not authorized to access this resource"
         404:
           description: "Error with the given word"
           content:
@@ -1400,7 +1505,11 @@ paths:
   /dictionary/ant:
     get:
       operationId: "GetDictionaryAntonyms"
-      description: "Gets the antonyms for the given word. Returns the antonyms if the word exists, otherwise returns an error."
+      description: |-
+        Gets the antonyms for the given word.
+        Returns the antonyms if the word exists, otherwise returns an error.
+
+        Permissions Required: `Dictionary::Antonym`
       summary: "Get Dictionary Antonyms"
       parameters:
         - in: "header"
@@ -1415,6 +1524,7 @@ paths:
             application/json:
               schema:
                 type: array
+                maxItems: 100
                 items:
                   type: string
               examples:
@@ -1504,6 +1614,17 @@ paths:
                   value:
                     code: 2
                     message: "Invalid API Token"
+        403:
+          description: "Missing Permissions"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-Permissions:
+                  value:
+                    code: 12
+                    message: "You are not authorized to access this resource"
         404:
           description: "Error with the given word"
           content:
@@ -1520,7 +1641,11 @@ paths:
   /facts/dog:
     get:
       operationId: "GetDogFact"
-      description: "Gets a random dog fact. Returns the fact if successful, otherwise returns an error."
+      description: |-
+        Gets a random dog fact.
+        Returns the fact if successful, otherwise returns an error.
+
+        Permissions Required: `Facts::Dog`
       summary: "Get Dog Fact"
       responses:
         200:
@@ -1549,12 +1674,27 @@ paths:
                   value:
                     code: 2
                     message: "Invalid API Token"
+        403:
+          description: "Missing Permissions"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-Permissions:
+                  value:
+                    code: 12
+                    message: "You are not authorized to access this resource"
       security:
         - APIToken: []
   /facts/cat:
     get:
       operationId: "GetCatFact"
-      description: "Gets a random cat fact. Returns the fact if successful, otherwise returns an error."
+      description: |-
+        Gets a random cat fact.
+        Returns the fact if successful, otherwise returns an error.
+
+        Permissions Required: `Facts::Cat`
       summary: "Get Cat Fact"
       responses:
         200:
@@ -1583,12 +1723,27 @@ paths:
                   value:
                     code: 2
                     message: "Invalid API Token"
+        403:
+          description: "Missing Permissions"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-Permissions:
+                  value:
+                    code: 12
+                    message: "You are not authorized to access this resource"
       security:
         - APIToken: []
   /facts/random:
     get:
       operationId: "GetRandomFact"
-      description: "Gets a random fact. Returns the fact if successful, otherwise returns an error."
+      description: |-
+        Gets a random fact.
+        Returns the fact if successful, otherwise returns an error.
+
+        Permissions Required: `Facts::Random`
       summary: "Get Random Fact"
       responses:
         200:
@@ -1617,12 +1772,27 @@ paths:
                   value:
                     code: 2
                     message: "Invalid API Token"
+        403:
+          description: "Missing Permissions"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-Permissions:
+                  value:
+                    code: 12
+                    message: "You are not authorized to access this resource"
       security:
         - APIToken: []
   /location/coords:
     get:
       operationId: "GetLocationByCoords"
-      description: "Gets the location for the given coordinates. Returns the location if successful, otherwise returns an error."
+      description: |-
+        Gets the location for the given coordinates.
+        Returns the location if successful, otherwise returns an error.
+
+        Permissions Required: `Location::Coord`
       summary: "Get Location By Coordinates"
       parameters:
         - in: "header"
@@ -1683,6 +1853,17 @@ paths:
                   value:
                     code: 2
                     message: "Invalid API Token"
+        403:
+          description: "Missing Permissions"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-Permissions:
+                  value:
+                    code: 12
+                    message: "You are not authorized to access this resource"
         404:
           description: "Error with the given coordinates"
           content:
@@ -1699,7 +1880,11 @@ paths:
   /location/pluscode:
     get:
       operationId: "GetLocationByPlusCode"
-      description: "Gets the location for the given plus code. Returns the location if successful, otherwise returns an error."
+      description: |-
+        Gets the location for the given plus code.
+        Returns the location if successful, otherwise returns an error.
+
+        Permissions Required: `Location::Pluscode`
       summary: "Get Location By Plus Code"
       parameters:
         - in: "header"
@@ -1760,6 +1945,17 @@ paths:
                   value:
                     code: 2
                     message: "Invalid API Token"
+        403:
+          description: "Missing Permissions"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-Permissions:
+                  value:
+                    code: 12
+                    message: "You are not authorized to access this resource"
         404:
           description: "Error with the given pluscode"
           content:
@@ -1776,7 +1972,11 @@ paths:
   /location/address:
     get:
       operationId: "GetLocationByAddress"
-      description: "Gets the location for the given address. Returns the location if successful, otherwise returns an error."
+      description: |-
+        Gets the location for the given address.
+        Returns the location if successful, otherwise returns an error.
+
+        Permissions Required: `Location::Address`
       summary: "Get Location By Address"
       parameters:
         - in: "header"
@@ -1837,6 +2037,17 @@ paths:
                   value:
                     code: 2
                     message: "Invalid API Token"
+        403:
+          description: "Missing Permissions"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-Permissions:
+                  value:
+                    code: 12
+                    message: "You are not authorized to access this resource"
         404:
           description: "Error with the given address"
           content:
@@ -1853,7 +2064,11 @@ paths:
   /phone/details:
     get:
       operationId: "GetPhoneDetails"
-      description: "Gets the details for the given phone number. Returns the details if successful, otherwise returns an error."
+      description: |-
+        Gets the details for the given phone number.
+        Returns the details if successful, otherwise returns an error.
+
+        Permissions Required: `Phone::Lookup`
       summary: "Get Phone Details"
       parameters:
         - in: "header"
@@ -1878,11 +2093,11 @@ paths:
                     phone_region: "Michigan"
                     country: "United States"
                     country_code: "US"
-                    country_prefix: '1'
+                    country_prefix: "1"
                     international_number: "+1 888-888-888"
                     local_number: "(888) 888-8888"
                     e164: "+18888888888"
-                    carrier: ''
+                    carrier: ""
         400:
           description: "Missing phone number information"
           content:
@@ -1915,6 +2130,17 @@ paths:
                   value:
                     code: 2
                     message: "Invalid API Token"
+        403:
+          description: "Missing Permissions"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-Permissions:
+                  value:
+                    code: 12
+                    message: "You are not authorized to access this resource"
         404:
           description: "Error with the given phone number"
           content:
@@ -1931,7 +2157,11 @@ paths:
   /quotes/kanye:
     get:
       operationId: "GetKanyeQuote"
-      description: "Gets a random Kanye West quote. Returns the quote if successful, otherwise returns an error."
+      description: |-
+        Gets a random Kanye West quote.
+        Returns the quote if successful, otherwise returns an error.
+
+        Permissions Required: `Quote::Kanye`
       summary: "Get Kanye Quote"
       responses:
         200:
@@ -1960,12 +2190,27 @@ paths:
                   value:
                     code: 2
                     message: "Invalid API Token"
+        403:
+          description: "Missing Permissions"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-Permissions:
+                  value:
+                    code: 12
+                    message: "You are not authorized to access this resource"
       security:
         - APIToken: []
   /quotes/ronswanson:
     get:
       operationId: "GetRonSwansonQuote"
-      description: "Gets a random Ron Swanson quote. Returns the quote if successful, otherwise returns an error."
+      description: |-
+        Gets a random Ron Swanson quote.
+        Returns the quote if successful, otherwise returns an error.
+
+        Permissions Required: `Quote::RonSwanson`
       summary: "Get Ron Swanson Quote"
       responses:
         200:
@@ -1994,12 +2239,27 @@ paths:
                   value:
                     code: 2
                     message: "Invalid API Token"
+        403:
+          description: "Missing Permissions"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-Permissions:
+                  value:
+                    code: 12
+                    message: "You are not authorized to access this resource"
       security:
         - APIToken: []
   /quotes/random:
     get:
       operationId: "GetRandomQuote"
-      description: "Gets a random quote. Returns the quote if successful, otherwise returns an error."
+      description: |-
+        Gets a random quote.
+        Returns the quote if successful, otherwise returns an error.
+
+        Permissions Required: `Quote::Random`
       summary: "Get Random Quote"
       responses:
         200:
@@ -2035,12 +2295,27 @@ paths:
                   value:
                     code: 2
                     message: "Invalid API Token"
+        403:
+          description: "Missing Permissions"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-Permissions:
+                  value:
+                    code: 12
+                    message: "You are not authorized to access this resource"
       security:
         - APIToken: []
   /weather/current:
     get:
       operationId: "GetCurrentWeather"
-      description: "Gets the current weather for the given location. Returns the weather if successful, otherwise returns an error."
+      description: |-
+        Gets the current weather for the given location.
+        Returns the weather if successful, otherwise returns an error.
+
+        Permissions Required: `Weather::Current`
       summary: "Get Current Weather"
       parameters:
         - in: "header"
@@ -2067,11 +2342,11 @@ paths:
                       lon: -77.0369
                       lat: 38.9072
                     weather:
-                    - id: 803
-                      main: 'Clouds'
-                      description: 'broken clouds'
-                      icon: '04d'
-                    base: 'stations'
+                      - id: 803
+                        main: "Clouds"
+                        description: "broken clouds"
+                        icon: "04d"
+                    base: "stations"
                     main:
                       temp: 63.32
                       feels_like: 62.83
@@ -2089,12 +2364,12 @@ paths:
                     sys:
                       type: 2
                       id: 2084333
-                      country: 'US'
+                      country: "US"
                       sunrise: 1695812403
                       sunset: 1695855499
                     timezone: -14400
                     id: 4140963
-                    name: 'Washington D.C.'
+                    name: "Washington D.C."
                     cod: 200
         400:
           description: "Missing location information"
@@ -2128,6 +2403,17 @@ paths:
                   value:
                     code: 2
                     message: "Invalid API Token"
+        403:
+          description: "Missing Permissions"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-Permissions:
+                  value:
+                    code: 12
+                    message: "You are not authorized to access this resource"
         404:
           description: "Error with the given location"
           content:
@@ -2147,7 +2433,49 @@ components:
       type: "http"
       scheme: "bearer"
       bearerFormat: "JWT"
-      description: "JSON Web Token Authentication with information containing your license key"
+      description: |-
+        JSON Web Token Authentication with information containing your license key
+
+        Permissions:
+        - `Global::Data.Read` (0:0:0) - **Unused**
+        - `Global::Data.Write` (0:0:1) - **Unused**
+        - `Global::Data.Create` (0:0:2) - **Unused**
+        - `Global::Data.Delete` (0:0:3) - **Unused**
+        - `Global::Token.Read` (0:1:0) - Allows reading of token information
+        - `Global::Token.ReadAll` (0:1:1) - Allows reading of all token information
+        - `Global::Token.Write` (0:1:2) - **Unused**
+        - `Global::Token.Create` (0:1:3) - Allows creating of token information
+        - `Global::Token.Delete` (0:1:4) - Allows deleting of token 
+        - `Global::User.Read` (0:2:0) - Read user information
+        - `Global::User.ReadAll` (0:2:1) - **Unused**
+        - `Global::User.Write` (0:2:2) - Write/Update user information
+        - `Global::User.Create` (0:2:3) - Create a user profile
+        - `Global::User.Delete` (0:2:4) - Delete a user profile
+        - `Cryptography::Encrypt` (1:0) - Ability to encrypt data using the `/crypto/enc` endpoint
+        - `Cryptography::Decrypt` (1:1) - Ability to decrypt data using the `/crypto/dec` endpoint
+        - `Dictionary::Definition` (2:0) - Ability to get the definition of a word using the `/dict/def` endpoint
+        - `Dictionary::Synonym` (2:1) - Ability to get the synonyms of a word using the `/dict/syn` endpoint
+        - `Dictionary::Antonym` (2:2) - Ability to get the antonyms of a word using the `/dict/ant` endpoint
+        - `Facts::Dog` (3:0) - Ability to get a random dog fact using the `/facts/dog` endpoint
+        - `Facts::Cat` (3:1) - Ability to get a random cat fact using the `/facts/cat` endpoint
+        - `Facts::Random` (3:2) - Ability to get a random fact using the `/facts/random` endpoint
+        - `Location::Coord` (4:0) - Ability to get the location of coordinates using the `/location/coords` endpoint
+        - `Location::Pluscode` (4:1) - Ability to get the location of a pluscode using the `/location/pluscode` endpoint
+        - `Location::Address` (4:2) - Ability to get the location of an address using the `/location/address` endpoint
+        - `Phone::Lookup` (5:0) - Ability to get the details of a phone number using the `/phone/details` endpoint
+        - `Phone::Validate` (5:1) - **Unused**
+        - `Quote::Kanye` (6:0) - Ability to get a random Kanye West quote using the `/quotes/kanye` endpoint
+        - `Quote::RonSwanson` (6:1) - Ability to get a random Ron Swanson quote using the `/quotes/ronswanson` endpoint
+        - `Quote::Random` (6:2) - Ability to get a random quote using the `/quotes/random` endpoint
+        - `Weather::Current` (7:0) - Ability to get the current weather using the `/weather/current` endpoint
+        - `Minecraft::Hive.Player` (8:0:0) - Ability to get information about a player on the Hive Minecraft server using the `/minecraft/hive/player` endpoint
+        - `Minecraft::Hive.Map` (8:0:1) - Ability to get information about a map on the Hive Minecraft server using the `/minecraft/hive/map` endpoint
+
+        Permission Roles:
+        - `Global::Role.Developer` (0:3:0) - Full access to all endpoints
+        - `Global::Role.Admininstrator` (0:3:1) - Full access to all endpoints
+        - `Global::Role.Owner` (0:3:2) - Complete access to all endpoints
+
   schemas:
     FirebaseProviderData:
       required:
@@ -2576,7 +2904,7 @@ components:
           type: array
           items:
             type: object
-            $ref: '#/components/schemas/MinecraftHiveURLDataObj'
+            $ref: "#/components/schemas/MinecraftHiveURLDataObj"
           description: "The avatars the player has unlocked"
         costume_count:
           nullable: false
@@ -2593,7 +2921,7 @@ components:
         equipped_avatar:
           nullable: false
           type: object
-          $ref: '#/components/schemas/MinecraftHiveURLDataObj'
+          $ref: "#/components/schemas/MinecraftHiveURLDataObj"
           description: "The avatar the player has equipped"
         quest_count:
           nullable: false
@@ -2970,7 +3298,7 @@ components:
           type: integer
           description: "The number of times the player has died"
     MinecraftHivePlayerBuildStatistics:
-      required: 
+      required:
         - xp
         - played
         - first_played

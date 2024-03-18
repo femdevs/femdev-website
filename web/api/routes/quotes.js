@@ -1,15 +1,56 @@
 const router = require('express').Router();
 
+const User = require('../../../functions/userMgr');
+
 router
     .get('/kanye', async (req, res) => {
+        const connection = await req.Database.pool.connect();
+        const [_, token] = req.headers['authorization'].split(' ');
+        const { rows } = await connection.query(`SELECT * FROM public.APITokens WHERE token = '${token}'`)
+        if (rows.length == 0) return res.sendError(5)
+        const { rows: userRows } = await connection.query(`SELECT * FROM public.users WHERE firebaseuid = '${rows[0].associatedfirebaseuid}'`)
+        if (userRows.length == 0) return res.sendError(0); // misc error
+        const { permissions } = userRows[0];
+        const mainUser = User.fromFullPermissionBitString(permissions)
+        if (!mainUser.hasPermission('Quote::Kanye', true)) {
+            connection.release();
+            return res.sendError(12);
+        }
+        connection.release();
         const { data } = await req.axiosReq('https://api.kanye.rest');
         res.send(JSON.parse(data).quote);
     })
     .get('/ronswanson', async (req, res) => {
+        const connection = await req.Database.pool.connect();
+        const [_, token] = req.headers['authorization'].split(' ');
+        const { rows } = await connection.query(`SELECT * FROM public.APITokens WHERE token = '${token}'`)
+        if (rows.length == 0) return res.sendError(5)
+        const { rows: userRows } = await connection.query(`SELECT * FROM public.users WHERE firebaseuid = '${rows[0].associatedfirebaseuid}'`)
+        if (userRows.length == 0) return res.sendError(0); // misc error
+        const { permissions } = userRows[0];
+        const mainUser = User.fromFullPermissionBitString(permissions)
+        if (!mainUser.hasPermission('Quote::RonSwanson', true)) {
+            connection.release();
+            return res.sendError(12);
+        }
+        connection.release();
         const { data } = await req.axiosReq('https://ron-swanson-quotes.herokuapp.com/v2/quotes');
         res.send(JSON.parse(data)[0]);
     })
     .get('/random', async (req, res) => {
+        const connection = await req.Database.pool.connect();
+        const [_, token] = req.headers['authorization'].split(' ');
+        const { rows } = await connection.query(`SELECT * FROM public.APITokens WHERE token = '${token}'`)
+        if (rows.length == 0) return res.sendError(5)
+        const { rows: userRows } = await connection.query(`SELECT * FROM public.users WHERE firebaseuid = '${rows[0].associatedfirebaseuid}'`)
+        if (userRows.length == 0) return res.sendError(0); // misc error
+        const { permissions } = userRows[0];
+        const mainUser = User.fromFullPermissionBitString(permissions)
+        if (!mainUser.hasPermission('Quote::Random', true)) {
+            connection.release();
+            return res.sendError(12);
+        }
+        connection.release();
         const { data } = await req.axiosReq('https://api.quotable.io/random');
         const ResData = JSON.parse(data);
         res.json({

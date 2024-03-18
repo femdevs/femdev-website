@@ -1,5 +1,7 @@
 const router = require('express').Router();
 
+const User = require('../../../functions/userMgr');
+
 const fullDataToLocationData = (data) => {
     const info = data.results[0];
     return Object.assign({ address: { full: '', houseNumber: '', street: '', city: '', region: '', country: '', postalCode: '' }, pluscode: '', coords: { lat: '', lng: '' } }, {
@@ -22,6 +24,19 @@ const fullDataToLocationData = (data) => {
 
 router
     .get('/coords', async (req, res) => {
+        const connection = await req.Database.pool.connect();
+        const [_, token] = req.headers['authorization'].split(' ');
+        const { rows } = await connection.query(`SELECT * FROM public.APITokens WHERE token = '${token}'`)
+        if (rows.length == 0) return res.sendError(5)
+        const { rows: userRows } = await connection.query(`SELECT * FROM public.users WHERE firebaseuid = '${rows[0].associatedfirebaseuid}'`)
+        if (userRows.length == 0) return res.sendError(0); // misc error
+        const { permissions } = userRows[0];
+        const mainUser = User.fromFullPermissionBitString(permissions)
+        if (!mainUser.hasPermission('Location::Coord', true)) {
+            connection.release();
+            return res.sendError(12);
+        }
+        connection.release();
         const coordpair = req.headers['x-coords']
         if (!coordpair) return res.sendError(6)
         const results = await req.axiosReq('/json', {
@@ -36,6 +51,19 @@ router
         res.json({ data: fullDataToLocationData(data) });
     })
     .get('/pluscode', async (req, res) => {
+        const connection = await req.Database.pool.connect();
+        const [_, token] = req.headers['authorization'].split(' ');
+        const { rows } = await connection.query(`SELECT * FROM public.APITokens WHERE token = '${token}'`)
+        if (rows.length == 0) return res.sendError(5)
+        const { rows: userRows } = await connection.query(`SELECT * FROM public.users WHERE firebaseuid = '${rows[0].associatedfirebaseuid}'`)
+        if (userRows.length == 0) return res.sendError(0); // misc error
+        const { permissions } = userRows[0];
+        const mainUser = User.fromFullPermissionBitString(permissions)
+        if (!mainUser.hasPermission('Location::Pluscode', true)) {
+            connection.release();
+            return res.sendError(12);
+        }
+        connection.release();
         const pluscode = req.headers['x-pluscode']
         if (!pluscode) return res.sendError(6)
         const results = await req.axiosReq('/json', {

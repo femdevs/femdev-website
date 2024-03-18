@@ -1,7 +1,22 @@
 const router = require('express').Router();
 
+const User = require('../../../../functions/userMgr');
+
 router
-    .all('*', (req, res, next) => {
+    .all('*', async (req, res, next) => {
+        const connection = await req.Database.pool.connect();
+        const [_, token] = req.headers['authorization'].split(' ');
+        const { rows } = await connection.query(`SELECT * FROM public.APITokens WHERE token = '${token}'`)
+        if (rows.length == 0) return res.sendError(5)
+        const { rows: userRows } = await connection.query(`SELECT * FROM public.users WHERE firebaseuid = '${rows[0].associatedfirebaseuid}'`)
+        if (userRows.length == 0) return res.sendError(0); // misc error
+        const { permissions } = userRows[0];
+        const mainUser = User.fromFullPermissionBitString(permissions)
+        if (!mainUser.hasPermission('Global::Role.Owner', false)) { //! Locked to only Owners prior to public release
+            connection.release();
+            return res.sendError(12);
+        }
+        connection.release();
         res.status(501).send('501 - Not Implemented')
     })
     .use((req, res, next) => {

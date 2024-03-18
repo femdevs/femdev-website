@@ -1,11 +1,8 @@
 const router = require('express').Router();
 
-const hive = require('./hive');
-const hypixel = require('./hypixel');
-
 router
-    .use('/hive', hive)
-    .use('/hypixel', hypixel)
+    .use('/hive', require('./hive'))
+    .use('/hypixel', require('./hypixel'))
     .use((req, res, next) => {
         const { path } = req;
         const methodUsed = req.method.toUpperCase();

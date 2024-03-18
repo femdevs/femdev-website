@@ -30,25 +30,6 @@ const RateLimiter = new RateLimiterMemory({
 })
 
 class Formatter {
-    static perms = {
-        readData: 1 << 0,   // 1
-        readTokens: 1 << 1,   // 2
-        readUsers: 1 << 2,   // 4
-        writeData: 1 << 3,   // 8
-        writeTokens: 1 << 4,   // 16
-        writeUsers: 1 << 5,   // 32
-        createData: 1 << 6,   // 64
-        createTokens: 1 << 7,   // 128
-        createUsers: 1 << 8,   // 256
-        deleteData: 1 << 9,   // 512
-        deleteTokens: 1 << 10,   // 1024
-        deleteUsers: 1 << 11,   // 2048
-        developer: 1 << 12,   // 4096
-        admin: 1 << 13,   // 8192
-        owner: 1 << 14,   // 16384
-    }
-    static permissionBitToReadable = (bit) => [...Object.entries(this.perms).filter(([_, value]) => (value & bit) === value).map(([key, _]) => key)]
-    static permissionStringArrayToBit = (arr) => [...arr.map((perm) => this.perms[perm]).filter((perm) => perm !== undefined)].reduce((a, b) => a + b, 0);
     static formatDateTime = (v) => new Intl.DateTimeFormat('en-US', { year: "numeric", month: "long", day: "numeric", hour: "2-digit", minute: "2-digit", second: "2-digit", weekday: "long", timeZone: "America/Detroit", timeZoneName: "longGeneric" }).format(v)
     static formatDate = (v) => new Intl.DateTimeFormat('en-US', { year: "numeric", month: "long", day: "numeric", weekday: "long" }).format(v)
     static formatTime = (v) => new Intl.DateTimeFormat('en-US', { hour: "2-digit", minute: "2-digit", second: "2-digit", timeZone: "America/Detroit", timeZoneName: "shortOffset" }).format(v)
@@ -83,8 +64,7 @@ app
     .use((req, _, next) => {
         Object.assign(req, {
             reqLogs, Persistance, AdminApp, auth: AdminApp.auth(), Database, Formatter, RateLimitMem: RateLimiter,
-            getErrPage: (c, d) => errPages.get(c).call(d),
-            checkPerms: (userbit, ...neededPerms) => (Formatter.permissionBitToReadable(userbit).some(['admin', 'owner'].includes)) ? true : neededPerms.some(Formatter.permissionBitToReadable(userbit).includes)
+            getErrPage: (c, d) => errPages.get(c).call(d)
         })
         next();
     })

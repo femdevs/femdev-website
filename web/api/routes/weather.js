@@ -1,7 +1,22 @@
 const router = require('express').Router();
 
+const User = require('../../../functions/userMgr');
+
 router
     .get('/current', async (req, res) => {
+        const connection = await req.Database.pool.connect();
+        const [_, token] = req.headers['authorization'].split(' ');
+        const { rows } = await connection.query(`SELECT * FROM public.APITokens WHERE token = '${token}'`)
+        if (rows.length == 0) return res.sendError(5)
+        const { rows: userRows } = await connection.query(`SELECT * FROM public.users WHERE firebaseuid = '${rows[0].associatedfirebaseuid}'`)
+        if (userRows.length == 0) return res.sendError(0); // misc error
+        const { permissions } = userRows[0];
+        const mainUser = User.fromFullPermissionBitString(permissions)
+        if (!mainUser.hasPermission('Weather::Current', true)) {
+            connection.release();
+            return res.sendError(12);
+        }
+        connection.release();
         let lat, lon;
         if (req.headers['x-city']) {
             const AxiosRes = await req.axiosReq(`/json`, {

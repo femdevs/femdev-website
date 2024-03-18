@@ -40,14 +40,8 @@ class PGDatabase extends events.EventEmitter {
             })
             .on('token', (data) => {
                 this.pool.connect().then(connection => {
-                    connection.query(
-                        `INSERT INTO public.apitokens (token, associatedfirebaseuid, stripesub) VALUES ($1, $2, $3)`,
-                        [data.generatedToken, data.firebaseuid, data.sub]
-                    ).catch(console.error)
-                    connection.query(
-                        `INSERT INTO public.apiUsage (apiToken, totalUses) VALUES ($1, $2)`,
-                        [data.generatedToken, 0]
-                    ).catch(console.error)
+                    connection.query(SQL`INSERT INTO public.apitokens (token, associatedfirebaseuid, stripesub) VALUES (${data.generatedToken}, ${data.firebaseuid}, ${data.sub})`).catch(console.error)
+                    connection.query(SQL`INSERT INTO public.apiUsage (apiToken, totalUses) VALUES (${data.generatedToken}, 0)`).catch(console.error)
                     connection.release();
                 })
 
@@ -79,9 +73,7 @@ class PGDatabase extends events.EventEmitter {
     /** @param {CSPData} data */
     async SaveCSPReport(data) {
         const connection = await this.pool.connect();
-        await connection.query(
-            SQL`INSERT INTO public.cspreports (blockeduri, documenturi, disposition, effectivedirective, violateddirective, originalpolicy, referrer, statuscode, samplescript, timestamp, repid) VALUES (${data.blockedURI}, ${data.documentURI}, ${data.disposition}, ${data.effectiveDirective}, ${data.violatedDirective}, ${data.originalPolicy}, ${data.referrer}, ${data.statusCode}, ${data.scriptSample}, ${data.timestamp}, ${data.reportId})`
-        )
+        await connection.query(SQL`INSERT INTO public.cspreports (blockeduri, documenturi, disposition, effectivedirective, violateddirective, originalpolicy, referrer, statuscode, samplescript, timestamp, repid) VALUES (${data.blockedURI}, ${data.documentURI}, ${data.disposition}, ${data.effectiveDirective}, ${data.violatedDirective}, ${data.originalPolicy}, ${data.referrer}, ${data.statusCode}, ${data.scriptSample}, ${data.timestamp}, ${data.reportId})`)
         connection.release();
     }
 }

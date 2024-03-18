@@ -1,7 +1,22 @@
 const router = require('express').Router();
 
+const User = require('../../../functions/userMgr');
+
 router
     .get('/player', async (req, res) => {
+        const connection = await req.Database.pool.connect();
+        const [_, token] = req.headers['authorization'].split(' ');
+        const { rows } = await connection.query(`SELECT * FROM public.APITokens WHERE token = '${token}'`)
+        if (rows.length == 0) return res.sendError(5)
+        const { rows: userRows } = await connection.query(`SELECT * FROM public.users WHERE firebaseuid = '${rows[0].associatedfirebaseuid}'`)
+        if (userRows.length == 0) return res.sendError(0); // misc error
+        const { permissions } = userRows[0];
+        const mainUser = User.fromFullPermissionBitString(permissions)
+        if (!mainUser.hasPermission('Minecraft::Hive.Player', true)) {
+            connection.release();
+            return res.sendError(12);
+        }
+        connection.release();
         const player = req.headers['x-player'];
         if (!player) return res.status(400).json({ error: 'Missing player header' });
         const AxiosReq = await req.axiosReq(`/game/all/all/${player}`, { baseURL: 'https://api.playhive.com/v0' })
@@ -155,6 +170,19 @@ router
         res.json(formattedData)
     })
     .get('/maps', async (req, res) => {
+        const connection = await req.Database.pool.connect();
+        const [_, token] = req.headers['authorization'].split(' ');
+        const { rows } = await connection.query(`SELECT * FROM public.APITokens WHERE token = '${token}'`)
+        if (rows.length == 0) return res.sendError(5)
+        const { rows: userRows } = await connection.query(`SELECT * FROM public.users WHERE firebaseuid = '${rows[0].associatedfirebaseuid}'`)
+        if (userRows.length == 0) return res.sendError(0); // misc error
+        const { permissions } = userRows[0];
+        const mainUser = User.fromFullPermissionBitString(permissions)
+        if (!mainUser.hasPermission('Minecraft::Hive.Map', true)) {
+            connection.release();
+            return res.sendError(12);
+        }
+        connection.release();
         const game = req.headers['x-game']
         if (!game) return res.status(400).json({ error: 'Missing game header' })
         const AxiosRes = await req.axiosReq(`/game/map/${game}`, { baseURL: 'https://api.playhive.com/v0' });

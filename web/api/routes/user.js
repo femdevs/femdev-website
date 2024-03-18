@@ -1,5 +1,6 @@
 const router = require('express').Router();
 
+const User = require('../../../functions/userMgr');
 
 router
     .get('/get', async (req, res) => {
@@ -11,7 +12,8 @@ router
         const { associatedfirebaseuid: firebaseUserID } = rows[0];
         const { rows: DBUserData } = await connection.query(`SELECT * FROM public.users WHERE firebaseuid = '${firebaseUserID}'`)
         if (req.headers['x-uid']) {
-            if (!req.checkPerms(DBUserData[0].permissions, 'developer', 'readUsers')) {
+            const mainUser = User.fromFullPermissionBitString(DBUserData[0].permissions)
+            if (!mainUser.hasPermission('Global::User.Read', true)) {
                 res.sendError(12);
                 return connection.release();
             }
@@ -45,7 +47,8 @@ router
         if (rows.length == 0) return res.sendError(2);
         const { associatedfirebaseuid: firebaseUserID } = rows[0];
         const { rows: APIUser } = await connection.query(`SELECT * FROM public.users WHERE firebaseuid = '${firebaseUserID}'`)
-        if (!req.checkPerms(APIUser[0].permissions, 'developer', 'createUsers')) {
+        const mainUser = User.fromFullPermissionBitString(APIUser[0].permissions)
+        if (!mainUser.hasPermission('Global::User.Create', true)) {
             res.sendError(12);
             return connection.release();
         }
@@ -61,14 +64,14 @@ router
                 console.error(err);
                 return res.sendError(0);
             })
-        req.Database.emit('user', { uid: newUser.uid, displayName: username, firstname, lastname, email })
+        req.Database.emit('user', { uid: newUser.uid, displayName: username, firstname, lastname, email, permissions: ''})
         await connection.release();
         return res.status(201).json({
             user: newUser,
             username,
             fullName: `${firstname} ${lastname}`,
             email,
-            permissions: 0,
+            permissions: '',
         })
     })
     .patch('/update', async (req, res) => {
@@ -79,7 +82,8 @@ router
         if (rows.length == 0) return res.sendError(2);
         const { associatedfirebaseuid: firebaseUserID } = rows[0];
         const { rows: APIUser } = await connection.query(`SELECT * FROM public.users WHERE firebaseuid = '${firebaseUserID}'`)
-        if (!req.checkPerms(APIUser[0].permissions, 'developer', 'writeUsers')) {
+        const mainUser = User.fromFullPermissionBitString(APIUser[0].permissions)
+        if (!mainUser.hasPermission('Global::User.Write', true)) {
             res.sendError(12);
             return connection.release();
         }
@@ -127,7 +131,8 @@ router
         if (rows.length == 0) return res.sendError(2);
         const { associatedfirebaseuid: firebaseUserID } = rows[0];
         const { rows: APIUser } = await connection.query(`SELECT * FROM public.users WHERE firebaseuid = '${firebaseUserID}'`)
-        if (!req.checkPerms(APIUser[0].permissions, 'developer', 'deleteUsers')) {
+        const mainUser = User.fromFullPermissionBitString(APIUser[0].permissions)
+        if (!mainUser.hasPermission('Global::User.Delete', true)) {
             res.sendError(12);
             return connection.release();
         }
