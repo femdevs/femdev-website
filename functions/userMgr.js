@@ -1,3 +1,13 @@
+
+class PermissionSet {
+    constructor(key, bit, ...parentBits) {
+        this.permKey = key;
+        this.bit = bit;
+        this.parentBits = parentBits;
+        this.bitStr = Array.from(this.parentBits).concat([this.bit]).join(':');
+    }
+}
+
 class UserPermissions {
     static permissions = {
         global: { // 0:x:x
@@ -102,15 +112,6 @@ class UserPermissions {
         .set("7:0", "Weather::Current")
         .set("8:0:0", "Minecraft::Hive.Player")
         .set("8:0:1", "Minecraft::Hive.Map")
-}
-
-class PermissionSet {
-    constructor(key, bit, ...parentBits) {
-        this.permKey = key;
-        this.bit = bit;
-        this.parentBits = parentBits;
-        this.bitStr = Array.from(this.parentBits).concat([this.bit]).join(':');
-    }
 }
 
 class UserPermissionSet {
