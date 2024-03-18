@@ -21,10 +21,7 @@ router
         if (!firebaseuid) return res.status(400).json({ error: 'No firebaseuid provided' });
         const generatedToken = TokenManager.generate({ firebaseuid, username: userRows[0].displayName });
         req.Database.emit('token', { generatedToken, firebaseuid });
-        res.status(201).json({
-            token: generatedToken,
-            license: key,
-        })
+        res.status(201).json({token: generatedToken})
         connection.release();
         // const {associatedfirebaseuid: FirebaseUser} = rows[0];
         // AdminApp.auth().getUser(FirebaseUser)
