@@ -80,7 +80,7 @@ class PGDatabase extends events.EventEmitter {
     async SaveCSPReport(data) {
         const connection = await this.pool.connect();
         await connection.query(
-            SQL`INSERT INTO public.cspreports (blockeduri, documenturi, disposition, effectivedirective, violateddirective, originalpolicy, referrer, statuscode, samplescript, ts, repid) VALUES (${data.blockedURI}, ${data.documentURI}, ${data.disposition}, ${data.effectiveDirective}, ${data.violatedDirective}, ${data.originalPolicy}, ${data.referrer}, ${data.statusCode}, ${data.scriptSample}, ${data.timestamp}, ${data.reportId})`
+            SQL`INSERT INTO public.cspreports (blockeduri, documenturi, disposition, effectivedirective, violateddirective, originalpolicy, referrer, statuscode, samplescript, timestamp, repid) VALUES (${data.blockedURI}, ${data.documentURI}, ${data.disposition}, ${data.effectiveDirective}, ${data.violatedDirective}, ${data.originalPolicy}, ${data.referrer}, ${data.statusCode}, ${data.scriptSample}, ${data.timestamp}, ${data.reportId})`
         )
         connection.release();
     }
