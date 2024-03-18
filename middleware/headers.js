@@ -28,7 +28,7 @@ class WebSecurity {
     /** @param {Array<ReportingEndpoint>} data */
     static ReportingEndpoints = (...data) => data.reduce((acc, ep) => acc += `${ep.id.replace(/([A-Z])/g, '-$1').toLowerCase()}: ${ep.url}, `, '').slice(0, -2);
     /** @param {Array<PermissionPolicy>} data */
-    static PermissionPolicy = (...data) => data.reduce((acc, {key, ...value}) => acc += `${key.replace(/([A-Z])/g, '-$1').toLowerCase()}=${(value.none) ? '()' : (value.wildcard) ? '*' : `(${(value.self) ? '\'self\' ' : ''}${(value.src) ? '\'src\' ' : ''}${(Array.isArray(value.domains) && value.domains) ? value.domains.join(' ') : ''})`}; `, '').slice(0, -2);
+    static PermissionPolicy = (...data) => data.reduce((acc, {key, ...value}) => acc += `${key.replace(/([A-Z])/g, '-$1').toLowerCase()}=${(value.none) ? '()' : (value.wildcard) ? '*' : `(${(value.self) ? '\'self\' ' : ''}${(value.src) ? '\'src\' ' : ''}${(Array.isArray(value.domains) && value.domains) ? value.domains.map(v => `"${v}"`).join(' ') : ''})`}; `, '').slice(0, -2);
     /** @param {string} domain */
     static CD = (domain) => [domain, `*.${domain}`];
 }
