@@ -109,7 +109,7 @@ module.exports = (req, res, next) => {
     const { platform: os, versions: v } = process;
     res
         .setHeader('Report-To', WebSecurity.ReportTo(
-            new ReportToGroup('csp-ep', 31536000, ['csp', 'report'].map(g => `https://security.thefemdevs.com/${g}/new`).push('https://femdevs.report-uri.com/r/d/csp/enforce'))
+            new ReportToGroup('csp-ep', 31536000, ['csp', 'report'].map(g => `https://security.thefemdevs.com/${g}/new`).concat(['https://femdevs.report-uri.com/r/d/csp/enforce']))
         ))
         .setHeader('Content-Security-Policy', WebSecurity.CSP(
             new CSPObj('imgSrc', new CSPObjData(false, [], false, true, [])),
@@ -128,10 +128,8 @@ module.exports = (req, res, next) => {
             new CSPObj('requireTrustedTypesFor', new CSPObjData(false, ['script'], false, false, [])),
             new CSPObj('reportUri', new CSPObjData(false, [], false, false, ['https://femdevs.report-uri.com/r/d/csp/enforce'])),
             new CSPObj('baseUri', new CSPObjData(false, [], true, false, ['thefemdevs.com', 'security.thefemdevs.com', 'cdn.thefemdevs.com'])),
-            new CSPObj('scriptSrcElem', new CSPObjData(false, ['unsafe-inline', 'unsafe-eval'], true, false, [...WebSecurity.CD('thefemdevs.com')])),
-            new CSPObj('scriptSrc', new CSPObjData(false, ['unsafe-inline', 'unsafe-eval'], true, false, ['blob:', ...WebSecurity.CD('thefemdevs.com')])),
-            new CSPObj('scriptSrcAttr', new CSPObjData(false, ['unsafe-inline', 'unsafe-eval'], true, false, [...WebSecurity.CD('google.com'), ...WebSecurity.CD('fontawesome.com')])),
-            new CSPObj('styleSrc', new CSPObjData(false, ['unsafe-inline', 'unsafe-eval'], true, false, [].concat(WebSecurity.CD('google.com'), WebSecurity.CD('googleapis.com'), WebSecurity.CD('thefemdevs.com'), WebSecurity.CD('fontawesome.com')))),
+            new CSPObj('styleSrc', new CSPObjData(false, [], true, false, [].concat(WebSecurity.CD('google.com'), WebSecurity.CD('googleapis.com'), WebSecurity.CD('thefemdevs.com'), WebSecurity.CD('fontawesome.com')))),
+            new CSPObj('scriptSrc', new CSPObjData(false, ['unsafe-inline', 'unsafe-eval'], true, false, ['blob:', ...WebSecurity.CD('thefemdevs.com'), ...WebSecurity.CD('google.com'), ...WebSecurity.CD('fontawesome.com')])),
         ))
         .setHeader('Permissions-Policy', WebSecurity.PermissionPolicy(
             new PermissionPolicy('hid', { none: true }),
