@@ -28,7 +28,7 @@ class WebSecurity {
     /** @param {Array<ReportingEndpoint>} data */
     static ReportingEndpoints = (...data) => data.reduce((acc, ep) => acc += `${ep.id.replace(/([A-Z])/g, '-$1').toLowerCase()}: ${ep.url}, `, '').slice(0, -2);
     /** @param {Array<PermissionPolicy>} data */
-    static PermissionPolicy = (...data) => data.reduce((acc, {key, ...value}) => acc += `${key.replace(/([A-Z])/g, '-$1').toLowerCase()}=${(value.wildcard) ? '*' : `(${(value.none) ? '' : `${(value.self) ? '\'self\' ' : ''}${(value.src) ? '\'src\' ' : ''}${(Array.isArray(value.domains) && value.domains) ? value.domains.map(v => `"${v}"`).join(' ') : ''}`.trim()})`}, `, '').slice(0, -2);
+    static PermissionPolicy = (...data) => data.reduce((acc, { key, ...value }) => acc += `${key.replace(/([A-Z])/g, '-$1').toLowerCase()}=${(value.wildcard) ? '*' : `(${(value.none) ? '' : `${(value.self) ? '\'self\' ' : ''}${(value.src) ? '\'src\' ' : ''}${(Array.isArray(value.domains) && value.domains) ? value.domains.map(v => `"${v}"`).join(' ') : ''}`.trim()})`}, `, '').slice(0, -2);
     /** @param {string} domain */
     static CD = (domain) => [domain, `*.${domain}`];
 }
@@ -108,18 +108,8 @@ class PermissionPolicy {
 module.exports = (req, res, next) => {
     const { platform: os, versions: v } = process;
     res
-        .setHeader('X-Repo', 'https://github.com/femdevs/femdev-website')
-        .setHeader('X-Live-Deploy', 'https://thefemdevs.com')
-        .setHeader('X-Repository-License', 'Affero General Public License v3.0 or newer (AGPL-3.0-or-later)')
-        .setHeader('X-OS', os == 'win32' ? 'Windows' : os == 'linux' ? 'Linux' : os == 'darwin' ? 'MacOS' : 'Other')
-        .setHeader('X-Node-Version', v.node)
         .setHeader('Report-To', WebSecurity.ReportTo(
             new ReportToGroup('csp-ep', 31536000, ['csp', 'report'].map(g => `https://security.thefemdevs.com/${g}/new`).push('https://femdevs.report-uri.com/r/d/csp/enforce'))
-        ))
-        .setHeader('Reporting-Endpoints', WebSecurity.ReportingEndpoints(
-            new ReportingEndpoint('csp-ep', 'https://femdevs.report-uri.com/r/d/csp/enforce'),
-            new ReportingEndpoint('doc-ep', 'https://security.thefemdevs.com/doc/new'),
-            new ReportingEndpoint('default', 'https://security.thefemdevs.com/report/new')
         ))
         .setHeader('Content-Security-Policy', WebSecurity.CSP(
             new CSPObj('imgSrc', new CSPObjData(false, [], false, true, [])),
@@ -136,18 +126,13 @@ module.exports = (req, res, next) => {
             new CSPObj('blockAllMixedContent', new CSPObjData(false, [], false, false, [])),
             new CSPObj('upgradeInsecureRequests', new CSPObjData(false, [], false, false, [])),
             new CSPObj('requireTrustedTypesFor', new CSPObjData(false, ['script'], false, false, [])),
-            new CSPObj('scriptSrcElem', new CSPObjData(false, ['unsafe-inline', 'unsafe-eval'], true, false, [...WebSecurity.CD('thefemdevs.com')])),
             new CSPObj('reportUri', new CSPObjData(false, [], false, false, ['https://femdevs.report-uri.com/r/d/csp/enforce'])),
             new CSPObj('baseUri', new CSPObjData(false, [], true, false, ['thefemdevs.com', 'security.thefemdevs.com', 'cdn.thefemdevs.com'])),
+            new CSPObj('scriptSrcElem', new CSPObjData(false, ['unsafe-inline', 'unsafe-eval'], true, false, [...WebSecurity.CD('thefemdevs.com')])),
             new CSPObj('scriptSrc', new CSPObjData(false, ['unsafe-inline', 'unsafe-eval'], true, false, ['blob:', ...WebSecurity.CD('thefemdevs.com')])),
-            new CSPObj('scriptSrcAttr', new CSPObjData(false, ['unsafe-inline', 'unsafe-eval'], true, false, [WebSecurity.CD('google.com'), WebSecurity.CD('fontawesome.com')])),
+            new CSPObj('scriptSrcAttr', new CSPObjData(false, ['unsafe-inline', 'unsafe-eval'], true, false, [...WebSecurity.CD('google.com'), ...WebSecurity.CD('fontawesome.com')])),
             new CSPObj('styleSrc', new CSPObjData(false, ['unsafe-inline', 'unsafe-eval'], true, false, [].concat(WebSecurity.CD('google.com'), WebSecurity.CD('googleapis.com'), WebSecurity.CD('thefemdevs.com'), WebSecurity.CD('fontawesome.com')))),
         ))
-        .setHeader('Document-Policy', 'unsized-media=?0, document-write=?0, max-image-bpp=2.0, frame-loading=lazy, report-to=doc-ep')
-        .setHeader('Strict-Transport-Security', WebSecurity.HSTS({ ma: 31536000, iSD: true, pl: true }))
-        .setHeader('X-Frame-Options', 'SAMEORIGIN')
-        .setHeader('X-Content-Type-Options', 'nosniff')
-        .setHeader('Referrer-Policy', 'same-origin')
         .setHeader('Permissions-Policy', WebSecurity.PermissionPolicy(
             new PermissionPolicy('hid', { none: true }),
             new PermissionPolicy('usb', { none: true }),
@@ -186,7 +171,22 @@ module.exports = (req, res, next) => {
             new PermissionPolicy('payment', { self: true, domains: [].concat(WebSecurity.CD('thefemdevs.com'), WebSecurity.CD('stripe.com')) }),
             new PermissionPolicy('geolocation', { self: true, domains: [].concat(WebSecurity.CD('google.com'), WebSecurity.CD('googleapis.com'), WebSecurity.CD('thefemdevs.com')) }),
         ))
+        .setHeader('Reporting-Endpoints', WebSecurity.ReportingEndpoints(
+            new ReportingEndpoint('doc-ep', 'https://security.thefemdevs.com/doc/new'),
+            new ReportingEndpoint('default', 'https://security.thefemdevs.com/report/new'),
+            new ReportingEndpoint('csp-ep', 'https://femdevs.report-uri.com/r/d/csp/enforce'),
+        ))
+        .setHeader('X-Node-Version', v.node)
+        .setHeader('X-Frame-Options', 'SAMEORIGIN')
+        .setHeader('Referrer-Policy', 'same-origin')
+        .setHeader('X-Content-Type-Options', 'nosniff')
+        .setHeader('X-Live-Deploy', 'https://thefemdevs.com')
+        .setHeader('X-Repo', 'https://github.com/femdevs/femdev-website')
         .setHeader('NEL', '{"report_to":"default","max_age":31536000,"include_subdomains":true}')
+        .setHeader('Strict-Transport-Security', WebSecurity.HSTS({ ma: 31536000, iSD: true, pl: true }))
+        .setHeader('X-Repository-License', 'Affero General Public License v3.0 or newer (AGPL-3.0-or-later)')
+        .setHeader('X-OS', os == 'win32' ? 'Windows' : os == 'linux' ? 'Linux' : os == 'darwin' ? 'MacOS' : 'Other')
+        .setHeader('Document-Policy', 'unsized-media=?0, document-write=?0, max-image-bpp=2.0, frame-loading=lazy, report-to=doc-ep')
     WebSecurity.CORS({
         maxAge: 86400,
         allowCredentials: true,
