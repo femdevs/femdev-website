@@ -2,16 +2,17 @@ openapi: "3.0.0"
 info:
   version: "2.1.0"
   title: "FemDevs API Documentation"
-  description: "The documentation for the FemDevs API.
+  description: |-
+    The documentation for the FemDevs API.
     Do note that some routes have permission-based requirements that your user must be quilified for in order to access them.
     Check the description for each route in case you are unsure.
     
-    Permissions Overrides:
+    "Permissions Overrides:"
 
-    The following permissions will bypass all permissions unless its marked otherwise:
-    - `Global::Developer (4096)`
-    - `Global::Administrator (8192)`
-    - `Global::Owner (16384)`"
+    "The following permissions will bypass all permissions unless its marked otherwise:"
+    "- `Global::Developer (4096)`"
+    "- `Global::Administrator (8192)`"
+    "- `Global::Owner (16384)`"
   termsOfService: "https://legal.thefemdevs.com/terms"
   contact:
     name: "FemDevs"
@@ -27,10 +28,11 @@ paths:
   /user/get:
     get:
       operationId: "GetUser"
-      description: "Gets the user information for the user with the given ID.
-        Returns the user information if the user exists, otherwise returns an error.
+      description: |-
+        "Gets the user information for the user with the given ID."
+        "Returns the user information if the user exists, otherwise returns an error."
         
-        Permissions Required: `Global::User.Read (4)` unless requesting own information"
+        "Permissions Required: `Global::User.Read (4)` unless requesting own information"
       summary: "Get User Info by ID"
       parameters:
         - in: "header"
@@ -104,10 +106,11 @@ paths:
   /user/update:
     patch:
       operationId: "UpdateUser"
-      description: "Updates the user information for the user with the given ID.
-        Returns the user information if the user exists, otherwise returns an error.
+      description: |-
+        Updates the user information for the user with the given ID.
+        "Returns the user information if the user exists, otherwise returns an error."
         
-        Permissions Required: `Global::User.Write (32)` unless updating own user information with few field exceptions"
+        "Permissions Required: `Global::User.Write (32)` unless updating own user information with few field exceptions"
       summary: "Update User Info by ID"
       parameters:
         - in: "header"
@@ -260,10 +263,11 @@ paths:
   /user/create:
     post:
       operationId: "CreateUser"
-      description: "Creates a user using the provided information.
-        Returns the user information if successful, otherwise returns an error.
+      description: |-
+        Creates a user using the provided information.
+        "Returns the user information if successful, otherwise returns an error."
         
-        Permissions Required: `Global::User.Create (256)`"
+        "Permissions Required: `Global::User.Create (256)`"
       summary: "Create a User"
       requestBody:
         description: "The new user information"
@@ -367,10 +371,11 @@ paths:
   /user/delete:
     delete:
       operationId: "DeleteUser"
-      description: "Deletes the user with the given ID.
-        Returns `true if successful, otherwise returns an error.
+      description: |-
+        Deletes the user with the given ID.
+        "Returns `true if successful, otherwise returns an error."
         
-        Permissions Required: `Global::User.Delete (2048)`"
+        "Permissions Required: `Global::User.Delete (2048)`"
       summary: "Delete User by ID"
       parameters:
         - in: "header"
@@ -602,10 +607,11 @@ paths:
   /token/create:
     post:
       operationId: "CreateToken"
-      description: "Creates a token using the provided information.
-        Returns the token information if successful, otherwise returns an error.
+      description: |-
+        Creates a token using the provided information.
+        "Returns the token information if successful, otherwise returns an error."
         
-        Permissions Required: `Global::Token.Create (128)`"
+        "Permissions Required: `Global::Token.Create (128)`"
       summary: "Create a Token"
       requestBody:
         description: "The new token information"
@@ -688,10 +694,11 @@ paths:
   /token/delete:
     delete:
       operationId: "DeleteToken"
-      description: "Deletes the given token.
-        Returns `true` if successful, otherwise returns an error.
+      description: |-
+        Deletes the given token.
+        "Returns `true` if successful, otherwise returns an error."
         
-        Permissions Required: `Global::Token.Delete (1024)`"
+        "Permissions Required: `Global::Token.Delete (1024)`"
       summary: "Delete Token"
       parameters:
         - in: "query"
@@ -756,10 +763,11 @@ paths:
   /token/list:
     get:
       operationId: "ListTokens"
-      description: "Lists all API keys along with the information associated with it.
-        Returns the list of tokens if successful, otherwise returns an error.
+      description: |-
+        Lists all API keys along with the information associated with it.
+        "Returns the list of tokens if successful, otherwise returns an error."
         
-        Permissions Required: `Global::Token.Read (2)`"
+        "Permissions Required: `Global::Token.Read (2)`"
       summary: "List Tokens"
       responses:
         200:
@@ -824,10 +832,11 @@ paths:
   /token/info:
     get:
       operationId: "GetTokenInfo"
-      description: "Gets the token information for the given token.
-        Returns the token information if the token exists, otherwise returns an error.
+      description: |-
+        Gets the token information for the given token.
+        "Returns the token information if the token exists, otherwise returns an error."
         
-        Permissions Required: `Global::Token.Read (2)`"
+        "Permissions Required: `Global::Token.Read (2)`"
       summary: "Get Token Info"
       parameters:
         - in: "query"
