@@ -28,7 +28,7 @@ class WebSecurity {
     /** @param {Array<ReportingEndpoint>} data */
     static ReportingEndpoints = (...data) => data.reduce((acc, ep) => acc += `${ep.id.replace(/([A-Z])/g, '-$1').toLowerCase()}: ${ep.url}, `, '').slice(0, -2);
     /** @param {Array<PermissionPolicy>} data */
-    static PermissionPolicy = (...data) => data.reduce((acc, {key, ...value}) => acc += `${key.replace(/([A-Z])/g, '-$1').toLowerCase()}=${(value.none) ? '()' : (value.wildcard) ? '*' : `(${(value.self) ? '\'self\' ' : ''}${(value.src) ? '\'src\' ' : ''}${(Array.isArray(value.domains) && value.domains) ? value.domains.map(v => `"${v}"`).join(' ') : ''})`}; `, '').slice(0, -2);
+    static PermissionPolicy = (...data) => data.reduce((acc, {key, ...value}) => acc += `${key.replace(/([A-Z])/g, '-$1').toLowerCase()}=${(value.wildcard) ? '*' : `(${(value.none) ? '' : `${(value.self) ? '\'self\' ' : ''}${(value.src) ? '\'src\' ' : ''}${(Array.isArray(value.domains) && value.domains) ? value.domains.map(v => `"${v}"`).join(' ') : ''}`})`}, `, '').slice(0, -2);
     /** @param {string} domain */
     static CD = (domain) => [domain, `*.${domain}`];
 }
@@ -175,16 +175,16 @@ module.exports = (req, res, next) => {
             new PermissionPolicy('ambientLightSensor', { none: true }),
             new PermissionPolicy('executionWhileNotRendered', { none: true }),
             new PermissionPolicy('executionWhileOutOfViewport', { none: true }),
-            new PermissionPolicy('microphone', { self: true, domains: [...WebSecurity.CD('thefemdevs.com')] }),
-            new PermissionPolicy('storageAccess', { self: true, domains: [...WebSecurity.CD('thefemdevs.com')] }),
-            new PermissionPolicy('otpCredentials', { self: true, domains: [...WebSecurity.CD('thefemdevs.com')] }),
-            new PermissionPolicy('pictureInPicture', { self: true, domains: [...WebSecurity.CD('thefemdevs.com')] }),
-            new PermissionPolicy('speakerSelection', { self: true, domains: [...WebSecurity.CD('thefemdevs.com')] }),
-            new PermissionPolicy('identityCredentialsGet', { self: true, domains: [...WebSecurity.CD('thefemdevs.com')] }),
-            new PermissionPolicy('publickeyCredentialsGet', { self: true, domains: [...WebSecurity.CD('thefemdevs.com')] }),
-            new PermissionPolicy('publickeyCredentialsCreate', { self: true, domains: [...WebSecurity.CD('thefemdevs.com')] }),
-            new PermissionPolicy('payment', { self: true, domains: [...WebSecurity.CD('thefemdevs.com'), ...WebSecurity.CD('stripe.com')] }),
-            new PermissionPolicy('geolocation', { self: true, domains: [...WebSecurity.CD('google.com'), ...WebSecurity.CD('googleapis.com'), ...WebSecurity.CD('thefemdevs.com')] }),
+            new PermissionPolicy('microphone', { self: true, domains: WebSecurity.CD('thefemdevs.com') }),
+            new PermissionPolicy('storageAccess', { self: true, domains: WebSecurity.CD('thefemdevs.com') }),
+            new PermissionPolicy('otpCredentials', { self: true, domains: WebSecurity.CD('thefemdevs.com') }),
+            new PermissionPolicy('pictureInPicture', { self: true, domains: WebSecurity.CD('thefemdevs.com') }),
+            new PermissionPolicy('speakerSelection', { self: true, domains: WebSecurity.CD('thefemdevs.com') }),
+            new PermissionPolicy('identityCredentialsGet', { self: true, domains: WebSecurity.CD('thefemdevs.com') }),
+            new PermissionPolicy('publickeyCredentialsGet', { self: true, domains: WebSecurity.CD('thefemdevs.com') }),
+            new PermissionPolicy('publickeyCredentialsCreate', { self: true, domains: WebSecurity.CD('thefemdevs.com') }),
+            new PermissionPolicy('payment', { self: true, domains: [].concat(WebSecurity.CD('thefemdevs.com'), WebSecurity.CD('stripe.com')) }),
+            new PermissionPolicy('geolocation', { self: true, domains: [].concat(WebSecurity.CD('google.com'), WebSecurity.CD('googleapis.com'), WebSecurity.CD('thefemdevs.com')) }),
         ))
     WebSecurity.CORS({
         maxAge: 86400,
