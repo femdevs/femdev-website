@@ -136,7 +136,7 @@ module.exports = (req, res, next) => {
             new CSPObj('blockAllMixedContent', new CSPObjData(false, [], false, false, [])),
             new CSPObj('upgradeInsecureRequests', new CSPObjData(false, [], false, false, [])),
             new CSPObj('requireTrustedTypesFor', new CSPObjData(false, ['script'], false, false, [])),
-            new CSPObj('scriptSrcElem', new CSPObjData(false, ['unsafe-inline', 'unsafe-eval'], true, false, [])),
+            new CSPObj('scriptSrcElem', new CSPObjData(false, ['unsafe-inline', 'unsafe-eval'], true, false, [...WebSecurity.CD('thefemdevs.com')])),
             new CSPObj('reportUri', new CSPObjData(false, [], false, false, ['https://femdevs.report-uri.com/r/d/csp/enforce'])),
             new CSPObj('baseUri', new CSPObjData(false, [], true, false, ['thefemdevs.com', 'security.thefemdevs.com', 'cdn.thefemdevs.com'])),
             new CSPObj('scriptSrc', new CSPObjData(false, ['unsafe-inline', 'unsafe-eval'], true, false, ['blob:', ...WebSecurity.CD('thefemdevs.com')])),
