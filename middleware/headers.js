@@ -4,7 +4,7 @@ class WebSecurity {
         .reduce((acc, info) => acc += ` ${info.key.replace(/([A-Z])/g, '-$1').toLowerCase()
             }${(info.none)
                 ? " 'none'"
-                : `${(info.inititives.length > 0) ? ` ${info.inititives.map(i => `'${i}'`).join(' ')}` : ''
+                : `${(info.directives.length > 0) ? ` ${info.directives.map(i => `'${i}'`).join(' ')}` : ''
                 }${(info.self) ? ' \'self\'' : ''
                 }${(info.wildcard) ? ' *' : ''
                 }${(info.domains.length > 0) ? ` ${info.domains.join(' ')}` : ''
@@ -36,12 +36,12 @@ class WebSecurity {
 class CSPObj {
     /**
      * @param {string} key 
-     * @param {{none?: boolean, inititives?: Array<string>, self?: boolean, wildcard?: boolean, domains?: Array<string>}} data 
+     * @param {{none?: boolean, directives?: Array<string>, self?: boolean, wildcard?: boolean, domains?: Array<string>}} data 
      */
     constructor(key, data) {
         this.key = key;
         this.none = data.none ?? false;
-        this.inititives = data.inititives ?? [];
+        this.directives = data.directives ?? [];
         this.self = data.self ?? false;
         this.wildcard = data.wildcard ?? false;
         this.domains = data.domains ?? [];
@@ -51,14 +51,14 @@ class CSPObj {
 class CSPObjData {
     /**
      * @param {boolean} none 
-     * @param {Array<string>} inititives 
+     * @param {Array<string>} directives 
      * @param {boolean} self 
      * @param {boolean} wildcard 
      * @param {Array<string>} domains 
      */
-    constructor(none, inititives, self, wildcard, domains) {
+    constructor(none, directives, self, wildcard, domains) {
         this.none = none;
-        this.inititives = inititives;
+        this.directives = directives;
         this.self = self;
         this.wildcard = wildcard;
         this.domains = domains;
