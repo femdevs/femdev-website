@@ -64,7 +64,7 @@ app
     .use((req, _, next) => {
         Object.assign(req, {
             reqLogs, Persistance, AdminApp, auth: AdminApp.auth(), Database, Formatter, RateLimitMem: RateLimiter,
-            getErrPage: (c, d) => errPages.get(c).call(d)
+            getErrPage: (c, d) => errPages.get(c)(d)
         })
         next();
     })

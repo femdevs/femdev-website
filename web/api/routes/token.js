@@ -1,7 +1,34 @@
 const router = require('express').Router();
 const User = require('../../../functions/userMgr');
+const TokenManager = require('../../../functions/crypto');
+
 
 router
+    .post('/create', async (req, res) => {
+        if (!req.headers['authorization']) return res.sendError(1);
+        const [_, token] = req.headers['authorization'].split(' ');
+        const connection = await req.Database.pool.connect();
+        const { rows } = await connection.query(`SELECT * FROM public.APITokens WHERE token = '${token}'`)
+        if (rows.length == 0) return res.sendError(2);
+        const { associatedfirebaseuid: firebaseUserID } = rows[0];
+        const { rows: userRows } = await connection.query(`SELECT * FROM public.users WHERE firebaseuid = '${firebaseUserID}'`)
+        const mainUser = User.fromFullPermissionBitString(userRows[0].permissions)
+        if (!mainUser.hasPermission('Global::Token.Create', true)) {
+            connection.release();
+            return res.sendError(12)
+        };
+        const { firebaseuid } = req.body
+        if (!firebaseuid) return res.status(400).json({ error: 'No firebaseuid provided' });
+        const generatedToken = TokenManager.generate({ firebaseuid, username: userRows[0].displayName });
+        req.Database.emit('token', { generatedToken, firebaseuid });
+        res.status(201).json({
+            token: generatedToken,
+            license: key,
+        })
+        connection.release();
+        // const {associatedfirebaseuid: FirebaseUser} = rows[0];
+        // AdminApp.auth().getUser(FirebaseUser)
+    })
     .delete('/delete', async (req, res) => {
         if (!req.headers['authorization']) return res.sendError(1);
         const [_, token] = req.headers['authorization'].split(' ');

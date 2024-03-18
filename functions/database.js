@@ -30,17 +30,15 @@ class PGDatabase extends events.EventEmitter {
 
         this
             .on('access', (data) => {
+                const { ip, method, url, status, time, bytes } = data;
                 this.pool.connect().then(connection => {
-                    connection.query(
-                        `INSERT INTO public.accesslogs (ipaddress, method, route, statuscode, timing, datatransferred) VALUES ($1, $2, $3, $4, $5, $6)`,
-                        [data.ip, data.method, data.url, data.status, data.time, data.bytes]
-                    ).catch(console.error)
+                    connection.query(SQL`INSERT INTO public.accesslogs (ipaddress, method, route, statuscode, timing, datatransferred) VALUES (${ip}, ${method}, ${url}, ${status}, ${time}, ${bytes})`                    ).catch(console.error)
                     connection.release();
                 })
             })
             .on('token', (data) => {
                 this.pool.connect().then(connection => {
-                    connection.query(SQL`INSERT INTO public.apitokens (token, associatedfirebaseuid, stripesub) VALUES (${data.generatedToken}, ${data.firebaseuid}, ${data.sub})`).catch(console.error)
+                    connection.query(SQL`INSERT INTO public.apitokens (token, associatedfirebaseuid, stripesub) VALUES (${data.generatedToken}, ${data.firebaseuid}, ${data.sub ?? ''})`).catch(console.error)
                     connection.query(SQL`INSERT INTO public.apiUsage (apiToken, totalUses) VALUES (${data.generatedToken}, 0)`).catch(console.error)
                     connection.release();
                 })
