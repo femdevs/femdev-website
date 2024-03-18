@@ -121,7 +121,7 @@ module.exports = (req, res, next) => {
             new CSPObj('scriptSrc', new CSPObjData(false, ['unsafe-inline', 'unsafe-eval'], true, false, ['blob:'].concat(WebSecurity.CD('google.com'), WebSecurity.CD('thefemdevs.com'), WebSecurity.CD('fontawesome.com')))),
             new CSPObj('styleSrc', new CSPObjData(false, ['unsafe-inline', 'unsafe-eval'], true, false, [].concat(WebSecurity.CD('google.com'), WebSecurity.CD('googleapis.com'), WebSecurity.CD('thefemdevs.com'), WebSecurity.CD('fontawesome.com')))),
         ))
-        .setHeader('Document-Policy', 'report-to=doc-ep;')
+        .setHeader('Document-Policy', 'unsized-media=?0, document-write=?0, max-image-bpp=2.0, frame-loading=lazy, report-to=doc-ep')
         .setHeader('Strict-Transport-Security', WebSecurity.HSTS({ ma: 31536000, iSD: true, pl: true }))
     WebSecurity.CORS({
         maxAge: 86400,
