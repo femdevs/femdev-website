@@ -3,6 +3,7 @@ const CCrypto = require('../../../modules/CCrypto')
 
 router
     .get('/enc', async (req, res) => {
+        if (!req.query) return res.sendError(4)
         const { query: { data } } = req;
         if (!data) return res.sendError(4)
         try {
@@ -12,6 +13,7 @@ router
         }
     })
     .get('/dec', async (req, res) => {
+        if (!req.query) return res.sendError(4)
         const { query: { data } } = req;
         if (!data) return res.sendError(4)
         try {
