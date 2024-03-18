@@ -114,10 +114,10 @@ module.exports = (req, res, next) => {
         .setHeader('X-OS', os == 'win32' ? 'Windows' : os == 'linux' ? 'Linux' : os == 'darwin' ? 'MacOS' : 'Other')
         .setHeader('X-Node-Version', v.node)
         .setHeader('Report-To', WebSecurity.ReportTo(
-            new ReportToGroup('csp-ep', 31536000, ['csp', 'report'].map(g => `https://security.thefemdevs.com/${g}/new`))
+            new ReportToGroup('csp-ep', 31536000, ['csp', 'report'].map(g => `https://security.thefemdevs.com/${g}/new`).push('https://femdevs.report-uri.com/r/d/csp/enforce'))
         ))
         .setHeader('Reporting-Endpoints', WebSecurity.ReportingEndpoints(
-            new ReportingEndpoint('csp-ep', 'https://security.thefemdevs.com/csp/new'),
+            new ReportingEndpoint('csp-ep', 'https://femdevs.report-uri.com/r/d/csp/enforce'),
             new ReportingEndpoint('doc-ep', 'https://security.thefemdevs.com/doc/new'),
             new ReportingEndpoint('default', 'https://security.thefemdevs.com/report/new')
         ))
@@ -137,7 +137,7 @@ module.exports = (req, res, next) => {
             new CSPObj('upgradeInsecureRequests', new CSPObjData(false, [], false, false, [])),
             new CSPObj('requireTrustedTypesFor', new CSPObjData(false, ['script'], false, false, [])),
             new CSPObj('scriptSrcElem', new CSPObjData(false, ['unsafe-inline', 'unsafe-eval'], true, false, [])),
-            new CSPObj('reportUri', new CSPObjData(false, [], false, false, ['https://security.thefemdevs.com/csp/new'])),
+            new CSPObj('reportUri', new CSPObjData(false, [], false, false, ['https://femdevs.report-uri.com/r/d/csp/enforce'])),
             new CSPObj('baseUri', new CSPObjData(false, [], true, false, ['thefemdevs.com', 'security.thefemdevs.com', 'cdn.thefemdevs.com'])),
             new CSPObj('scriptSrc', new CSPObjData(false, ['unsafe-inline', 'unsafe-eval'], true, false, ['blob:', ...WebSecurity.CD('thefemdevs.com')])),
             new CSPObj('scriptSrcAttr', new CSPObjData(false, ['unsafe-inline', 'unsafe-eval'], true, false, [WebSecurity.CD('google.com'), WebSecurity.CD('fontawesome.com')])),
@@ -186,6 +186,7 @@ module.exports = (req, res, next) => {
             new PermissionPolicy('payment', { self: true, domains: [].concat(WebSecurity.CD('thefemdevs.com'), WebSecurity.CD('stripe.com')) }),
             new PermissionPolicy('geolocation', { self: true, domains: [].concat(WebSecurity.CD('google.com'), WebSecurity.CD('googleapis.com'), WebSecurity.CD('thefemdevs.com')) }),
         ))
+        .setHeader('NEL', '{"report_to":"default","max_age":31536000,"include_subdomains":true}')
     WebSecurity.CORS({
         maxAge: 86400,
         allowCredentials: true,
