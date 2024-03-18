@@ -128,8 +128,10 @@ module.exports = (req, res, next) => {
             new CSPObj('requireTrustedTypesFor', new CSPObjData(false, ['script'], false, false, [])),
             new CSPObj('reportUri', new CSPObjData(false, [], false, false, ['https://femdevs.report-uri.com/r/d/csp/enforce'])),
             new CSPObj('baseUri', new CSPObjData(false, [], true, false, ['thefemdevs.com', 'security.thefemdevs.com', 'cdn.thefemdevs.com'])),
-            new CSPObj('styleSrc', new CSPObjData(false, [], true, false, [].concat(WebSecurity.CD('google.com'), WebSecurity.CD('googleapis.com'), WebSecurity.CD('thefemdevs.com'), WebSecurity.CD('fontawesome.com')))),
             new CSPObj('scriptSrc', new CSPObjData(false, ['unsafe-inline', 'unsafe-eval'], true, false, ['blob:', ...WebSecurity.CD('thefemdevs.com'), ...WebSecurity.CD('google.com'), ...WebSecurity.CD('fontawesome.com')])),
+            new CSPObj('scriptSrcElem', new CSPObjData(false, ['unsafe-inline', 'unsafe-eval'], true, false, ['blob:', ...WebSecurity.CD('thefemdevs.com'), ...WebSecurity.CD('google.com'), ...WebSecurity.CD('fontawesome.com')])),
+            new CSPObj('styleSrc', new CSPObjData(false, ['unsafe-inline'], true, false, [].concat(WebSecurity.CD('google.com'), WebSecurity.CD('googleapis.com'), WebSecurity.CD('thefemdevs.com'), WebSecurity.CD('fontawesome.com')))),
+            new CSPObj('styleSrcElem', new CSPObjData(false, ['unsafe-inline'], true, false, [].concat(WebSecurity.CD('google.com'), WebSecurity.CD('googleapis.com'), WebSecurity.CD('thefemdevs.com'), WebSecurity.CD('fontawesome.com')))),
         ))
         .setHeader('Permissions-Policy', WebSecurity.PermissionPolicy(
             new PermissionPolicy('hid', { none: true }),
