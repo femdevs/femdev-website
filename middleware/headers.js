@@ -27,6 +27,8 @@ class WebSecurity {
     static ReportTo = (...data) => data.map(g => JSON.stringify({ group: g.group, max_age: g.max_age, endpoints: g.endpoints })).join(', ');
     /** @param {Array<ReportingEndpoint>} data */
     static ReportingEndpoints = (...data) => data.reduce((acc, ep) => acc += `${ep.id.replace(/([A-Z])/g, '-$1').toLowerCase()}: ${ep.url}, `, '').slice(0, -2);
+    /** @param {Array<PermissionPolicy>} data */
+    static PermissionPolicy = (...data) => data.reduce((acc, {key, ...value}) => acc += `${key.replace(/([A-Z])/g, '-$1').toLowerCase()}=${(value.none) ? '()' : (value.wildcard) ? '*' : `(${(value.self) ? '\'self\' ' : ''}${(value.src) ? '\'src\' ' : ''}${(Array.isArray(value.domains) && value.domains) ? value.domains.join(' ') : ''})`}; `, '').slice(0, -2);
     /** @param {string} domain */
     static CD = (domain) => [domain, `*.${domain}`];
 }
@@ -87,6 +89,21 @@ class ReportingEndpoint {
     }
 }
 
+class PermissionPolicy {
+    /**
+     * @param {string} key 
+     * @param {{none?: boolean, self?: boolean, wildcard?: boolean, src?: boolean, domains?: Array<string>}} data 
+     */
+    constructor(key, data) {
+        this.key = key;
+        this.none = data.none ?? false;
+        this.self = data.self ?? false;
+        this.wildcard = data.wildcard ?? false;
+        this.src = data.src ?? false;
+        this.domains = data.domains ?? [];
+    }
+}
+
 /** @type {import('express').RequestHandler} */
 module.exports = (req, res, next) => {
     const { platform: os, versions: v } = process;
@@ -107,22 +124,68 @@ module.exports = (req, res, next) => {
         .setHeader('Content-Security-Policy', WebSecurity.CSP(
             new CSPObj('imgSrc', new CSPObjData(false, [], false, true, [])),
             new CSPObj('fontSrc', new CSPObjData(false, [], false, true, [])),
-            new CSPObj('baseUri', new CSPObjData(false, [], true, false, [])),
             new CSPObj('mediaSrc', new CSPObjData(false, [], false, true, [])),
-            new CSPObj('frameSrc', new CSPObjData(false, [], false, true, [])),
+            new CSPObj('childSrc', new CSPObjData(false, [], false, true, [])),
             new CSPObj('objectSrc', new CSPObjData(true, [], false, false, [])),
             new CSPObj('defaultSrc', new CSPObjData(false, [], false, true, [])),
             new CSPObj('connectSrc', new CSPObjData(false, [], false, true, [])),
             new CSPObj('formAction', new CSPObjData(false, [], true, false, [])),
+            new CSPObj('prefetchSrc', new CSPObjData(false, [], false, true, [])),
             new CSPObj('manifestSrc', new CSPObjData(false, [], true, false, [])),
             new CSPObj('reportTo', new CSPObjData(false, [], false, false, ['csp-ep'])),
+            new CSPObj('blockAllMixedContent', new CSPObjData(false, [], false, false, [])),
+            new CSPObj('upgradeInsecureRequests', new CSPObjData(false, [], false, false, [])),
             new CSPObj('requireTrustedTypesFor', new CSPObjData(false, ['script'], false, false, [])),
+            new CSPObj('scriptSrcElem', new CSPObjData(false, ['unsafe-inline', 'unsafe-eval'], true, false, [])),
             new CSPObj('reportUri', new CSPObjData(false, [], false, false, ['https://security.thefemdevs.com/csp/new'])),
-            new CSPObj('scriptSrc', new CSPObjData(false, ['unsafe-inline', 'unsafe-eval'], true, false, ['blob:'].concat(WebSecurity.CD('google.com'), WebSecurity.CD('thefemdevs.com'), WebSecurity.CD('fontawesome.com')))),
+            new CSPObj('baseUri', new CSPObjData(false, [], true, false, ['thefemdevs.com', 'security.thefemdevs.com', 'cdn.thefemdevs.com'])),
+            new CSPObj('scriptSrc', new CSPObjData(false, ['unsafe-inline', 'unsafe-eval'], true, false, ['blob:', ...WebSecurity.CD('thefemdevs.com')])),
+            new CSPObj('scriptSrcAttr', new CSPObjData(false, ['unsafe-inline', 'unsafe-eval'], true, false, [WebSecurity.CD('google.com'), WebSecurity.CD('fontawesome.com')])),
             new CSPObj('styleSrc', new CSPObjData(false, ['unsafe-inline', 'unsafe-eval'], true, false, [].concat(WebSecurity.CD('google.com'), WebSecurity.CD('googleapis.com'), WebSecurity.CD('thefemdevs.com'), WebSecurity.CD('fontawesome.com')))),
         ))
         .setHeader('Document-Policy', 'unsized-media=?0, document-write=?0, max-image-bpp=2.0, frame-loading=lazy, report-to=doc-ep')
         .setHeader('Strict-Transport-Security', WebSecurity.HSTS({ ma: 31536000, iSD: true, pl: true }))
+        .setHeader('X-Frame-Options', 'SAMEORIGIN')
+        .setHeader('X-Content-Type-Options', 'nosniff')
+        .setHeader('Referrer-Policy', 'same-origin')
+        .setHeader('Permissions-Policy', WebSecurity.PermissionPolicy(
+            new PermissionPolicy('hid', { none: true }),
+            new PermissionPolicy('usb', { none: true }),
+            new PermissionPolicy('midi', { none: true }),
+            new PermissionPolicy('camera', { none: true }),
+            new PermissionPolicy('serial', { none: true }),
+            new PermissionPolicy('battery', { none: true }),
+            new PermissionPolicy('gamepad', { none: true }),
+            new PermissionPolicy('autoplay', { none: true }),
+            new PermissionPolicy('webShare', { self: true }),
+            new PermissionPolicy('bluetooth', { none: true }),
+            new PermissionPolicy('gyroscope', { none: true }),
+            new PermissionPolicy('fullscreen', { self: true }),
+            new PermissionPolicy('magnetometer', { none: true }),
+            new PermissionPolicy('accelerometer', { none: true }),
+            new PermissionPolicy('idleDetection', { none: true }),
+            new PermissionPolicy('browsingTopics', { none: true }),
+            new PermissionPolicy('localFonts', { wildcard: true }),
+            new PermissionPolicy('screenWakeLock', { none: true }),
+            new PermissionPolicy('display-capture', { none: true }),
+            new PermissionPolicy('document-domain', { none: true }),
+            new PermissionPolicy('encrypted-media', { none: true }),
+            new PermissionPolicy('windowManagement', { none: true }),
+            new PermissionPolicy('xrSpacialTracking', { none: true }),
+            new PermissionPolicy('ambientLightSensor', { none: true }),
+            new PermissionPolicy('executionWhileNotRendered', { none: true }),
+            new PermissionPolicy('executionWhileOutOfViewport', { none: true }),
+            new PermissionPolicy('microphone', { self: true, domains: [WebSecurity.CD('thefemdevs.com')] }),
+            new PermissionPolicy('storageAccess', { self: true, domains: [WebSecurity.CD('thefemdevs.com')] }),
+            new PermissionPolicy('otpCredentials', { self: true, domains: [WebSecurity.CD('thefemdevs.com')] }),
+            new PermissionPolicy('pictureInPicture', { self: true, domains: [WebSecurity.CD('thefemdevs.com')] }),
+            new PermissionPolicy('speakerSelection', { self: true, domains: [WebSecurity.CD('thefemdevs.com')] }),
+            new PermissionPolicy('identityCredentialsGet', { self: true, domains: [WebSecurity.CD('thefemdevs.com')] }),
+            new PermissionPolicy('publickeyCredentialsGet', { self: true, domains: [WebSecurity.CD('thefemdevs.com')] }),
+            new PermissionPolicy('publickeyCredentialsCreate', { self: true, domains: [WebSecurity.CD('thefemdevs.com')] }),
+            new PermissionPolicy('payment', { self: true, domains: [WebSecurity.CD('thefemdevs.com'), WebSecurity.CD('stripe.com')] }),
+            new PermissionPolicy('geolocation', { self: true, domains: [WebSecurity.CD('google.com'), WebSecurity.CD('googleapis.com'), WebSecurity.CD('thefemdevs.com')] }),
+        ))
     WebSecurity.CORS({
         maxAge: 86400,
         allowCredentials: true,
