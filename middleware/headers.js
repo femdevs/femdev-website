@@ -109,7 +109,7 @@ module.exports = (req, res, next) => {
     const { platform: os, versions: v } = process;
     res
         .setHeader('Report-To', WebSecurity.ReportTo(
-            new ReportToGroup('csp-ep', 31536000, ['csp', 'report'].map(g => `https://security.thefemdevs.com/${g}/new`).concat(['https://femdevs.report-uri.com/r/d/csp/enforce']))
+            new ReportToGroup('csp-ep', 31536000, ['csp', 'report'].map(g => `https://security.thefemdevs.com/${g}/new`))
         ))
         .setHeader('Content-Security-Policy', WebSecurity.CSP(
             new CSPObj('imgSrc', new CSPObjData(false, [], false, true, [])),
@@ -126,7 +126,7 @@ module.exports = (req, res, next) => {
             new CSPObj('blockAllMixedContent', new CSPObjData(false, [], false, false, [])),
             new CSPObj('upgradeInsecureRequests', new CSPObjData(false, [], false, false, [])),
             new CSPObj('requireTrustedTypesFor', new CSPObjData(false, ['script'], false, false, [])),
-            new CSPObj('reportUri', new CSPObjData(false, [], false, false, ['https://femdevs.report-uri.com/r/d/csp/enforce'])),
+            new CSPObj('reportUri', new CSPObjData(false, [], false, false, ['https://security.thefemdevs.com/csp/new'])),
             new CSPObj('baseUri', new CSPObjData(false, [], true, false, ['thefemdevs.com', 'security.thefemdevs.com', 'cdn.thefemdevs.com'])),
             new CSPObj('scriptSrc', new CSPObjData(false, ['unsafe-inline', 'unsafe-eval'], true, false, ['blob:', ...WebSecurity.CD('thefemdevs.com'), ...WebSecurity.CD('google.com'), ...WebSecurity.CD('fontawesome.com')])),
             new CSPObj('scriptSrcElem', new CSPObjData(false, ['unsafe-inline', 'unsafe-eval'], true, false, ['blob:', ...WebSecurity.CD('thefemdevs.com'), ...WebSecurity.CD('google.com'), ...WebSecurity.CD('fontawesome.com')])),
@@ -172,9 +172,9 @@ module.exports = (req, res, next) => {
             new PermissionPolicy('geolocation', { self: true, domains: [].concat(WebSecurity.CD('google.com'), WebSecurity.CD('googleapis.com'), WebSecurity.CD('thefemdevs.com')) }),
         ))
         .setHeader('Reporting-Endpoints', WebSecurity.ReportingEndpoints(
+            new ReportingEndpoint('csp-ep', 'https://security.thefemdevs.com/csp/new'),
             new ReportingEndpoint('doc-ep', 'https://security.thefemdevs.com/doc/new'),
             new ReportingEndpoint('default', 'https://security.thefemdevs.com/report/new'),
-            new ReportingEndpoint('csp-ep', 'https://femdevs.report-uri.com/r/d/csp/enforce'),
         ))
         .setHeader('X-Node-Version', v.node)
         .setHeader('X-Frame-Options', 'SAMEORIGIN')
