@@ -8,8 +8,9 @@ router
         switch (req.headers['content-type']) {
             case 'application/csp-report':
                 // Firefox
-                const data = new CSPData(req.body);
-                req.Database.SaveCSPReport(data);
+                console.dir(req.body)
+                // const data = new CSPData(req.body);
+                // req.Database.SaveCSPReport(data);
                 res.status(204).end();
                 break;
             case 'application/reports+json':

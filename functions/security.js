@@ -2,7 +2,7 @@ const crypto = require('crypto');
 
 class CSPReport {
     /**
-     * @param {{'blocked-uri': string, disposition: string, 'document-uri': string, 'effective-directive': string, 'original-policy': string, referrer: string, 'script-sample': string, 'violated-directive': string, 'status-code': number, timeStamp: string, reportId: string}} data
+     * @param {{'blocked-uri': string, disposition: string, 'document-uri': string, 'effective-directive': string, 'original-policy': string, referrer: string, 'script-sample': string, 'violated-directive': string, 'status-code': number}} data
     */
     constructor(data) {
         this.blockedURI = data['blocked-uri'];
@@ -17,10 +17,6 @@ class CSPReport {
         this.timestamp = new Date().toISOString();
         this.reportId = crypto.randomBytes(16).toString('base64url');
     }
-}
-
-class CSP {
-    static process = (data) => new CSPReport(data);
 }
 
 module.exports = CSPReport;
