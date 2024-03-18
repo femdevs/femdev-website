@@ -1,6 +1,6 @@
 const router = require('express').Router();
 
-const User = require('../../../functions/userMgr');
+const User = require('../../../../functions/userMgr');
 
 router
     .get('/player', async (req, res) => {
