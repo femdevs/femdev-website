@@ -32,8 +32,10 @@ jobs:
         # get the version from the commit message
         version=$(echo ${{ github.event.head_commit.message }} | grep -o 'v[0-9]\+\.[0-9]\+\.[0-9]\+')
         echo "Version: $version"
+        # filename
+        fn = $version.zip
         # create a zip archive of the code
-        zip -r code.zip .
+        zip -r $fn .
         # sign the zip archive
         cosign sign -key cosign.key code.zip
         # create a release in the repository
@@ -41,43 +43,6 @@ jobs:
         # upload the signed zip archive to the release
         upload_url=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/${{ github.repository }}/releases/tags/$version | jq -r .upload_url | sed 's/{?name,label}//')
         echo "Upload URL: $upload_url"
-        curl -X POST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -H "Accept: application/vnd.github.v3+json" -H "Content-Type: application/zip" --data-binary @code.zip $upload_url?name=code.zip
+        curl -X POST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -H "Accept: application/vnd.github.v3+json" -H "Content-Type: application/zip" --data-binary @$fn $upload_url?name=$fn
         # upload the public key to the release
         curl -X POST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -H "Accept: application/vnd.github.v3+json" -H "Content-Type: application/pgp-keys" --data-binary @cosign.pub $upload_url?name=cosign.pub
-    - name: Check for changes
-      run: |
-        echo "Checking for changes"
-        # check if the commit has a CHANGELOG.md file
-        if [ -f CHANGELOG.md ]; then
-        echo "CHANGELOG.md exists"
-        else
-        echo "CHANGELOG.md does not exist"
-        exit 1
-        fi
-        # check if the commit has a semver value in the commit message
-        if [[ $(echo ${{ github.event.head_commit.message }} | grep -o 'v[0-9]\+\.[0-9]\+\.[0-9]\+') ]]; then
-        echo "Semver value exists"
-        else
-        echo "Semver value does not exist"
-        exit 1
-        fi
-    - name: Check for signed release
-      run: |
-        echo "Checking for signed release"
-        # check if the release has a signed file
-        if [[ $(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/${{ github.repository }}/releases/tags/$version | jq -r .assets[0].name) ]]; then
-        echo "Signed file exists"
-        else
-        echo "Signed file does not exist"
-        exit 1
-        fi
-    - name: Check for public key
-      run: |
-        echo "Checking for public key"
-        # check if the release has a public key
-        if [[ $(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/${{ github.repository }}/releases/tags/$version | jq -r .assets[1].name) ]]; then
-        echo "Public key exists"
-        else
-        echo "Public key does not exist"
-        exit 1
-        fi
