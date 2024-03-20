@@ -1,7 +1,9 @@
 name: CoSign
 
 on:
-  workflow_dispatch:
+  push:
+    tags:
+      - 'v.*'
 
 permissions:
   contents: read
@@ -46,15 +48,23 @@ jobs:
         cosign sign -key cosign.key $fn
         releaseBody=$(awk '/## /{f=1} f{print; if (/## /) exit}' CHANGELOG.md)
         echo "Release Body: $releaseBody"
-        echo "::set-output name=version::$version"
-        echo "::set-output name=fn::$fn"
-        echo "::set-output name=releaseBody::$releaseBody"
+        echo "FN=$fn" >> $GITHUB_OUTPUT
+        echo "RELEASE_BODY=$releaseBody" >> $GITHUB_OUTPUT
     - name: Create Release
       uses: actions/create-release@v1
       with:
-        tag_name: ${{ version }}
-        release_name: ${{ version }}
-        body: ${{ releaseBody }}
+        tag_name: ${{ github.ref }}
+        release_name: ${{ github.ref }}
+        body: ${{ steps.prepare-release.outputs.RELEASE_BODY }}
         draft: false
         prerelease: false
-        files: ${{ fn }}
+    - name: Upload Release Asset
+      id: upload-release-asset 
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+        asset_path: ${{ steps.prepare-release.outputs.FN }} # This is the path to the asset you want to upload
+        asset_name: ${{ steps.prepare-release.outputs.FN }} # This is the name of the asset on the release
+        asset_content_type: application/zip
