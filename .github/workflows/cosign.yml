@@ -2,9 +2,6 @@ name: CoSign
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
 
 permissions:
   contents: read
@@ -14,18 +11,28 @@ permissions:
 jobs:
   example:
     runs-on: ubuntu-latest
-    name: Install Cosign
+    name: CoSign Runner
     steps:
     - name: Install Cosign
       uses: sigstore/cosign-installer@v3.3.0
     - name: Check install!
       run: cosign version
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Confirm Git Commit message for SemVer
+      run: |-
+        echo "Commit message: ${{ github.event.head_commit.message }}"
+        if [[ ${{ github.event.head_commit.message }} =~ v[0-9]+\.[0-9]+\.[0-9]+ ]]; then
+          echo "Commit message contains a SemVer value"
+        else
+          echo "Commit message does not contain a SemVer value"
+          exit 0
+        fi
     # check if the commit has a semver value in the commit message
     # if so, generate a zip archive of the code, sign the file,
     # and create a release in the repository with the signed file
     # and the release notes to be entered from a CHANGELOG.md file
-    - name: Create Release
-      if: contains(github.event.head_commit.message, 'v[0-9]+\.[0-9]+\.[0-9]+')
+    - name: Prepare Release
       run: |
         echo "Creating release"
         # get the version from the commit message
@@ -36,12 +43,18 @@ jobs:
         # create a zip archive of the code
         zip -r $fn .
         # sign the zip archive
-        cosign sign -key cosign.key code.zip
-        # create a release in the repository
-        curl -X POST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/${{ github.repository }}/releases -d "{\"tag_name\": \"$version\", \"name\": \"$version\", \"body\": \"$(cat CHANGELOG.md)\"}"
-        # upload the signed zip archive to the release
-        upload_url=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/${{ github.repository }}/releases/tags/$version | jq -r .upload_url | sed 's/{?name,label}//')
-        echo "Upload URL: $upload_url"
-        curl -X POST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -H "Accept: application/vnd.github.v3+json" -H "Content-Type: application/zip" --data-binary @$fn $upload_url?name=$fn
-        # upload the public key to the release
-        curl -X POST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -H "Accept: application/vnd.github.v3+json" -H "Content-Type: application/pgp-keys" --data-binary @cosign.pub $upload_url?name=cosign.pub
+        cosign sign -key cosign.key $fn
+        releaseBody=$(awk '/## /{f=1} f{print; if (/## /) exit}' CHANGELOG.md)
+        echo "Release Body: $releaseBody"
+        echo "::set-output name=version::$version"
+        echo "::set-output name=fn::$fn"
+        echo "::set-output name=releaseBody::$releaseBody"
+    - name: Create Release
+      uses: actions/create-release@v1
+      with:
+        tag_name: ${{ version }}
+        release_name: ${{ version }}
+        body: ${{ releaseBody }}
+        draft: false
+        prerelease: false
+        files: ${{ fn }}
