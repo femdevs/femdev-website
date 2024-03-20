@@ -3,7 +3,7 @@ name: CoSign
 on:
   push:
     tags:
-      - 'v.*'
+      - 'v*'
 
 permissions:
   contents: read
@@ -20,16 +20,9 @@ jobs:
     - name: Check install!
       run: cosign version
     - name: Checkout code
-      uses: actions/checkout@v2
-    - name: Confirm Git Commit message for SemVer
-      run: |-
-        echo "Commit message: ${{ github.event.head_commit.message }}"
-        if [[ ${{ github.event.head_commit.message }} =~ v[0-9]+\.[0-9]+\.[0-9]+ ]]; then
-          echo "Commit message contains a SemVer value"
-        else
-          echo "Commit message does not contain a SemVer value"
-          exit 0
-        fi
+      uses: actions/checkout@v4.1.1
+      with:
+        ref: ${{ github.ref }}
     # check if the commit has a semver value in the commit message
     # if so, generate a zip archive of the code, sign the file,
     # and create a release in the repository with the signed file
@@ -38,7 +31,7 @@ jobs:
       run: |
         echo "Creating release"
         # get the version from the commit message
-        version=$(echo ${{ github.event.head_commit.message }} | grep -o 'v[0-9]\+\.[0-9]\+\.[0-9]\+')
+        version=$(echo ${{ github.event.head_commit.message }} | grep -o 'v[0-9]+\.[0-9]+\.[0-9]+')
         echo "Version: $version"
         # filename
         fn = $version.zip
@@ -46,15 +39,15 @@ jobs:
         zip -r $fn .
         # sign the zip archive
         cosign sign -key cosign.key $fn
-        releaseBody=$(awk '/## /{f=1} f{print; if (/## /) exit}' CHANGELOG.md)
+        releaseBody=(cat README.md)
         echo "Release Body: $releaseBody"
         echo "FN=$fn" >> $GITHUB_OUTPUT
         echo "RELEASE_BODY=$releaseBody" >> $GITHUB_OUTPUT
     - name: Create Release
       uses: actions/create-release@v1
       with:
-        tag_name: ${{ github.ref }}
-        release_name: ${{ github.ref }}
+        tag_name: ${{ github.ref_name }}
+        release_name: ${{ github.ref_name }}
         body: ${{ steps.prepare-release.outputs.RELEASE_BODY }}
         draft: false
         prerelease: false
