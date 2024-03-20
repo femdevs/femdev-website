@@ -94,7 +94,7 @@ app
     .use(vhost('security.thefemdevs.com', require('./web/security/')))
     .use(vhost('thefemdevs.com', require('./web/core/')))
     .use(vhost('www.thefemdevs.com', require('./web/core')))
-    .use(vhost('localhost', require('./web/core/')))
+    .use(vhost('localhost', require(`./web/${process.env.LOCALHOST_PAGE || 'core'}`)))
     .use((req, res, next) => {
         const { path } = req;
         const methodUsed = req.method.toUpperCase();

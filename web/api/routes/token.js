@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const User = require('../../../functions/userMgr');
 const TokenManager = require('../../../functions/crypto');
+const crypto = require('crypto');
 
 
 router
@@ -19,7 +20,7 @@ router
         };
         const { firebaseuid } = req.body
         if (!firebaseuid) return res.status(400).json({ error: 'No firebaseuid provided' });
-        const generatedToken = TokenManager.generate({ firebaseuid, username: userRows[0].displayName });
+        const generatedToken = TokenManager.generate(`${firebaseuid}.${userRows[0].displayname}:${crypto.randomBytes(16).toString('base64url')}`);
         req.Database.emit('token', { generatedToken, firebaseuid });
         res.status(201).json({token: generatedToken})
         connection.release();

@@ -1,40 +1,44 @@
 const crypto = require('crypto');
 const { Buffer } = require('buffer');
+const assert = require('assert/strict');
 require('dotenv').config();
 
-const privateKey = crypto.createPrivateKey(process.env.CRYPT_PRIV);
+let cd = {
+    hashAlgorithm: 'RSA-RIPEMD160',
+    crypt: crypto.getCipherInfo("chacha20-poly1305"),
+    encoding: 'base64url',
+};
+
+Object.assign(cd, Object.fromEntries(['key', 'iv'].map(k => [k, Buffer.from(process.env[`C_${k}`.toUpperCase()], cd.encoding)])))
 
 class TokenManager {
-    static generate = (data) => {
-        const stringPayload = JSON.stringify(data);
-        const payloadBuffer = Buffer.from(stringPayload, 'utf8');
-        const hashedPayload = crypto
-            .createHash('ssl3-sha1')
-            .update(payloadBuffer)
-            .digest('base64url');
-        const signedPayload = crypto
-            .createSign('ssl3-sha1')
-            .update(Buffer.from(hashedPayload, 'base64url'))
-            .end()
-            .sign(privateKey, 'base64url')
-        const hashedSignedPayload = crypto
-            .createHash('id-rsassa-pkcs1-v1_5-with-sha3-224')
-            .update(Buffer.from(signedPayload, 'base64url'))
-            .digest('base64url');
-        return `${hashedPayload}.${hashedSignedPayload}`;
+    static generate = (id) => {
+        const {iv, key, hashAlgorithm: ha, encoding: e} = cd
+        const ed = crypto.createCipheriv(cd.crypt.name, key, iv).update(id)
+        const ph = crypto.createHash(ha).update(ed).digest(e)
+        const d = ed.toString(e)
+        return `${d}.${ph}`
     }
     static verify = (token) => {
-        const [hashedPayload, hashedSignedPayloadA] = token.split('.');
-        const signedPayload = crypto
-            .createSign('ssl3-sha1')
-            .update(Buffer.from(hashedPayload, 'base64url'))
-            .end()
-            .sign(privateKey, 'base64url')
-        const hashedSignedPayloadB = crypto
-            .createHash('id-rsassa-pkcs1-v1_5-with-sha3-224')
-            .update(Buffer.from(signedPayload, 'base64url'))
-            .digest('base64url');
-        return hashedSignedPayloadA === hashedSignedPayloadB;
+        const [d, ph] = token.split('.')
+        const {iv, key, hashAlgorithm: ha, encoding: e} = cd
+        const fd = Buffer.from(d, e)
+        const pvh = crypto.createHash(ha).update(fd).digest(e)
+        try {
+            assert.equal(ph, pvh)
+            crypto.createDecipheriv(cd.crypt.name, key, iv).update(fd).toString('utf-8')
+        } catch (e) {
+            return false
+        }
+        return true
+    }
+    decode = (token) => {
+        const [d, ph] = token.split('.')
+        const {iv, key, hashAlgorithm: ha, encoding: e} = cd
+        const fd = Buffer.from(d, e)
+        const pvh = crypto.createHash(ha).update(fd).digest(e)
+        assert.equal(ph, pvh)
+        return crypto.createDecipheriv(cd.crypt.name, key, iv).update(fd).toString('utf-8')
     }
 }
 

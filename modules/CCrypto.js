@@ -12,8 +12,7 @@ class CCrypto {
         const
             data = { iv: '', key: '', prehash: '', posthash: '', data: '' },
             input = Buffer.from(inputData),
-            generatedIV = crypto.randomBytes(cryptoDefaults.crypt.ivLength),
-            key = crypto.randomBytes(cryptoDefaults.crypt.keyLength)
+            [generatedIV, key] = ['iv', 'key'].map(k => crypto.randomBytes(cryptoDefaults.crypt[`${k}Length`]))
         data.prehash = crypto
             .createHash(cryptoDefaults.hashAlgorithm)
             .update(input)
