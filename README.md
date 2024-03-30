@@ -34,6 +34,8 @@ The Webpage will be available at `http://localhost:3000`. (Note; CDNs, assets, a
 - [Response Time](https://npmjs.com/package/response-time) => Response time header for Node.js
 - [Stripe](https://stripe.com/) => A suite of payment APIs that powers commerce for online businesses of all sizes
 - [vhost](https://npmjs.com/package/vhost) => Create an HTTP server for each virtual host
+- [nodemailer](https://nodemailer.com/) => Send e-mails from Node.js
+- [node-html-parser](https://npmjs.com/package/node-html-parser) => Fast and forgiving HTML/XML parser
 - [Free APIs](https://free-apis.github.io/) => Free APIs for developers
 
 ## Contributing
