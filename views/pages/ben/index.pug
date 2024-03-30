@@ -1,11 +1,97 @@
 doctype html
-html(lang='en-us')
+html(lang="en")
   head
-    include ../../defaults/header.pug
-  body.bg-neutral-200
-    include ../../defaults/nav.pug
-    content.flex.flex-col.items-center.justify-center
-      hero.flex.w-full.max-w-6xl.flex-row.items-center.justify-between.p-8(class='md:my-16')
-        .flex.w-full.flex-col.space-y-4
-          h1.text-9xl.font-black.text-neutral-900.text-center Coming Soon
-    include ../../defaults/footer.pug
+    title Benpai's Homepage
+    meta(charset="UTF-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    meta(property="og:title" content="Benpai's Website :3")
+    meta(property="og:description" content="Welcome to my website, I hope you enjoy it!")
+    meta(property="og:image" content="https://gravatar.com/avatar/f4353bfc07ad129aef250603da84be63cbe374dc27064a1c45fd9c59934944df?s=400")
+    meta(property="og:url" content="https://ben.thefemdevs.com/")
+    meta(property="og:type" content="website")
+    link(rel="icon" href="https://gravatar.com/avatar/f4353bfc07ad129aef250603da84be63cbe374dc27064a1c45fd9c59934944df?s=400" type="image/x-icon")
+    link(rel="stylesheet" href="https://cdn.thefemdevs.com/assets/css/d" type="text/css")
+    link(rel="stylesheet" href="https://ka-f.fontawesome.com/releases/v6.5.1/css/free.min.css?token=7cffc2ccb5" crossorigin="anonymous")
+    link(rel="stylesheet" href="https://ka-f.fontawesome.com/releases/v6.5.1/css/free-v5-font-face.min.css?token=7cffc2ccb5" crossorigin="anonymous")
+    script(type="application/ld+json").
+      {
+        "@context": "https://schema.org/",
+        "@type": "Person",
+        "name": "Benjamin",
+        "url": "https://ben.thefemdevs.com",
+        "image": "",
+        "sameAs": [
+          "https://github.com/therealbenpai",
+          "https://sparty18.com",
+          "https://ben.thefemdevs.com"
+        ],
+        "jobTitle": "Owner",
+        "worksFor": {
+          "@type": "Organization",
+          "name": "The FemDevs"
+        }
+      }
+  body.font-nunito.p-0.m-0.text-lg
+    header.fixed.top-0.left-0.w-full.z-40.bg-purple-900.shadow-md.text-center.py-4.px-4
+      nav
+        ul.menu.list-none.flex.justify-center
+          li.mx-5
+            a(href="#main").no-underline.text-white.font-bold.text-xl Main
+          li.mx-5
+            a(href="#socials").no-underline.text-white.font-bold.text-xl Socials
+          li.mx-5
+            a(href="#femdevs").no-underline.text-white.font-bold.text-xl FemDevs
+          li.mx-5
+            a(href="#interests").no-underline.text-white.font-bold.text-xl Interests
+    section#main.text-inherit.text-2xl.text-center.bg-purple-700(class="py-[75px]")
+      h1 Hello! My name is Benjamin!
+      p I am a full-stack software engineer and a co-owner of the Femdevs!
+    section#socials.text-black.text-2xl.py-6.text-center.bg-purple-700
+      h2 Connect with Me
+      p You can find most of my socials here, if you're interested in contacting me
+      .social-icons.grid.grid-cols-5.grid-rows-2.justify-evenly.place-items-center.pt-4(class="md:grid-cols-4 md:grid-rows-3 sm:grid-cols-2 sm:grid-rows-5")
+        .justify-evenly.size-full.flex.content-center(class="p-[3px]")
+          a(href="https://discord.com/users/1158220643616182445" title="Discord User" class="hover:scale-110 hover:bg-indigo-500").fab.fa-discord.transition-all.duration-300.text-inherit.p-0.border-1.border-solid.border-transparent.rounded-3xl.no-underline.items-center.self-center.justify-center.size-28.flex.flex-col
+            p.font-nunito.p-0.m-0 Discord
+        .justify-evenly.size-full.flex.content-center(class="p-[3px]")
+          a(href="https://www.instagram.com/realbenpai/" title="Instagram" class="hover:scale-110 hover:bg-indigo-500").fab.fa-instagram.transition-all.duration-300.text-inherit.p-0.border-1.border-solid.border-transparent.rounded-3xl.no-underline.items-center.self-center.justify-center.size-28.flex.flex-col
+            p.font-nunito.p-0.m-0 Instagram
+        .justify-evenly.size-full.flex.content-center(class="p-[3px]")
+          a(href="https://github.com/therealbenpai" title="GitHub Profile" class="hover:scale-110 hover:bg-indigo-500").fab.fa-github.transition-all.duration-300.text-inherit.p-0.border-1.border-solid.border-transparent.rounded-3xl.no-underline.items-center.self-center.justify-center.size-28.flex.flex-col
+            p.font-nunito.p-0.m-0 Github
+        .justify-evenly.size-full.flex.content-center(class="p-[3px]")
+          a(href="https://open.spotify.com/user/mbvcmhkmq3rwhhrotcllhsk0q" title="Spotify User" class="hover:scale-110 hover:bg-indigo-500").fab.fa-spotify.transition-all.duration-300.text-inherit.p-0.border-1.border-solid.border-transparent.rounded-3xl.no-underline.items-center.self-center.justify-center.size-28.flex.flex-col
+            p.font-nunito.p-0.m-0 Spotify
+        .justify-evenly.size-full.flex.content-center(class="p-[3px]")
+          a(href="https://twitter.com/officialbenpai" title="Twitter Account" class="hover:scale-110 hover:bg-indigo-500").fab.fa-twitter.transition-all.duration-300.text-inherit.p-0.border-1.border-solid.border-transparent.rounded-3xl.no-underline.items-center.self-center.justify-center.size-28.flex.flex-col
+            p.font-nunito.p-0.m-0 Twitter
+        .justify-evenly.size-full.flex.content-center(class="p-[3px]")
+          a(href="https://thefemdevs.com" title="The FemDevs Homepage" class="hover:scale-110 hover:bg-indigo-500").fas.fa-users.transition-all.duration-300.text-inherit.p-0.border-1.border-solid.border-transparent.rounded-3xl.no-underline.items-center.self-center.justify-center.size-28.flex.flex-col
+            p.font-nunito.p-0.m-0 FemDevs
+        .justify-evenly.size-full.flex.content-center(class="p-[3px]")
+          a(href="https://en.pronouns.page/@therealbenpai" title="Pronouns.Page Profile" class="hover:scale-110 hover:bg-indigo-500").fas.fa-users.transition-all.duration-300.text-inherit.p-0.border-1.border-solid.border-transparent.rounded-3xl.no-underline.items-center.self-center.justify-center.size-28.flex.flex-col
+            p.font-nunito.p-0.m-0 Pronouns Page
+        .justify-evenly.size-full.flex.content-center(class="p-[3px]")
+          a(href="https://www.youtube.com/@benshawmean" title="YouTube Account" class="hover:scale-110 hover:bg-indigo-500").fab.fa-youtube.transition-all.duration-300.text-inherit.p-0.border-1.border-solid.border-transparent.rounded-3xl.no-underline.items-center.self-center.justify-center.size-28.flex.flex-col
+            p.font-nunito.p-0.m-0 Youtube
+        .justify-evenly.size-full.flex.content-center(class="p-[3px]")
+          a(href="https://www.last.fm/user/therealbenpai" title="LastFM User" class="hover:scale-110 hover:bg-indigo-500").fab.fa-lastfm.transition-all.duration-300.text-inherit.p-0.border-1.border-solid.border-transparent.rounded-3xl.no-underline.items-center.self-center.justify-center.size-28.flex.flex-col
+            p.font-nunito.p-0.m-0 Last.fm
+        .justify-evenly.size-full.flex.content-center(class="p-[3px]")
+          a(href="mailto:alex@thefemdevs.com" title="Contact/Email" class="hover:scale-110 hover:bg-indigo-500").fas.fa-envelope.transition-all.duration-300.text-inherit.p-0.border-1.border-solid.border-transparent.rounded-3xl.no-underline.items-center.self-center.justify-center.size-28.flex.flex-col
+            p.font-nunito.p-0.m-0 Email
+    section#femdevs.text-black.text-2xl.py-6.text-center.bg-purple-700
+      h2 FemDevs
+      p
+        | As previously mentioned, I am a co-owner of the 
+        strong
+          a(href="https://thefemdevs.com") FemDevs
+        | , along with my fellow owners, colleagues, and most importantly, friends, Alex and Oblong. 
+        | I'm committed to helping talented individuals, regardless of gender, sex, age, race, or any other factor, 
+        | to achieve their dreams and goals in the tech industry.
+    section#interests.text-black.text-2xl.py-6.text-center.bg-purple-700
+      h2 General Interests
+      p.
+        I enjoy a wide variety of things, such as programming, gaming, music, and anime.
+        I have programmed in numberous languages such as HTML, CSS, Vinillia JavaScript, Node.js, Pug, Java, C, C++, C#, Python,
+        Visual Basic, Asembly 

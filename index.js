@@ -1,6 +1,5 @@
 const app = require('express')();
 const http = require('http');
-const cors = require('cors');
 const vhost = require('vhost');
 const crypto = require('crypto');
 const Admin = require('firebase-admin');
@@ -46,16 +45,6 @@ const Database = new (require('./functions/database'))();
 
 setInterval(_ => (!reqLogs[0]) ? null : Database.emit('access', reqLogs.shift()), 500)
 
-/** @type {cors.CorsOptions} */
-const CORSPerms = {
-    credentials: true,
-    maxAge: 86400,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'TRACE', 'HEAD'],
-    optionsSuccessStatus: 200,
-    preflightContinue: true,
-    exposedHeaders: ['X-Repo', 'X-Live-Deploy', 'X-Repository-License', 'X-OS', 'X-Node-Version', 'X-RateLimit-Limit', 'X-RateLimit-Remaining', 'X-RateLimit-Reset', 'Retry-After', 'Content-Type', 'Content-Length', 'Content-Security-Policy', 'Cross-Origin-Opener-Policy', 'Cross-Origin-Embedder-Policy', 'Cross-Origin-Resource-Policy']
-}
-
 app
     .set('view engine', 'pug')
     .set('case sensitive routing', false)
@@ -83,7 +72,6 @@ app
     })
     .use(TRACE)
     .use(Headers)
-    .use(cors(CORSPerms))
     .use(require('./web/pages/router'))
     .use(vhost('api.thefemdevs.com', require('./web/api/')))
     .use(vhost('oss.thefemdevs.com', require('./web/oss/')))

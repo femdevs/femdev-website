@@ -8,28 +8,35 @@ class Mail {
                 user: process.env.MAIL_USER,
                 pass: process.env.MAIL_PASS,
             },
-            host: "stmp.forwardemail.net",
+            host: "smtp.forwardemail.net",
             port: 465,
             secure: true,
-        }, {
-            from: process.env.MAIL_FROM,
-            replyTo: process.env.MAIL_REPLYTO,
-            sender: {
-                name: process.env.MAIL_SENDER_NAME,
-            }
         });
     }
-    sendEmail(to, subject, content, type) {
+    /** @param {string} to @param {string} subject @param {string} content */
+    sendEmail(to, subject, content) {
         this.transporter.sendMail({
             encoding: 'utf-8',
             textEncoding: 'base64',
             envelope: {
-                from: this.transporter.options.from,
+                from: {
+                    name: process.env.MAIL_SENDER_NAME,
+                    address: process.env.MAIL_FROM,
+                },
                 to: to,
             },
+            from: {
+                name: process.env.MAIL_SENDER_NAME,
+                address: process.env.MAIL_FROM,
+            },
+            sender: {
+                name: process.env.MAIL_SENDER_NAME,
+                address: process.env.MAIL_FROM,
+            },
+            replyTo: process.env.MAIL_REPLY_TO,
             to: to,
             subject: subject,
-            [(type === 'text/plain') ? 'text' : 'html']: content,
+            [(content.startsWith('<')) ? 'html' : 'text']: content,
         });
     }
 }

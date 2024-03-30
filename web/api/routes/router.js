@@ -53,6 +53,7 @@ router
     .use('/dictionary', dictionary)
     .use('/quotes', quotes)
     .use('/minecraft', minecraft)
+    .use('/mail', require('./mail'))
     .use((req, res, next) => {
         const { path } = req;
         const methodUsed = req.method.toUpperCase();

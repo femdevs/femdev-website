@@ -2427,6 +2427,92 @@ paths:
                     message: "Unable to find requested resource"
       security:
         - APIToken: []
+  /mail/send:
+    post:
+      operationId: "SendEmail"
+      description: |-
+        Sends an email to the given recipient.
+        Returns a success message if successful, otherwise returns an error.
+
+        Permissions Required: `Global::Role.Administrator`
+      summary: "Send an Email"
+      requestBody:
+        description: "The email information to send"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EmailRequest"
+            examples:
+              Plain-Text:
+                value:
+                  to: "1"
+                  subject: "Test"
+                  text: "This is a test email"
+              HTML:
+                value:
+                  to: "1"
+                  subject: "Test"
+                  html: "<h1>This is a test email</h1>"
+              Link:
+                value:
+                  to: "1"
+                  subject: "Test"
+                  url: "https://example.com"
+                  
+      responses:
+        201:
+          description: "Ok Response"
+          content:
+            text/plain:
+              schema:
+                type: string
+              examples:
+                Good:
+                  value: "OK"
+              
+        400:
+          description: "Missing Body Parameter(s)"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-Body:
+                  summary: "Missing Body Parameter(s)"
+                  value:
+                    code: 8
+                    message: "Missing Body Parameter(s)"
+        401:
+          description: "Invalid/Missing API Token"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-Token:
+                  summary: "Missing API Token"
+                  value:
+                    code: 1
+                    message: "Missing API Token"
+                Invalid-Token:
+                  summary: "Invalid API Token"
+                  value:
+                    code: 2
+                    message: "Invalid API Token"
+        403:
+          description: "Missing Permissions"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-Permissions:
+                  value:
+                    code: 12
+                    message: "You are not authorized to access this resource"
+      security:
+        - APIToken: []
 components:
   securitySchemes:
     APIToken:
@@ -2473,7 +2559,7 @@ components:
 
         Permission Roles:
         - `Global::Role.Developer` (0:3:0) - Full access to all endpoints
-        - `Global::Role.Admininstrator` (0:3:1) - Full access to all endpoints
+        - `Global::Role.Administrator` (0:3:1) - Full access to all endpoints
         - `Global::Role.Owner` (0:3:2) - Complete access to all endpoints
 
   schemas:
@@ -3875,3 +3961,28 @@ components:
           items:
             type: string
           description: "The tags of the quote"
+    EmailRequest:
+      required:
+        - to
+        - subject
+      properties:
+        to:
+          nullable: false
+          type: string
+          description: "The email address to send the email to"
+        subject:
+          nullable: false
+          type: string
+          description: "The subject of the email"
+        text:
+          nullable: true
+          type: string
+          description: "The text contents of the email"
+        html:
+          nullable: true
+          type: string
+          description: "The HTML contents of the email"
+        url:
+          nullable: true
+          type: string
+          description: "The URL for the HTML contents of the email"
