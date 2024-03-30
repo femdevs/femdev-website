@@ -26,7 +26,7 @@ class PGDatabase extends events.EventEmitter {
             this.pool = new pg.Pool(this.cfgs);
         })
 
-        this.ipBlacklist = [];
+        this.ipb = [];
 
         this
             .on('access', (data) => {
@@ -55,7 +55,7 @@ class PGDatabase extends events.EventEmitter {
                 this.pool.connect()
                     .then(connection => {
                         connection.query(`SELECT * FROM public.websiteblacklist WHERE active = TRUE`).then(({ rows }) => {
-                            this.ipBlacklist = rows.map(row => ({ hash: row.iphash, reason: row.reason }))
+                            this.ipb = rows.map(row => ({ hash: row.iphash, reason: row.reason }))
                         }).catch(console.error)
                         connection.release()
                     })

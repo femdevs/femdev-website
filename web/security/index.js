@@ -54,6 +54,6 @@ router
                 req.getErrPage(501, { errorId: '' })
             )
     })
-    .use((req, res, _) => () => res.status(404).render(`misc/404.pug`, req.getErrPage(404, { path: req.path })));
+    .use((req, res, _) => res.status(404).render(`misc/404.pug`, req.getErrPage(404, { path: req.path })));
 
 module.exports = router;
