@@ -32,7 +32,7 @@ class TokenManager {
         }
         return true
     }
-    decode = (token) => {
+    static decode = (token) => {
         const [d, ph] = token.split('.')
         const {iv, key, hashAlgorithm: ha, encoding: e} = cd
         const fd = Buffer.from(d, e)

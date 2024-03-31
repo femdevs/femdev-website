@@ -1,10 +1,10 @@
 const router = require('express').Router();
+const Auth = require('../../../functions/crypto');
 const User = require('../../../functions/userMgr');
-const mailer = require('../../../functions/mail');
 const htmlProcessor = require('node-html-parser');
+const nodemailer = require('nodemailer');
 
-const MailService = new mailer();
-
+/** @param {string} @returns {Promise<string>} */
 const getBody = async (body) => {
     if (body.text) return body.text;
     if (body.html) return body.html;
@@ -41,11 +41,49 @@ router
             return res.sendError(12);
         }
         connection.release();
-        const { to, subject } = req.body;
-        const body = await getBody(req.body);
-        if (!to || !subject || !body) return res.sendError(9)
-        MailService.sendEmail(to, subject, body, `text/${(req.body.text) ? 'plain' : 'html'}`);
-        res.status(200).send('OK');
+
+        const
+            /** @type {string} */
+            login = req.headers['x-user'],
+            /** @type {string} */
+            context = req.headers['x-context'];
+        if (!login || !context) return res.sendError(6);
+        try {
+            const tad = Auth.decode(login).split(':');
+            const ad = {
+                user: `${tad[0]}@thefemdevs.com`,
+                pass: `${tad[1]}`,
+            }
+            const contextData = Object.fromEntries(context.split(';').map(s => s.split(':')))
+            const transport = nodemailer.createTransport({
+                auth: ad,
+                host: "smtp.forwardemail.net",
+                port: 465,
+                secure: true,
+            });
+            const { to, subject } = req.body;
+            const body = await getBody(req.body);
+            if (!to || !subject || !body) return res.sendError(9)
+            const from = {
+                name: contextData.n,
+                address: ad.user
+            }
+            transport.sendMail({
+                encoding: 'utf-8',
+                textEncoding: 'base64',
+                envelope: { from, to, },
+                from,
+                sender: from,
+                replyTo: contextData.r || ad.user,
+                to: to,
+                subject: subject,
+                [(body.startsWith('<')) ? 'html' : 'text']: body,
+            });
+            res.status(200).send('OK');
+        } catch {
+            return res.sendError(0);
+        }
+
     });
 
 module.exports = router;

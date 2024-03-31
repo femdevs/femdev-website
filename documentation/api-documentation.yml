@@ -2320,6 +2320,7 @@ paths:
       parameters:
         - in: "header"
           name: "x-city"
+          example: "Washington D.C."
           description: "The city to get the weather for"
           schema:
             type: string
@@ -2434,8 +2435,31 @@ paths:
         Sends an email to the given recipient.
         Returns a success message if successful, otherwise returns an error.
 
-        Permissions Required: `Global::Role.Administrator`
+        By default, the API will send emails out through the `contact@thefemdevs.com` email address.
+        In a future update, this will be changed to take 2 headers (`x-user` and `x-context`) to allow for custom email sending.
+
+        Permissions Required: `Global::Role.Owner`
       summary: "Send an Email"
+      parameters:
+        - in: "header"
+          name: 'x-user'
+          required: true
+          description: "The Account Credentals used to send the email"
+          example: "XQGdt1KLapMtFZqGCdzyLw.xcWtsV5Xb4T-yEE0lHtLyC60JC4"
+          schema:
+            type: string
+        - in: "header"
+          name: 'x-context'
+          required: true
+          description: |-
+            The context of the email (sender's name, reply-to address, etc)
+
+            Syntax: `oneCharLabel:Value;oneCharLabel:Value...`
+
+            Currently, only 2 values are used; `n` for the sender's name and `r` for the reply-to address.
+          example: "n:Example User;r:replyto@example.com"
+          schema:
+            type: string
       requestBody:
         description: "The email information to send"
         required: true
@@ -2446,22 +2470,21 @@ paths:
             examples:
               Plain-Text:
                 value:
-                  to: "1"
+                  to: "user@example.com"
                   subject: "Test"
                   text: "This is a test email"
               HTML:
                 value:
-                  to: "1"
+                  to: "user@example.com"
                   subject: "Test"
                   html: "<h1>This is a test email</h1>"
               Link:
                 value:
-                  to: "1"
+                  to: "user@example.com"
                   subject: "Test"
-                  url: "https://example.com"
-                  
+                  url: "https://example.com"         
       responses:
-        201:
+        200:
           description: "Ok Response"
           content:
             text/plain:
@@ -2470,7 +2493,6 @@ paths:
               examples:
                 Good:
                   value: "OK"
-              
         400:
           description: "Missing Body Parameter(s)"
           content:
@@ -2511,6 +2533,17 @@ paths:
                   value:
                     code: 12
                     message: "You are not authorized to access this resource"
+        500:
+          description: "Error sending email"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                error:
+                  value:
+                    code: 0
+                    message: "Unknown Server Error"
       security:
         - APIToken: []
 components:
