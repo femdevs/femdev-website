@@ -1,56 +1,18 @@
 const router = require('express').Router();
 
-const User = require('../../../functions/userMgr');
-
 router
     .get('/chucknorris', async (req, res) => {
-        const connection = await req.Database.pool.connect();
-        const [_, token] = req.headers['authorization'].split(' ');
-        const { rows } = await connection.query(`SELECT * FROM public.APITokens WHERE token = '${token}'`)
-        if (rows.length == 0) return res.sendError(5)
-        const { rows: userRows } = await connection.query(`SELECT * FROM public.users WHERE firebaseuid = '${rows[0].associatedfirebaseuid}'`)
-        if (userRows.length == 0) return res.sendError(0); // misc error
-        const { permissions } = userRows[0];
-        const mainUser = User.fromFullPermissionBitString(permissions)
-        if (!mainUser.hasPermission('Facts::ChuckNorris', true)) {
-            connection.release();
-            return res.sendError(12);
-        }
-        connection.release();
+        if (!(await req.checkPermissions(req, res, { multi: false, perm: 'Facts::ChuckNorris', allowMgr: true }))) return;
         const { data } = await req.axiosReq('https://api.chucknorris.io/jokes/random');
         res.json(data);
     })
     .get('/dogs', async (req, res) => {
-        const connection = await req.Database.pool.connect();
-        const [_, token] = req.headers['authorization'].split(' ');
-        const { rows } = await connection.query(`SELECT * FROM public.APITokens WHERE token = '${token}'`)
-        if (rows.length == 0) return res.sendError(5)
-        const { rows: userRows } = await connection.query(`SELECT * FROM public.users WHERE firebaseuid = '${rows[0].associatedfirebaseuid}'`)
-        if (userRows.length == 0) return res.sendError(0); // misc error
-        const { permissions } = userRows[0];
-        const mainUser = User.fromFullPermissionBitString(permissions)
-        if (!mainUser.hasPermission('Facts::Dog', true)) {
-            connection.release();
-            return res.sendError(12);
-        }
-        connection.release();
+        if (!(await req.checkPermissions(req, res, { multi: false, perm: 'Facts::Dog', allowMgr: true }))) return;
         const { data } = await req.axiosReq('http://dog-api.kinduff.com/api/facts', { params: { number: 1 } });
         res.json(data);
     })
     .get('/cats', async (req, res) => {
-        const connection = await req.Database.pool.connect();
-        const [_, token] = req.headers['authorization'].split(' ');
-        const { rows } = await connection.query(`SELECT * FROM public.APITokens WHERE token = '${token}'`)
-        if (rows.length == 0) return res.sendError(5)
-        const { rows: userRows } = await connection.query(`SELECT * FROM public.users WHERE firebaseuid = '${rows[0].associatedfirebaseuid}'`)
-        if (userRows.length == 0) return res.sendError(0); // misc error
-        const { permissions } = userRows[0];
-        const mainUser = User.fromFullPermissionBitString(permissions)
-        if (!mainUser.hasPermission('Facts::Cat', true)) {
-            connection.release();
-            return res.sendError(12);
-        }
-        connection.release();
+        if (!(await req.checkPermissions(req, res, { multi: false, perm: 'Facts::Cat', allowMgr: true }))) return;
         const { data } = await req.axiosReq('https://meowfacts.herokuapp.com/');
         res.json(data);
     })

@@ -1,74 +1,44 @@
 const router = require('express').Router();
-const User = require('../../../functions/userMgr');
 const TokenManager = require('../../../functions/crypto');
 const crypto = require('crypto');
 
-
 router
     .post('/create', async (req, res) => {
-        if (!req.headers['authorization']) return res.sendError(1);
-        const [_, token] = req.headers['authorization'].split(' ');
+        if (!(await req.checkPermissions(req, res, { multi: false, perm: 'Global::Token.Create', allowMgr: true }))) return;
         const connection = await req.Database.pool.connect();
-        const { rows } = await connection.query(`SELECT * FROM public.APITokens WHERE token = '${token}'`)
-        if (rows.length == 0) return res.sendError(2);
-        const { associatedfirebaseuid: firebaseUserID } = rows[0];
-        const { rows: userRows } = await connection.query(`SELECT * FROM public.users WHERE firebaseuid = '${firebaseUserID}'`)
-        const mainUser = User.fromFullPermissionBitString(userRows[0].permissions)
-        if (!mainUser.hasPermission('Global::Token.Create', true)) {
-            connection.release();
-            return res.sendError(12)
-        };
         const { firebaseuid } = req.body
         if (!firebaseuid) return res.status(400).json({ error: 'No firebaseuid provided' });
         const generatedToken = TokenManager.generate(`${firebaseuid}.${userRows[0].displayname}:${crypto.randomBytes(16).toString('base64url')}`);
         req.Database.emit('token', { generatedToken, firebaseuid });
-        res.status(201).json({token: generatedToken})
+        res.status(201).json({ token: generatedToken })
         connection.release();
         // const {associatedfirebaseuid: FirebaseUser} = rows[0];
         // AdminApp.auth().getUser(FirebaseUser)
     })
     .delete('/delete', async (req, res) => {
-        if (!req.headers['authorization']) return res.sendError(1);
-        const [_, token] = req.headers['authorization'].split(' ');
+        if (!(await req.checkPermissions(req, res, { multi: false, perm: 'Global::Token.Delete', allowMgr: true }))) return;
         const connection = await req.Database.pool.connect();
-        const { rows } = await connection.query(`SELECT * FROM public.APITokens WHERE token = '${token}'`)
-        if (rows.length == 0) return res.sendError(2);
-        const { associatedfirebaseuid: firebaseUserID } = rows[0];
-        const { rows: userRows } = await connection.query(`SELECT * FROM public.users WHERE firebaseuid = '${firebaseUserID}'`)
-        const mainUser = User.fromFullPermissionBitString(userRows[0].permissions)
-        if (!mainUser.hasPermission('Global::Token.Delete', true)) {
-            connection.release();
-            return res.sendError(12)
-        }
         const { token: tokenToDelete } = req.body
-        if (!tokenToDelete) return res.sendError(8);
+        if (!tokenToDelete) return res.sendError(10);
         const { rows: tokenRows } = await connection.query(`SELECT * FROM public.APITokens WHERE token = '${tokenToDelete}'`)
-        if (tokenRows.length == 0) return res.sendError(9);
-        await connection.query(`DELETE FROM public.APITokens WHERE token = '${tokenToDelete}'`)
-        await connection.query(`DELETE FROM public.apiUsage WHERE apiToken = '${tokenToDelete}'`)
+        if (tokenRows.length == 0) return res.sendError(21);
+        if (res.headersSent) return;
+        await connection.query(`DELETE FROM public.APITokens WHERE token = '${tokenToDelete}'`).catch(_ => res.sendError(21))
+        if (res.headersSent) return;
+        await connection.query(`DELETE FROM public.apiUsage WHERE apiToken = '${tokenToDelete}'`).catch(_ => res.sendError(21))
+        if (res.headersSent) return;
         res.status(200).json({ message: 'Token deleted' })
         connection.release();
     })
     .get('/list', async (req, res) => {
-        if (!req.headers['authorization']) return res.sendError(1);
-        const [_, token] = req.headers['authorization'].split(' ');
+        if (!(await req.checkPermissions(req, res, { multi: false, perm: 'Global::Token.ReadAll', allowMgr: true }))) return;
         const connection = await req.Database.pool.connect();
-        const { rows } = await connection.query(`SELECT * FROM public.APITokens WHERE token = '${token}'`)
-        if (rows.length == 0) return res.sendError(2);
-        const { associatedfirebaseuid: firebaseUserID } = rows[0];
-        const { rows: userRows } = await connection.query(`SELECT * FROM public.users WHERE firebaseuid = '${firebaseUserID}'`)
-        const mainUser = User.fromFullPermissionBitString(userRows[0].permissions)
-        if (!mainUser.hasPermission('Global::Token.ReadAll', true)) {
-            connection.release();
-            return res.sendError(12)
-        }
         const { rows: tokens } = (await connection.query(`SELECT * FROM public.APITokens`))
         const formattedTokens = []
         for (const tokenData of tokens) {
             const { rows: [user] } = (await connection.query(`SELECT * FROM public.users WHERE firebaseuid = '${tokenData.associatedfirebaseuid}' LIMIT 1`))
             formattedTokens.push({
                 token: tokenData.token,
-                license: tokenData.licenseKey,
                 username: user.displayname,
                 firebaseuid: user.firebaseuid,
             })
@@ -77,40 +47,19 @@ router
         connection.release();
     })
     .get('/info', async (req, res) => {
+        if (req.query.token && !(await req.checkPermissions(req, res, { multi: false, perm: 'Global::Token.Read', allowMgr: true }))) return;
         const connection = await req.Database.pool.connect();
         const [_, token] = req.headers['authorization'].split(' ');
-        if (req.query.token) {
-            const { rows } = await connection.query(`SELECT * FROM public.APITokens WHERE token = '${token}'`)
-            if (rows.length == 0) return res.sendError(5)
-            const { rows: userRows } = await connection.query(`SELECT * FROM public.users WHERE firebaseuid = '${rows[0].associatedfirebaseuid}'`)
-            if (userRows.length == 0) return res.sendError(0); // misc error
-            const { permissions } = userRows[0];
-            const mainUser = User.fromFullPermissionBitString(permissions)
-            if (!mainUser.hasPermission('Global::Token.Read', true)) return res.sendError(12);
-            const { token: tokenToLookup } = req.query;
-            const { rows: tokenRows } = await connection.query(`SELECT * FROM public.APITokens WHERE token = '${tokenToLookup}'`)
-            if (tokenRows.length == 0) return res.sendError(13)
-            const { rows: [user] } = (await connection.query(`SELECT * FROM public.users WHERE firebaseuid = '${tokenRows[0].associatedfirebaseuid}' LIMIT 1`))
-            await connection.release();
-            return res.status(200).json({
-                token: tokenRows[0].token,
-                license: tokenRows[0].licenseKey,
-                username: user.displayName,
-                firebaseuid: user.firebaseuid,
-            })
-        } else {
-            const { rows } = await connection.query(`SELECT * FROM public.APITokens WHERE token = '${token}'`)
-            if (rows.length == 0) return res.sendError(5)
-            const { rows: userRows } = await connection.query(`SELECT * FROM public.users WHERE firebaseuid = '${rows[0].associatedfirebaseuid}'`)
-            if (userRows.length == 0) return res.sendError(13);
-            await connection.release();
-            res.status(200).json({
-                token: rows[0].token,
-                license: rows[0].licenseKey,
-                username: userRows[0].displayName,
-                firebaseuid: userRows[0].firebaseuid,
-            })
-        }
+        const { rows } = await connection.query(`SELECT * FROM public.APITokens WHERE token = '${req.query.token || token}'`)
+        if (rows.length == 0) return res.sendError(18)
+        const { rows: userRows } = await connection.query(`SELECT * FROM public.users WHERE firebaseuid = '${rows[0].associatedfirebaseuid}'`)
+        if (userRows.length == 0) return res.sendError(18);
+        await connection.release();
+        res.status(200).json({
+            token: rows[0].token,
+            username: userRows[0].displayName,
+            firebaseuid: userRows[0].firebaseuid,
+        })
     })
     .use((req, res, next) => {
         const { path } = req;

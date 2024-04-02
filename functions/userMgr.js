@@ -156,6 +156,8 @@ class User {
     togglePermission = (perm) => this.perms.get(perm).toggle();
     /** @param {string} perm @param {boolean} allowMgr */
     hasPermission = (perm, allowMgr=true) => [perm].concat((allowMgr) ? ['Owner', 'Administrator', 'Developer'].map(v => `Global::Role.${v}`) : []).some(v => this.perms.get(v).isEnabled())
+    /** @param {Array<string>} perms @param {boolean?} amgr */
+    hasPermissions = (amgr, ...perms) => perms.some((v) => this.hasPermission(v, amgr))
     getActivePerms = () => Array.from(this.perms.values()).filter(v => v.isEnabled())
     getFullPermissionString = () => this.getActivePerms().map(v => v.permKey).join(',');
     getFullPermissionBitString = () => this.getActivePerms().map(v => v.permBitStr).join(',');

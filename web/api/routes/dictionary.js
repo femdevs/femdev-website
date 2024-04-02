@@ -1,24 +1,10 @@
 const router = require('express').Router();
 
-const User = require('../../../functions/userMgr');
-
 router
     .get('/def', async (req, res) => {
-        const connection = await req.Database.pool.connect();
-        const [_, token] = req.headers['authorization'].split(' ');
-        const { rows } = await connection.query(`SELECT * FROM public.APITokens WHERE token = '${token}'`)
-        if (rows.length == 0) return res.sendError(5)
-        const { rows: userRows } = await connection.query(`SELECT * FROM public.users WHERE firebaseuid = '${rows[0].associatedfirebaseuid}'`)
-        if (userRows.length == 0) return res.sendError(0); // misc error
-        const { permissions } = userRows[0];
-        const mainUser = User.fromFullPermissionBitString(permissions)
-        if (!mainUser.hasPermission('Dictionary::Definition', true)) {
-            connection.release();
-            return res.sendError(12);
-        }
-        connection.release();
+        if (!(await req.checkPermissions(req, res, { multi: false, perm: 'Dictionary::Definition', allowMgr: true }))) return;
         const word = req.headers['x-word'];
-        if (!word) return res.sendError(6)
+        if (!word) return res.sendError(8)
         const { data } = await req.axiosReq(
             `/${word}`,
             {
@@ -30,21 +16,9 @@ router
         res.json({defs: JSON.parse(data)[0].shortdef})
     })
     .get('/syn', async (req, res) => {
-        const connection = await req.Database.pool.connect();
-        const [_, token] = req.headers['authorization'].split(' ');
-        const { rows } = await connection.query(`SELECT * FROM public.APITokens WHERE token = '${token}'`)
-        if (rows.length == 0) return res.sendError(5)
-        const { rows: userRows } = await connection.query(`SELECT * FROM public.users WHERE firebaseuid = '${rows[0].associatedfirebaseuid}'`)
-        if (userRows.length == 0) return res.sendError(0); // misc error
-        const { permissions } = userRows[0];
-        const mainUser = User.fromFullPermissionBitString(permissions)
-        if (!mainUser.hasPermission('Dictionary::Synonym', true)) {
-            connection.release();
-            return res.sendError(12);
-        }
-        connection.release();
+        if (!(await req.checkPermissions(req, res, { multi: false, perm: 'Dictionary::Synonym', allowMgr: true }))) return;
         const word = req.headers['x-word'];
-        if (!word) return res.sendError(6)
+        if (!word) return res.sendError(8)
         const { data } = await req.axiosReq(
             `/${word}`,
             {
@@ -53,25 +27,12 @@ router
                     key: process.env.TAK,
                 },
             })
-        const syns = JSON.parse(data)[0].meta.syns.reduce((acc, curr) => [...acc, ...curr], [])
-        res.json({syns})
+        res.json({syns: JSON.parse(data)[0].meta.syns.reduce((acc, curr) => [...acc, ...curr], []).slice(0, 100)})
     })
     .get('/ant', async (req, res) => {
-        const connection = await req.Database.pool.connect();
-        const [_, token] = req.headers['authorization'].split(' ');
-        const { rows } = await connection.query(`SELECT * FROM public.APITokens WHERE token = '${token}'`)
-        if (rows.length == 0) return res.sendError(5)
-        const { rows: userRows } = await connection.query(`SELECT * FROM public.users WHERE firebaseuid = '${rows[0].associatedfirebaseuid}'`)
-        if (userRows.length == 0) return res.sendError(0); // misc error
-        const { permissions } = userRows[0];
-        const mainUser = User.fromFullPermissionBitString(permissions)
-        if (!mainUser.hasPermission('Dictionary::Antonym', true)) {
-            connection.release();
-            return res.sendError(12);
-        }
-        connection.release();
+        if (!(await req.checkPermissions(req, res, { multi: false, perm: 'Dictionary::Antonym', allowMgr: true }))) return;
         const word = req.headers['x-word'];
-        if (!word) return res.sendError(6)
+        if (!word) return res.sendError(8)
         const { data } = await req.axiosReq(
             `/${word}`,{
                 baseURL: 'https://www.dictionaryapi.com/api/v3/references/thesaurus/json/',
@@ -79,7 +40,7 @@ router
                     key: process.env.TAK,
                 }
             })
-        res.json({ants: JSON.parse(data)[0].meta.ants.reduce((acc, curr) => [...acc, ...curr], [])})
+        res.json({ants: JSON.parse(data)[0].meta.ants.reduce((acc, curr) => [...acc, ...curr], []).slice(0, 100)})
     })
     .use((req, res, next) => {
         const { path } = req;

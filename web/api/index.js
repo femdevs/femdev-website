@@ -1,37 +1,12 @@
-const leadRouter = require('express').Router();
+const router = require('express').Router();
 require('dotenv').config();
-
-const router = require('./routes/router');
-
-leadRouter
-    .use((req, res, next) => {
-        req.RateLimitMem
-            .consume(req.ip, 2)
-            .then(
-                (data) => {
-                    const { remainingPoints: r, consumedPoints: c, msBeforeNext: m } = data;
-                    res
-                        .setHeader('X-RateLimit-Limit', r + c)
-                        .setHeader('X-RateLimit-Remaining', r)
-                        .setHeader('X-RateLimit-Reset', m);
-                    next();
-                },
-                (rej) => {
-                    res
-                        .setHeader('Retry-After', 1000)
-                        .status(429)
-                        .render(
-                            'misc/429.pug',
-                            req.getErrPage(429, {})
-                        )
-                }
-            )
-    })
-    .use(router)
+router
+    .use((req, res, next) => req.RateLimitMem.consume(req.ip, 2).then(({ remainingPoints: r, consumedPoints: c, msBeforeNext: m } = data) => { [['Limit', r + c], ['Remaining', r], ['Reset', m]].forEach(v => res.setHeader(`X-RateLimit-${v[0]}`, v[1])); next(); }, (_) => res.setHeader('Retry-After', 1000).status(429).render('misc/429.pug', req.getErrPage(429, {}))))
+    .use(require('./routes/router'))
     .use((req, res, next) => {
         const { path } = req;
         const methodUsed = req.method.toUpperCase();
-        let allowedMethods = leadRouter.stack.filter(r => r.route && r.route.path === path)
+        let allowedMethods = router.stack.filter(r => r.route && r.route.path === path)
         if (allowedMethods.length == 0) return next();
         allowedMethods.map(r => r.route.stack[0])
         allowedMethods = { ...allowedMethods[0] }
@@ -43,7 +18,7 @@ leadRouter
             req.getErrPage(405, { path, allowedMethods, methodUsed })
         );
     })
-    .use((err, req, res, next) => {
+    .use((err, req, res, _) => {
         console.log(err)
         res
             .status(501)
@@ -55,4 +30,4 @@ leadRouter
     })
     .use((req, res, _) => res.status(404).render(`misc/404.pug`, req.getErrPage(404, { path: req.path })));
 
-module.exports = leadRouter;
+module.exports = router;

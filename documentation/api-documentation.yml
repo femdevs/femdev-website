@@ -66,12 +66,12 @@ paths:
                 Missing-User:
                   summary: "Missing UID Header"
                   value:
-                    code: 6
+                    code: 8
                     message: "Missing Header Parameter(s)"
                 Invalid-User:
                   summary: "Invalid UID Header"
                   value:
-                    code: 7
+                    code: 9
                     message: "Invalid Header Parameter(s)"
         401:
           description: "Invalid/Missing API Token"
@@ -83,13 +83,13 @@ paths:
                 Missing-Token:
                   summary: "Missing API Token"
                   value:
-                    code: 1
-                    message: "Missing API Token"
+                    code: 3
+                    message: "No API key provided"
                 Invalid-Token:
                   summary: "Invalid API Token"
                   value:
-                    code: 2
-                    message: "Invalid API Token"
+                    code: 4
+                    message: "Invalid API key provided"
         403:
           description: "Missing Permissions"
           content:
@@ -99,8 +99,12 @@ paths:
               examples:
                 Missing-Permissions:
                   value:
-                    code: 12
+                    code: 1
                     message: "You are not authorized to access this resource"
+                Blacklisted:
+                  value:
+                    code: 2
+                    message: "You are blacklisted from accessing this resource"
         404:
           description: "Error with the given ID"
           content:
@@ -110,8 +114,8 @@ paths:
               examples:
                 error:
                   value:
-                    code: 13
-                    message: "Unable to find requested resource"
+                    code: 22
+                    message: "Unable to retreive requested information"
       security:
         - APIToken: []
   /user/update:
@@ -223,12 +227,12 @@ paths:
                 Missing-User:
                   summary: "Missing UID Header"
                   value:
-                    code: 6
+                    code: 8
                     message: "Missing Header Parameter(s)"
                 Invalid-User:
                   summary: "Invalid UID Header"
                   value:
-                    code: 7
+                    code: 9
                     message: "Invalid Header Parameter(s)"
         401:
           description: "Invalid/Missing API Token"
@@ -240,13 +244,13 @@ paths:
                 Missing-Token:
                   summary: "Missing API Token"
                   value:
-                    code: 1
-                    message: "Missing API Token"
+                    code: 3
+                    message: "No API key provided"
                 Invalid-Token:
                   summary: "Invalid API Token"
                   value:
-                    code: 2
-                    message: "Invalid API Token"
+                    code: 4
+                    message: "Invalid API key provided"
         403:
           description: "Missing Permissions"
           content:
@@ -256,8 +260,12 @@ paths:
               examples:
                 Missing-Permissions:
                   value:
-                    code: 12
+                    code: 1
                     message: "You are not authorized to access this resource"
+                Blacklisted:
+                  value:
+                    code: 2
+                    message: "You are blacklisted from accessing this resource"
         404:
           description: "Error with the given ID"
           content:
@@ -267,8 +275,8 @@ paths:
               examples:
                 error:
                   value:
-                    code: 24
-                    message: "Unable to find requested resource"
+                    code: 22
+                    message: "Unable to retreive requested resource"
         500:
           description: "Unable to update user"
           content:
@@ -278,7 +286,7 @@ paths:
               examples:
                 error:
                   value:
-                    code: 23
+                    code: 16
                     message: "Unable to update user"
       security:
         - APIToken: []
@@ -347,13 +355,13 @@ paths:
                 Missing-Token:
                   summary: "Missing API Token"
                   value:
-                    code: 1
-                    message: "Missing API Token"
+                    code: 3
+                    message: "No API key provided"
                 Invalid-Token:
                   summary: "Invalid API Token"
                   value:
-                    code: 2
-                    message: "Invalid API Token"
+                    code: 4
+                    message: "Invalid API key provided"
         403:
           description: "Missing Permissions"
           content:
@@ -363,8 +371,12 @@ paths:
               examples:
                 Missing-Permissions:
                   value:
-                    code: 12
+                    code: 1
                     message: "You are not authorized to access this resource"
+                Blacklisted:
+                  value:
+                    code: 2
+                    message: "You are blacklisted from accessing this resource"
         404:
           description: "Error with the given ID"
           content:
@@ -374,8 +386,8 @@ paths:
               examples:
                 error:
                   value:
-                    code: 13
-                    message: "Unable to find requested resource"
+                    code: 22
+                    message: "Unable to retreive requested information"
         500:
           description: "Unable to create user"
           content:
@@ -385,7 +397,7 @@ paths:
               examples:
                 error:
                   value:
-                    code: 24
+                    code: 15
                     message: "Unable to create user"
       security:
         - APIToken: []
@@ -427,12 +439,12 @@ paths:
                 Missing-User:
                   summary: "Missing UID Header"
                   value:
-                    code: 6
+                    code: 8
                     message: "Missing Header Parameter(s)"
                 Invalid-User:
                   summary: "Invalid UID Header"
                   value:
-                    code: 7
+                    code: 9
                     message: "Invalid Header Parameter(s)"
         401:
           description: "Invalid/Missing API Token"
@@ -444,13 +456,13 @@ paths:
                 Missing-Token:
                   summary: "Missing API Token"
                   value:
-                    code: 1
-                    message: "Missing API Token"
+                    code: 3
+                    message: "No API key provided"
                 Invalid-Token:
                   summary: "Invalid API Token"
                   value:
-                    code: 2
-                    message: "Invalid API Token"
+                    code: 4
+                    message: "Invalid API key provided"
         403:
           description: "Missing Permissions"
           content:
@@ -460,8 +472,12 @@ paths:
               examples:
                 Missing-Permissions:
                   value:
-                    code: 12
+                    code: 1
                     message: "You are not authorized to access this resource"
+                Blacklisted:
+                  value:
+                    code: 2
+                    message: "You are blacklisted from accessing this resource"
         404:
           description: "Error with the given ID"
           content:
@@ -471,8 +487,8 @@ paths:
               examples:
                 error:
                   value:
-                    code: 24
-                    message: "Unable to find requested resource"
+                    code: 22
+                    message: "Unable to retreive requested resource"
         500:
           description: "Error with the given ID"
           content:
@@ -482,8 +498,8 @@ paths:
               examples:
                 error:
                   value:
-                    code: 14
-                    message: "Unable to delete requested resource"
+                    code: 17
+                    message: "Unable to delete requested user"
       security:
         - APIToken: []
   /crypto/enc:
@@ -498,6 +514,8 @@ paths:
         - in: "query"
           name: "data"
           description: "The data to encrypt"
+          example:
+            value: "testing"
           schema:
             type: string
       responses:
@@ -521,12 +539,12 @@ paths:
                 no-data:
                   summary: "Missing Data Parameter"
                   value:
-                    code: 4
+                    code: 6
                     message: "Missing Query Parameter(s)"
                 invalid-data:
                   summary: "Invalid Data Parameter"
                   value:
-                    code: 5
+                    code: 7
                     message: "Invalid Query Parameter(s)"
         401:
           description: "Invalid/Missing API Token"
@@ -538,13 +556,13 @@ paths:
                 Missing-Token:
                   summary: "Missing API Token"
                   value:
-                    code: 1
-                    message: "Missing API Token"
+                    code: 3
+                    message: "No API key provided"
                 Invalid-Token:
                   summary: "Invalid API Token"
                   value:
-                    code: 2
-                    message: "Invalid API Token"
+                    code: 4
+                    message: "Invalid API key provided"
         403:
           description: "Missing Permissions"
           content:
@@ -554,8 +572,12 @@ paths:
               examples:
                 Missing-Permissions:
                   value:
-                    code: 12
+                    code: 1
                     message: "You are not authorized to access this resource"
+                Blacklisted:
+                  value:
+                    code: 2
+                    message: "You are blacklisted from accessing this resource"
         500:
           description: "Error With Encryption (Server Caused)"
           content:
@@ -565,7 +587,7 @@ paths:
               examples:
                 error:
                   value:
-                    code: 10
+                    code: 12
                     message: "Unable to encrypt data"
       security:
         - APIToken: []
@@ -583,6 +605,8 @@ paths:
           description: "The data to decrypt"
           schema:
             type: string
+          example:
+            value: 'Pc6W8_h9XSg8LVhZ8yAP4vtui0sJIMNmC_E18ee9JBQyEmBPLZBDz5Jx745u31Pbr2EkS9Z2S8oFB02uwzpWtt3PH48HE-Wj27VkpvV1glrpZ0f_cW0Ema-gT-6S675xCgb9cy0ZTx3rH-kzuVZXaOwrMjMJTVe7ZpyH8zyUNHnDo0xvkhq9Z523azZm1mq1rcJWMJl8iCuZc6TQp5E2-4xiAZF59ZCZyQCtzxryPzX6aR5ENBvBVdkOaNWtmjWc9ZM5Ni9PXc2cVGbi5IDo6RvX5KuU2DUvGpIKvf15xLptPXZPLNtU4syXjXI4vA03EpV1-Dqs6H7FrtXLAu9M5Q7NxaSxynr4oyJC7CzIXJtJVUwrFN9I-zSJCcR9rE90XzolaWICUjfhSkMtPBTkr_ibNFcyPhG-oaMPGuc1Hb8gJzEDDtWTGPZdV2rbGJIw3XBi_h80fj8F_DQujSGsbo2DmBwSF-PZtKG5WHK9cf3rWCIxF1Sc5Hhkd-HnhrFrSv30Kjvede88MmofhchsS9cEn4eFF7rfj35blLBxGKBKzhS0k_k7FWQznK6J24lfUR_Gtkz3IJlTcqQN-ixucjHdI58xheVETAg_PkK3KZIwgabxQRSz96JUANyEPIPdodIF2f4PpEMomjYp8mCc_0F26uUSgsm9_LcJvC9oNZU'
       responses:
         200:
           description: "The Decrypted Data"
@@ -604,12 +628,12 @@ paths:
                 no-data:
                   summary: "Missing Data Parameter"
                   value:
-                    code: 4
+                    code: 6
                     message: "Missing Query Parameter(s)"
                 invalid-data:
                   summary: "Invalid Data Parameter"
                   value:
-                    code: 5
+                    code: 7
                     message: "Invalid Query Parameter(s)"
         401:
           description: "Invalid/Missing API Token"
@@ -621,13 +645,13 @@ paths:
                 Missing-Token:
                   summary: "Missing API Token"
                   value:
-                    code: 1
-                    message: "Missing API Token"
+                    code: 3
+                    message: "No API key provided"
                 Invalid-Token:
                   summary: "Invalid API Token"
                   value:
-                    code: 2
-                    message: "Invalid API Token"
+                    code: 4
+                    message: "Invalid API key provided"
         403:
           description: "Missing Permissions"
           content:
@@ -637,8 +661,12 @@ paths:
               examples:
                 Missing-Permissions:
                   value:
-                    code: 12
+                    code: 1
                     message: "You are not authorized to access this resource"
+                Blacklisted:
+                  value:
+                    code: 2
+                    message: "You are blacklisted from accessing this resource"
         500:
           description: "Error with Decryption (Server Caused)"
           content:
@@ -648,7 +676,7 @@ paths:
               examples:
                 error:
                   value:
-                    code: 11
+                    code: 13
                     message: "Unable to decrypt data"
       security:
         - APIToken: []
@@ -683,7 +711,6 @@ paths:
                 token:
                   summary: "Created Token Data"
                   value:
-                    license: "1234-5678-9012-3456"
                     token: "fjkh_fdasABc12.dshfa34287y_FDAS34_2"
         401:
           description: "Invalid/Missing API Token"
@@ -695,13 +722,13 @@ paths:
                 Missing-Token:
                   summary: "Missing API Token"
                   value:
-                    code: 1
-                    message: "Missing API Token"
+                    code: 3
+                    message: "No API key provided"
                 Invalid-Token:
                   summary: "Invalid API Token"
                   value:
-                    code: 2
-                    message: "Invalid API Token"
+                    code: 4
+                    message: "Invalid API key provided"
         403:
           description: "Missing Permissions"
           content:
@@ -711,8 +738,12 @@ paths:
               examples:
                 Missing-Permissions:
                   value:
-                    code: 12
+                    code: 1
                     message: "You are not authorized to access this resource"
+                Blacklisted:
+                  value:
+                    code: 2
+                    message: "You are blacklisted from accessing this resource"
         404:
           description: "Error with the given ID"
           content:
@@ -722,8 +753,8 @@ paths:
               examples:
                 error:
                   value:
-                    code: 13
-                    message: "Unable to find requested resource"
+                    code: 22
+                    message: "Unable to retreive requested information"
         500:
           description: "Unable to create token"
           content:
@@ -733,8 +764,8 @@ paths:
               examples:
                 error:
                   value:
-                    code: 0
-                    message: "Misc Error"
+                    code: 19
+                    message: "Unable to create requested token"
       security:
         - APIToken: []
   /token/delete:
@@ -752,6 +783,8 @@ paths:
           description: "The token to delete"
           schema:
             type: string
+          example:
+            value: 'afsdjahfljdfhajfkel_fhealufu342_o7ffff7bfew7ofbew.fkdahljekfhuahjfuaeu_awfefudfayvi'
       responses:
         200:
           description: "The successful notification of the deletion"
@@ -773,13 +806,13 @@ paths:
                 Missing-Token:
                   summary: "Missing API Token"
                   value:
-                    code: 1
-                    message: "Missing API Token"
+                    code: 3
+                    message: "No API key provided"
                 Invalid-Token:
                   summary: "Invalid API Token"
                   value:
-                    code: 2
-                    message: "Invalid API Token"
+                    code: 4
+                    message: "Invalid API key provided"
         403:
           description: "Missing Permissions"
           content:
@@ -789,8 +822,12 @@ paths:
               examples:
                 Missing-Permissions:
                   value:
-                    code: 12
+                    code: 1
                     message: "You are not authorized to access this resource"
+                Blacklisted:
+                  value:
+                    code: 2
+                    message: "You are blacklisted from accessing this resource"
         404:
           description: "Error with the given ID"
           content:
@@ -800,8 +837,19 @@ paths:
               examples:
                 error:
                   value:
-                    code: 13
-                    message: "Unable to find requested resource"
+                    code: 22
+                    message: "Unable to retreive requested information"
+        500:
+          description: "Unable to delete token"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                error:
+                  value:
+                    code: 21
+                    message: "Unable to delete requested token"
       security:
         - APIToken: []
   /token/list:
@@ -841,13 +889,13 @@ paths:
                 Missing-Token:
                   summary: "Missing API Token"
                   value:
-                    code: 1
-                    message: "Missing API Token"
+                    code: 3
+                    message: "No API key provided"
                 Invalid-Token:
                   summary: "Invalid API Token"
                   value:
-                    code: 2
-                    message: "Invalid API Token"
+                    code: 4
+                    message: "Invalid API key provided"
         403:
           description: "Missing Permissions"
           content:
@@ -857,19 +905,12 @@ paths:
               examples:
                 Missing-Permissions:
                   value:
-                    code: 12
+                    code: 1
                     message: "You are not authorized to access this resource"
-        500:
-          description: "Unable to list tokens"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorData"
-              examples:
-                error:
+                Blacklisted:
                   value:
-                    code: 0
-                    message: "Misc Error"
+                    code: 2
+                    message: "You are blacklisted from accessing this resource"
       security:
         - APIToken: []
   /token/info:
@@ -887,6 +928,8 @@ paths:
           description: "The token to get information for"
           schema:
             type: string
+          example:
+            value: "fjkh_fdasABc12.dshfa34287y_FDAS34_2"
       responses:
         200:
           description: "The token information for the given token"
@@ -911,13 +954,13 @@ paths:
                 Missing-Token:
                   summary: "Missing API Token"
                   value:
-                    code: 1
-                    message: "Missing API Token"
+                    code: 3
+                    message: "No API key provided"
                 Invalid-Token:
                   summary: "Invalid API Token"
                   value:
-                    code: 2
-                    message: "Invalid API Token"
+                    code: 4
+                    message: "Invalid API key provided"
         403:
           description: "Missing Permissions"
           content:
@@ -927,8 +970,12 @@ paths:
               examples:
                 Missing-Permissions:
                   value:
-                    code: 12
+                    code: 1
                     message: "You are not authorized to access this resource"
+                Blacklisted:
+                  value:
+                    code: 2
+                    message: "You are blacklisted from accessing this resource"
         404:
           description: "Error with the given token"
           content:
@@ -938,8 +985,8 @@ paths:
               examples:
                 error:
                   value:
-                    code: 13
-                    message: "Unable to find requested resource"
+                    code: 22
+                    message: "Unable to retreive requested information"
         500:
           description: "Unable to get token information"
           content:
@@ -950,7 +997,7 @@ paths:
                 error:
                   value:
                     code: 0
-                    message: "Misc Error"
+                    message: "An unknown error occurred"
       security:
         - APIToken: []
   /minecraft/hive/player:
@@ -1136,11 +1183,11 @@ paths:
               examples:
                 Missing-User:
                   value:
-                    code: 6
+                    code: 8
                     message: "Missing Header Parameter(s)"
                 Invalid-User:
                   value:
-                    code: 7
+                    code: 9
                     message: "Invalid Header Parameter(s)"
         401:
           description: "Invalid/Missing API Token"
@@ -1152,13 +1199,13 @@ paths:
                 Missing-Token:
                   summary: "Missing API Token"
                   value:
-                    code: 1
-                    message: "Missing API Token"
+                    code: 3
+                    message: "No API key provided"
                 Invalid-Token:
                   summary: "Invalid API Token"
                   value:
-                    code: 2
-                    message: "Invalid API Token"
+                    code: 4
+                    message: "Invalid API key provided"
         403:
           description: "Missing Permissions"
           content:
@@ -1168,8 +1215,12 @@ paths:
               examples:
                 Missing-Permissions:
                   value:
-                    code: 12
+                    code: 1
                     message: "You are not authorized to access this resource"
+                Blacklisted:
+                  value:
+                    code: 2
+                    message: "You are blacklisted from accessing this resource"
         404:
           description: "Error with the given username"
           content:
@@ -1179,8 +1230,8 @@ paths:
               examples:
                 error:
                   value:
-                    code: 13
-                    message: "Unable to find requested resource"
+                    code: 22
+                    message: "Unable to retreive requested information"
       security:
         - APIToken: []
   /minecraft/hive/maps:
@@ -1277,11 +1328,11 @@ paths:
               examples:
                 Missing-Game:
                   value:
-                    code: 6
+                    code: 8
                     message: "Missing Header Parameter(s)"
                 Invalid-Game:
                   value:
-                    code: 7
+                    code: 9
                     message: "Invalid Header Parameter(s)"
         401:
           description: "Invalid/Missing API Token"
@@ -1293,13 +1344,13 @@ paths:
                 Missing-Token:
                   summary: "Missing API Token"
                   value:
-                    code: 1
-                    message: "Missing API Token"
+                    code: 3
+                    message: "No API key provided"
                 Invalid-Token:
                   summary: "Invalid API Token"
                   value:
-                    code: 2
-                    message: "Invalid API Token"
+                    code: 4
+                    message: "Invalid API key provided"
         403:
           description: "Missing Permissions"
           content:
@@ -1309,8 +1360,12 @@ paths:
               examples:
                 Missing-Permissions:
                   value:
-                    code: 12
+                    code: 1
                     message: "You are not authorized to access this resource"
+                Blacklisted:
+                  value:
+                    code: 2
+                    message: "You are blacklisted from accessing this resource"
         404:
           description: "Error with the given game"
           content:
@@ -1320,8 +1375,8 @@ paths:
               examples:
                 error:
                   value:
-                    code: 13
-                    message: "Unable to find requested resource"
+                    code: 22
+                    message: "Unable to retreive requested information"
       security:
         - APIToken: []
   /dictionary/def:
@@ -1364,11 +1419,11 @@ paths:
               examples:
                 Missing-Word:
                   value:
-                    code: 6
+                    code: 8
                     message: "Missing Header Parameter(s)"
                 Invalid-Word:
                   value:
-                    code: 7
+                    code: 9
                     message: "Invalid Header Parameter(s)"
         401:
           description: "Invalid/Missing API Token"
@@ -1380,13 +1435,13 @@ paths:
                 Missing-Token:
                   summary: "Missing API Token"
                   value:
-                    code: 1
-                    message: "Missing API Token"
+                    code: 3
+                    message: "No API key provided"
                 Invalid-Token:
                   summary: "Invalid API Token"
                   value:
-                    code: 2
-                    message: "Invalid API Token"
+                    code: 4
+                    message: "Invalid API key provided"
         403:
           description: "Missing Permissions"
           content:
@@ -1396,8 +1451,12 @@ paths:
               examples:
                 Missing-Permissions:
                   value:
-                    code: 12
+                    code: 1
                     message: "You are not authorized to access this resource"
+                Blacklisted:
+                  value:
+                    code: 2
+                    message: "You are blacklisted from accessing this resource"
         404:
           description: "Error with the given word"
           content:
@@ -1407,8 +1466,8 @@ paths:
               examples:
                 error:
                   value:
-                    code: 13
-                    message: "Unable to find requested resource"
+                    code: 22
+                    message: "Unable to retreive requested information"
       security:
         - APIToken: []
   /dictionary/syn:
@@ -1455,11 +1514,11 @@ paths:
               examples:
                 Missing-Word:
                   value:
-                    code: 6
+                    code: 8
                     message: "Missing Header Parameter(s)"
                 Invalid-Word:
                   value:
-                    code: 7
+                    code: 9
                     message: "Invalid Header Parameter(s)"
         401:
           description: "Invalid/Missing API Token"
@@ -1471,13 +1530,13 @@ paths:
                 Missing-Token:
                   summary: "Missing API Token"
                   value:
-                    code: 1
-                    message: "Missing API Token"
+                    code: 3
+                    message: "No API key provided"
                 Invalid-Token:
                   summary: "Invalid API Token"
                   value:
-                    code: 2
-                    message: "Invalid API Token"
+                    code: 4
+                    message: "Invalid API key provided"
         403:
           description: "Missing Permissions"
           content:
@@ -1487,8 +1546,12 @@ paths:
               examples:
                 Missing-Permissions:
                   value:
-                    code: 12
+                    code: 1
                     message: "You are not authorized to access this resource"
+                Blacklisted:
+                  value:
+                    code: 2
+                    message: "You are blacklisted from accessing this resource"
         404:
           description: "Error with the given word"
           content:
@@ -1498,8 +1561,8 @@ paths:
               examples:
                 error:
                   value:
-                    code: 13
-                    message: "Unable to find requested resource"
+                    code: 22
+                    message: "Unable to retreive requested information"
       security:
         - APIToken: []
   /dictionary/ant:
@@ -1591,11 +1654,11 @@ paths:
               examples:
                 Missing-Word:
                   value:
-                    code: 6
+                    code: 8
                     message: "Missing Header Parameter(s)"
                 Invalid-Word:
                   value:
-                    code: 7
+                    code: 9
                     message: "Invalid Header Parameter(s)"
         401:
           description: "Invalid/Missing API Token"
@@ -1607,13 +1670,13 @@ paths:
                 Missing-Token:
                   summary: "Missing API Token"
                   value:
-                    code: 1
-                    message: "Missing API Token"
+                    code: 3
+                    message: "No API key provided"
                 Invalid-Token:
                   summary: "Invalid API Token"
                   value:
-                    code: 2
-                    message: "Invalid API Token"
+                    code: 4
+                    message: "Invalid API key provided"
         403:
           description: "Missing Permissions"
           content:
@@ -1623,8 +1686,12 @@ paths:
               examples:
                 Missing-Permissions:
                   value:
-                    code: 12
+                    code: 1
                     message: "You are not authorized to access this resource"
+                Blacklisted:
+                  value:
+                    code: 2
+                    message: "You are blacklisted from accessing this resource"
         404:
           description: "Error with the given word"
           content:
@@ -1634,8 +1701,8 @@ paths:
               examples:
                 error:
                   value:
-                    code: 13
-                    message: "Unable to find requested resource"
+                    code: 22
+                    message: "Unable to retreive requested information"
       security:
         - APIToken: []
   /facts/dog:
@@ -1667,13 +1734,13 @@ paths:
                 Missing-Token:
                   summary: "Missing API Token"
                   value:
-                    code: 1
-                    message: "Missing API Token"
+                    code: 3
+                    message: "No API key provided"
                 Invalid-Token:
                   summary: "Invalid API Token"
                   value:
-                    code: 2
-                    message: "Invalid API Token"
+                    code: 4
+                    message: "Invalid API key provided"
         403:
           description: "Missing Permissions"
           content:
@@ -1683,8 +1750,12 @@ paths:
               examples:
                 Missing-Permissions:
                   value:
-                    code: 12
+                    code: 1
                     message: "You are not authorized to access this resource"
+                Blacklisted:
+                  value:
+                    code: 2
+                    message: "You are blacklisted from accessing this resource"
       security:
         - APIToken: []
   /facts/cat:
@@ -1716,13 +1787,13 @@ paths:
                 Missing-Token:
                   summary: "Missing API Token"
                   value:
-                    code: 1
-                    message: "Missing API Token"
+                    code: 3
+                    message: "No API key provided"
                 Invalid-Token:
                   summary: "Invalid API Token"
                   value:
-                    code: 2
-                    message: "Invalid API Token"
+                    code: 4
+                    message: "Invalid API key provided"
         403:
           description: "Missing Permissions"
           content:
@@ -1732,8 +1803,12 @@ paths:
               examples:
                 Missing-Permissions:
                   value:
-                    code: 12
+                    code: 1
                     message: "You are not authorized to access this resource"
+                Blacklisted:
+                  value:
+                    code: 2
+                    message: "You are blacklisted from accessing this resource"
       security:
         - APIToken: []
   /facts/random:
@@ -1765,13 +1840,13 @@ paths:
                 Missing-Token:
                   summary: "Missing API Token"
                   value:
-                    code: 1
-                    message: "Missing API Token"
+                    code: 3
+                    message: "No API key provided"
                 Invalid-Token:
                   summary: "Invalid API Token"
                   value:
-                    code: 2
-                    message: "Invalid API Token"
+                    code: 4
+                    message: "Invalid API key provided"
         403:
           description: "Missing Permissions"
           content:
@@ -1781,8 +1856,12 @@ paths:
               examples:
                 Missing-Permissions:
                   value:
-                    code: 12
+                    code: 1
                     message: "You are not authorized to access this resource"
+                Blacklisted:
+                  value:
+                    code: 2
+                    message: "You are blacklisted from accessing this resource"
       security:
         - APIToken: []
   /location/coords:
@@ -1830,11 +1909,11 @@ paths:
               examples:
                 Missing-Coordinates:
                   value:
-                    code: 6
+                    code: 8
                     message: "Missing Header Parameter(s)"
                 Invalid-Coordinates:
                   value:
-                    code: 7
+                    code: 9
                     message: "Invalid Header Parameter(s)"
         401:
           description: "Invalid/Missing API Token"
@@ -1846,13 +1925,13 @@ paths:
                 Missing-Token:
                   summary: "Missing API Token"
                   value:
-                    code: 1
-                    message: "Missing API Token"
+                    code: 3
+                    message: "No API key provided"
                 Invalid-Token:
                   summary: "Invalid API Token"
                   value:
-                    code: 2
-                    message: "Invalid API Token"
+                    code: 4
+                    message: "Invalid API key provided"
         403:
           description: "Missing Permissions"
           content:
@@ -1862,8 +1941,12 @@ paths:
               examples:
                 Missing-Permissions:
                   value:
-                    code: 12
+                    code: 1
                     message: "You are not authorized to access this resource"
+                Blacklisted:
+                  value:
+                    code: 2
+                    message: "You are blacklisted from accessing this resource"
         404:
           description: "Error with the given coordinates"
           content:
@@ -1873,8 +1956,8 @@ paths:
               examples:
                 error:
                   value:
-                    code: 13
-                    message: "Unable to find requested resource"
+                    code: 22
+                    message: "Unable to retreive requested information"
       security:
         - APIToken: []
   /location/pluscode:
@@ -1922,11 +2005,11 @@ paths:
               examples:
                 Missing-Pluscode:
                   value:
-                    code: 6
+                    code: 8
                     message: "Missing Header Parameter(s)"
                 Invalid-Pluscode:
                   value:
-                    code: 7
+                    code: 9
                     message: "Invalid Header Parameter(s)"
         401:
           description: "Invalid/Missing API Token"
@@ -1938,13 +2021,13 @@ paths:
                 Missing-Token:
                   summary: "Missing API Token"
                   value:
-                    code: 1
-                    message: "Missing API Token"
+                    code: 3
+                    message: "No API key provided"
                 Invalid-Token:
                   summary: "Invalid API Token"
                   value:
-                    code: 2
-                    message: "Invalid API Token"
+                    code: 4
+                    message: "Invalid API key provided"
         403:
           description: "Missing Permissions"
           content:
@@ -1954,8 +2037,12 @@ paths:
               examples:
                 Missing-Permissions:
                   value:
-                    code: 12
+                    code: 1
                     message: "You are not authorized to access this resource"
+                Blacklisted:
+                  value:
+                    code: 2
+                    message: "You are blacklisted from accessing this resource"
         404:
           description: "Error with the given pluscode"
           content:
@@ -1965,8 +2052,8 @@ paths:
               examples:
                 error:
                   value:
-                    code: 13
-                    message: "Unable to find requested resource"
+                    code: 22
+                    message: "Unable to retreive requested information"
       security:
         - APIToken: []
   /location/address:
@@ -2014,11 +2101,11 @@ paths:
               examples:
                 Missing-Address:
                   value:
-                    code: 6
+                    code: 8
                     message: "Missing Header Parameter(s)"
                 Invalid-Address:
                   value:
-                    code: 7
+                    code: 9
                     message: "Invalid Header Parameter(s)"
         401:
           description: "Invalid/Missing API Token"
@@ -2030,13 +2117,13 @@ paths:
                 Missing-Token:
                   summary: "Missing API Token"
                   value:
-                    code: 1
-                    message: "Missing API Token"
+                    code: 3
+                    message: "No API key provided"
                 Invalid-Token:
                   summary: "Invalid API Token"
                   value:
-                    code: 2
-                    message: "Invalid API Token"
+                    code: 4
+                    message: "Invalid API key provided"
         403:
           description: "Missing Permissions"
           content:
@@ -2046,8 +2133,12 @@ paths:
               examples:
                 Missing-Permissions:
                   value:
-                    code: 12
+                    code: 1
                     message: "You are not authorized to access this resource"
+                Blacklisted:
+                  value:
+                    code: 2
+                    message: "You are blacklisted from accessing this resource"
         404:
           description: "Error with the given address"
           content:
@@ -2057,8 +2148,8 @@ paths:
               examples:
                 error:
                   value:
-                    code: 13
-                    message: "Unable to find requested resource"
+                    code: 22
+                    message: "Unable to retreive requested information"
       security:
         - APIToken: []
   /phone/details:
@@ -2107,11 +2198,11 @@ paths:
               examples:
                 Missing-Phone:
                   value:
-                    code: 6
+                    code: 8
                     message: "Missing Header Parameter(s)"
                 Invalid-Phone:
                   value:
-                    code: 7
+                    code: 9
                     message: "Invalid Header Parameter(s)"
         401:
           description: "Invalid/Missing API Token"
@@ -2123,13 +2214,13 @@ paths:
                 Missing-Token:
                   summary: "Missing API Token"
                   value:
-                    code: 1
-                    message: "Missing API Token"
+                    code: 3
+                    message: "No API key provided"
                 Invalid-Token:
                   summary: "Invalid API Token"
                   value:
-                    code: 2
-                    message: "Invalid API Token"
+                    code: 4
+                    message: "Invalid API key provided"
         403:
           description: "Missing Permissions"
           content:
@@ -2139,8 +2230,12 @@ paths:
               examples:
                 Missing-Permissions:
                   value:
-                    code: 12
+                    code: 1
                     message: "You are not authorized to access this resource"
+                Blacklisted:
+                  value:
+                    code: 2
+                    message: "You are blacklisted from accessing this resource"
         404:
           description: "Error with the given phone number"
           content:
@@ -2150,8 +2245,8 @@ paths:
               examples:
                 error:
                   value:
-                    code: 13
-                    message: "Unable to find requested resource"
+                    code: 22
+                    message: "Unable to retreive requested information"
       security:
         - APIToken: []
   /quotes/kanye:
@@ -2183,13 +2278,13 @@ paths:
                 Missing-Token:
                   summary: "Missing API Token"
                   value:
-                    code: 1
-                    message: "Missing API Token"
+                    code: 3
+                    message: "No API key provided"
                 Invalid-Token:
                   summary: "Invalid API Token"
                   value:
-                    code: 2
-                    message: "Invalid API Token"
+                    code: 4
+                    message: "Invalid API key provided"
         403:
           description: "Missing Permissions"
           content:
@@ -2199,8 +2294,12 @@ paths:
               examples:
                 Missing-Permissions:
                   value:
-                    code: 12
+                    code: 1
                     message: "You are not authorized to access this resource"
+                Blacklisted:
+                  value:
+                    code: 2
+                    message: "You are blacklisted from accessing this resource"
       security:
         - APIToken: []
   /quotes/ronswanson:
@@ -2232,13 +2331,13 @@ paths:
                 Missing-Token:
                   summary: "Missing API Token"
                   value:
-                    code: 1
-                    message: "Missing API Token"
+                    code: 3
+                    message: "No API key provided"
                 Invalid-Token:
                   summary: "Invalid API Token"
                   value:
-                    code: 2
-                    message: "Invalid API Token"
+                    code: 4
+                    message: "Invalid API key provided"
         403:
           description: "Missing Permissions"
           content:
@@ -2248,8 +2347,12 @@ paths:
               examples:
                 Missing-Permissions:
                   value:
-                    code: 12
+                    code: 1
                     message: "You are not authorized to access this resource"
+                Blacklisted:
+                  value:
+                    code: 2
+                    message: "You are blacklisted from accessing this resource"
       security:
         - APIToken: []
   /quotes/random:
@@ -2288,13 +2391,13 @@ paths:
                 Missing-Token:
                   summary: "Missing API Token"
                   value:
-                    code: 1
-                    message: "Missing API Token"
+                    code: 3
+                    message: "No API key provided"
                 Invalid-Token:
                   summary: "Invalid API Token"
                   value:
-                    code: 2
-                    message: "Invalid API Token"
+                    code: 4
+                    message: "Invalid API key provided"
         403:
           description: "Missing Permissions"
           content:
@@ -2304,8 +2407,12 @@ paths:
               examples:
                 Missing-Permissions:
                   value:
-                    code: 12
+                    code: 1
                     message: "You are not authorized to access this resource"
+                Blacklisted:
+                  value:
+                    code: 2
+                    message: "You are blacklisted from accessing this resource"
       security:
         - APIToken: []
   /weather/current:
@@ -2381,11 +2488,11 @@ paths:
               examples:
                 Missing-Location:
                   value:
-                    code: 6
+                    code: 8
                     message: "Missing Header Parameter(s)"
                 Invalid-Location:
                   value:
-                    code: 7
+                    code: 9
                     message: "Invalid Header Parameter(s)"
         401:
           description: "Invalid/Missing API Token"
@@ -2397,13 +2504,13 @@ paths:
                 Missing-Token:
                   summary: "Missing API Token"
                   value:
-                    code: 1
-                    message: "Missing API Token"
+                    code: 3
+                    message: "No API key provided"
                 Invalid-Token:
                   summary: "Invalid API Token"
                   value:
-                    code: 2
-                    message: "Invalid API Token"
+                    code: 4
+                    message: "Invalid API key provided"
         403:
           description: "Missing Permissions"
           content:
@@ -2413,8 +2520,12 @@ paths:
               examples:
                 Missing-Permissions:
                   value:
-                    code: 12
+                    code: 1
                     message: "You are not authorized to access this resource"
+                Blacklisted:
+                  value:
+                    code: 2
+                    message: "You are blacklisted from accessing this resource"
         404:
           description: "Error with the given location"
           content:
@@ -2424,8 +2535,8 @@ paths:
               examples:
                 error:
                   value:
-                    code: 13
-                    message: "Unable to find requested resource"
+                    code: 22
+                    message: "Unable to retreive requested information"
       security:
         - APIToken: []
   /mail/send:
@@ -2503,7 +2614,7 @@ paths:
                 Missing-Body:
                   summary: "Missing Body Parameter(s)"
                   value:
-                    code: 8
+                    code: 10
                     message: "Missing Body Parameter(s)"
         401:
           description: "Invalid/Missing API Token"
@@ -2515,13 +2626,13 @@ paths:
                 Missing-Token:
                   summary: "Missing API Token"
                   value:
-                    code: 1
-                    message: "Missing API Token"
+                    code: 3
+                    message: "No API key provided"
                 Invalid-Token:
                   summary: "Invalid API Token"
                   value:
-                    code: 2
-                    message: "Invalid API Token"
+                    code: 4
+                    message: "Invalid API key provided"
         403:
           description: "Missing Permissions"
           content:
@@ -2531,8 +2642,12 @@ paths:
               examples:
                 Missing-Permissions:
                   value:
-                    code: 12
+                    code: 1
                     message: "You are not authorized to access this resource"
+                Blacklisted:
+                  value:
+                    code: 2
+                    message: "You are blacklisted from accessing this resource"
         500:
           description: "Error sending email"
           content:
@@ -2543,9 +2658,137 @@ paths:
                 error:
                   value:
                     code: 0
-                    message: "Unknown Server Error"
+                    message: "An unknown error occurred"
       security:
         - APIToken: []
+  /mail/globalsend:
+    post:
+      operationId: "SendGlobalEmail"
+      description: |-
+        Sends an email to the given recipient.
+        Returns a success message if successful, otherwise returns an error.
+
+        This routes uses a global administrative email account that allows the requester to send an email from any username.
+      parameters:
+        - in: "header"
+          name: 'x-user'
+          required: true
+          description: "The Account Credentals used to send the email"
+          example: "XQGdt1KLapMtFZqGCdzyLw.xcWtsV5Xb4T-yEE0lHtLyC60JC4"
+          schema:
+            type: string
+        - in: "header"
+          name: 'x-context'
+          required: true
+          description: |-
+            The context of the email (sender's name, reply-to address, etc)
+
+            Syntax: `oneCharLabel:Value;oneCharLabel:Value...`
+
+            Currently, only 2 values are used; `n` for the sender's name and `r` for the reply-to address.
+          example: "n:Example User;r:"
+          schema:
+            type: string
+        - in: "header"
+          name: 'x-from'
+          required: true
+          description: "The email address to send the email from"
+          example: ""
+          schema:
+            type: string
+      requestBody:
+        description: "The email information to send"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EmailRequest"
+            examples:
+              Plain-Text:
+                value:
+                  to: ""
+                  subject: "Test"
+                  text: "This is a test email"
+              HTML:
+                value:
+                  to: ""
+                  subject: "Test"
+                  html: "<h1>This is a test email</h1>"
+              Link:
+                value:
+                  to: ""
+                  subject: "Test"
+                  url: "https://example.com"
+      responses:
+        200:
+          description: "Ok Response"
+          content:
+            text/plain:
+              schema:
+                type: string
+              examples:
+                Good:
+                  value: "OK"
+        400:
+          description: "Missing Body Parameter(s)"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-Body:
+                  summary: "Missing Body Parameter(s)"
+                  value:
+                    code: 10
+                    message: "Missing Body Parameter(s)"
+                Missing-Headers:
+                  summary: "Missing Header Parameter(s)"
+                  value:
+                    code: 8
+                    message: "Missing Header Parameter(s)"
+        401:
+          description: "Invalid/Missing API Token"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-Token:
+                  summary: "Missing API Token"
+                  value:
+                    code: 3
+                    message: "No API key provided"
+                Invalid-Token:
+                  summary: "Invalid API Token"
+                  value:
+                    code: 4
+                    message: "Invalid API key provided"
+        403:
+          description: "Missing Permissions"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-Permissions:
+                  value:
+                    code: 1
+                    message: "You are not authorized to access this resource"
+                Blacklisted:
+                  value:
+                    code: 2
+                    message: "You are blacklisted from accessing this resource"
+        500:
+          description: "Error sending email"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                error:
+                  value:
+                    code: 0
+                    message: "An unknown error occurred"
 components:
   securitySchemes:
     APIToken:
@@ -2597,6 +2840,8 @@ components:
 
   schemas:
     FirebaseProviderData:
+      description: |-
+        The Authentication Provider Data for a Firebase User
       required:
         - uid
         - displayName
@@ -2620,6 +2865,8 @@ components:
           type: string
           description: "The provider ID of the user"
     FirebaseMetadata:
+      description: |-
+        The Metadata for a Firebase User
       required:
         - lastSignInTime
         - creationTime
@@ -2638,6 +2885,8 @@ components:
           type: string
           description: "The last refresh time of the user"
     CreatedFirebaseUser:
+      description: |-
+        The Created Firebase User Information
       required:
         - uid
         - displayName
@@ -2689,6 +2938,8 @@ components:
             $ref: "#/components/schemas/FirebaseProviderData"
           description: "The provider data of the user"
     FullUserInformation:
+      description: |-
+        The Full User Information
       required:
         - id
         - firebaseuid
@@ -2737,6 +2988,8 @@ components:
           type: integer
           description: "Whether or not the user has beta access"
     GetUserInfoResponse:
+      description: |-
+        The information that is returned when getting user information
       required:
         - id
         - username
@@ -2765,6 +3018,8 @@ components:
           type: integer
           description: "The permissions of the user"
     UpdateUserInfo:
+      description: |-
+        The information that is used to update user information
       properties:
         displayname:
           nullable: true
@@ -2783,6 +3038,8 @@ components:
           type: integer
           description: "The new permissions of the user"
     UpdateUserInfoResponse:
+      description: |-
+        The information that is returned when updating user information
       required:
         - id
         - upatedUser
@@ -2797,6 +3054,8 @@ components:
           $ref: "#/components/schemas/FullUserInformation"
           description: "The updated user information"
     CreateUserInfo:
+      description: |-
+        The information that is used and required to create a new user
       required:
         - username
         - firstname
@@ -2825,6 +3084,8 @@ components:
           type: string
           description: "The password of the user"
     CreateUserInfoResponse:
+      description: |-
+        The information that is returned when creating a new user
       required:
         - user
         - username
@@ -2854,6 +3115,8 @@ components:
           type: integer
           description: "The permissions of the user"
     DeleteUserInfoResponse:
+      description: |-
+        The information that is returned when deleting a user
       required:
         - uid
         - deleted
@@ -2867,6 +3130,10 @@ components:
           type: boolean
           description: "Whether or not the user was deleted"
     ErrorData:
+      description: |-
+        The error data that is returned when an error occurs
+
+        All Error Codes are located in `/functions/errorResponse.js` [GitHub](https://github.com/femdevs/femdev-website/blob/main/functions/errorResponse.js)
       required:
         - code
         - message
@@ -2880,6 +3147,8 @@ components:
           type: string
           description: "The error message"
     TokenCreationRequestBody:
+      description: |-
+        The information that is used and required to create a new token
       required:
         - firebaseuid
       properties:
@@ -2888,19 +3157,18 @@ components:
           type: string
           description: "The Firebase UID of the user"
     TokenCreationResponse:
+      description: |-
+        The information that is returned when creating a new token
       required:
         - token
-        - license
       properties:
         token:
           nullable: false
           type: string
           description: "The token that was created"
-        license:
-          nullable: false
-          type: string
-          description: "The license thats associated with the token"
     TokenDeletionResponse:
+      description: |-
+        The information that is returned when deleting a token
       required:
         - message
       properties:
@@ -2909,16 +3177,13 @@ components:
           type: string
           description: "The message that was returned"
     TokenData:
+      description: |-
+        The information that is returned when getting a token
       required:
-        - license
         - token
         - associatedfirebaseuid
         - username
       properties:
-        license:
-          nullable: false
-          type: string
-          description: "The license that the token is associated with"
         token:
           nullable: false
           type: string
@@ -2932,6 +3197,8 @@ components:
           type: string
           description: "The username that the token is associated with"
     ListTokenResponse:
+      description: |-
+        The information that is returned when listing all tokens
       required:
         - tokens
       properties:
@@ -2942,6 +3209,8 @@ components:
             $ref: "#/components/schemas/TokenData"
           description: "The list of tokens"
     MinecraftHiveURLDataObj:
+      description: |-
+        The URL Data Object for the Hive Minecraft Server
       required:
         - url
         - name
@@ -2955,6 +3224,8 @@ components:
           type: string
           description: "The name of the player"
     MinecraftHiveMainPlayerData:
+      description: |-
+        The Main Player Data for the Hive Minecraft Server
       required:
         - xuid
         - username
@@ -3065,6 +3336,8 @@ components:
             type: string
           description: "The hats the player has"
     MinecraftHivePlayerHideGameStatistics:
+      description: |-
+        The Hide Game Statistics for the Hive Minecraft Server
       required:
         - xp
         - played
@@ -3098,6 +3371,8 @@ components:
           type: integer
           description: "The number of hiders the player has killed"
     MinecraftHivePlayerDeathrunStatistics:
+      description: |-
+        The Deathrun Statistics for the Hive Minecraft Server
       required:
         - xp
         - played
@@ -3141,6 +3416,8 @@ components:
           type: integer
           description: "The number of deaths the player has caused"
     MinecraftHivePlayerWarStatistics:
+      description: |-
+        The War Statistics for the Hive Minecraft Server
       required:
         - xp
         - played
@@ -3179,6 +3456,8 @@ components:
           type: integer
           description: "The number of times the player has died"
     MinecraftHivePlayerMurderMysteryStatistics:
+      description: |-
+        The Murder Mystery for the Minecraft Hive Player
       required:
         - xp
         - played
@@ -3222,6 +3501,8 @@ components:
           type: integer
           description: "The number of murderers the user has eliminated"
     MinecraftHivePlayerSurvivalGamesStatistics:
+      description: |-
+        The Survival Statistics of the Minecraft Hive Player
       required:
         - xp
         - played
@@ -3255,6 +3536,8 @@ components:
           type: integer
           description: "The number of times the player has died"
     MinecraftHivePlayerSkyWarsStatistics:
+      description: |-
+        The Sky Wars Statistics of the Minecraft Hive Player
       required:
         - xp
         - played
@@ -3288,6 +3571,8 @@ components:
           type: integer
           description: "The number of times the player has died"
     MinecraftHivePlayerCTFStatistics:
+      description: |-
+        The Capture The Flag Statistics of the Minecraft Hive Player
       required:
         - xp
         - played
@@ -3336,6 +3621,8 @@ components:
           type: integer
           description: "The number of flags the player has returned"
     MinecraftHivePlayerDropStatistics:
+      description: |-
+        The Drop Statistics of the Minecraft Hive Player
       required:
         - xp
         - played
@@ -3374,6 +3661,8 @@ components:
           type: integer
           description: "The number of times the player has died"
     MinecraftHivePlayerGroundStatistics:
+      description: |-
+        The Ground Statistics of the Minecraft Hive Player
       required:
         - xp
         - played
@@ -3417,6 +3706,8 @@ components:
           type: integer
           description: "The number of times the player has died"
     MinecraftHivePlayerBuildStatistics:
+      description: |-
+        The Build Statistics of the Minecraft Hive Player
       required:
         - xp
         - played
@@ -3460,6 +3751,8 @@ components:
           type: integer
           description: "The number of love ratings the player has received"
     MinecraftHivePlayerPartyStatistics:
+      description: |-
+        The Party Statistics of the Minecraft Hive Player
       required:
         - xp
         - played
@@ -3493,19 +3786,28 @@ components:
           type: integer
           description: "The number of rounds the player has survived"
     MinecraftHivePlayerBridgeStatistics:
+      description: |-
+        The Bridge Statistics of the Minecraft Hive Player
       required:
         - xp
+        - played
         - first_played
       properties:
         xp:
           nullable: false
           type: integer
           description: "The amount of XP the player has"
+        played:
+          nullable: false
+          type: integer
+          description: "The amount of games the player has played"
         first_played:
           nullable: false
           type: integer
           description: "The first time the player played"
     MinecraftHivePlayerGravityStatistics:
+      description: |-
+        The Gravity Statistics of the Minecraft Hive Player
       required:
         - xp
         - played
@@ -3549,6 +3851,7 @@ components:
         - main
         - deathrun
         - war
+        - murder
         - sg
         - sky
         - ctf
@@ -3579,6 +3882,11 @@ components:
           type: object
           $ref: "#/components/schemas/MinecraftHivePlayerWarStatistics"
           description: "The war statistics of the player"
+        murder:
+          nullable: false
+          type: object
+          $ref: "#/components/schemas/MinecraftHivePlayerMurderMysteryStatistics"
+          description: "The murder mystery game statistics of the player"
         sg:
           nullable: false
           type: object
@@ -3625,6 +3933,8 @@ components:
           $ref: "#/components/schemas/MinecraftHivePlayerGravityStatistics"
           description: "The gravity statistics of the player"
     MinecraftHiveMapData:
+      description: |-
+        The Map Data for the Hive Minecraft Server
       required:
         - name
         - season
@@ -3648,6 +3958,8 @@ components:
           type: string
           description: "The image of the map"
     LocationAddressData:
+      description: |-
+        The address of the location
       required:
         - full
         - houseNumber
@@ -3686,6 +3998,8 @@ components:
           type: string
           description: "The postal code"
     LocationCoordData:
+      description: |-
+        The coordinates of the location
       required:
         - lat
         - lng
@@ -3699,6 +4013,8 @@ components:
           type: number
           description: "The longitude of the location"
     LocationData:
+      description: |-
+        The response data for all location endpoints
       required:
         - address
         - coords
@@ -3719,6 +4035,8 @@ components:
           type: string
           description: "The plus code of the location"
     PhoneNumberData:
+      description: |-
+        The information that is returned when getting phone number information
       required:
         - status
         - phone
@@ -3782,6 +4100,8 @@ components:
           type: string
           description: "The carrier of the phone number"
     WeatherLocationData:
+      description: |-
+        The location of the requested weather
       required:
         - lat
         - lon
@@ -3795,6 +4115,8 @@ components:
           type: number
           description: "The longitude of the location"
     WeatherCurrentInformation:
+      description: |-
+        The information of the weather
       required:
         - id
         - main
@@ -3818,6 +4140,8 @@ components:
           type: string
           description: "The icon of the weather"
     WeatherCurrentMainData:
+      description: |-
+        The main information of the weather
       required:
         - temp
         - feels_like
@@ -3851,6 +4175,8 @@ components:
           type: integer
           description: "The humidity"
     WeatherCurrentWindData:
+      description: |-
+        The wind information of the weather
       required:
         - speed
         - deg
@@ -3864,6 +4190,8 @@ components:
           type: integer
           description: "The direction of the wind"
     WeatherCurrentCloudData:
+      description: |-
+        The cloud information of the weather
       required:
         - all
       properties:
@@ -3872,6 +4200,8 @@ components:
           type: integer
           description: "The cloudiness"
     WeatherCurrentSysData:
+      description: |-
+        The system information of the weather
       required:
         - type
         - id
@@ -3900,6 +4230,8 @@ components:
           type: integer
           description: "The sunset time"
     WeatherCurrentData:
+      description: |-
+        The information sent back when getting the current weather
       required:
         - coord
         - weather
@@ -3975,6 +4307,8 @@ components:
           type: integer
           description: "The code of the weather"
     QuoteData:
+      description: |-
+        The information that is returned when getting a quote
       required:
         - quote
         - author
@@ -3995,6 +4329,8 @@ components:
             type: string
           description: "The tags of the quote"
     EmailRequest:
+      description: |-
+        The information that is required to send an email
       required:
         - to
         - subject
