@@ -19,10 +19,10 @@ info:
     url: "https://thefemdevs.com"
     email: "support@thefemdevs.com"
   license:
-    name: "GNU Affero General Public License v3.0"
+    name: "GNU Affero General Public License v3.0 (`AGPL-3.0`)"
     url: "https://www.gnu.org/licenses/agpl-3.0.en.html"
 servers:
-  - url: "https://api.thefemdevs.com/"
+  - url: "https://api.thefemdevs.com"
     description: "Production Server"
 paths:
   /user/get:
@@ -40,6 +40,8 @@ paths:
           description: "The Firebase UID of the user to get information for"
           schema:
             type: string
+          example:
+            value: "gPcqw6MAbXbZs6ARohHqT2vapFY2"
       responses:
         200:
           description: "The user information for the given ID"
@@ -133,6 +135,8 @@ paths:
           description: "The Firebase UID of the user to get information for"
           schema:
             type: string
+          example:
+            value: "gPcqw6MAbXbZs6ARohHqT2vapFY2"
       requestBody:
         description: "The new user information"
         required: true
@@ -152,7 +156,7 @@ paths:
                   password: "newPassword"
               perms:
                 value:
-                  perms: 1
+                  perms: "0:0:1;0:0:2"
       responses:
         200:
           description: "Successful Response"
@@ -306,14 +310,13 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/CreateUserInfo"
-            examples:
-              user:
-                value:
-                  username: "JohnDoe0001"
-                  firstname: "John"
-                  lastname: "Doe"
-                  email: "example@example.com"
-                  password: "ARandomPassword"
+            example:
+              value:
+                username: "JohnDoe0001"
+                firstname: "John"
+                lastname: "Doe"
+                email: "example@example.com"
+                password: "ARandomPassword"
       responses:
         201:
           description: "The user information for the given ID"
@@ -416,6 +419,8 @@ paths:
           description: "The Firebase UID of the user to get delete"
           schema:
             type: string
+          example:
+            value: "gPcqw6MAbXbZs6ARohHqT2vapFY2"
       responses:
         200:
           description: "The successful notification of the deletion"
@@ -696,10 +701,9 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/TokenCreationRequestBody"
-            examples:
-              token:
-                value:
-                  firebaseuid: "gPcqw6MAbXbZs6ARohHqT2vapFY2"
+            example:
+              value:
+                firebaseuid: "gPcqw6MAbXbZs6ARohHqT2vapFY2"
       responses:
         201:
           description: "The information on the generated token"
@@ -1015,6 +1019,8 @@ paths:
           description: "The Minecraft username of the player to get information for"
           schema:
             type: string
+          example:
+            value: "therealbenpai"
       responses:
         200:
           description: "The player information for the given username"
@@ -1249,6 +1255,8 @@ paths:
           description: "The game to get maps for"
           schema:
             type: string
+          example:
+            value: "hide"
       responses:
         200:
           description: "The list of maps for the given game"
@@ -1394,6 +1402,8 @@ paths:
           description: "The word to get the definition for"
           schema:
             type: string
+          example:
+            value: "cool"
       responses:
         200:
           description: "The definition for the given word"
@@ -1485,6 +1495,8 @@ paths:
           description: "The word to get the synonyms for"
           schema:
             type: string
+          example:
+            value: "smile"
       responses:
         200:
           description: "The synonyms for the given word"
@@ -1580,6 +1592,8 @@ paths:
           description: "The word to get the antonyms for"
           schema:
             type: string
+          example:
+            value: "happy"
       responses:
         200:
           description: "The antonyms for the given word"
@@ -1879,6 +1893,8 @@ paths:
           description: "The coordinates to get the location for"
           schema:
             type: string
+          example:
+            value: "38.8976633,-77.0365739"
       responses:
         200:
           description: "The location for the given coordinates"
@@ -1975,6 +1991,8 @@ paths:
           description: "The pluscode"
           schema:
             type: string
+          example:
+            value: "87G8P9CJ+XQ"
       responses:
         200:
           description: "The location for the given pluscode"
@@ -2071,6 +2089,8 @@ paths:
           description: "The address to get the location for"
           schema:
             type: string
+          example:
+            value: "1600 Pennsylvania Avenue Northwest, Washington, District of Columbia, United States, 20500"
       responses:
         200:
           description: "The location for the given address"
@@ -2167,6 +2187,8 @@ paths:
           description: "The phone number to get the details for"
           schema:
             type: string
+          example:
+            value: "+8888888888"
       responses:
         200:
           description: "The details for the given phone number"
@@ -2427,13 +2449,16 @@ paths:
       parameters:
         - in: "header"
           name: "x-city"
-          example: "Washington D.C."
+          example:
+            value: "Washington D.C."
           description: "The city to get the weather for"
           schema:
             type: string
         - in: "header"
           name: "x-coords"
           description: "The coordinates to get the weather for"
+          example:
+            value: "38.8976633,-77.0365739"
           schema:
             type: string
       responses:
@@ -2694,7 +2719,7 @@ paths:
           name: 'x-from'
           required: true
           description: "The email address to send the email from"
-          example: ""
+          example: "sender@example.com"
           schema:
             type: string
       requestBody:
@@ -3036,7 +3061,7 @@ components:
           description: "The new password of the user"
         perms:
           nullable: true
-          type: integer
+          type: string
           description: "The new permissions of the user"
     UpdateUserInfoResponse:
       description: |-
