@@ -40,8 +40,7 @@ paths:
           description: "The Firebase UID of the user to get information for"
           schema:
             type: string
-          example:
-            value: "gPcqw6MAbXbZs6ARohHqT2vapFY2"
+          example: "gPcqw6MAbXbZs6ARohHqT2vapFY2"
       responses:
         200:
           description: "The user information for the given ID"
@@ -135,8 +134,7 @@ paths:
           description: "The Firebase UID of the user to get information for"
           schema:
             type: string
-          example:
-            value: "gPcqw6MAbXbZs6ARohHqT2vapFY2"
+          example: "gPcqw6MAbXbZs6ARohHqT2vapFY2"
       requestBody:
         description: "The new user information"
         required: true
@@ -419,8 +417,7 @@ paths:
           description: "The Firebase UID of the user to get delete"
           schema:
             type: string
-          example:
-            value: "gPcqw6MAbXbZs6ARohHqT2vapFY2"
+          example: "gPcqw6MAbXbZs6ARohHqT2vapFY2"
       responses:
         200:
           description: "The successful notification of the deletion"
@@ -519,8 +516,7 @@ paths:
         - in: "query"
           name: "data"
           description: "The data to encrypt"
-          example:
-            value: "testing"
+          example: "testing"
           schema:
             type: string
       responses:
@@ -610,8 +606,7 @@ paths:
           description: "The data to decrypt"
           schema:
             type: string
-          example:
-            value: 'Pc6W8_h9XSg8LVhZ8yAP4vtui0sJIMNmC_E18ee9JBQyEmBPLZBDz5Jx745u31Pbr2EkS9Z2S8oFB02uwzpWtt3PH48HE-Wj27VkpvV1glrpZ0f_cW0Ema-gT-6S675xCgb9cy0ZTx3rH-kzuVZXaOwrMjMJTVe7ZpyH8zyUNHnDo0xvkhq9Z523azZm1mq1rcJWMJl8iCuZc6TQp5E2-4xiAZF59ZCZyQCtzxryPzX6aR5ENBvBVdkOaNWtmjWc9ZM5Ni9PXc2cVGbi5IDo6RvX5KuU2DUvGpIKvf15xLptPXZPLNtU4syXjXI4vA03EpV1-Dqs6H7FrtXLAu9M5Q7NxaSxynr4oyJC7CzIXJtJVUwrFN9I-zSJCcR9rE90XzolaWICUjfhSkMtPBTkr_ibNFcyPhG-oaMPGuc1Hb8gJzEDDtWTGPZdV2rbGJIw3XBi_h80fj8F_DQujSGsbo2DmBwSF-PZtKG5WHK9cf3rWCIxF1Sc5Hhkd-HnhrFrSv30Kjvede88MmofhchsS9cEn4eFF7rfj35blLBxGKBKzhS0k_k7FWQznK6J24lfUR_Gtkz3IJlTcqQN-ixucjHdI58xheVETAg_PkK3KZIwgabxQRSz96JUANyEPIPdodIF2f4PpEMomjYp8mCc_0F26uUSgsm9_LcJvC9oNZU'
+          example: 'Pc6W8_h9XSg8LVhZ8yAP4vtui0sJIMNmC_E18ee9JBQyEmBPLZBDz5Jx745u31Pbr2EkS9Z2S8oFB02uwzpWtt3PH48HE-Wj27VkpvV1glrpZ0f_cW0Ema-gT-6S675xCgb9cy0ZTx3rH-kzuVZXaOwrMjMJTVe7ZpyH8zyUNHnDo0xvkhq9Z523azZm1mq1rcJWMJl8iCuZc6TQp5E2-4xiAZF59ZCZyQCtzxryPzX6aR5ENBvBVdkOaNWtmjWc9ZM5Ni9PXc2cVGbi5IDo6RvX5KuU2DUvGpIKvf15xLptPXZPLNtU4syXjXI4vA03EpV1-Dqs6H7FrtXLAu9M5Q7NxaSxynr4oyJC7CzIXJtJVUwrFN9I-zSJCcR9rE90XzolaWICUjfhSkMtPBTkr_ibNFcyPhG-oaMPGuc1Hb8gJzEDDtWTGPZdV2rbGJIw3XBi_h80fj8F_DQujSGsbo2DmBwSF-PZtKG5WHK9cf3rWCIxF1Sc5Hhkd-HnhrFrSv30Kjvede88MmofhchsS9cEn4eFF7rfj35blLBxGKBKzhS0k_k7FWQznK6J24lfUR_Gtkz3IJlTcqQN-ixucjHdI58xheVETAg_PkK3KZIwgabxQRSz96JUANyEPIPdodIF2f4PpEMomjYp8mCc_0F26uUSgsm9_LcJvC9oNZU'
       responses:
         200:
           description: "The Decrypted Data"
@@ -787,8 +782,7 @@ paths:
           description: "The token to delete"
           schema:
             type: string
-          example:
-            value: 'afsdjahfljdfhajfkel_fhealufu342_o7ffff7bfew7ofbew.fkdahljekfhuahjfuaeu_awfefudfayvi'
+          example: 'afsdjahfljdfhajfkel_fhealufu342_o7ffff7bfew7ofbew.fkdahljekfhuahjfuaeu_awfefudfayvi'
       responses:
         200:
           description: "The successful notification of the deletion"
@@ -932,8 +926,7 @@ paths:
           description: "The token to get information for"
           schema:
             type: string
-          example:
-            value: "fjkh_fdasABc12.dshfa34287y_FDAS34_2"
+          example: "fjkh_fdasABc12.dshfa34287y_FDAS34_2"
       responses:
         200:
           description: "The token information for the given token"
@@ -1019,8 +1012,7 @@ paths:
           description: "The Minecraft username of the player to get information for"
           schema:
             type: string
-          example:
-            value: "therealbenpai"
+          example: "therealbenpai"
       responses:
         200:
           description: "The player information for the given username"
@@ -1255,8 +1247,7 @@ paths:
           description: "The game to get maps for"
           schema:
             type: string
-          example:
-            value: "hide"
+          example: "hide"
       responses:
         200:
           description: "The list of maps for the given game"
@@ -1402,8 +1393,7 @@ paths:
           description: "The word to get the definition for"
           schema:
             type: string
-          example:
-            value: "cool"
+          example: "cool"
       responses:
         200:
           description: "The definition for the given word"
@@ -1495,8 +1485,7 @@ paths:
           description: "The word to get the synonyms for"
           schema:
             type: string
-          example:
-            value: "smile"
+          example: "smile"
       responses:
         200:
           description: "The synonyms for the given word"
@@ -1592,8 +1581,7 @@ paths:
           description: "The word to get the antonyms for"
           schema:
             type: string
-          example:
-            value: "happy"
+          example: "happy"
       responses:
         200:
           description: "The antonyms for the given word"
@@ -1893,8 +1881,7 @@ paths:
           description: "The coordinates to get the location for"
           schema:
             type: string
-          example:
-            value: "38.8976633,-77.0365739"
+          example: "38.8976633,-77.0365739"
       responses:
         200:
           description: "The location for the given coordinates"
@@ -1991,8 +1978,7 @@ paths:
           description: "The pluscode"
           schema:
             type: string
-          example:
-            value: "87G8P9CJ+XQ"
+          example: "87G8P9CJ+XQ"
       responses:
         200:
           description: "The location for the given pluscode"
@@ -2089,8 +2075,7 @@ paths:
           description: "The address to get the location for"
           schema:
             type: string
-          example:
-            value: "1600 Pennsylvania Avenue Northwest, Washington, District of Columbia, United States, 20500"
+          example: "1600 Pennsylvania Avenue Northwest, Washington, District of Columbia, United States, 20500"
       responses:
         200:
           description: "The location for the given address"
@@ -2187,8 +2172,7 @@ paths:
           description: "The phone number to get the details for"
           schema:
             type: string
-          example:
-            value: "+8888888888"
+          example: "+8888888888"
       responses:
         200:
           description: "The details for the given phone number"
@@ -2449,16 +2433,14 @@ paths:
       parameters:
         - in: "header"
           name: "x-city"
-          example:
-            value: "Washington D.C."
+          example: "Washington D.C."
           description: "The city to get the weather for"
           schema:
             type: string
         - in: "header"
           name: "x-coords"
           description: "The coordinates to get the weather for"
-          example:
-            value: "38.8976633,-77.0365739"
+          example: "38.8976633,-77.0365739"
           schema:
             type: string
       responses:
