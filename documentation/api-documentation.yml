@@ -522,7 +522,7 @@ paths:
         200:
           description: "The Encrypted Data"
           content:
-            application/json:
+            plain/text:
               schema:
                 type: string
               examples:
@@ -611,7 +611,7 @@ paths:
         200:
           description: "The Decrypted Data"
           content:
-            application/json:
+            plain/text:
               schema:
                 type: string
               examples:
@@ -1718,7 +1718,7 @@ paths:
         200:
           description: "The dog fact"
           content:
-            application/json:
+            plain/text:
               schema:
                 type: string
               examples:
@@ -1771,7 +1771,7 @@ paths:
         200:
           description: "The cat fact"
           content:
-            application/json:
+            plain/text:
               schema:
                 type: string
               examples:
@@ -1824,7 +1824,7 @@ paths:
         200:
           description: "The random fact"
           content:
-            application/json:
+            plain/text:
               schema:
                 type: string
               examples:
@@ -2262,7 +2262,7 @@ paths:
         200:
           description: "The Kanye West quote"
           content:
-            application/json:
+            plain/text:
               schema:
                 type: string
               examples:
@@ -2315,7 +2315,7 @@ paths:
         200:
           description: "The Ron Swanson quote"
           content:
-            application/json:
+            plain/text:
               schema:
                 type: string
               examples:
@@ -2669,11 +2669,12 @@ paths:
         Returns a success message if successful, otherwise returns an error.
 
         This routes uses a global administrative email account that allows the requester to send an email from any username.
+      summary: "Send an Email using Global Account"
       parameters:
         - in: "header"
           name: 'x-user'
           required: true
-          description: "The Account Credentals used to send the email"
+          description: "The Account Credentals used to access the administrative email account"
           example: "XQGdt1KLapMtFZqGCdzyLw.xcWtsV5Xb4T-yEE0lHtLyC60JC4"
           schema:
             type: string
@@ -2686,7 +2687,7 @@ paths:
             Syntax: `oneCharLabel:Value;oneCharLabel:Value...`
 
             Currently, only 2 values are used; `n` for the sender's name and `r` for the reply-to address.
-          example: "n:Example User;r:"
+          example: "n:Example User;r:user@example.com"
           schema:
             type: string
         - in: "header"
@@ -2706,17 +2707,17 @@ paths:
             examples:
               Plain-Text:
                 value:
-                  to: ""
+                  to: "user@example.com"
                   subject: "Test"
                   text: "This is a test email"
               HTML:
                 value:
-                  to: ""
+                  to: "user@example.com"
                   subject: "Test"
                   html: "<h1>This is a test email</h1>"
               Link:
                 value:
-                  to: ""
+                  to: "user@example.com"
                   subject: "Test"
                   url: "https://example.com"
       responses:
