@@ -4,12 +4,11 @@ contact_links:
     url: https://thefemdevs.com/contact
     about: Have questions? Get in touch with us!
   - name: Privacy Policy
-    url: https://thefemdevs.com/legal/privacy
+    url: https://legal.thefemdevs.com/privacy
     about: Learn how we handle your data
   - name: Terms of Service
-    url: https://thefemdevs.com/legal/terms
+    url: https://legal.thefemdevs.com/terms
     about: Learn what you can and can't do with our content
   - name: Code of Conduct
-    url: https://thefemdevs.com/oss-project/code-of-conduct
+    url: https://oss.thefemdevs.com/code-of-conduct
     about: Learn how to be a good community member
-    

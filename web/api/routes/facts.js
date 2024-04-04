@@ -4,17 +4,17 @@ router
     .get('/chucknorris', async (req, res) => {
         if (!(await req.checkPermissions(req, res, { multi: false, perm: 'Facts::ChuckNorris', allowMgr: true }))) return;
         const { data } = await req.axiosReq('https://api.chucknorris.io/jokes/random');
-        res.json(data);
+        res.send(data.facts[0]);
     })
     .get('/dogs', async (req, res) => {
         if (!(await req.checkPermissions(req, res, { multi: false, perm: 'Facts::Dog', allowMgr: true }))) return;
         const { data } = await req.axiosReq('http://dog-api.kinduff.com/api/facts', { params: { number: 1 } });
-        res.json(data);
+        res.send(data.facts[0]);
     })
     .get('/cats', async (req, res) => {
         if (!(await req.checkPermissions(req, res, { multi: false, perm: 'Facts::Cat', allowMgr: true }))) return;
         const { data } = await req.axiosReq('https://meowfacts.herokuapp.com/');
-        res.json(data);
+        res.send(data.facts[0]);
     })
     .use((req, res, next) => {
         const { path } = req;

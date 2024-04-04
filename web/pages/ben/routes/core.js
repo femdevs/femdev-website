@@ -12,9 +12,6 @@ router
             }
         }
     ))
-    .get('/cdn/img/:file', (req, res) => res.sendFile(`${process.cwd()}/web/pages/assets/ben/imgs/${req.params.file}`))
-    .get('/cdn/js/:file', (req, res) => res.sendFile(`${process.cwd()}/web/pages/assets/ben/js/${req.params.file}.js`))
-    .get('/cdn/css/:file', (req, res) => res.sendFile(`${process.cwd()}/web/pages/assets/ben/css/${req.params.file}.css`))
     .use((req, res, next) => {
         const { path } = req;
         const methodUsed = req.method.toUpperCase();

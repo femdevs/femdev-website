@@ -8,7 +8,7 @@ router
         const { query: { data } } = req;
         if (!data) return res.sendError(6)
         try {
-            return res.status(200).json({ data: CCrypto.encrypt(data) })
+            return res.status(200).send(CCrypto.encrypt(data))
         } catch (err) {
             return res.sendError(12)
         }
@@ -19,7 +19,7 @@ router
         const { query: { data } } = req;
         if (!data) return res.sendError(6)
         try {
-            return res.status(200).json({ data: CCrypto.decrypt(data) })
+            return res.status(200).send(CCrypto.decrypt(data))
         } catch (err) {
             return res.sendError(13)
         }

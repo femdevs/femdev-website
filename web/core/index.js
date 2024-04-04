@@ -4,29 +4,7 @@ require('dotenv').config();
 const router = require('./routes/router');
 
 leadRouter
-    .use((req, res, next) => {
-        req.RateLimitMem
-            .consume(req.ip, 2)
-            .then(
-                (data) => {
-                    const { remainingPoints: r, consumedPoints: c, msBeforeNext: m } = data;
-                    res
-                        .setHeader('X-RateLimit-Limit', r + c)
-                        .setHeader('X-RateLimit-Remaining', r)
-                        .setHeader('X-RateLimit-Reset', m);
-                    next();
-                },
-                _ => {
-                    res
-                        .setHeader('Retry-After', 1000)
-                        .status(429)
-                        .render(
-                            'misc/429.pug',
-                            req.getErrPage(429, {})
-                        )
-                }
-            )
-    })
+    .use((req, res, next) => req.RateLimitMem.consume(req.ip, 2).then(({ remainingPoints: r, consumedPoints: c, msBeforeNext: m } = data) => { [['Limit', r + c], ['Remaining', r], ['Reset', m]].forEach(v => res.setHeader(`X-RateLimit-${v[0]}`, v[1])); next(); }, (_) => res.setHeader('Retry-After', 1000).status(429).render('misc/429.pug', req.getErrPage(429, {}))))
     .use(router)
     .get('/robots.txt', (_, res) => res.setHeader('Content-Type', 'text/plain; charset=utf8').sendFile(`${__dirname}/meta/robots.txt`))
     .get('/sitemap', (_, res) => res.setHeader('Content-Type', 'text/xml; charset=utf8').sendFile(`${__dirname}/meta/sitemap.xml`))
