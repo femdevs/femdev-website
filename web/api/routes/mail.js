@@ -75,19 +75,28 @@ class MailReqProcesser {
     }
 }
 
-const HTMLSanatize = /([\n\t])|(\/\*.*\*\/)|(<\!-+.*-+>)|(<script.*>.*<\/script>)|(<meta.*\/>)|(<title.*>.*<\/title>)/gmi
-
 /** @param {string} @returns {Promise<string>} */
 const getBody = async (body) => {
     if (body.text) return body.text;
     if (body.html) return body.html.replace(HTMLSanatize, '');
     if (body.url) {
-        const url = new URL(body.url);
-        const dom = htmlProcessor.parse((await fetch(url).then(r => r.text())).replace(HTMLSanatize, ''));
-        dom.querySelectorAll('link[rel="stylesheet"]').forEach(e => e.remove());
-        dom.querySelector('link[rel="icon"]').remove();
-        dom.querySelector('link[rel="apple-touch-icon"]').remove();
-        dom.querySelector('title').remove();
+        const
+            dom = htmlProcessor.parse(await (await fetch(new URL(body.url))).text()),
+            HTMLRemovals = [
+                'link',
+                'form',
+                'meta',
+                'title',
+                'style',
+                'embed',
+                'input',
+                'script',
+                'iframe',
+                'object',
+                'button',
+                'noscript',
+            ]
+        dom.querySelectorAll(HTMLRemovals.join(',')).forEach(e => e.remove());
         if (url.hostname == 'thefemdevs.com') {
             dom.querySelector('head').insertAdjacentHTML('beforeend', `<style>${(await fetch('https://cdn.thefemdevs.com/assets/css/d').then(r => r.text())).replace(HTMLSanatize, '')}</style>`)
             dom.querySelector('body > div').remove();
