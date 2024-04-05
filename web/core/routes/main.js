@@ -103,8 +103,20 @@ router
     })
     .get('/redirect', (req, res) => {
         const { dest } = req.query;
-        const sanitizedDest = (dest || '/').replace(/[^a-zA-Z0-9-_\.\/]/g, '');
-        res.redirect(sanitizedDest);
+        const allowedHosts = [
+            'x.com',
+            'twitter.com',
+            'discord.com',
+            'thefemdevs.com',
+            'github.com',
+            'tiktok.com',
+            'discord.gg',
+            'instagram.com',
+            'reddit.com',
+            'femboyland.eu'
+        ]
+        if (!allowedHosts.some(host => new URL(dest).hostname == host)) return res.status(400).send('Invalid destination URL');
+        res.redirect(dest);
     })
     .get(`/`, async (req, res) => {
         res.render(
