@@ -67,7 +67,7 @@ class MailReqProcesser {
     static async Send(req, res) {
         const auth = this.getAuth(req.headers['x-user']);
         const from = this.from(req.headers['x-from']);
-        const body = await this.getBody(req.body);
+        const body = await this.parseBody(req.body);
         if (!auth || !context) return res.sendError(8);
         if (!body) return res.sendError(10);
         const { to, subject } = req.body;
