@@ -54,14 +54,18 @@ router
         );
     })
     .get('/contributors', async (req, res) => {
+        const connection = await req.Database.pool.connect();
+        const { rows } = await connection.query('SELECT * FROM public.contributors');
+        connection.release();
         res.render(
             `oss/contributors.pug`,
             {
+                contributors: rows.map(c => ({ ...c, description: ` - ${c.description}` })),
                 status: (await req.Database.getServerStatus()),
                 meta: {
                     title: 'Contributors',
                     desc: 'Contributors to the FemDevs Website',
-                    url: 'https://oss.thefemdevs.com/contributors',
+                    url: 'https://oss.thefemdevs.com/contributors'
                 }
             }
         );
