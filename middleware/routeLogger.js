@@ -92,12 +92,7 @@ module.exports = function (mreq, mres, next) {
                 timeZone: "America/Detroit",
                 timeZoneName: undefined
             }).format(new Date()))
-            }] ${CC.method(data.method)
-            } ${CC.path(data.url)
-            } ${CC.status(data.status)
-            } ${CC.resTime(data.time)
-            } (${CC.bytes(data.bytes)
-            })`
+            }] ${[CC.method(data.method),CC.path(data.url),CC.status(data.status),CC.resTime(data.time)].join(' ')} (${CC.bytes(data.bytes)})`
         )
         mreq.reqLogs.push({ ...data, ip: crypto.createHash('ssl3-sha1').update(data.ip).digest('base64url') });
     })(mreq, mres, next)

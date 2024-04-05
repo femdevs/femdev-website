@@ -4,6 +4,7 @@ require('dotenv').config()
 
 router
     .use(require('./mail'))
+    .use(require('./auth'))
     .use(require('./pages'))
     .use(vhost('thefemdevs.com', require('./core/')))
     .use(vhost('www.thefemdevs.com', require('./core')))

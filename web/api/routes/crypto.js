@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const CCrypto = require('../../../modules/CCrypto');
+const CCrypto = require('../../../functions/crypto');
 
 router
     .get('/enc', async (req, res) => {

@@ -11,7 +11,40 @@ let cd = {
 
 Object.assign(cd, Object.fromEntries(['key', 'iv'].map(k => [k, Buffer.from(process.env[`C_${k}`.toUpperCase()], cd.e)])))
 
-class TokenManager {
+class CryptographyData {
+    constructor() {
+        this.iv = ''
+        this.key = ''
+        this.prehash = ''
+        this.posthash = ''
+        this.data = ''
+    }
+}
+
+class Cryptography {
+    static encrypt(inputData) {
+        const data = new CryptographyData();
+        data.prehash = crypto.createHash(cd.ha).update(Buffer.from(inputData)).digest(cd.e)
+        data.iv = crypto.randomBytes(cd.crypt.ivLength).toString(cd.e)
+        data.key = crypto.randomBytes(cd.crypt.keyLength).toString(cd.e)
+        const encdata = crypto.createCipheriv(cd.crypt.name, Buffer.from(data.key, cd.e), Buffer.from(data.iv, cd.e)).update(Buffer.from(inputData))
+        data.posthash = crypto.createHash(cd.ha).update(encdata).digest(cd.e)
+        data.data = encdata.toString(cd.e)
+        return Buffer.from(JSON.stringify(data), 'utf8').toString(cd.e)
+    }
+    static decrypt(inputData) {
+        const data = JSON.parse(Buffer.from(inputData, cd.e).toString('utf-8'))
+        Object.keys({ iv: '', key: '', prehash: '', posthash: '', data: '' }).forEach(key => !Object.hasOwn(data, key) ? assert.fail(`Missing ${key} value`) : false)
+        const obj = new CryptographyData()
+        for (const key of Object.keys(obj)) {
+            if (!Object.hasOwn(data, key)) assert.fail(`Missing ${key} value`)
+            obj[key] = data[key]
+        }
+        assert.equal(obj.posthash, crypto.createHash(cd.ha).update(Buffer.from(obj.data, cd.e)).digest(cd.e));
+        const outData = crypto.createDecipheriv(cd.crypt.name, Buffer.from(obj.key, cd.e), Buffer.from(obj.iv, cd.e)).update(Buffer.from(obj.data, cd.e));
+        assert.equal(data.prehash, crypto.createHash(cd.ha).update(outData).digest(cd.e));
+        return outData.toString('utf-8')
+    }
     static generate = (id) => {
         const { iv, key, ha, e } = cd
         const ed = crypto.createCipheriv(cd.crypt.name, key, iv).update(id)
@@ -42,4 +75,6 @@ class TokenManager {
     }
 }
 
-module.exports = TokenManager
+
+
+module.exports = Cryptography;

@@ -1,9 +1,7 @@
 const crypto = require('crypto');
 
 class CSPReport {
-    /**
-     * @param {{'blocked-uri': string, disposition: string, 'document-uri': string, 'effective-directive': string, 'original-policy': string, referrer: string, 'script-sample': string, 'violated-directive': string, 'status-code': number}} data
-    */
+    /** @param {{'blocked-uri': string, disposition: string, 'document-uri': string, 'effective-directive': string, 'original-policy': string, referrer: string, 'script-sample': string, 'violated-directive': string, 'status-code': number}} data */
     constructor(data) {
         this.blockedURI = data['blocked-uri'];
         this.disposition = data.disposition;

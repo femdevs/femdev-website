@@ -123,18 +123,10 @@ class UserPermissionSet {
         this.permBitStr = base.bitStr;
         this.enabled = false;
     }
-    enable() {
-        this.enabled = true;
-    }
-    disable() {
-        this.enabled = false;
-    }
-    toggle() {
-        this.enabled = !this.enabled;
-    }
-    isEnabled() {
-        return this.enabled;
-    }
+    enable = () => this.enabled = true;
+    disable = () => this.enabled = false;
+    toggle = () => this.enabled = !this.enabled;
+    isEnabled = () => this.enabled;
 }
 
 class User {
