@@ -12,4 +12,4 @@ The following versions of the website have accepted security policies
 
 ## Reporting a Vulnerability
 
-To report a vunrability, please contact the administrative team at [admin@thefemdevs.com](mailto:admin@thefemdevs.com)
+To report a vunrability, please contact the administrative team at <admin@thefemdevs.com>. All reports will be reviewed and investigated promptly and fairly.

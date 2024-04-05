@@ -1,23 +1,24 @@
 {
   "name": "femdevs-website",
-  "version": "3.0.1",
+  "version": "3.2.1",
   "main": "index.js",
   "readme": "README.md",
+  "types": "@types/defs.d.ts",
   "scripts": {
     "build": "npx postcss ./assets/stylesheets/tailwind.css -o ./assets/stylesheets/styles.css",
-    "dev": "nodemon index.js",
+    "dev": "nodemon .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": {
     "name": "Benjamin",
     "email": "therealbenpai@gmail.com",
-    "url": "https://sparty18.com"
+    "url": "https://ben.thefemdevs.com"
   },
   "contributors": [
     {
       "name": "Benjamin",
       "email": "therealbenpai@gmail.com",
-      "url": "https://sparty18.com"
+      "url": "https://ben.thefemdevs.com"
     },
     {
       "name": "Alex",
@@ -41,7 +42,7 @@
     }
   ],
   "license": "AGPL-3.0-or-later",
-  "description": "The source code for the FemDevs Website",
+  "description": "The official source code for the Femdevs website including all the subdomains.",
   "engines": {
     "node": ">=20.0.0",
     "npm": ">=10.0.0"

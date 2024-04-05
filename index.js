@@ -14,7 +14,7 @@ const errPages = require('./middleware/errpages'); //? Error Pages
 const reqLogs = [];
 /** @type {Map<String, Map<String, any>|String>} @desciption Used to store data throughout requests */
 const Persistance = new Map();
-const RateLimiter = new RateLimiterMemory({ points: 30, duration: 1 })
+const RateLimiter = new RateLimiterMemory({ points: 2400, duration: 60 })
 class Formatter {
     static formatDateTime = (v) => new Intl.DateTimeFormat('en-US', { year: "numeric", month: "long", day: "numeric", hour: "2-digit", minute: "2-digit", second: "2-digit", weekday: "long", timeZone: "America/Detroit", timeZoneName: "longGeneric" }).format(v)
     static formatDate = (v) => new Intl.DateTimeFormat('en-US', { year: "numeric", month: "long", day: "numeric", weekday: "long" }).format(v)

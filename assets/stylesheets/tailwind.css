@@ -3,13 +3,3 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@font-face {
-    font-family: "tenoriteRegular";
-    src: url(../fonts/tenoriteRegular.ttf);
-}
-
-@font-face {
-    font-family: "tenoriteBold";
-    src: url(../fonts/tenoriteBold.ttf);
-}
