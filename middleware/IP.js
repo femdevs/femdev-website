@@ -13,10 +13,11 @@ module.exports = {
         timeout: 15_000,
     }),
     /** @type {import('express').RequestHandler} */
-    checkLocation: async (req, res, next) => {
-        if (req.ipinfo.bogon) return next();
-        if (req.ipinfo.error) throw new Error(error)
-        if (['RU', 'CN', 'KP'].includes(req.ipinfo.country) || (req.ipinfo.country == 'US' && req.ipinfo.region == 'California')) return res.render(`misc/location_denial.pug`, req.getErrPage(451, { path: req.path }))
-        return next();
-    }
+    checkLocation: async (req, res, next) => (req.ipinfo.bogon)
+        ? next()
+        : (req.ipinfo.error)
+            ? new Error(error)
+            : (['RU', 'CN', 'KP'].includes(req.ipinfo.country) || (req.ipinfo.country == 'US' && req.ipinfo.region == 'California'))
+                ? res.render(`misc/location_denial.pug`, req.getErrPage(451, { path: req.path }))
+                : next()
 }

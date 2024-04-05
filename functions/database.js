@@ -32,14 +32,25 @@ class PGDatabase extends events.EventEmitter {
             .on('access', (data) => {
                 const { ip, method, url, status, time, bytes } = data;
                 this.pool.connect().then(connection => {
-                    connection.query(SQL`INSERT INTO public.accesslogs (ipaddress, method, route, statuscode, timing, datatransferred) VALUES (${ip}, ${method}, ${url}, ${status}, ${time}, ${bytes})`                    ).catch(console.error)
+                    connection.query(SQL`
+INSERT INTO public.accesslogs
+(ipaddress, method, route, statuscode, timing, datatransferred)
+VALUES (${ip}, ${method}, ${url}, ${status}, ${time}, ${bytes})`
+                    ).catch(console.error)
                     connection.release();
                 })
             })
             .on('token', (data) => {
                 this.pool.connect().then(connection => {
-                    connection.query(SQL`INSERT INTO public.apitokens (token, associatedfirebaseuid, stripesub) VALUES (${data.generatedToken}, ${data.firebaseuid}, ${data.sub ?? ''})`).catch(console.error)
-                    connection.query(SQL`INSERT INTO public.apiUsage (apiToken, totalUses) VALUES (${data.generatedToken}, 0)`).catch(console.error)
+                    connection.query(SQL`
+INSERT INTO public.apitokens
+(token, associatedfirebaseuid, stripesub)
+VALUES (${data.generatedToken}, ${data.firebaseuid}, ${data.sub ?? ''});
+
+INSERT INTO public.apiUsage
+(apiToken, totalUses)
+VALUES (${data.generatedToken}, 0)`
+                    ).catch(console.error)
                     connection.release();
                 })
 
@@ -47,18 +58,27 @@ class PGDatabase extends events.EventEmitter {
             .on('user', (data) => {
                 this.pool.connect().then(connection => {
                     const { uid, displayName: dn, firstname: fn, lastname: ln, email, permissions: perms } = data;
-                    connection.query(SQL`INSERT INTO public.users(firebaseuid, displayname, firstname, lastname, email, permissions) VALUES (${uid}, ${dn}, ${fn}, ${ln}, ${email}, ${perms})`).catch(console.error)
+                    connection.query(SQL`
+INSERT INTO public.users
+(firebaseuid, displayname, firstname, lastname, email, permissions)
+VALUES (${uid}, ${dn}, ${fn}, ${ln}, ${email}, ${perms})`
+                    ).catch(console.error)
                     connection.release();
                 })
             })
             .on('updateBlacklist', () => {
-                this.pool.connect()
-                    .then(connection => {
-                        connection.query(`SELECT * FROM public.websiteblacklist WHERE active = TRUE`).then(({ rows }) => {
-                            this.ipb = rows.map(row => ({ hash: row.iphash, reason: row.reason }))
-                        }).catch(console.error)
-                        connection.release()
-                    })
+                this.pool.connect().then(connection => {
+                    connection.query(`SELECT * FROM public.websiteblacklist WHERE active = TRUE`).then(({ rows }) => {
+                        this.ipb = rows.map(row => ({ hash: row.iphash, reason: row.reason }))
+                    }).catch(console.error)
+                    connection.release()
+                })
+            })
+            .on('tlsrpt', (data) => {
+                this.pool.connect().then(connection => {
+                    connection.query(SQL`INSERT INTO public.tlsreports (report) VALUES (${data})`).catch(console.error)
+                    connection.release();
+                })
             })
     }
     async getServerStatus() {
@@ -71,7 +91,24 @@ class PGDatabase extends events.EventEmitter {
     /** @param {CSPData} data */
     async SaveCSPReport(data) {
         const connection = await this.pool.connect();
-        await connection.query(SQL`INSERT INTO public.cspreports (blockeduri, documenturi, disposition, effectivedirective, violateddirective, originalpolicy, referrer, statuscode, samplescript, timestamp, repid) VALUES (${data.blockedURI}, ${data.documentURI}, ${data.disposition}, ${data.effectiveDirective}, ${data.violatedDirective}, ${data.originalPolicy}, ${data.referrer}, ${data.statusCode}, ${data.scriptSample}, ${data.timestamp}, ${data.reportId})`)
+        const {
+            blockedURI: bu,
+            documentURI: du,
+            disposition: dis,
+            effectiveDirective: ed,
+            violatedDirective: vd,
+            originalPolicy: op,
+            referrer: ref,
+            statusCode: sc,
+            scriptSample: ss,
+            reportId: rid
+        } = data;
+        await connection.query(SQL`
+INSERT INTO public.cspreports
+(blockeduri, documenturi, disposition, effectivedirective, violateddirective,
+    originalpolicy, referrer, statuscode, samplescript, repid)
+VALUES (${bu}, ${du}, ${dis}, ${ed}, ${vd}, ${op}, ${ref}, ${sc}, ${ss}, ${rid})`
+        )
         connection.release();
     }
 }

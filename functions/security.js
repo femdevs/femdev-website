@@ -14,7 +14,6 @@ class CSPReport {
         this.scriptSample = data['script-sample'];
         this.violatedDirective = data['violated-directive'];
         this.statusCode = data['status-code'];
-        this.timestamp = new Date().toISOString();
         this.reportId = crypto.randomBytes(16).toString('base64url');
     }
 }

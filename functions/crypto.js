@@ -15,18 +15,14 @@ class TokenManager {
     static generate = (id) => {
         const { iv, key, ha, e } = cd
         const ed = crypto.createCipheriv(cd.crypt.name, key, iv).update(id)
-        const h = crypto.createHash(ha).update(ed).digest(e)
-        const d = ed.toString(e)
-        return `${d}.${h}`
+        return `${ed.toString(e)}.${crypto.createHash(ha).update(ed).digest(e)}`
     }
     static verify = (token) => {
         const [d, h] = token.split('.')
         const { iv, key, ha, e } = cd
-        const fd = Buffer.from(d, e)
-        const vh = crypto.createHash(ha).update(fd).digest(e)
         try {
-            assert.equal(h, vh)
-            crypto.createDecipheriv(cd.crypt.name, key, iv).update(fd).toString('utf-8')
+            assert.equal(h, crypto.createHash(ha).update(Buffer.from(d, e)).digest(e))
+            crypto.createDecipheriv(cd.crypt.name, key, iv).update(Buffer.from(d, e)).toString('utf-8')
         } catch (e) {
             return false
         }

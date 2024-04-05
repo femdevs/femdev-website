@@ -2553,10 +2553,7 @@ paths:
         Sends an email to the given recipient.
         Returns a success message if successful, otherwise returns an error.
 
-        By default, the API will send emails out through the `contact@thefemdevs.com` email address.
-        In a future update, this will be changed to take 2 headers (`x-user` and `x-context`) to allow for custom email sending.
-
-        Permissions Required: `Global::Role.Owner`
+        Permissions Required: Manager Role (Dev, Admin, or Owner)
       summary: "Send an Email"
       parameters:
         - in: "header"
@@ -2567,15 +2564,13 @@ paths:
           schema:
             type: string
         - in: "header"
-          name: 'x-context'
+          name: "x-from"
           required: true
           description: |-
-            The context of the email (sender's name, reply-to address, etc)
+            The information of the sender to be included in the message (sender's name, sender's email address, etc)
 
-            Syntax: `oneCharLabel:Value;oneCharLabel:Value...`
-
-            Currently, only 2 values are used; `n` for the sender's name and `r` for the reply-to address.
-          example: "n:Example User;r:replyto@example.com"
+            Syntax: `n:NAME;a:ADDRESS;r:REPLYTOADDRESS`
+          example: 'n:Example User;a:main@example.com;r:replyto@example.com'
           schema:
             type: string
       requestBody:
@@ -2618,6 +2613,11 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorData"
               examples:
+                Missing-Headers:
+                  summary: "Missing Header Parameter(s)"
+                  value:
+                    code: 8
+                    message: "Missing Header Parameter(s)"
                 Missing-Body:
                   summary: "Missing Body Parameter(s)"
                   value:
@@ -2668,135 +2668,6 @@ paths:
                     message: "An unknown error occurred"
       security:
         - APIToken: []
-  /mail/globalsend:
-    post:
-      operationId: "SendGlobalEmail"
-      description: |-
-        Sends an email to the given recipient.
-        Returns a success message if successful, otherwise returns an error.
-
-        This routes uses a global administrative email account that allows the requester to send an email from any username.
-      summary: "Send an Email using Global Account"
-      parameters:
-        - in: "header"
-          name: 'x-user'
-          required: true
-          description: "The Account Credentals used to access the administrative email account"
-          example: "XQGdt1KLapMtFZqGCdzyLw.xcWtsV5Xb4T-yEE0lHtLyC60JC4"
-          schema:
-            type: string
-        - in: "header"
-          name: 'x-context'
-          required: true
-          description: |-
-            The context of the email (sender's name, reply-to address, etc)
-
-            Syntax: `oneCharLabel:Value;oneCharLabel:Value...`
-
-            Currently, only 2 values are used; `n` for the sender's name and `r` for the reply-to address.
-          example: "n:Example User;r:user@example.com"
-          schema:
-            type: string
-        - in: "header"
-          name: 'x-from'
-          required: true
-          description: "The email address to send the email from"
-          example: "sender@example.com"
-          schema:
-            type: string
-      requestBody:
-        description: "The email information to send"
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/EmailRequest"
-            examples:
-              Plain-Text:
-                value:
-                  to: "user@example.com"
-                  subject: "Test"
-                  text: "This is a test email"
-              HTML:
-                value:
-                  to: "user@example.com"
-                  subject: "Test"
-                  html: "<h1>This is a test email</h1>"
-              Link:
-                value:
-                  to: "user@example.com"
-                  subject: "Test"
-                  url: "https://example.com"
-      responses:
-        200:
-          description: "Ok Response"
-          content:
-            text/plain:
-              schema:
-                type: string
-              examples:
-                Good:
-                  value: "OK"
-        400:
-          description: "Missing Body Parameter(s)"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorData"
-              examples:
-                Missing-Body:
-                  summary: "Missing Body Parameter(s)"
-                  value:
-                    code: 10
-                    message: "Missing Body Parameter(s)"
-                Missing-Headers:
-                  summary: "Missing Header Parameter(s)"
-                  value:
-                    code: 8
-                    message: "Missing Header Parameter(s)"
-        401:
-          description: "Invalid/Missing API Token"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorData"
-              examples:
-                Missing-Token:
-                  summary: "Missing API Token"
-                  value:
-                    code: 3
-                    message: "No API key provided"
-                Invalid-Token:
-                  summary: "Invalid API Token"
-                  value:
-                    code: 4
-                    message: "Invalid API key provided"
-        403:
-          description: "Missing Permissions"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorData"
-              examples:
-                Missing-Permissions:
-                  value:
-                    code: 1
-                    message: "You are not authorized to access this resource"
-                Blacklisted:
-                  value:
-                    code: 2
-                    message: "You are blacklisted from accessing this resource"
-        500:
-          description: "Error sending email"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorData"
-              examples:
-                error:
-                  value:
-                    code: 0
-                    message: "An unknown error occurred"
 components:
   securitySchemes:
     APIToken:

@@ -7,15 +7,7 @@ module.exports = session(
         secret: crypto.randomBytes(32).toString('base64url'),
         saveUninitialized: true,
         resave: false,
-        cookie: {
-            maxAge: 3_600_000,
-            secure: 'auto'
-        },
-        store: new MemoryStore(
-            {
-                checkPeriod: 360_000,
-                stale: false
-            }
-        )
+        cookie: { maxAge: 36 * (10 ** 5), secure: 'auto' },
+        store: new MemoryStore({ checkPeriod: 360_000, stale: false })
     }
 )

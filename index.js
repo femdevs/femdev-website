@@ -1,7 +1,6 @@
 const app = require('express')();
 const http = require('http');
-const vhost = require('vhost');
-const crypto = require('crypto');
+const { createHash: ch, getHashes: gh } = require('crypto');
 const Admin = require('firebase-admin');
 const { RateLimiterMemory } = require('rate-limiter-flexible');
 require('dotenv').config();
@@ -49,32 +48,26 @@ app
     .use((req, res, next) => {
         const
             sf = 'base64url',
-            ht = 'id-rsassa-pkcs1-v1_5-with-sha3-512',
-            li = x => ['::1', '127.0.0.1'].includes(x),
             lh = 'localhost',
             sip = req.ip || 'unknown',
-            lif = x => x.replace('::ffff:', '');
-        const
-            lhc = li(lif(req.ip)) ? lh : lif(sip),
-            mhf = (a, d) => crypto.createHash(a).update(d).digest(sf);
-        const fhf = crypto.createHash(ht).update(crypto.getHashes().reduce((x, y) => mhf(y, x), lhc)).digest(sf);
-        if (db.ipb.some(ipData => ipData.hash === fhf)) return res.status(403).render(`misc/403.pug`, errPages.get(403)({ path: req.path }))
-        next();
+            lif = x => x.replace('::ffff:', ''),
+            ht = 'id-rsassa-pkcs1-v1_5-with-sha3-512',
+            li = x => ['::1', '127.0.0.1'].includes(x);
+        return (
+            db.ipb.some(
+                ipData =>
+                    ipData.hash === ch(ht)
+                        .update(gh().reduce(
+                            (x, y) => ch(y).update(x).digest(sf),
+                            li(lif(req.ip)) ? lh : lif(sip)
+                        )).digest(sf)
+            ))
+            ? res.status(403).render(`misc/403.pug`, errPages.get(403)({ path: req.path }))
+            : next();
     })
     .use(TRACE)
     .use(Headers)
-    .use(require('./web/pages'))
-    .use(require('./web/mail'))
-    .use(vhost('api.thefemdevs.com', require('./web/api/')))
-    .use(vhost('oss.thefemdevs.com', require('./web/oss/')))
-    .use(vhost('cdn.thefemdevs.com', require('./web/cdn/')))
-    .use(vhost('legal.thefemdevs.com', require('./web/legal/')))
-    .use(vhost('errors.thefemdevs.com', require('./web/errors/')))
-    .use(vhost('pay.thefemdevs.com', require('./web/payment/')))
-    .use(vhost('security.thefemdevs.com', require('./web/security/')))
-    .use(vhost('thefemdevs.com', require('./web/core/')))
-    .use(vhost('www.thefemdevs.com', require('./web/core')))
-    .use(vhost('localhost', require(`./web/${process.env.LOCALHOST_PAGE || 'core'}`)))
+    .use(require('./web/router'))
     .use((req, res, next) => {
         const
             { path } = req,
@@ -89,7 +82,7 @@ app
         if (am[mu]) return next();
         res.status(405).render(`misc/405.pug`, errPages.get(405)({ path, allowedMethod: am, methodUsed: mu }))
     })
-    .use((err, req, res, next) => {
+    .use((err, _, res, _) => {
         console.log(err)
         res
             .status(501)

@@ -1,5 +1,7 @@
 const router = require('express').Router();
 
-router;
+router
+    .get('/access', (req, res) => {})
+    .get('/csp-reports', (req, res) => {})
 
 module.exports = router;

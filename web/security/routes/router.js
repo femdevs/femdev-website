@@ -3,11 +3,13 @@ const router = require('express').Router();
 const CSP = require('./csp');
 const Doc = require('./doc');
 const Report = require('./report');
+const TLSReports = require('./tlsrpt');
 
 router
     .use('/doc', Doc)
     .use('/report', Report)
     .use('/csp', CSP)
+    .use('/tlsrpt', TLSReports)
     .use((req, res, next) => {
         const { path } = req;
         const methodUsed = req.method.toUpperCase();
