@@ -2666,8 +2666,8 @@ paths:
                   value:
                     code: 0
                     message: "An unknown error occurred"
-      security:
-        - APIToken: []
+security:
+  - APIToken: []
 components:
   securitySchemes:
     APIToken:
