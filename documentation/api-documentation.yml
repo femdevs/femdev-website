@@ -2666,14 +2666,13 @@ paths:
                   value:
                     code: 0
                     message: "An unknown error occurred"
-security:
-  - APIToken: []
 components:
   securitySchemes:
     APIToken:
       type: "http"
       scheme: "bearer"
-      bearerFormat: "JWT"
+      bearerFormat: |-
+        `EncryptedUserData.SignedHash`
       description: |-
         JSON Web Token Authentication with information containing your license key
 
@@ -2716,6 +2715,8 @@ components:
         - `Global::Role.Developer` (0:3:0) - Full access to all endpoints
         - `Global::Role.Administrator` (0:3:1) - Full access to all endpoints
         - `Global::Role.Owner` (0:3:2) - Complete access to all endpoints
+
+
 
   schemas:
     FirebaseProviderData:

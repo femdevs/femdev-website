@@ -82,7 +82,7 @@ app
         if (am[mu]) return next();
         res.status(405).render(`misc/405.pug`, errPages.get(405)({ path, allowedMethod: am, methodUsed: mu }))
     })
-    .use((err, _, res, _) => {
+    .use((err, _, res, __) => {
         console.log(err)
         res
             .status(501)
