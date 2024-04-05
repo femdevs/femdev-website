@@ -68,7 +68,7 @@ class MailReqProcesser {
         const auth = this.getAuth(req.headers['x-user']);
         const from = this.from(req.headers['x-from']);
         const body = await this.parseBody(req.body);
-        if (!auth || !context) return res.sendError(8);
+        if (!auth || !from) return res.sendError(8);
         if (!body) return res.sendError(10);
         const { to, subject } = req.body;
         const type = auth.user.split('@')[0] == 'global'
