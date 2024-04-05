@@ -77,6 +77,7 @@ class MailReqProcesser {
         const trueFrom = { name: type ? 'Global Admin' : from.name, address: type ? '*@thefemdevs.com' : from.address }
         const transport = this.getTransporter(auth);
         transport.sendMail(this.envlope(trueFrom, from, to, subject, body));
+        res.status(200).send("OK");
     }
 }
 
