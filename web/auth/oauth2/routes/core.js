@@ -4,7 +4,7 @@ router
     .use((req, res, next) => {
         const { path } = req;
         const methodUsed = req.method.toUpperCase();
-        let allowedMethods = leadRouter.stack.filter(r => r.route && r.route.path === path)
+        let allowedMethods = router.stack.filter(r => r.route && r.route.path === path)
         if (allowedMethods.length == 0) return next();
         allowedMethods.map(r => r.route.stack[0])
         allowedMethods = { ...allowedMethods[0] }

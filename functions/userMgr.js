@@ -74,6 +74,11 @@ class UserPermissions {
                 map: new PermissionSet("Minecraft::Hive.Map", 1, 8, 0),
             }
         },
+        whois: { // 9:x
+            dns: new PermissionSet("Whois::DNS", 0, 9),
+            whois: new PermissionSet("Whois::Whois", 1, 9),
+            full: new PermissionSet("Whois::Full", 2, 9),
+        }
     }
     static PBD = new Map()
         .set("0:0:0", "Global::Data.Read")
@@ -112,6 +117,9 @@ class UserPermissions {
         .set("7:0", "Weather::Current")
         .set("8:0:0", "Minecraft::Hive.Player")
         .set("8:0:1", "Minecraft::Hive.Map")
+        .set("9:0", "Whois::DNS")
+        .set("9:1", "Whois::Whois")
+        .set("9:2", "Whois::Full")
 }
 
 class UserPermissionSet {

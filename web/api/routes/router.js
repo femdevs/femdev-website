@@ -11,14 +11,16 @@ const User = require('../../../functions/userMgr');
 
 //- Routes
 const user = require('./user');
-const crypto = require('./crypto');
+const mail = require('./mail');
 const token = require('./token');
 const facts = require('./facts');
-const location = require('./location');
 const phone = require('./phone');
-const weather = require('./weather');
-const dictionary = require('./dictionary');
+const whois = require('./whois');
+const crypto = require('./crypto');
 const quotes = require('./quotes');
+const weather = require('./weather');
+const location = require('./location');
+const dictionary = require('./dictionary');
 const minecraft = require('./minecraft/router');
 
 const axiosReq = async (url, cfgs) => {
@@ -35,17 +37,8 @@ const axiosReq = async (url, cfgs) => {
 
 router
     .use((req, res, next) => {
-        req.axiosReq = axiosReq;
-        res.sendError = (code) => res.status(errorResponse(code).httpCode).json({ code: errorResponse(code).code, message: errorResponse(code).message });
-        next();
-    })
-    .get('/', (req, res) => res.redirect(301, 'https://docs.api.thefemdevs.com'))
-    .get('/robots.txt', (req, res) => res.setHeader('Content-Type', 'text/plain; charset=utf8').sendFile(`${__dirname}/meta/robots.txt`))
-    .get('/sitemap', (req, res) => res.setHeader('Content-Type', 'text/xml; charset=utf8').sendFile(`${__dirname}/meta/sitemap.xml`))
-    .use(APIAuth)
-    .use((req, _, next) => {
         const sendClose = (res, code) => {
-            res.sendError(code)
+            res.status(errorResponse(code).httpCode).json({ code: errorResponse(code).code, message: errorResponse(code).message });(code)
             return false
         }
         const checkPermissions = async (req, res, permData) => {
@@ -67,21 +60,26 @@ router
                 ? u.hasPermissions(allowMgr, ...perm) ? true : sendClose(res, 12)
                 : u.hasPermission(perm, allowMgr) ? true : sendClose(res, 12)
         }
-        Object.assign(req, { checkPermissions })
+        Object.assign(req, { checkPermissions, axiosReq})
+        Object.assign(res, { sendClose, sendError: (code) => res.status(errorResponse(code).httpCode).json({ code: errorResponse(code).code, message: errorResponse(code).message })})
         next();
     })
-    .use(express.json())
+    .get('/', (_, res) => res.redirect(301, 'https://docs.api.thefemdevs.com'))
+    .get('/robots.txt', (_, res) => res.setHeader('Content-Type', 'text/plain; charset=utf8').sendFile(`${__dirname}/meta/robots.txt`))
+    .get('/sitemap', (_, res) => res.setHeader('Content-Type', 'text/xml; charset=utf8').sendFile(`${__dirname}/meta/sitemap.xml`))
+    .use(APIAuth, express.json())
     .use('/user', user)
-    .use('/crypto', crypto)
+    .use('/mail', mail)
     .use('/token', token)
     .use('/facts', facts)
-    .use('/location', location)
     .use('/phone', phone)
-    .use('/weather', weather)
-    .use('/dictionary', dictionary)
+    .use('/whois', whois)
+    .use('/crypto', crypto)
     .use('/quotes', quotes)
+    .use('/weather', weather)
+    .use('/location', location)
     .use('/minecraft', minecraft)
-    .use('/mail', require('./mail'))
+    .use('/dictionary', dictionary)
     .use((req, res, next) => {
         const { path } = req;
         const methodUsed = req.method.toUpperCase();

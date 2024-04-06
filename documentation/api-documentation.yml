@@ -2666,6 +2666,413 @@ paths:
                   value:
                     code: 0
                     message: "An unknown error occurred"
+      security:
+        - APIToken: []
+  /whois/dns:
+    get:
+      operationId: "GetDNSWhois"
+      description: |-
+        Gets the DNS Whois information for the given domain.
+        Returns the information if successful, otherwise returns an error.
+
+        Permissions Required: `Whois::DNS`
+      summary: "Get DNS Whois"
+      parameters:
+        - in: "header"
+          name: "x-domain"
+          description: "The domain to get the DNS Whois information for"
+          schema:
+            type: string
+          example: "thefemdevs.com"
+      responses:
+        200:
+          description: "The DNS Whois information for the given domain"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WhoisDNSData"
+              example:
+                A: "216.24.57.1"
+                AAAA: ""
+                CAA:
+                  - critical: 0
+                    issue: comodoca.com
+                  - critical: 0
+                    issue: digicert.com; cansignhttpexchanges=yes
+                  - critical: 0
+                    issue: letsencrypt.org
+                  - critical: 0
+                    issue: pki.goog; cansignhttpexchanges=yes
+                  - critical: 0
+                    issueWild: comodoca.com
+                  - critical: 0
+                    issueWild: digicert.com; cansignhttpexchanges=yes
+                  - critical: 0
+                    issueWild: letsencrypt.org
+                  - critical: 0
+                    issueWild: pki.goog; cansignhttpexchanges=yes
+                CNAME: ""
+                MX:
+                  - exchange: mx1.forwardemail.net
+                    priority: 10
+                  - exchange: mx2.forwardemail.net
+                    priority: 10
+                NS:
+                  - otto.ns.cloudflare.com
+                  - maxine.ns.cloudflare.com
+                PTR: []
+                SOA:
+                  nsname: maxine.ns.cloudflare.com
+                  hostname: dns.cloudflare.com
+                  serial: 2337847618
+                  refresh: 10000
+                  retry: 2400
+                  expire: 604800
+                  minttl: 3600
+                SRV: []
+                TXT:
+                  - MS=ms65022032
+                  - forward-email-site-verification=wS0G9jNYte
+                  - v=spf1 a include:spf.forwardemail.net -all
+                  - Probely=e85c9999-19d4-4716-9ee7-609f74a9ce3f
+                  - google-site-verification=XuaaPNYTdBARR5O3md_9vZhFJDR98v66oKNOWVfRIEY
+        400:
+          description: "Missing domain information"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-Domain:
+                  value:
+                    code: 8
+                    message: "Missing Header Parameter(s)"
+                Invalid-Domain:
+                  value:
+                    code: 9
+                    message: "Invalid Header Parameter(s)"
+        401:
+          description: "Invalid/Missing API Token"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-Token:
+                  summary: "Missing API Token"
+                  value:
+                    code: 3
+                    message: "No API key provided"
+                Invalid-Token:
+                  summary: "Invalid API Token"
+                  value:
+                    code: 4
+                    message: "Invalid API key provided"
+        403:
+          description: "Missing Permissions"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-Permissions:
+                  value:
+                    code: 1
+                    message: "You are not authorized to access this resource"
+                Blacklisted:
+                  value:
+                    code: 2
+                    message: "You are blacklisted from accessing this resource"
+  /whois/whois:
+    get:
+      operationId: "GetWhois"
+      description: |-
+        Gets the Whois information for the given domain.
+        Returns the information if successful, otherwise returns an error.
+
+        Permissions Required: `Whois::Whois`
+      summary: "Get Whois"
+      parameters:
+        - in: "header"
+          name: "x-domain"
+          description: "The domain to get the Whois information for"
+          schema:
+            type: string
+          example: "thefemdevs.com"
+      responses:
+        200:
+          description: "The Whois information for the given domain"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WhoisData"
+              example:
+                domainName: "THEFEMDEVS.COM"
+                registrar": "Cloudflare, Inc."
+                creationDate: "Unknown"
+                expirationDate: "2024-07-17T14:59:48Z"
+                updatedDate: "2023-07-24T19:03:11Z"
+                registrant:
+                  name: "Unknown"
+                  organization: "Unknown"
+                  street: "Unknown"
+                  city: "Unknown"
+                  state": "MI"
+                  postalCode: "Unknown"
+                  country: "US"
+                  phone: "Unknown"
+                  fax: "Unknown"
+                  email: "https://domaincontact.cloudflareregistrar.com/thefemdevs.com"
+                admin:
+                  name: "Unknown"
+                  organization: "Unknown"
+                  street: "Unknown"
+                  city: "Unknown"
+                  state": "Unknown"
+                  postalCode: "Unknown"
+                  country: "Unknown"
+                  phone: "Unknown"
+                  fax: "Unknown"
+                  email: "https://domaincontact.cloudflareregistrar.com/thefemdevs.com"
+                tech:
+                  name: "Unknown"
+                  organization: "Unknown"
+                  street: "Unknown"
+                  city: "Unknown"
+                  state": "Unknown"
+                  postalCode: "Unknown"
+                  country: "Unknown"
+                  phone: "Unknown"
+                  fax: "Unknown"
+                  email: "https://domaincontact.cloudflareregistrar.com/thefemdevs.com"
+                billing:
+                  name: "Unknown"
+                  organization: "Unknown"
+                  street: "Unknown"
+                  city: "Unknown"
+                  state": "Unknown"
+                  postalCode: "Unknown"
+                  country: "Unknown"
+                  phone: "Unknown"
+                  fax: "Unknown"
+                  email: "https://domaincontact.cloudflareregistrar.com/thefemdevs.com"
+                status:
+                  - Client Transfer Prohibited
+        400:
+          description: "Missing domain information"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-Domain:
+                  value:
+                    code: 8
+                    message: "Missing Header Parameter(s)"
+                Invalid-Domain:
+                  value:
+                    code: 9
+                    message: "Invalid Header Parameter(s)"
+        401:
+          description: "Invalid/Missing API Token"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-Token:
+                  summary: "Missing API Token"
+                  value:
+                    code: 3
+                    message: "No API key provided"
+                Invalid-Token:
+                  summary: "Invalid API Token"
+                  value:
+                    code: 4
+                    message: "Invalid API key provided"
+        403:
+          description: "Missing Permissions"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-Permissions:
+                  value:
+                    code: 1
+                    message: "You are not authorized to access this resource"
+                Blacklisted:
+                  value:
+                    code: 2
+                    message: "You are blacklisted from accessing this resource"
+  /whois/full:
+    get:
+      operationId: "GetFullWhois"
+      description: |-
+        Gets the full Whois information for the given domain.
+        Returns the information if successful, otherwise returns an error.
+
+        Permissions Required: `Whois::Full`
+      summary: "Get Full Whois"
+      parameters:
+        - in: "header"
+          name: "x-domain"
+          description: "The domain to get the full Whois information for"
+          schema:
+            type: string
+          example: "thefemdevs.com"
+      responses:
+        200:
+          description: "The full Whois information for the given domain"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WhoisFullData"
+              example:
+                whois:
+                  domainName: "THEFEMDEVS.COM"
+                  registrar": "Cloudflare, Inc."
+                  creationDate: "Unknown"
+                  expirationDate: "2024-07-17T14:59:48Z"
+                  updatedDate: "2023-07-24T19:03:11Z"
+                  registrant:
+                    name: "Unknown"
+                    organization: "Unknown"
+                    street: "Unknown"
+                    city: "Unknown"
+                    state": "MI"
+                    postalCode: "Unknown"
+                    country: "US"
+                    phone: "Unknown"
+                    fax: "Unknown"
+                    email: "https://domaincontact.cloudflareregistrar.com/thefemdevs.com"
+                  admin:
+                    name: "Unknown"
+                    organization: "Unknown"
+                    street: "Unknown"
+                    city: "Unknown"
+                    state": "Unknown"
+                    postalCode: "Unknown"
+                    country: "Unknown"
+                    phone: "Unknown"
+                    fax: "Unknown"
+                    email: "https://domaincontact.cloudflareregistrar.com/thefemdevs.com"
+                  tech:
+                    name: "Unknown"
+                    organization: "Unknown"
+                    street: "Unknown"
+                    city: "Unknown"
+                    state": "Unknown"
+                    postalCode: "Unknown"
+                    country: "Unknown"
+                    phone: "Unknown"
+                    fax: "Unknown"
+                    email: "https://domaincontact.cloudflareregistrar.com/thefemdevs.com"
+                  billing:
+                    name: "Unknown"
+                    organization: "Unknown"
+                    street: "Unknown"
+                    city: "Unknown"
+                    state": "Unknown"
+                    postalCode: "Unknown"
+                    country: "Unknown"
+                    phone: "Unknown"
+                    fax: "Unknown"
+                    email: "https://domaincontact.cloudflareregistrar.com/thefemdevs.com"
+                  status:
+                    - Client Transfer Prohibited
+                dns:
+                  A: "216.24.57.1"
+                  AAAA: ""
+                  CAA:
+                    - critical: 0
+                      issue: comodoca.com
+                    - critical: 0
+                      issue: digicert.com; cansignhttpexchanges=yes
+                    - critical: 0
+                      issue: letsencrypt.org
+                    - critical: 0
+                      issue: pki.goog; cansignhttpexchanges=yes
+                    - critical: 0
+                      issueWild: comodoca.com
+                    - critical: 0
+                      issueWild: digicert.com; cansignhttpexchanges=yes
+                    - critical: 0
+                      issueWild: letsencrypt.org
+                    - critical: 0
+                      issueWild: pki.goog; cansignhttpexchanges=yes
+                  CNAME: ""
+                  MX:
+                    - exchange: mx1.forwardemail.net
+                      priority: 10
+                    - exchange: mx2.forwardemail.net
+                      priority: 10
+                  NS:
+                    - otto.ns.cloudflare.com
+                    - maxine.ns.cloudflare.com
+                  PTR: []
+                  SOA:
+                    nsname: maxine.ns.cloudflare.com
+                    hostname: dns.cloudflare.com
+                    serial: 2337847618
+                    refresh: 10000
+                    retry: 2400
+                    expire: 604800
+                    minttl: 3600
+                  SRV: []
+                  TXT:
+                    - MS=ms65022032
+                    - forward-email-site-verification=wS0G9jNYte
+                    - v=spf1 a include:spf.forwardemail.net -all
+                    - Probely=e85c9999-19d4-4716-9ee7-609f74a9ce3f
+                    - google-site-verification=XuaaPNYTdBARR5O3md_9vZhFJDR98v66oKNOWVfRIEY        
+        400:
+          description: "Missing domain information"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-Domain:
+                  value:
+                    code: 8
+                    message: "Missing Header Parameter(s)"
+                Invalid-Domain:
+                  value:
+                    code: 9
+                    message: "Invalid Header Parameter(s)"
+        401:
+          description: "Invalid/Missing API Token"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-Token:
+                  summary: "Missing API Token"
+                  value:
+                    code: 3
+                    message: "No API key provided"
+                Invalid-Token:
+                  summary: "Invalid API Token"
+                  value:
+                    code: 4
+                    message: "Invalid API key provided"
+        403:
+          description: "Missing Permissions"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-Permissions:
+                  value:
+                    code: 1
+                    message: "You are not authorized to access this resource"
+                Blacklisted:
+                  value:
+                    code: 2
+                    message: "You are blacklisted from accessing this resource"
 components:
   securitySchemes:
     APIToken:
@@ -2710,13 +3117,14 @@ components:
         - `Weather::Current` (7:0) - Ability to get the current weather using the `/weather/current` endpoint
         - `Minecraft::Hive.Player` (8:0:0) - Ability to get information about a player on the Hive Minecraft server using the `/minecraft/hive/player` endpoint
         - `Minecraft::Hive.Map` (8:0:1) - Ability to get information about a map on the Hive Minecraft server using the `/minecraft/hive/map` endpoint
+        - `Whois::DNS` (9:0) - Ability to get the DNS Whois information for a domain using the `/whois/dns` endpoint
+        - `Whois::Whois` (9:1) - Ability to get the Whois information for a domain using the `/whois/whois` endpoint
+        - `Whois::Full` (9:2) - Ability to get the full Whois information for a domain using the `/whois/full` endpoint
 
         Permission Roles:
         - `Global::Role.Developer` (0:3:0) - Full access to all endpoints
         - `Global::Role.Administrator` (0:3:1) - Full access to all endpoints
         - `Global::Role.Owner` (0:3:2) - Complete access to all endpoints
-
-
 
   schemas:
     FirebaseProviderData:
@@ -4235,3 +4643,288 @@ components:
           nullable: true
           type: string
           description: "The URL for the HTML contents of the email"
+    WhoisDNSCAARecord:
+      description: |-
+        The CAA record of the Whois DNS
+      required:
+        - critical
+      type: object
+      properties:
+        critical:
+          nullable: false
+          type: number
+          enum:
+            - 0
+            - 1
+          description: "The criticality of the CAA record"
+        issue:
+          nullable: true
+          type: string
+          description: "The Certificate Authority of the STRICT domain (Non-wildcards)"
+        issueWild:
+          nullable: true
+          type: string
+          description: "The Certificate Authority of the WILDCARD domain"
+    WhoisDNSMXRecord:
+      description: |-
+        The MX record of the Whois DNS
+      required:
+        - priority
+        - exchange
+      type: object
+      properties:
+        priority:
+          nullable: false
+          type: number
+          description: "The priority of the MX record"
+        exchange:
+          nullable: false
+          type: string
+          description: "The exchange of the MX record"
+    WhoisDNSSOARecord:
+      description: |-
+        The SOA record of the Whois DNS
+      required:
+        - nsname
+        - hostmaster
+        - serial
+        - refresh
+        - retry
+        - expire
+        - minttl
+      type: object
+      properties:
+        nsname:
+          nullable: false
+          type: string
+          description: "The Primary Name Server of the SOA record"
+        hostmaster:
+          nullable: false
+          type: string
+          description: "The hostmaster of the SOA record"
+        serial:
+          nullable: false
+          type: number
+          description: "The serial of the SOA record"
+        refresh:
+          nullable: false
+          type: number
+          description: "The refresh time of the SOA record"
+        retry:
+          nullable: false
+          type: number
+          description: "The retry time of the SOA record"
+        expire:
+          nullable: false
+          type: number
+          description: "The expire time of the SOA record"
+        minttl:
+          nullable: false
+          type: number
+          description: "The minimum TTL (Time-To-Live) of the SOA record"
+    WhoisDNSData:
+      description: |-
+        The DNS Data returned by the Whois DNS endpoint
+      required:
+        - A
+        - AAAA
+        - CAA
+        - CNAME
+        - MX
+        - NS
+        - PTR
+        - SOA
+        - SRV
+        - TXT
+      type: object
+      properties:
+        A:
+          nullable: false
+          type: string
+          description: "The A record"
+        AAAA:
+          nullable: false
+          type: string
+          description: "The AAAA record"
+        CAA:
+          nullable: false
+          type: array
+          items:
+            $ref: "#/components/schemas/WhoisDNSCAARecord"
+          description: "The CAA records"
+        CNAME:
+          nullable: false
+          type: string
+          description: "The CNAME record"
+        MX:
+          nullable: false
+          type: array
+          items:
+            $ref: "#/components/schemas/WhoisDNSMXRecord"
+          description: "The MX records"
+        NS:
+          nullable: false
+          type: array
+          items:
+            type: string
+          description: "The NS records"
+        PTR:
+          nullable: false
+          type: array
+          items:
+            type: string
+          description: "The PTR records"
+        SOA:
+          nullable: false
+          type: object
+          $ref: "#/components/schemas/WhoisDNSSOARecord"
+          description: "The SOA record"
+        SRV:
+          nullable: false
+          type: array
+          items:
+            type: string
+          description: "The SRV record"
+    WhoisUserData:
+      description: |-
+        The Information on a representative from the Whois Response
+      type: object
+      required:
+        - name
+        - organization
+        - street
+        - city
+        - state
+        - postalCode
+        - country
+        - phone
+        - fax
+        - email
+      properties:
+        name:
+          nullable: false
+          type: string
+          description: "The name of the representative"
+        organization:
+          nullable: false
+          type: string
+          description: "The organization of the representative"
+        street:
+          nullable: false
+          type: string
+          description: "The street of the representative"
+        city:
+          nullable: false
+          type: string
+          description: "The city of the representative"
+        state:
+          nullable: false
+          type: string
+          description: "The state of the representative"
+        postalCode:
+          nullable: false
+          type: string
+          description: "The postal code of the representative"
+        country:
+          nullable: false
+          type: string
+          description: "The country of the representative"
+        phone:
+          nullable: false
+          type: string
+          description: "The phone number of the representative"
+        fax:
+          nullable: false
+          type: string
+          description: "The fax number of the representative"
+        email:
+          nullable: false
+          type: string
+          description: "The email of the representative"
+    WhoisData:
+      description: |-
+        The Whois Data returned by the Whois Whois endpoint
+      type: object
+      required:
+        - domainName
+        - registrar
+        - creationDate
+        - expirationDate
+        - updatedDate
+        - registrant
+        - admin
+        - tech
+        - billing
+        - status
+      properties:
+        domainName:
+          nullable: false
+          type: string
+          description: "The domain name"
+        registrar:
+          nullable: false
+          type: string
+          description: "The registrar of the domain"
+        creationDate:
+          nullable: false
+          type: string
+          description: "The creation date of the domain"
+        expirationDate:
+          nullable: false
+          type: string
+          description: "The expiration date of the domain"
+        updatedDate:
+          nullable: false
+          type: string
+          description: "The updated date of the domain"
+        registrant:
+          nullable: false
+          type: object
+          $ref: "#/components/schemas/WhoisUserData"
+          description: "The registrant of the domain"
+        admin:
+          nullable: false
+          type: object
+          $ref: "#/components/schemas/WhoisUserData"
+          description: "The admin of the domain"
+        tech:
+          nullable: false
+          type: object
+          $ref: "#/components/schemas/WhoisUserData"
+          description: "The tech of the domain"
+        billing:
+          nullable: false
+          type: object
+          $ref: "#/components/schemas/WhoisUserData"
+          description: "The billing of the domain"
+        status:
+          nullable: false
+          type: array
+          items:
+            type: string
+            enum:
+              - "Client Hold"
+              - "Server Hold"
+              - "Client Renew Prohibited"
+              - "Server Renew Prohibited"
+              - "Client Update Prohibited"
+              - "Server Update Prohibited"
+              - "Client Delete Prohibited"
+              - "Server Delete Prohibited"
+              - "Client Transfer Prohibited"
+              - "Server Transfer Prohibited"
+          description: "The status of the domain"
+    WhoisFullData:
+      description: |-
+        The full Whois Data returned by the Whois Full endpoint
+      type: object
+      required:
+        - dns
+        - whois
+      properties:
+        dns:
+          type: object
+          $ref: "#/components/schemas/WhoisDNSData"
+        whois:
+          type: object
+          $ref: "#/components/schemas/WhoisData"
