@@ -1,0 +1,44 @@
+doctype html
+html(lang="en")
+  include ../../../defaults/header.pug
+  body.scrollbar.bg-bsDarkGray.text-white
+    .flex.h-screen.flex-row
+      .scrollbar.flex.w-full.flex-col.space-y-4.overflow-x-auto.overflow-y-auto.bg-bsDarkGray.p-10
+        .scrollbar.flex.w-full.flex-col.space-y-4.overflow-x-auto.overflow-y-auto.rounded-xl.bg-bsGray.px-10.py-8
+          .flex.flex-col.space-y-2
+            h1.select-none.text-left.font-roboto.text-2xl(class="xl:text-3xl") Audit Logs
+            p.select-none.text-left.font-roboto.text-xl(class="xl:text-2xl") View panel and bot audit logs here.
+          .flex.flex-col.space-y-2
+            form(action="/panel/logs/auditlogs", method="POST")
+              .flex.flex-row.space-x-2
+                input#search.flex.w-full.select-none.appearance-none.flex-col.rounded-lg.bg-bsDarkGray.p-4.font-poppins.text-xl.placeholder-bsLightGray.outline-2.outline-bsOrange.ring-0.transition-all(
+                  type="text",
+                  name="search",
+                  placeholder="Search",
+                  class="focus:outline",
+                  required
+                )
+                button.rounded-md.border-2.border-bsDarkOrange.bg-bsOrange.px-4.py-2(
+                  type="submit",
+                  class="focus:border-bsOrange focus:outline-none focus:ring-2 focus:ring-bsOrange focus:ring-opacity-50"
+                ) Search
+          .flex.flex-col.space-y-2
+            table.my-table-spacing.table.w-full.border-separate.select-none.text-left.font-roboto.text-xl
+              thead
+                tr.table-row
+                  th.max-w-2xl Audit ID
+                  th.max-w-2xl Audit Type
+                  th.max-w-2xl Audit Message
+                  th.max-w-2xl Audit Time
+                  th.max-w-2xl Audit User ID
+                tbody
+                  each log in audit
+                    tr.table-row
+                      td.max-w-2xl.cursor-pointer= log.auditId || "N/A"
+                      td.max-w-2xl.cursor-pointer= log.auditType || "N/A"
+                      td.max-w-2xl.cursor-pointer= log.auditMessage || "N/A"
+                      td.max-w-2xl.cursor-pointer= log.auditTime || "N/A"
+                      td.max-w-2xl.cursor-pointer= log.auditUserId || "N/A"
+    script.
+      const copy = (text) => navigator.clipboard.writeText((!text || text.length == 0) ? "N/A" : text)
+    include ../../defaults/firebase.pug

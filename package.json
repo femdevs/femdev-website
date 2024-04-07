@@ -1,6 +1,6 @@
 {
   "name": "femdevs-website",
-  "version": "3.2.1",
+  "version": "3.3.0",
   "main": "index.js",
   "readme": "README.md",
   "types": "@types/defs.d.ts",
