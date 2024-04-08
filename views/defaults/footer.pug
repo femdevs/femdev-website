@@ -33,13 +33,8 @@ hero.flex.w-full.justify-center.bg-neutral-900.p-12.text-neutral-100
       h2.select-none.font-poppins.text-lg FemDevs &copy; 2024
       .flex.flex-row.items-center.justify-center.space-x-4
         case status
-          when "down"
-            +status("Down", "red")
-          when "degraded"
-            +status("Degraded", "yellow")
-          when "maintenance"
-            +status("Under Maintenance", "blue")
-          when "up"
-            +status("Up", "green")
-          default
-            +status("Unknown", "gray")
+          when 1: span.relative.flex.rounded-full.min-h-3.max-h-3.min-w-3.max-w-3.bg-green-500(title='Service Status: All Systems Functional'): span.absolute.flex.animate-ping.rounded-full.min-h-3.max-h-3.min-w-3.max-w-3.bg-green-500
+          when 2: span.relative.flex.rounded-full.min-h-3.max-h-3.min-w-3.max-w-3.bg-red-500(title='Service Status: System Outage Detected'): span.absolute.flex.animate-ping.rounded-full.min-h-3.max-h-3.min-w-3.max-w-3.bg-red-500
+          when 3: span.relative.flex.rounded-full.min-h-3.max-h-3.min-w-3.max-w-3.bg-yellow-500(title='Service Status: System Preformance Degraded'): span.absolute.flex.animate-ping.rounded-full.min-h-3.max-h-3.min-w-3.max-w-3.bg-yellow-500
+          when 4: span.relative.flex.rounded-full.min-h-3.max-h-3.min-w-3.max-w-3.bg-blue-500(title='Service Status: System is Under Maintenance'): span.absolute.flex.animate-ping.rounded-full.min-h-3.max-h-3.min-w-3.max-w-3.bg-blue-500
+          default: span.relative.flex.rounded-full.min-h-3.max-h-3.min-w-3.max-w-3.bg-gray-500(title='Service Status: Unknown'): span.absolute.flex.animate-ping.rounded-full.min-h-3.max-h-3.min-w-3.max-w-3.bg-gray-500

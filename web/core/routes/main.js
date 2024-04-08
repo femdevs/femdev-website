@@ -92,7 +92,7 @@ router
         res.render(
             `main/index.pug`,
             {
-                status: (await req.Database.getServerStatus()),
+                status: (await req.Database.getServerStatus()).toString(),
                 meta: {
                     title: 'FemDevs Home Page',
                     desc: 'The home of the FemDevs!',

@@ -83,9 +83,10 @@ VALUES (${uid}, ${dn}, ${fn}, ${ln}, ${email}, ${perms})`
     }
     async getServerStatus() {
         const connection = await this.pool.connect();
-        const status = (await connection.query('SELECT * FROM public.websitestatus')).rows[0];
+        const { upstatus } = (await connection.query('SELECT upstatus FROM public.websitestatus WHERE id = 1')).rows[0];
+        console.log(upstatus)
         connection.release();
-        return ['unknown', 'up', 'down', 'degraded', 'maintenance'][status.upstatus];
+        return upstatus;
     }
 
     /** @param {CSPData} data */
