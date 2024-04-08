@@ -4650,6 +4650,7 @@ components:
           type: string
           description: "The URL for the HTML contents of the email"
     WhoisDNSCAAIODEFRecord:
+      title: 'CAA IODEF Record'
       description: |-
         The IODEF record
       required:
@@ -4661,6 +4662,7 @@ components:
           type: string
           description: The endpoint to send IODEF reports to
     WhoisDNSCAAIssuerRecord:
+      title: 'CAA Issuer Record'
       description: |-
         The Information on an issuer for Certificates
       type: object
