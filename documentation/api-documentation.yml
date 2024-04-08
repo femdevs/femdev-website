@@ -3078,8 +3078,6 @@ components:
     APIToken:
       type: "http"
       scheme: "bearer"
-      bearerFormat: |-
-        `EncryptedUserData.SignedHash`
       description: |-
         JSON Web Token Authentication with information containing your license key
 
@@ -3125,7 +3123,6 @@ components:
         - `Global::Role.Developer` (0:3:0) - Full access to all endpoints
         - `Global::Role.Administrator` (0:3:1) - Full access to all endpoints
         - `Global::Role.Owner` (0:3:2) - Complete access to all endpoints
-
   schemas:
     FirebaseProviderData:
       title: Firebase Provider
@@ -4667,6 +4664,21 @@ components:
           items:
             type: string
           description: "The tags of the quote"
+    EmailReqText:
+      title: Email Request Text
+      description: |-
+        The text contents of the email
+      type: string
+    EmailReqHTML:
+      title: Email Request HTML
+      description: |-
+        The HTML contents of the email
+      type: string
+    EmailReqURL:
+      title: Email Request URL
+      description: |-
+        The URL for the HTML contents of the email
+      type: string
     EmailRequest:
       title: Email Request
       description: |-
@@ -4685,15 +4697,12 @@ components:
           description: "The subject of the email"
       additionalProperties: 
         oneOf:
-          - title: text
-            type: string
-            description: "The text contents of the email"
-          - title: html
-            type: string
-            description: "The HTML contents of the email"
-          - title: url
-            type: string
-            description: "The URL for the HTML contents of the email"
+          - type: string
+            $ref: "#/components/schemas/EmailReqText"
+          - type: string
+            $ref: "#/components/schemas/EmailReqHTML"
+          - type: string
+            $ref: "#/components/schemas/EmailReqURL"
     WhoisDNSCAAIODEFRecord:
       title: 'CAA IODEF Record'
       description: |-
@@ -4917,6 +4926,22 @@ components:
           nullable: false
           type: string
           description: "The email of the representative"
+    WhoisDomainStatus:
+      title: WHOIS Domain Status
+      description: |-
+        The status of the domain
+      type: string
+      enum:
+        - "Client Hold"
+        - "Server Hold"
+        - "Client Renew Prohibited"
+        - "Server Renew Prohibited"
+        - "Client Update Prohibited"
+        - "Server Update Prohibited"
+        - "Client Delete Prohibited"
+        - "Server Delete Prohibited"
+        - "Client Transfer Prohibited"
+        - "Server Transfer Prohibited"
     WhoisData:
       title: WHOIS Whois Response
       description: |-
@@ -4979,17 +5004,7 @@ components:
           type: array
           items:
             type: string
-            enum:
-              - "Client Hold"
-              - "Server Hold"
-              - "Client Renew Prohibited"
-              - "Server Renew Prohibited"
-              - "Client Update Prohibited"
-              - "Server Update Prohibited"
-              - "Client Delete Prohibited"
-              - "Server Delete Prohibited"
-              - "Client Transfer Prohibited"
-              - "Server Transfer Prohibited"
+            $ref: "#/components/schemas/WhoisDomainStatus"
           description: "The status of the domain"
     WhoisFullData:
       title: WHOIS Full Response
