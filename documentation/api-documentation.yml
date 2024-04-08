@@ -4684,10 +4684,11 @@ components:
     WhoisDNSCAARecord:
       description: |-
         The CAA record of the Whois DNS
-      type: object
-      enum:
-        - $ref: "#/components/schemas/WhoisDNSCAAIODEFRecord"
-        - $ref: "#/components/schemas/WhoisDNSCAAIssuerRecord"
+      oneOf:
+        - type: object
+          $ref: "#/components/schemas/WhoisDNSCAAIODEFRecord"
+        - type: object
+          $ref: "#/components/schemas/WhoisDNSCAAIssuerRecord"
     WhoisDNSMXRecord:
       description: |-
         The MX record of the Whois DNS
