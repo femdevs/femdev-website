@@ -4665,17 +4665,17 @@ components:
             type: string
           description: "The tags of the quote"
     EmailReqText:
-      title: Email Request Text
+      title: Email Text
       description: |-
         The text contents of the email
       type: string
     EmailReqHTML:
-      title: Email Request HTML
+      title: Email HTML
       description: |-
         The HTML contents of the email
       type: string
     EmailReqURL:
-      title: Email Request URL
+      title: Email URL
       description: |-
         The URL for the HTML contents of the email
       type: string
