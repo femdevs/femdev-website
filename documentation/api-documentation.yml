@@ -3128,6 +3128,7 @@ components:
 
   schemas:
     FirebaseProviderData:
+      title: Firebase Provider
       description: |-
         The Authentication Provider Data for a Firebase User
       required:
@@ -3153,6 +3154,7 @@ components:
           type: string
           description: "The provider ID of the user"
     FirebaseMetadata:
+      title: Firebase Metadata
       description: |-
         The Metadata for a Firebase User
       required:
@@ -3173,6 +3175,7 @@ components:
           type: string
           description: "The last refresh time of the user"
     CreatedFirebaseUser:
+      title: Firebase User (Created)
       description: |-
         The Created Firebase User Information
       required:
@@ -3227,6 +3230,7 @@ components:
             $ref: "#/components/schemas/FirebaseProviderData"
           description: "The provider data of the user"
     FullUserInformation:
+      title: User Information (Full)
       description: |-
         The Full User Information
       required:
@@ -3280,6 +3284,7 @@ components:
             - 1
           description: "Whether or not the user has beta access"
     GetUserInfoResponse:
+      title: User Info Response (Get)
       description: |-
         The information that is returned when getting user information
       required:
@@ -3310,6 +3315,7 @@ components:
           type: integer
           description: "The permissions of the user"
     UpdateUserInfo:
+      title: User Update Request
       description: |-
         The information that is used to update user information
       properties:
@@ -3330,6 +3336,7 @@ components:
           type: string
           description: "The new permissions of the user"
     UpdateUserInfoResponse:
+      title: User Info Response (Update)
       description: |-
         The information that is returned when updating user information
       required:
@@ -3346,6 +3353,7 @@ components:
           $ref: "#/components/schemas/FullUserInformation"
           description: "The updated user information"
     CreateUserInfo:
+      title: Create User Request
       description: |-
         The information that is used and required to create a new user
       required:
@@ -3376,6 +3384,7 @@ components:
           type: string
           description: "The password of the user"
     CreateUserInfoResponse:
+      title: User Info Response (Create)
       description: |-
         The information that is returned when creating a new user
       required:
@@ -3407,6 +3416,7 @@ components:
           type: integer
           description: "The permissions of the user"
     DeleteUserInfoResponse:
+      title: User Info Response (Delete)
       description: |-
         The information that is returned when deleting a user
       required:
@@ -3422,6 +3432,7 @@ components:
           type: boolean
           description: "Whether or not the user was deleted"
     ErrorData:
+      title: Error Response
       description: |-
         The error data that is returned when an error occurs
 
@@ -3441,6 +3452,7 @@ components:
           type: string
           description: "The error message"
     TokenCreationRequestBody:
+      title: Token Create Request
       description: |-
         The information that is used and required to create a new token
       required:
@@ -3451,6 +3463,7 @@ components:
           type: string
           description: "The Firebase UID of the user"
     TokenCreationResponse:
+      title: Token Info Response (Create)
       description: |-
         The information that is returned when creating a new token
       required:
@@ -3461,6 +3474,7 @@ components:
           type: string
           description: "The token that was created"
     TokenDeletionResponse:
+      title: Token Info Response (Delete)
       description: |-
         The information that is returned when deleting a token
       required:
@@ -3471,6 +3485,7 @@ components:
           type: string
           description: "The message that was returned"
     TokenData:
+      title: Token Info Response (Get)
       description: |-
         The information that is returned when getting a token
       required:
@@ -3491,6 +3506,7 @@ components:
           type: string
           description: "The username that the token is associated with"
     ListTokenResponse:
+      title: Token Info Response (Get Bulk)
       description: |-
         The information that is returned when listing all tokens
       required:
@@ -3503,6 +3519,7 @@ components:
             $ref: "#/components/schemas/TokenData"
           description: "The list of tokens"
     MinecraftHiveURLDataObj:
+      title: Hive URL Object
       description: |-
         The URL Data Object for the Hive Minecraft Server
       required:
@@ -3518,6 +3535,7 @@ components:
           type: string
           description: "The name of the player"
     MinecraftHiveMainPlayerData:
+      title: Hive Player Lobby Stats
       description: |-
         The Main Player Data for the Hive Minecraft Server
       required:
@@ -3630,6 +3648,7 @@ components:
             type: string
           description: "The hats the player has"
     MinecraftHivePlayerHideGameStatistics:
+      title: Hive Player Hide Stats
       description: |-
         The Hide Game Statistics for the Hive Minecraft Server
       required:
@@ -3665,6 +3684,7 @@ components:
           type: integer
           description: "The number of hiders the player has killed"
     MinecraftHivePlayerDeathrunStatistics:
+      title: Hive Player Deathrun Stats
       description: |-
         The Deathrun Statistics for the Hive Minecraft Server
       required:
@@ -3710,6 +3730,7 @@ components:
           type: integer
           description: "The number of deaths the player has caused"
     MinecraftHivePlayerWarStatistics:
+      title: Hive Player War Stats
       description: |-
         The War Statistics for the Hive Minecraft Server
       required:
@@ -3750,6 +3771,7 @@ components:
           type: integer
           description: "The number of times the player has died"
     MinecraftHivePlayerMurderMysteryStatistics:
+      title: Hive Player Murder Mystery Stats
       description: |-
         The Murder Mystery for the Minecraft Hive Player
       required:
@@ -3795,6 +3817,7 @@ components:
           type: integer
           description: "The number of murderers the user has eliminated"
     MinecraftHivePlayerSurvivalGamesStatistics:
+      title: Hive Player Survival Stats
       description: |-
         The Survival Statistics of the Minecraft Hive Player
       required:
@@ -3830,6 +3853,7 @@ components:
           type: integer
           description: "The number of times the player has died"
     MinecraftHivePlayerSkyWarsStatistics:
+      title: Hive Player Skywars Stats
       description: |-
         The Sky Wars Statistics of the Minecraft Hive Player
       required:
@@ -3865,6 +3889,7 @@ components:
           type: integer
           description: "The number of times the player has died"
     MinecraftHivePlayerCTFStatistics:
+      title: Hive Player Capture the Flag Stats
       description: |-
         The Capture The Flag Statistics of the Minecraft Hive Player
       required:
@@ -3915,6 +3940,7 @@ components:
           type: integer
           description: "The number of flags the player has returned"
     MinecraftHivePlayerDropStatistics:
+      title: Hive Player Drop Stats
       description: |-
         The Drop Statistics of the Minecraft Hive Player
       required:
@@ -3955,6 +3981,7 @@ components:
           type: integer
           description: "The number of times the player has died"
     MinecraftHivePlayerGroundStatistics:
+      title: Hive Player Ground Stats
       description: |-
         The Ground Statistics of the Minecraft Hive Player
       required:
@@ -4000,6 +4027,7 @@ components:
           type: integer
           description: "The number of times the player has died"
     MinecraftHivePlayerBuildStatistics:
+      title: Hive Player Build Stats
       description: |-
         The Build Statistics of the Minecraft Hive Player
       required:
@@ -4045,6 +4073,7 @@ components:
           type: integer
           description: "The number of love ratings the player has received"
     MinecraftHivePlayerPartyStatistics:
+      title: Hive Player Block Party Stats
       description: |-
         The Party Statistics of the Minecraft Hive Player
       required:
@@ -4080,6 +4109,7 @@ components:
           type: integer
           description: "The number of rounds the player has survived"
     MinecraftHivePlayerBridgeStatistics:
+      title: Hive Player Bridge Stats
       description: |-
         The Bridge Statistics of the Minecraft Hive Player
       required:
@@ -4100,6 +4130,7 @@ components:
           type: integer
           description: "The first time the player played"
     MinecraftHivePlayerGravityStatistics:
+      title: Hive Player Gravity Stats
       description: |-
         The Gravity Statistics of the Minecraft Hive Player
       required:
@@ -4140,6 +4171,7 @@ components:
           type: integer
           description: "The number of maps the player has completed without dying"
     MinecraftHivePlayerCombinedData:
+      title: Complete Hive Player Stats
       required:
         - hide
         - main
@@ -4227,6 +4259,7 @@ components:
           $ref: "#/components/schemas/MinecraftHivePlayerGravityStatistics"
           description: "The gravity statistics of the player"
     MinecraftHiveMapData:
+      title: Hive Map Info
       description: |-
         The Map Data for the Hive Minecraft Server
       required:
@@ -4252,6 +4285,7 @@ components:
           type: string
           description: "The image of the map"
     LocationAddressData:
+      title: GPS Location Data
       description: |-
         The address of the location
       required:
@@ -4292,6 +4326,7 @@ components:
           type: string
           description: "The postal code"
     LocationCoordData:
+      title: Cartesian Global Coordnates
       description: |-
         The coordinates of the location
       required:
@@ -4307,6 +4342,7 @@ components:
           type: number
           description: "The longitude of the location"
     LocationData:
+      title: Location Response
       description: |-
         The response data for all location endpoints
       required:
@@ -4329,6 +4365,7 @@ components:
           type: string
           description: "The plus code of the location"
     PhoneNumberData:
+      title: Phone Number Response
       description: |-
         The information that is returned when getting phone number information
       required:
@@ -4394,6 +4431,7 @@ components:
           type: string
           description: "The carrier of the phone number"
     WeatherLocationData:
+      title: Cartesian Global Coordnates
       description: |-
         The location of the requested weather
       required:
@@ -4409,6 +4447,7 @@ components:
           type: number
           description: "The longitude of the location"
     WeatherCurrentInformation:
+      title: Current Weather Conditions
       description: |-
         The information of the weather
       required:
@@ -4434,6 +4473,7 @@ components:
           type: string
           description: "The icon of the weather"
     WeatherCurrentMainData:
+      title: Core Current Weather Data
       description: |-
         The main information of the weather
       required:
@@ -4469,6 +4509,7 @@ components:
           type: integer
           description: "The humidity"
     WeatherCurrentWindData:
+      title: Current Wind Data
       description: |-
         The wind information of the weather
       required:
@@ -4484,6 +4525,7 @@ components:
           type: integer
           description: "The direction of the wind"
     WeatherCurrentCloudData:
+      title: Current Cloud Data
       description: |-
         The cloud information of the weather
       required:
@@ -4494,6 +4536,7 @@ components:
           type: integer
           description: "The cloudiness"
     WeatherCurrentSysData:
+      title: Current System Weather Data
       description: |-
         The system information of the weather
       required:
@@ -4524,6 +4567,7 @@ components:
           type: integer
           description: "The sunset time"
     WeatherCurrentData:
+      title: Complete Current Weather Data
       description: |-
         The information sent back when getting the current weather
       required:
@@ -4601,6 +4645,7 @@ components:
           type: integer
           description: "The code of the weather"
     QuoteData:
+      title: Quote Response
       description: |-
         The information that is returned when getting a quote
       required:
@@ -4623,6 +4668,7 @@ components:
             type: string
           description: "The tags of the quote"
     EmailRequest:
+      title: Email Request
       description: |-
         The information that is required to send an email
       required:
@@ -4637,18 +4683,17 @@ components:
           nullable: false
           type: string
           description: "The subject of the email"
-        text:
-          nullable: true
-          type: string
-          description: "The text contents of the email"
-        html:
-          nullable: true
-          type: string
-          description: "The HTML contents of the email"
-        url:
-          nullable: true
-          type: string
-          description: "The URL for the HTML contents of the email"
+      additionalProperties: 
+        oneOf:
+          - title: text
+            type: string
+            description: "The text contents of the email"
+          - title: html
+            type: string
+            description: "The HTML contents of the email"
+          - title: url
+            type: string
+            description: "The URL for the HTML contents of the email"
     WhoisDNSCAAIODEFRecord:
       title: 'CAA IODEF Record'
       description: |-
@@ -4684,6 +4729,7 @@ components:
           type: boolean
           description: "Whether or not the CA is authorized to issue certificates for specific domains"
     WhoisDNSCAARecord:
+      title: DNS CAA Record
       description: |-
         The CAA record of the Whois DNS
       oneOf:
@@ -4692,6 +4738,7 @@ components:
         - type: object
           $ref: "#/components/schemas/WhoisDNSCAAIssuerRecord"
     WhoisDNSMXRecord:
+      title: DNS MX Record
       description: |-
         The MX record of the Whois DNS
       required:
@@ -4708,6 +4755,7 @@ components:
           type: string
           description: "The exchange of the MX record"
     WhoisDNSSOARecord:
+      title: DNS SOA Record
       description: |-
         The SOA record of the Whois DNS
       required:
@@ -4749,6 +4797,7 @@ components:
           type: number
           description: "The minimum TTL (Time-To-Live) of the SOA record"
     WhoisDNSData:
+      title: WHOIS DNS Response
       description: |-
         The DNS Data returned by the Whois DNS endpoint
       required:
@@ -4812,6 +4861,7 @@ components:
             type: string
           description: "The SRV record"
     WhoisUserData:
+      title: WHOIS Representative Information
       description: |-
         The Information on a representative from the Whois Response
       type: object
@@ -4868,6 +4918,7 @@ components:
           type: string
           description: "The email of the representative"
     WhoisData:
+      title: WHOIS Whois Response
       description: |-
         The Whois Data returned by the Whois Whois endpoint
       type: object
@@ -4941,6 +4992,7 @@ components:
               - "Server Transfer Prohibited"
           description: "The status of the domain"
     WhoisFullData:
+      title: WHOIS Full Response
       description: |-
         The full Whois Data returned by the Whois Full endpoint
       type: object
