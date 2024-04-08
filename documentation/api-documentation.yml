@@ -4704,7 +4704,7 @@ components:
           - type: string
             $ref: "#/components/schemas/EmailReqURL"
     WhoisDNSCAAIODEFRecord:
-      title: 'CAA Incident Object Description Exchange Format (IODEF) Endpoint Record'
+      title: 'CAA IODEF Endpoint Record'
       description: |-
         The Incident Object Description Exchange Format (IODEF) Endpoint record
 
