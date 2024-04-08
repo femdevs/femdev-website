@@ -1,3 +1,4 @@
+include ../defaults/mixins.pug
 doctype html
 html(lang='en-us')
   head
@@ -15,22 +16,16 @@ html(lang='en-us')
           .grid.grid-cols-1.gap-4(class='md:grid-cols-2 lg:grid-cols-3')
             .flex.flex-col.justify-between.space-y-3.rounded-lg.bg-white.p-8.drop-shadow-xl
               .flex.flex-col.space-y-3
-                h1.select-none.text-left.font-poppins.text-2xl.text-neutral-900 API
-                h2.select-none.text-left.font-poppins.text-lg.text-neutral-900 Our APIs are designed to be fast and reliable for your applications.
+                +servicesabout('API', 'Our APIs are designed to be fast and reliable for your applications.')
             .flex.flex-col.justify-between.space-y-3.rounded-lg.bg-white.p-8.drop-shadow-xl(class='lg:col-span-2')
               .flex.flex-col.space-y-3
-                h1.select-none.text-left.font-poppins.text-2xl.text-neutral-900 Websites
-                h2.select-none.text-left.font-poppins.text-lg.text-neutral-900 Our websites and other web-based applications are designed to be easy for anyone to use and remain accessible from anywhere.
+                +servicesabout('Websites', 'Our websites and other web-based applications are designed to be easy for anyone to use and remain accessible from anywhere.')
             .flex.flex-col.space-y-3.rounded-lg.bg-white.p-8.drop-shadow-xl(class='lg:col-span-2')
-              h1.select-none.text-left.font-poppins.text-2xl.text-neutral-900 Discord Bots
-              h2.select-none.text-left.font-poppins.text-lg.text-neutral-900 Our Discord bots are created by skilled and well-versed developers for a multitude of purposes and tasks.
+              +servicesabout('Discord Bots', 'Our Discord bots are created by skilled and well-versed developers for a multitude of purposes and tasks.')
             .flex.flex-col.space-y-3.rounded-lg.bg-white.p-8.drop-shadow-xl
-              h1.select-none.text-left.font-poppins.text-2xl.text-neutral-900 Databases
-              h2.select-none.text-left.font-poppins.text-lg.text-neutral-900 Our databases are designed with speed and security in mind for your applications.
+              +servicesabout('Databases', 'Our databases are designed with speed and security in mind for your applications.')
             .flex.flex-col.space-y-3.rounded-lg.bg-white.p-8.drop-shadow-xl
-              h1.select-none.text-left.font-poppins.text-2xl.text-neutral-900 Hosting
-              h2.select-none.text-left.font-poppins.text-lg.text-neutral-900 We can host your applications, websites, and much more on our secure servers for a low price.
+              +servicesabout('Hosting', 'We can host your applications, websites, and much more on our secure servers for a low price.')
             .flex.flex-col.space-y-3.rounded-lg.bg-white.p-8.drop-shadow-xl(class='lg:col-span-2')
-              h1.select-none.text-left.font-poppins.text-2xl.text-neutral-900 Support
-              h2.select-none.text-left.font-poppins.text-lg.text-neutral-900 Our support team is available 24/7 to help you with any issues you may have with your software or service.
+              +servicesabout('Support', 'Our support team is available 24/7 to help you with any issues you may have with your software or service.')
     include ../defaults/footer.pug

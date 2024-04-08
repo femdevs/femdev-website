@@ -8,9 +8,5 @@ html(lang="en")
     include ./errorcss.pug
   body
     h1 501
-    p An Error Occurred! Please contact the administrator 
-      a(href="mailto:support@thefemdevs.com") here
-      |  if the problem persists.
-    footer
-      h3
-        a(href="/") Go Back Home
+    p An Error Occurred! Please contact the administrator #[a(href="mailto:support@thefemdevs.com") here] if the problem persists.
+    include ./defaults/return.pug

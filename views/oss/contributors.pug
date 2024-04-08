@@ -8,12 +8,8 @@ html(lang='en-us')
         .flex.w-full.flex-col.space-y-8
           .flex.w-full.flex-col.space-y-4
             h1.select-none.font-poppins.text-5xl.font-bold.text-neutral-900 Contributors
-            h3.select-none.font-poppins.text-xl.text-neutral-900 Last Updated 11th Febuary 2024
           .flex.w-full.flex-col.space-y-4
             h2.select-none.font-poppins.text-3xl.font-bold.text-neutral-900 The following people have contributed to the website
             for contributor in contributors
-              - const link = "https://github.com/" + contributor.github
-              h3.select-none.font-poppins.text-xl.text-neutral-900
-                a.font-bold(href=link target="_blank").text-cyan-700= contributor.name
-                | #{contributor.description}
+              h3.select-none.font-poppins.text-xl.text-neutral-900 #[a.font-bold(href=`https://github.com/${contributor.github}` target="_blank").text-cyan-700= contributor.name] - #{contributor.description}
     include ../defaults/footer.pug

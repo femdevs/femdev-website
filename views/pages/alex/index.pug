@@ -1,19 +1,20 @@
+include ../../defaults/mixins.pug
 doctype html
 html(lang="en")
   head
     title Alex
     meta(charset="UTF-8")
-    meta(name="viewport" content="width=device-width, initial-scale=1.0")
-    meta(property="og:title" content="Alex's Website :3")
-    meta(property="og:description" content="Welcome to my website, I hope you enjoy it!")
-    meta(property="og:image" content="https://avatars.githubusercontent.com/u/106552893?v=4")
-    meta(property="og:url" content="https://alex.thefemdevs.com/")
-    meta(property="og:type" content="website")
-    link(rel="icon" href="/cdn/img/webicon.png" type="image/x-icon")
-    link(rel="stylesheet" href="https://cdn.thefemdevs.com/assets/css/d" type="text/css")
-    link(rel="stylesheet" href="/cdn/css/index" type="text/css")
-    link(rel="stylesheet" href="https://ka-f.fontawesome.com/releases/v6.5.1/css/free.min.css?token=7cffc2ccb5" crossorigin="anonymous")
-    link(rel="stylesheet" href="https://ka-f.fontawesome.com/releases/v6.5.1/css/free-v5-font-face.min.css?token=7cffc2ccb5" crossorigin="anonymous")
+    +metav1('viewport', "width%e%device-width,initial-scale%e%1.0")
+    +metav2('og:url', "https://alex.thefemdevs.com/")
+    +metav2('og:title', 'Alex\'s Website')
+    +metav2('og:description', 'Welcome to my website, I hope you enjoy it!')
+    +metav2('og:image', 'https://avatars.githubusercontent.com/u/106552893?v=4')
+    +metav2('og:type', 'website')
+    +headerlink('/cdn/css/index', 'stylesheet', 'text/css')
+    +headerlink('/cdn/img/webicon.png', 'icon', 'image/png')
+    +headerlink('https://cdn.thefemdevs.com/assets/css/d', 'stylesheet', 'text/css')
+    +headerlink('https://ka-f.fontawesome.com/releases/v6.5.1/css/free.min.css?token=7cffc2ccb5', 'stylesheet', 'text/css')(crossorigin='anonymous')
+    +headerlink('https://ka-f.fontawesome.com/releases/v6.5.1/css/free-v5-font-face.min.css?token=7cffc2ccb5', 'stylesheet', 'text/css')(crossorigin='anonymous')
     script(type="application/ld+json").
       {
         "@context": "https://schema.org/",
@@ -36,16 +37,11 @@ html(lang="en")
     header.fixed.top-0.left-0.w-full.z-40.bg-rose-200.shadow-md.text-center.py-4.px-4
       nav
         ul.menu.list-none.flex.justify-center
-          li.mx-5
-            a(href="#main").no-underline.text-white.font-bold.text-xl Main
-          li.mx-5
-            a(href="#socials").no-underline.text-white.font-bold.text-xl Socials
-          li.mx-5
-            a(href="#femdevs").no-underline.text-white.font-bold.text-xl FemDevs
-          li.mx-5
-            a(href="#language").no-underline.text-white.font-bold.text-xl Language
-          li.mx-5
-            a(href="#interests").no-underline.text-white.font-bold.text-xl Interests
+          +navlinkv2("#main", "Main")
+          +navlinkv2("#socials", "Socials")
+          +navlinkv2("#femdevs", "FemDevs")
+          +navlinkv2("#language", "Language")
+          +navlinkv2("#interests", "Interests")
     section#main.text-inherit.text-2xl.text-center.bg-rose-100(class="py-[75px]")
       h1 Hai, I'm Alex! :3 (She/They)
       p A 16 year old, transgender, pansexual person with lots of passion and enthusiasm. Learn even more about me below!
@@ -53,62 +49,24 @@ html(lang="en")
       h2 Connect with Me
       p You can find most of my socials here, if you're interested in contacting me
       .social-icons.grid.grid-cols-6.grid-rows-2.justify-evenly.place-items-center.pt-4(class="md:grid-cols-4 md:grid-rows-3 sm:grid-cols-2 sm:grid-rows-6")
-        .justify-evenly.size-full.flex.content-center(class="p-[3px]")
-          a(href="https://discord.com/users/1112774630416076850" title="Discord User" class="hover:scale-110 hover:bg-rose-500").fab.fa-discord.transition-all.duration-300.text-inherit.p-0.border-1.border-solid.border-transparent.rounded-3xl.no-underline.items-center.self-center.justify-center.size-28.flex.flex-col
-            p.font-nunito.p-0.m-0 Discord
-        .justify-evenly.size-full.flex.content-center(class="p-[3px]")
-          a(href="https://www.instagram.com/auxiliaryfrfr/" title="Instagram" class="hover:scale-110 hover:bg-rose-500").fab.fa-instagram.transition-all.duration-300.text-inherit.p-0.border-1.border-solid.border-transparent.rounded-3xl.no-underline.items-center.self-center.justify-center.size-28.flex.flex-col
-            p.font-nunito.p-0.m-0 Instagram
-        .justify-evenly.size-full.flex.content-center(class="p-[3px]")
-          a(href="https://github.com/auxiliaryfrfr" title="GitHub Profile" class="hover:scale-110 hover:bg-rose-500").fab.fa-github.transition-all.duration-300.text-inherit.p-0.border-1.border-solid.border-transparent.rounded-3xl.no-underline.items-center.self-center.justify-center.size-28.flex.flex-col
-            p.font-nunito.p-0.m-0 Github
-        .justify-evenly.size-full.flex.content-center(class="p-[3px]")
-          a(href="https://open.spotify.com/user/31a3c3jitxf3fde24p5ohiqfrmnm" title="Spotify User" class="hover:scale-110 hover:bg-rose-500").fab.fa-spotify.transition-all.duration-300.text-inherit.p-0.border-1.border-solid.border-transparent.rounded-3xl.no-underline.items-center.self-center.justify-center.size-28.flex.flex-col
-            p.font-nunito.p-0.m-0 Spotify
-        .justify-evenly.size-full.flex.content-center(class="p-[3px]")
-          a(href="https://twitter.com/auxiliaryfrfr" title="Twitter Account" class="hover:scale-110 hover:bg-rose-500").fab.fa-twitter.transition-all.duration-300.text-inherit.p-0.border-1.border-solid.border-transparent.rounded-3xl.no-underline.items-center.self-center.justify-center.size-28.flex.flex-col
-            p.font-nunito.p-0.m-0 Twitter
-        .justify-evenly.size-full.flex.content-center(class="p-[3px]")
-          a(href="https://thefemdevs.com" title="The FemDevs Homepage" class="hover:scale-110 hover:bg-rose-500").fas.fa-users.transition-all.duration-300.text-inherit.p-0.border-1.border-solid.border-transparent.rounded-3xl.no-underline.items-center.self-center.justify-center.size-28.flex.flex-col
-            p.font-nunito.p-0.m-0 FemDevs
-        .justify-evenly.size-full.flex.content-center(class="p-[3px]")
-          a(href="https://en.pronouns.page/@auxiliaryfrfr" title="Pronouns.Page Profile" class="hover:scale-110 hover:bg-rose-500").fas.fa-users.transition-all.duration-300.text-inherit.p-0.border-1.border-solid.border-transparent.rounded-3xl.no-underline.items-center.self-center.justify-center.size-28.flex.flex-col
-            p.font-nunito.p-0.m-0 Pronouns Page
-        .justify-evenly.size-full.flex.content-center(class="p-[3px]")
-          a(href="https://www.youtube.com/channel/UCfK45ILqng9SMe7EcCzd57g" title="YouTube Account" class="hover:scale-110 hover:bg-rose-500").fab.fa-youtube.transition-all.duration-300.text-inherit.p-0.border-1.border-solid.border-transparent.rounded-3xl.no-underline.items-center.self-center.justify-center.size-28.flex.flex-col
-            p.font-nunito.p-0.m-0 Youtube
-        .justify-evenly.size-full.flex.content-center(class="p-[3px]")
-          a(href="https://www.snapchat.com/add/auxiliaryfrfr" title="Snapchat User" class="hover:scale-110 hover:bg-rose-500").fab.fa-snapchat.transition-all.duration-300.text-inherit.p-0.border-1.border-solid.border-transparent.rounded-3xl.no-underline.items-center.self-center.justify-center.size-28.flex.flex-col
-            p.font-nunito.p-0.m-0 Snapchat
-        .justify-evenly.size-full.flex.content-center(class="p-[3px]")
-          a(href="https://www.last.fm/user/auxiliaryfrfr" title="LastFM User" class="hover:scale-110 hover:bg-rose-500").fab.fa-lastfm.transition-all.duration-300.text-inherit.p-0.border-1.border-solid.border-transparent.rounded-3xl.no-underline.items-center.self-center.justify-center.size-28.flex.flex-col
-            p.font-nunito.p-0.m-0 Last.fm
-        .justify-evenly.size-full.flex.content-center(class="p-[3px]")
-          a(href="https://www.threads.net/@auxiliaryfrfr" title="Threads Account" class="hover:scale-110 hover:bg-rose-500").fab.fa-threads.transition-all.duration-300.text-inherit.p-0.border-1.border-solid.border-transparent.rounded-3xl.no-underline.items-center.self-center.justify-center.size-28.flex.flex-col
-            p.font-nunito.p-0.m-0 Threads
-        .justify-evenly.size-full.flex.content-center(class="p-[3px]")
-          a(href="mailto:alex@thefemdevs.com" title="Contact/Email" class="hover:scale-110 hover:bg-rose-500").fas.fa-envelope.transition-all.duration-300.text-inherit.p-0.border-1.border-solid.border-transparent.rounded-3xl.no-underline.items-center.self-center.justify-center.size-28.flex.flex-col
-            p.font-nunito.p-0.m-0 Email
+        +socials("discord", "https://discord.com/users/1112774630416076850", "Discord", "alex")
+        +socials("instagram", "https://www.instagram.com/auxiliaryfrfr/", "Instagram", "alex")
+        +socials("github", "https://github.com/auxiliaryfrfr", "GitHub", "alex")
+        +socials("spotify", "https://open.spotify.com/user/31a3c3jitxf3fde24p5ohiqfrmnm", "Spotify", "alex")
+        +socials("twitter", "https://twitter.com/auxiliaryfrfr", "Twitter", "alex")
+        +socials("code", "https://thefemdevs.com", "The FemDevs", "alex")
+        +socials("users", "https://en.pronouns.page/@auxiliaryfrfr", "Pronouns.Page", "alex")
+        +socials("youtube", "https://www.youtube.com/channel/UCfK45ILqng9SMe7EcCzd57g", "YouTube", "alex")
+        +socials("snapchat", "https://www.snapchat.com/add/auxiliaryfrfr", "Snapchat", "alex")
+        +socials("lastfm", "https://www.last.fm/user/auxiliaryfrfr", "LastFM", "alex")
+        +socials("threads", "https://www.threads.net/@auxiliaryfrfr", "Threads", "alex")
+        +socials("envelope", "mailto:alex@thefemdevs.com", "Email", "alex")
     section#femdevs.text-black.text-2xl.py-6.text-center.bg-rose-100
       h2 FemDevs
-      p
-        | My journey extends into the world of entrepreneurship. As a co-owner of 
-        strong
-          a(href="https://thefemdevs.com") FemDevs
-        | , along with my fellow owners, colleagues, and most importantly, friends, Oblong and Ben. I'm committed to helping talented individuals, regardless of gender, to thrive in the tech industry.
+      p My journey extends into the world of entrepreneurship. As a co-owner of #[strong #[a(href="https://thefemdevs.com") FemDevs]], along with my fellow owners, colleagues, and most importantly, friends, Oblong and Ben, I am committed to helping talented individuals, regardless of gender, to thrive in the tech industry.
     section#language.text-black.text-2xl.py-6.text-center.bg-rose-100
       h2 Language Proficiency
-      p
-        | Beyond coding, I'm also talented in many other areas, like language.
-        | I am fluent in both English and Arabic. Additionally, I'm currently learning French.
-        | I've found a passion for translation. As a dedicated member of the 
-        strong
-          a(href="https://en.pronouns.page/") Pronouns Page
-        |  team, I contribute my expertise as an Arabic translator, to make it more inclusive and diverse.
+      p Beyond coding, I'm also talented in many other areas, like language. I am fluent in both English and Arabic. Additionally, I'm currently learning French. I've found a passion for translation. As a dedicated member of the #[strong #[a(href="https://en.pronouns.page/") Pronouns Page]] team, I contribute my expertise as an Arabic translator, to make it more inclusive and diverse.
     section#interests.text-black.text-2xl.py-6.text-center.bg-rose-100
       h2 General Interests
-      p.
-        I have loved cooking, and the culinary world since I was child.
-        Additionaly, although I'm not great at it, I love playing the piano.
-        I also love spending my free time either watching movies or films, or playing video games
-        As well as socializing with friends and hanging out :D
+      p I have loved cooking, and the culinary world since I was child. Additionaly, although I'm not great at it, I love playing the piano. I also love spending my free time either watching movies or films, or playing video games, as well as socializing with friends and hanging out :D

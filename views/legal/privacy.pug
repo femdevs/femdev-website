@@ -1,3 +1,4 @@
+include ../defaults/mixins.pug
 doctype html
 html(lang='en-us')
   include ../defaults/header.pug
@@ -10,27 +11,15 @@ html(lang='en-us')
             h1.select-none.font-poppins.text-5xl.font-medium.text-neutral-900 Privacy Policy
             h3.select-none.font-poppins.text-xl.text-neutral-900 Last Updated 1st September 2023
           .flex.w-full.flex-col.space-y-4
-            h2.select-none.font-poppins.text-3xl.font-medium.text-neutral-900 1. Introduction
-            h3.select-none.font-poppins.text-xl.text-neutral-900 The Femdevs ("we", "us", "our") respects your privacy and is committed to protecting it through our compliance with this policy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website thefemdevs.com (the "Website"). Please read this Privacy Policy carefully.
-            h3.select-none.font-poppins.text-xl.text-neutral-900 By using our Website, you agree to the collection and use of information in accordance with this policy.
-            h2.select-none.font-poppins.text-3xl.font-medium.text-neutral-900 2. Information We Collect
-            h2.select-none.font-poppins.text-2xl.font-medium.text-neutral-900 2.1 Personal Data
-            h3.select-none.font-poppins.text-xl.text-neutral-900 While using our Website, we may ask you to provide us with certain personally identifiable information that can be used to contact or identify you. Personally identifiable information may include, but is not limited to, your email address, name, and phone number.
-            h2.select-none.font-poppins.text-2xl.font-medium.text-neutral-900 2.2 Usage Data
-            h3.select-none.font-poppins.text-xl.text-neutral-900 We may also collect information about how the Website is accessed and used. This Usage Data may include information such as your computer's Internet Protocol address, browser type, browser version, the pages of our Website that you visit, the time and date of your visit, the time spent on those pages, and other diagnostic data.
-            h2.select-none.font-poppins.text-3xl.font-medium.text-neutral-900 3. Use of Data
-            h3.select-none.font-poppins.text-xl.text-neutral-900 We use the collected data for various purposes, including: to provide and maintain our Website, to notify you about changes to our Website, to allow you to participate in interactive features of our Website when you choose to do so, to provide customer support, to gather analysis or valuable information so that we can improve our Website, to monitor the usage of our Website, and to detect, prevent, and address technical issues.
-            h2.select-none.font-poppins.text-3xl.font-medium.text-neutral-900 4. Transfer of Data
-            h3.select-none.font-poppins.text-xl.text-neutral-900 Your information, including Personal Data, may be transferred to — and maintained on — computers located outside of your state, province, country, or other governmental jurisdiction where the data protection laws may differ from those of your jurisdiction.
-            h2.select-none.font-poppins.text-3xl.font-medium.text-neutral-900 5. Disclosure of Data
-            h3.select-none.font-poppins.text-xl.text-neutral-900 We may disclose your Personal Data in the good faith belief that such action is necessary to comply with a legal obligation, protect and defend the rights or property of the FemDevs, prevent or investigate possible wrongdoing in connection with the Website, protect the personal safety of users of the Website or the public, and protect against legal liability.
-            h2.select-none.font-poppins.text-3xl.font-medium.text-neutral-900 6. Security of Data
-            h3.select-none.font-poppins.text-xl.text-neutral-900 The security of your data is important to us, but remember that no method of transmission over the Internet or method of electronic storage is 100% secure. While we strive to use commercially acceptable means to protect your Personal Data, we cannot guarantee its absolute security.
-            h2.select-none.font-poppins.text-3xl.font-medium.text-neutral-900 7. Changes to This Privacy Policy
-            h3.select-none.font-poppins.text-xl.text-neutral-900 We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page. You are advised to review this Privacy Policy periodically for any changes.
+            +statement('1. Introduction', 'The Femdevs ("we", "us", "our") respects your privacy and is committed to protecting it through our compliance with this policy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website thefemdevs.com (the "Website"). Please read this Privacy Policy carefully. By using our Website, you agree to the collection and use of information in accordance with this policy.')
+            +statement('2. Information We Collect', '')
+            +statement('2.1 Personal Data', 'While using our Website, we may ask you to provide us with certain personally identifiable information that can be used to contact or identify you. Personally identifiable information may include, but is not limited to, your email address, name, and phone number.')
+            +statement('2.2 Usage Data', 'We may also collect information about how the Website is accessed and used. This Usage Data may include information such as your computer\'s Internet Protocol address, browser type, browser version, the pages of our Website that you visit, the time and date of your visit, the time spent on those pages, and other diagnostic data.')
+            +statement('3. Use of Data', 'We use the collected data for various purposes, including: to provide and maintain our Website, to notify you about changes to our Website, to allow you to participate in interactive features of our Website when you choose to do so, to provide customer support, to gather analysis or valuable information so that we can improve our Website, to monitor the usage of our Website, and to detect, prevent, and address technical issues.')
+            +statement('4. Transfer of Data', 'Your information, including Personal Data, may be transferred to — and maintained on — computers located outside of your state, province, country, or other governmental jurisdiction where the data protection laws may differ from those of your jurisdiction.')
+            +statement('5. Disclosure of Data', 'We may disclose your Personal Data in the good faith belief that such action is necessary to comply with a legal obligation, protect and defend the rights or property of the FemDevs, prevent or investigate possible wrongdoing in connection with the Website, protect the personal safety of users of the Website or the public, and protect against legal liability.')
+            +statement('6. Security of Data', 'The security of your data is important to us, but remember that no method of transmission over the Internet or method of electronic storage is 100% secure. While we strive to use commercially acceptable means to protect your Personal Data, we cannot guarantee its absolute security.')
+            +statement('7. Changes to This Privacy Policy', 'We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page. You are advised to review this Privacy Policy periodically for any changes.')
             h2.select-none.font-poppins.text-3xl.font-medium.text-neutral-900 8. Contact Us
-            h3.select-none.font-poppins.text-xl.text-neutral-900 If you have any questions or concerns regarding these Terms, please contact us at 
-              a.font-medium(href="mailto:legal@thefemdevs.com") legal@thefemdevs.com
-              | .
-            h3.select-none.font-poppins.text-xl.text-neutral-900 By using the Website, you acknowledge that you have read, understood, and agreed to these Terms of the Privacy Policy. If you do not agree to these Terms, please refrain from accessing or using the Website.
+            include ./defaults/ldis.pug
     include ../defaults/footer.pug

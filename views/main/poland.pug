@@ -1,7 +1,9 @@
+include ../defaults/mixins.pug
 doctype html
 html
   head
     include ../defaults/header.pug
+    +headerlink(`https://cdn.thefemdevs.com/assets/css/f/${file}`, 'stylesheet', 'text/css')
   body.bg-neutral-200
     include ../defaults/nav.pug
     h1#pdstitle Poland Destruction Simulator
@@ -14,4 +16,4 @@ html
         p#score Score: 0
         p#timeLeft Time Left: 15
         p#personalBest Personal Best: 0
-    script(src="assets/js/fs/pds.js")
+    script(src="https://cdn.thefemdevs.com/assets/js/fs/pds.js")

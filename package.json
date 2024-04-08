@@ -48,7 +48,7 @@
     "npm": ">=10.0.0"
   },
   "dependencies": {
-    "@therealbenpai/zdcors": "^1.1.0",
+    "@therealbenpai/zdcors": "^1.2.1",
     "autoprefixer": "^10.4.16",
     "axios": "^1.6.1",
     "chalk": "^3.0.0",

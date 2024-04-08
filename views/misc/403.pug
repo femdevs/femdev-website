@@ -1,3 +1,4 @@
+include ../defaults/mixins.pug
 doctype html
 html(lang="en")
   head
@@ -8,16 +9,5 @@ html(lang="en")
     include ./errorcss.pug
   body
     h1= errData.code
-    p You have been banned from accessing this website
-      br
-      br
-      | Please contact the webmaster for more information.
-      br
-      br
-    - var reasonText = "Reason: " + errData.reason
-    p= reasonText
-    br
-    br
-    footer
-      h3
-        a(href="/") Go Back Home
+    +p2br("You have been banned from accessing this website", "Please contact the webmaster for more information.", `Ban Reason: ${reasonText}`)
+    include ./defaults/return.pug

@@ -1,16 +1,17 @@
-const app = require('express')();
-const http = require('http');
-const { createHash: ch, getHashes: gh } = require('crypto');
-const Admin = require('firebase-admin');
-const { RateLimiterMemory } = require('rate-limiter-flexible');
 require('dotenv').config();
+const http = require('http');
+const app = require('express')();
+const Admin = require('firebase-admin');
+const { createHash: ch, getHashes: gh } = require('crypto');
+const { RateLimiterMemory } = require('rate-limiter-flexible');
+const { WebSecurity, CSPObj, PermissionPolicy, ReportToGroup, ReportingEndpoint, Headers: headers } = require('@therealbenpai/zdcors');
 //- Middleware
 const IPM = require('./middleware/IP'); //? IP Middleware
 const SM = require('./middleware/session'); //? Session Manager
-const TRACE = require('./middleware/traceHandler'); //? Tracing Middleware
 const RL = require('./middleware/routeLogger'); //? Route Logger
 const Headers = require('./middleware/headers'); //? Header Setter
 const errPages = require('./middleware/errpages'); //? Error Pages
+const TRACE = require('./middleware/traceHandler'); //? Tracing Middleware
 const reqLogs = [];
 /** @type {Map<String, Map<String, any>|String>} @desciption Used to store data throughout requests */
 const Persistance = new Map();
@@ -67,6 +68,70 @@ app
     })
     .use(TRACE)
     .use(Headers)
+    .use(headers({
+        CORS: WebSecurity.CORS({ maxAge: 86400, allowCredentials: true, allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'], allowHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'X-HTTP-Method-Override', 'Accept', 'Origin'] }, {}),
+        CSP: WebSecurity.CSP(
+            new CSPObj('imgSrc', false, [], false, true, []),
+            new CSPObj('fontSrc', false, [], false, true, []),
+            new CSPObj('mediaSrc', false, [], false, true, []),
+            new CSPObj('childSrc', false, [], false, true, []),
+            new CSPObj('objectSrc', true, [], false, false, []),
+            new CSPObj('defaultSrc', false, [], false, true, []),
+            new CSPObj('connectSrc', false, [], false, true, []),
+            new CSPObj('formAction', false, [], true, false, []),
+            new CSPObj('prefetchSrc', false, [], false, true, []),
+            new CSPObj('manifestSrc', false, [], true, false, []),
+            new CSPObj('reportTo', false, [], false, false, ['csp-ep']),
+            new CSPObj('blockAllMixedContent', false, [], false, false, []),
+            new CSPObj('upgradeInsecureRequests', false, [], false, false, []),
+            new CSPObj('requireTrustedTypesFor', false, ['script'], false, false, []),
+            new CSPObj('reportUri', false, [], false, false, ['https://security.thefemdevs.com/csp/new']),
+            new CSPObj('baseUri', false, [], true, false, ['thefemdevs.com', 'security.thefemdevs.com', 'cdn.thefemdevs.com']),
+            new CSPObj('scriptSrc', false, [], true, false, ['blob:', ...WebSecurity.CD('thefemdevs.com'), ...WebSecurity.CD('google.com'), ...WebSecurity.CD('fontawesome.com')]),
+            new CSPObj('styleSrc', false, [], true, false, [].concat(WebSecurity.CD('google.com'), WebSecurity.CD('googleapis.com'), WebSecurity.CD('thefemdevs.com'), WebSecurity.CD('fontawesome.com')),
+            )),
+        PermissionPolicy: WebSecurity.PermissionPolicy(
+            new PermissionPolicy('hid', { none: true }),
+            new PermissionPolicy('usb', { none: true }),
+            new PermissionPolicy('midi', { none: true }),
+            new PermissionPolicy('camera', { none: true }),
+            new PermissionPolicy('serial', { none: true }),
+            new PermissionPolicy('battery', { none: true }),
+            new PermissionPolicy('gamepad', { none: true }),
+            new PermissionPolicy('autoplay', { none: true }),
+            new PermissionPolicy('webShare', { self: true }),
+            new PermissionPolicy('bluetooth', { none: true }),
+            new PermissionPolicy('gyroscope', { none: true }),
+            new PermissionPolicy('fullscreen', { self: true }),
+            new PermissionPolicy('magnetometer', { none: true }),
+            new PermissionPolicy('accelerometer', { none: true }),
+            new PermissionPolicy('idleDetection', { none: true }),
+            new PermissionPolicy('browsingTopics', { none: true }),
+            new PermissionPolicy('localFonts', { wildcard: true }),
+            new PermissionPolicy('screenWakeLock', { none: true }),
+            new PermissionPolicy('display-capture', { none: true }),
+            new PermissionPolicy('document-domain', { none: true }),
+            new PermissionPolicy('encrypted-media', { none: true }),
+            new PermissionPolicy('windowManagement', { none: true }),
+            new PermissionPolicy('xrSpacialTracking', { none: true }),
+            new PermissionPolicy('ambientLightSensor', { none: true }),
+            new PermissionPolicy('executionWhileNotRendered', { none: true }),
+            new PermissionPolicy('executionWhileOutOfViewport', { none: true }),
+            new PermissionPolicy('microphone', { self: true, domains: WebSecurity.CD('thefemdevs.com') }),
+            new PermissionPolicy('storageAccess', { self: true, domains: WebSecurity.CD('thefemdevs.com') }),
+            new PermissionPolicy('otpCredentials', { self: true, domains: WebSecurity.CD('thefemdevs.com') }),
+            new PermissionPolicy('pictureInPicture', { self: true, domains: WebSecurity.CD('thefemdevs.com') }),
+            new PermissionPolicy('speakerSelection', { self: true, domains: WebSecurity.CD('thefemdevs.com') }),
+            new PermissionPolicy('identityCredentialsGet', { self: true, domains: WebSecurity.CD('thefemdevs.com') }),
+            new PermissionPolicy('publickeyCredentialsGet', { self: true, domains: WebSecurity.CD('thefemdevs.com') }),
+            new PermissionPolicy('publickeyCredentialsCreate', { self: true, domains: WebSecurity.CD('thefemdevs.com') }),
+            new PermissionPolicy('payment', { self: true, domains: [].concat(WebSecurity.CD('thefemdevs.com'), WebSecurity.CD('stripe.com')) }),
+            new PermissionPolicy('geolocation', { self: true, domains: [].concat(WebSecurity.CD('google.com'), WebSecurity.CD('googleapis.com'), WebSecurity.CD('thefemdevs.com')) }),
+        ),
+        ReportingEndpoints: WebSecurity.ReportingEndpoints(...(['csp-ep', 'csp/new', 'doc-ep', 'doc/new', 'default', 'report/new'].map((g, i, a) => !(i % 2) ? null : new ReportingEndpoint(g, `${a[i + 1]}`)).filter(v => v !== null))),
+        HSTS: WebSecurity.HSTS({ ma: 31536000, iSD: true, pl: true }),
+        ReportTo: WebSecurity.ReportTo(new ReportToGroup('csp-ep', 31536000, ['csp', 'report'].map(g => `https://security.thefemdevs.com/${g}/new`)))
+    }))
     .use(require('./web/router'))
     .use((req, res, next) => {
         const

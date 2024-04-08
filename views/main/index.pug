@@ -1,3 +1,4 @@
+include ../defaults/mixins.pug
 doctype html
 html(lang='en-us')
   head
@@ -12,10 +13,10 @@ html(lang='en-us')
               h1.max-w-2xl.select-none.font-poppins.text-5xl.font-medium.text-neutral-900 Transform Your Online Presence Today
               h2.max-w-md.select-none.font-poppins.text-xl.text-neutral-900 Fast, secure, high-quality software solutions. Small business or personal needs? FemDevs's got you covered. Get started now.
             .flex.w-full.flex-col.space-y-4(class='md:flex-row md:space-x-2 md:space-y-0')
-              if !enabled
+              unless enabled
                 p.cursor-not-allowed.rounded-md.border-2.border-brand-primary-inactive.bg-brand-primary-inactive.px-8.py-2.text-center.font-poppins.text-lg.text-white.transition-all Get Started
               else
-                a.rounded-md.border-2.border-brand-primary.bg-brand-primary.px-8.py-2.text-center.font-poppins.text-lg.text-white.transition-all(class='hover:border-brand-primary-dark hover:bg-brand-primary-dark hover:text-neutral-50 hover:shadow-lg' href='/auth/signup') Get Started
+                a.rounded-md.border-2.border-brand-primary.bg-neutral-50.px-8.py-2.text-center.font-poppins.text-lg.text-brand-black.transition-all(class='hover:border-brand-primary-dark hover:bg-brand-primary-dark hover:text-neutral-50 hover:shadow-lg' href='/products') Our Products
               a.rounded-md.border-2.border-brand-primary.bg-neutral-50.px-8.py-2.text-center.font-poppins.text-lg.text-brand-black.transition-all(
                 class='hover:border-brand-primary-dark hover:bg-brand-primary-dark hover:text-neutral-50 hover:shadow-lg'
                 href='/products'
@@ -57,24 +58,15 @@ html(lang='en-us')
               h1.max-w-2xl.select-none.font-poppins.text-2xl.font-medium.text-neutral-900 Reliable Products
             .grid.grid-cols-1.gap-4(class='lg:grid-cols-3')
               .flex.flex-col.space-y-3.rounded-lg.bg-white.p-8
-                h2.select-none.text-left.font-poppins.text-2xl.text-neutral-900 API
-                p.select-none.text-left.font-poppins.text-lg.text-neutral-900 Our APIs are designed to be fast and reliable for your applications.
+                +servicesabout('API', 'Our APIs are designed to be fast and reliable for your applications.')
               .flex.flex-col.space-y-3.rounded-lg.bg-white.p-8(class='lg:col-span-2')
-                h2.select-none.text-left.font-poppins.text-2xl.text-neutral-900 Websites
-                p.select-none.text-left.font-poppins.text-lg.text-neutral-900 Our websites and other web-based applications are designed to be easy for anyone to use and remain accessible from anywhere.
+                +servicesabout('Websites', 'Our websites and other web-based applications are designed to be easy for anyone to use and remain accessible from anywhere.')
               .flex.flex-col.space-y-3.rounded-lg.bg-white.p-8(class='lg:col-span-2')
-                h2.select-none.text-left.font-poppins.text-2xl.text-neutral-900 Discord Bots
-                p.select-none.text-left.font-poppins.text-lg.text-neutral-900 Our Discord bots are created by skilled and well-versed developers for a multitude of purposes and tasks.
+                +servicesabout('Discord Bots', 'Our Discord bots are created by skilled and well-versed developers for a multitude of purposes and tasks.')
               .flex.flex-col.space-y-3.rounded-lg.bg-white.p-8
-                h2.select-none.text-left.font-poppins.text-2xl.text-neutral-900 Databases
-                p.select-none.text-left.font-poppins.text-lg.text-neutral-900 Our databases are designed with speed and security in mind for your applications.
+                +servicesabout('Databases', 'Our databases are designed with speed and security in mind for your applications.')
       hero.flex.w-full.justify-center.p-8.bg-white
         .w-full.max-w-6xl.space-y-8.px-8
           .flex.grid.grid-cols-1.items-center.justify-center.gap-4(class='md:grid-cols-2')
-            .flex.flex-col.items-center
-              h2.select-none.text-center.font-poppins.text-4xl.font-medium.text-neutral-900 13,000+
-              h3.select-none.text-center.font-poppins.text-xl.text-neutral-900 Active Clients
-            .flex.flex-col.items-center
-              h2.select-none.text-center.font-poppins.text-4xl.font-medium.text-neutral-900 99.7%
-              h3.select-none.text-center.font-poppins.text-xl.text-neutral-900 Service Uptime
+            +lowerFooter(['13,000+', 'Active Clients'], ['99.7%', 'Service Uptime'])
     include ../defaults/footer.pug

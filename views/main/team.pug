@@ -1,3 +1,4 @@
+include ../defaults/mixins.pug
 doctype html
 html(lang='en-us')
   head
@@ -10,24 +11,5 @@ html(lang='en-us')
           h1.select-none.font-poppins.text-5xl.font-medium.text-neutral-900 The Team
           h2.select-none.font-poppins.text-xl.text-neutral-900 FemDevs would not be possible without the help of a number of people. We would like to thank the following people for their contributions to FemDevs.
         each section in staff
-          .flex.flex-col.space-y-6
-            h3.select-none.font-poppins.text-3xl.font-medium.text-neutral-900= section.title
-            .grid.grid-cols-1.gap-4(class='md:grid-cols-2 xl:grid-cols-3')
-              each member in section
-                if (typeof(member) == 'object')
-                  a.group.flex.flex-col.rounded-xl.bg-white.transition-all(
-                    href=member.website,
-                    class='hover:ring-1 hover:ring-brand-black hover:drop-shadow-xl'
-                  )
-                    - const imgAlt = member.displayname + "'s profile picture"
-                    img.h-32.rounded-t-xl.object-cover.transition-all(
-                      src= member.avatarUrl
-                      alt= imgAlt
-                      type="image/webp"
-                      loading="lazy"
-                    )
-                    .space-y-1.p-4
-                      h4.select-none.font-poppins.text-xl.font-medium.text-neutral-900= member.displayname
-                      h5.select-none.font-poppins.text-lg.text-neutral-600= member.title
-
+          +staffsegment(section.title, section)
     include ../defaults/footer.pug

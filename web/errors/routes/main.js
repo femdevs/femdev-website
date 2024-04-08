@@ -23,12 +23,13 @@ router
         );
     })
     .get(`/405`, (req, res) => {
-        const { path } = req
-        const allowedMethods = router.stack
-            .filter(r => r.route && r.route.path === path)
-            .map(r => r.route.stack[0].method.toUpperCase())
-            .join(`, `);
-        const methodUsed = req.method.toUpperCase();
+        const { path, method } = req
+        const methodUsed = method.toUpperCase();
+        let allowedMethods = router.stack.filter(r => r.route && r.route.path === path)
+        if (allowedMethods.length == 0) return next();
+        allowedMethods.map(r => r.route.stack[0])
+        allowedMethods = { ...allowedMethods[0] }
+        allowedMethods = allowedMethods.route.methods;
         res.render(
             `misc/405.pug`,
             req.getErrPage(405, { path, allowedMethods, methodUsed })
@@ -44,7 +45,7 @@ router
     .get(`/501`, (req, res) => {
         res.render(
             `misc/501.pug`,
-            req.getErrPage(501, { errorId: require(`../../functions/util-fuctions`).Utils.Crypto.FullHash("Testing Error") })
+            req.getErrPage(501, { errorId: require('../../../functions/crypto').completeHash('Testing Error') })
         )
     })
     .get(`/location`, (req, res) => {

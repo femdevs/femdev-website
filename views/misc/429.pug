@@ -8,9 +8,5 @@ html(lang="en")
     include ./errorcss.pug
   body
     h1 429
-    p Too many requests. You have been rate limited. Our current rate limit is set to
-      strong 25 req/sec
-    | .
-    footer
-      h3
-        a(href="/") Go Back Home
+    p Too many requests. You have been rate limited. Our current rate limit is set to #[strong 1200 req/minute]. Please try again later.
+    include ./defaults/return.pug

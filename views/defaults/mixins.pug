@@ -1,0 +1,91 @@
+mixin statement(main, sub)
+  h2.select-none.font-poppins.text-3xl.font-medium.text-neutral-900= main
+  unless sub == ''
+    h3.select-none.font-poppins.text-xl.text-neutral-900= sub
+mixin status(stat, color)
+  span.relative.flex.rounded-full(class=`bg-${color}-500 min-h-[12px] min-w-[12px] max-h-[12px] max-w-[12px]` title=`Service Status: ${stat}`)
+    span.absolute.flex.animate-ping.rounded-full(class=`bg-${color}-500 min-h-[12px] min-w-[12px] max-h-[12px] max-w-[12px]`)
+mixin mainlink(href, text)
+  a.select-none.font-poppins.text-lg.text-neutral-100.transition-all(class='hover:text-neutral-300' href=href)&attributes(attributes)= text
+mixin metav1(name, content)
+  - const fixedContent = content.replace(/%e%/gmi, '=')
+  meta(name=name content=fixedContent)
+mixin metav2(property, content)
+  - const fixedContent = content.replace(/%e%/gmi, '=')
+  meta(property=property content=content)
+mixin headerlink(href, rel, type)
+  link(href=href rel=rel type=type, async='')&attributes(attributes)
+mixin navlink(href, text)
+  a.select-none.font-poppins.text-lg.transition-all(class='hover:text-neutral-800' href=href)&attributes(attributes)= text
+mixin servicesabout(secta, sectb)
+  h2.select-none.font-poppins.text-2xl.font-medium.text-neutral-900= secta
+  p.select-none.font-poppins.text-lg.text-neutral-900= sectb
+mixin lowerFooter(...args)
+  each arg in args
+    .flex.flex-col.items-center.space-y-2
+      h2.select-none.font-poppins.text-3xl.font-bold.text-neutral-900= arg[0]
+      h3.select-none.font-poppins.text-xl.text-neutral-900= arg[1]
+mixin staff(member)
+  a.group.flex.flex-col.rounded-xl.bg-white.transition-all(href=member.website class='hover:ring-1 hover:ring-brand-black hover:drop-shadow-xl')
+    img.h-32.rounded-t-xl.object-cover.transition-all(src= member.avatarUrl alt= `${member.displayname}'s profile picture` type="image/webp" loading="lazy")
+    .space-y-1.p-4
+      h4.select-none.font-poppins.text-xl.font-medium.text-neutral-900= member.displayname
+      h5.select-none.font-poppins.text-lg.text-neutral-600= member.title
+mixin staffsegment(title, members)
+  .flex.flex-col.space-y-6
+    h3.select-none.font-poppins.text-3xl.font-medium.text-neutral-900= title
+    .grid.grid-cols-1.gap-4(class='md:grid-cols-2 xl:grid-cols-3')
+      each member in members
+        if (typeof(member) == 'object')
+          +staff(member)
+mixin p2brs(...d)
+  each data in d
+    p= data
+    br
+    br
+mixin brsbr(info)
+  br
+  strong= info
+  br
+mixin 3br()
+  br
+  br
+  br
+mixin enforcement(section, impact, consequence)
+  h3.select-none.font-poppins.text-2xl.font-bold.text-neutral-900 #{section}
+  h3.select-none.font-poppins.text-xl.text-neutral-900 #[.font-semibold.underline Community Impact:] #{impact}
+  h3.select-none.font-poppins.text-xl.text-neutral-900 #[.font-semibold.underline Consequence:] #{consequence}
+mixin support(version, supported, type=0)
+  case type
+    when 0
+      - var sym = '>'
+    when 1
+      - var sym = '>='
+    when 2
+      - var sym = '<'
+    when 3
+      - var sym = '<='
+    when 4
+      - var sym = '^'
+    when 5
+      - var sym = '~'
+    default
+      - var sym = ''
+  tr
+    td.border.border-neutral-900= `${sym} ${version}`
+    td.border.border-neutral-900= supported ? '✅' : '❌'
+mixin navlinkv2(href, text)
+  li.mx-5
+    a(href=href).no-underline.text-white.font-bold.text-xl= text
+mixin socials(icon, link, title, color)
+  - var icontype = 'fab'
+  - var colorx = ''
+  case color
+    when 'alex'
+      - colorx = 'rose'
+    when 'ben'
+      - colorx = 'indigo'
+  - if (['code', 'user', 'users', 'envelope'].includes(icon)) icontype = 'fas'
+  .justify-evenly.size-full.flex.content-center(class="p-[3px]")
+    a(href=link title=title class=`hover:scale-110 hover:bg-${colorx}-500 fa-${icon} ${icontype}`).transition-all.duration-300.text-inherit.p-0.border-1.border-solid.border-transparent.rounded-3xl.no-underline.items-center.self-center.justify-center.size-28.flex.flex-col
+      p.font-nunito.p-0.m-0.font-normal= title

@@ -60,7 +60,7 @@ router
         res.render(
             `oss/contributors.pug`,
             {
-                contributors: rows.map(c => ({ ...c, description: ` - ${c.description}` })),
+                contributors: rows,
                 status: (await req.Database.getServerStatus()),
                 meta: {
                     title: 'Contributors',

@@ -1,3 +1,4 @@
+include ../defaults/mixins.pug
 doctype html
 html(lang="en")
   head
@@ -8,18 +9,12 @@ html(lang="en")
   body
     h1 451
     p It appears that this request has originated from a location that we do not allow service for due to legal reasons
-    br
-    br
-    br
+    +3br()
     h2 List of denied locations
       ul
         li Democratic People's Republic of Korea / DPRK / North Korea
         li People's Republic of China / PRC / China 
         li Russia 
         li California, United States of America
-    br
-    br
-    br
-    footer
-      h3
-        a(href="/") Go Back Home
+    +3br()
+    include ./defaults/return.pug

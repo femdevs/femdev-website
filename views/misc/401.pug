@@ -1,3 +1,4 @@
+include ../defaults/mixins.pug
 doctype html
 html(lang="en")
   head
@@ -9,9 +10,6 @@ html(lang="en")
   body
     h1= errData.code
     p It appears that you do not have access to this portion of the website.
-      br
-      br
-      | Please contact the webmaster for more information.
-    footer
-      h3
-        a(href="/") Go Back Home
+    +3br()
+    p Please contact the webmaster for more information.
+    include ./defaults/return.pug

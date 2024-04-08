@@ -1,38 +1,34 @@
+include ./mixins.pug
 script(defer src='https://cdn.thefemdevs.com/assets/js/ga')
-script.
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag("js", new Date());
-  gtag("config", 'G-X9E281G0P3');
 meta(charset='UTF-8')
 meta(http-equiv='X-UA-Compatible' content='IE=edge')
 meta(http-equiv='Content-Type' content='text/html; charset=utf-8')
-meta(name='viewport' content='width=device-width, initial-scale=1.0')
-meta(name='google' content='nositelinkssearchbox')
++metav1('viewport', 'width%e%device-width, initial-scale%e%1.0')
++metav1('google', 'nositelinkssearchbox')
 if meta
-  meta(name='title' content= meta.title)
-  meta(name='description' content= meta.desc)
-  meta(property='og:url' content= meta.url)
-  meta(property='og:title' content= meta.title)
-  meta(property='og:description' content= meta.desc)
-  meta(property='twitter:url' content= meta.url)
-  meta(property='twitter:title' content= meta.title)
-  meta(property='twitter:description' content= meta.desc)
+  +metav1('title', meta.title)
+  +metav1('description', meta.desc)
+  +metav2('og:url', meta.url)
+  +metav2('og:title', meta.title)
+  +metav2('og:description', meta.desc)
+  +metav2('twitter:url', meta.url)
+  +metav2('twitter:title', meta.title)
+  +metav2('twitter:description', meta.desc)
   title= meta.title
-meta(name='author' content='The FemDevs')
-meta(name='keywords' content='femdevs, femboys, development, benpai, oblong, oblong101, alex, auxiliaryfrfr')
-meta(name='language' content='en-us')
-meta(name='revisit-after' content='2 days')
-meta(property='og:type' content='website')
-meta(property='og:image' content='https://cdn.thefemdevs.com/assets/misc/thumbnail')
-meta(property='twitter:card' content='summary_large_image')
-meta(property='twitter:image' content='https://cdn.thefemdevs.com/assets/misc/thumbnail')
-meta(name='apple-mobile-web-app-status-bar-style' content='black')
-meta(name='apple-mobile-web-app-title' content='The FemDevs Website')
-meta(name="google-adsense-account" content="ca-pub-1906373468377810")
-link(rel='apple-touch-icon' href='https://cdn.thefemdevs.com/assets/images/cus' type='image/png' async='')
-link(rel='icon' href='https://cdn.thefemdevs.com/assets/images/deficon' type='image/svg+xml' async='')
-link(href='https://cdn.thefemdevs.com/assets/css/d' rel='stylesheet' type='text/css')
++metav1('author', 'The FemDevs')
++metav1('keywords', 'femdevs, femboys, development, benpai, oblong, oblong101, alex, auxiliaryfrfr')
++metav1('language', 'en-us')
++metav1('revisit-after', '2 days')
++metav2('og:type', 'website')
++metav2('og:image', 'https://cdn.thefemdevs.com/assets/misc/thumbnail')
++metav2('twitter:card', 'summary_large_image')
++metav2('twitter:image', 'https://cdn.thefemdevs.com/assets/misc/thumbnail')
++metav1('apple-mobile-web-app-status-bar-style', 'black')
++metav1('apple-mobile-web-app-title', 'The FemDevs Website')
++metav1('google-adsense-account', 'ca-pub-1906373468377810')
++headerlink('https://cdn.thefemdevs.com/assets/images/cus', 'apple-touch-icon', 'image/png')
++headerlink('https://cdn.thefemdevs.com/assets/images/deficon', 'icon', 'image/svg+xml')
++headerlink('https://cdn.thefemdevs.com/assets/css/d', 'stylesheet', 'text/css')
 script(type='application/ld+json').
   {
     "@context": "https://schema.org",
@@ -43,10 +39,3 @@ script(type='application/ld+json').
     "logo": "https://thefemdevs.com/assets/images/deficon",
     "sameAs": "https://github.com/femdevs"
   }
-if file
-  - var filename = "https://cdn.thefemdevs.com/assets/css/f/" + file
-  link(
-    href= filename
-    rel='stylesheet'
-    type='text/css'
-  )
