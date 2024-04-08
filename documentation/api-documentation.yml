@@ -2816,7 +2816,7 @@ paths:
                   organization: "Unknown"
                   street: "Unknown"
                   city: "Unknown"
-                  state": "MI"
+                  state: "MI"
                   postalCode: "Unknown"
                   country: "US"
                   phone: "Unknown"
@@ -2827,7 +2827,7 @@ paths:
                   organization: "Unknown"
                   street: "Unknown"
                   city: "Unknown"
-                  state": "Unknown"
+                  state: "Unknown"
                   postalCode: "Unknown"
                   country: "Unknown"
                   phone: "Unknown"
@@ -2838,7 +2838,7 @@ paths:
                   organization: "Unknown"
                   street: "Unknown"
                   city: "Unknown"
-                  state": "Unknown"
+                  state: "Unknown"
                   postalCode: "Unknown"
                   country: "Unknown"
                   phone: "Unknown"
@@ -2849,7 +2849,7 @@ paths:
                   organization: "Unknown"
                   street: "Unknown"
                   city: "Unknown"
-                  state": "Unknown"
+                  state: "Unknown"
                   postalCode: "Unknown"
                   country: "Unknown"
                   phone: "Unknown"
@@ -2941,7 +2941,7 @@ paths:
                     organization: "Unknown"
                     street: "Unknown"
                     city: "Unknown"
-                    state": "MI"
+                    state: "MI"
                     postalCode: "Unknown"
                     country: "US"
                     phone: "Unknown"
@@ -2952,7 +2952,7 @@ paths:
                     organization: "Unknown"
                     street: "Unknown"
                     city: "Unknown"
-                    state": "Unknown"
+                    state: "Unknown"
                     postalCode: "Unknown"
                     country: "Unknown"
                     phone: "Unknown"
@@ -2963,7 +2963,7 @@ paths:
                     organization: "Unknown"
                     street: "Unknown"
                     city: "Unknown"
-                    state": "Unknown"
+                    state: "Unknown"
                     postalCode: "Unknown"
                     country: "Unknown"
                     phone: "Unknown"
@@ -2974,7 +2974,7 @@ paths:
                     organization: "Unknown"
                     street: "Unknown"
                     city: "Unknown"
-                    state": "Unknown"
+                    state: "Unknown"
                     postalCode: "Unknown"
                     country: "Unknown"
                     phone: "Unknown"
@@ -4704,9 +4704,11 @@ components:
           - type: string
             $ref: "#/components/schemas/EmailReqURL"
     WhoisDNSCAAIODEFRecord:
-      title: 'CAA IODEF Record'
+      title: 'CAA Incident Object Description Exchange Format (IODEF) Endpoint Record'
       description: |-
-        The IODEF record
+        The Incident Object Description Exchange Format (IODEF) Endpoint record
+
+        Internet Schema Document: https://www.ietf.org/rfc/rfc5070.txt
       required:
         - iodef
       type: object
