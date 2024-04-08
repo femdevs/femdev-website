@@ -2695,22 +2695,19 @@ paths:
                 A: "216.24.57.1"
                 AAAA: ""
                 CAA:
-                  - critical: 0
-                    issue: comodoca.com
-                  - critical: 0
-                    issue: digicert.com; cansignhttpexchanges=yes
-                  - critical: 0
-                    issue: letsencrypt.org
-                  - critical: 0
-                    issue: pki.goog; cansignhttpexchanges=yes
-                  - critical: 0
-                    issueWild: comodoca.com
-                  - critical: 0
-                    issueWild: digicert.com; cansignhttpexchanges=yes
-                  - critical: 0
-                    issueWild: letsencrypt.org
-                  - critical: 0
-                    issueWild: pki.goog; cansignhttpexchanges=yes
+                  - issuer: comodoca.com
+                    wild: true
+                    main: true
+                  - issuer: digicert.com; cansignhttpexchanges=yes
+                    wild: true
+                    main: true
+                  - issuer: letsencrypt.org
+                    wild: true
+                    main: true
+                  - issuer: pki.goog; cansignhttpexchanges=yes
+                    wild: true
+                    main: true
+                  - iodef: mailto:admin@thefemdevs.com
                 CNAME: ""
                 MX:
                   - exchange: mx1.forwardemail.net
@@ -2989,22 +2986,19 @@ paths:
                   A: "216.24.57.1"
                   AAAA: ""
                   CAA:
-                    - critical: 0
-                      issue: comodoca.com
-                    - critical: 0
-                      issue: digicert.com; cansignhttpexchanges=yes
-                    - critical: 0
-                      issue: letsencrypt.org
-                    - critical: 0
-                      issue: pki.goog; cansignhttpexchanges=yes
-                    - critical: 0
-                      issueWild: comodoca.com
-                    - critical: 0
-                      issueWild: digicert.com; cansignhttpexchanges=yes
-                    - critical: 0
-                      issueWild: letsencrypt.org
-                    - critical: 0
-                      issueWild: pki.goog; cansignhttpexchanges=yes
+                    - issuer: comodoca.com
+                      wild: true
+                      main: true
+                    - issuer: digicert.com; cansignhttpexchanges=yes
+                      wild: true
+                      main: true
+                    - issuer: letsencrypt.org
+                      wild: true
+                      main: true
+                    - issuer: pki.goog; cansignhttpexchanges=yes
+                      wild: true
+                      main: true
+                    - iodef: mailto:admin@thefemdevs.com
                   CNAME: ""
                   MX:
                     - exchange: mx1.forwardemail.net
@@ -4655,28 +4649,45 @@ components:
           nullable: true
           type: string
           description: "The URL for the HTML contents of the email"
+    WhoisDNSCAAIODEFRecord:
+      description: |-
+        The IODEF record
+      required:
+        - iodef
+      type: object
+      properties:
+        iodef:
+          nullable: false
+          type: string
+          description: The endpoint to send IODEF reports to
+    WhoisDNSCAAIssuerRecord:
+      description: |-
+        The Information on an issuer for Certificates
+      type: object
+      required:
+        - issuer
+        - wild
+        - main
+      properties:
+        issuer:
+          nullable: false
+          type: string
+          description: "The Certificate Authority of the STRICT domain (Non-wildcards)"
+        wild:
+          nullable: false
+          type: boolean
+          description: "Whether or not the CA is authorized to issue certificates for wildcard domains"
+        main:
+          nullable: false
+          type: boolean
+          description: "Whether or not the CA is authorized to issue certificates for specific domains"
     WhoisDNSCAARecord:
       description: |-
         The CAA record of the Whois DNS
-      required:
-        - critical
       type: object
-      properties:
-        critical:
-          nullable: false
-          type: number
-          enum:
-            - 0
-            - 1
-          description: "The criticality of the CAA record"
-        issue:
-          nullable: true
-          type: string
-          description: "The Certificate Authority of the STRICT domain (Non-wildcards)"
-        issueWild:
-          nullable: true
-          type: string
-          description: "The Certificate Authority of the WILDCARD domain"
+      enum:
+        - $ref: "#/components/schemas/WhoisDNSCAAIODEFRecord"
+        - $ref: "#/components/schemas/WhoisDNSCAAIssuerRecord"
     WhoisDNSMXRecord:
       description: |-
         The MX record of the Whois DNS

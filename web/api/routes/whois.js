@@ -114,7 +114,13 @@ router
                 .then(data => data.forEach((d) => DNSCallback(d)), b)
                 .finally(() => g());
         })
-        res.status(200).json(DNSdata);
+        const filteredCAAList = []
+        DNSdata.CAA.forEach(v => (!filteredCAAList.includes(v.issue || v.issuewild) && (v.issue || v.issuewild)) ? filteredCAAList.push(v.issue || v.issuewild) : null)
+        DNSdata.CAA = filteredCAAList.map(k => {
+            const CAARecords = DNSdata.CAA.filter(v => k == (v.issue || v.issuewild))
+            return { issuer: k, wild: CAARecords.some(v => Boolean(v.issuewild)), main: CAARecords.some(v => Boolean(v.issue)) }
+        }).concat([{ iodef: DNSdata.CAA.find(v => Boolean(v.iodef)).iodef }]).filter(v => v != null)
+        res.status(200).json(Object.fromEntries(Array.from(Object.entries(DNSdata)).sort(([x, _x], [y, _y]) => Intl.Collator({ language: 'en_us' }).compare(x, y))));
     })
     .get('/whois', async (req, res) => {
         if (!(await req.checkPermissions(req, res, { multi: true, perm: ['Whois::Whois', 'Whois::Full'], allowMgr: true }))) return;
@@ -177,6 +183,12 @@ router
         const whoisData = await whois(domain.baseDomain);
         Object.entries(whoisData).forEach(([_, mv]) => (typeof mv === 'object' && !Array.isArray(mv)) ? Object.entries(mv).forEach(([k, v]) => whoisData[k] = v) : null);
         const getUserData = (s) => Object.fromEntries(['Name', 'Organization', 'Street', 'City', 'State/Province', 'Postal Code', 'Country', 'Phone', 'Fax', 'Email'].map(k => [k.toLowerCase(), whoisData[`${s} ${k}`]]));
+        const filteredCAAList = []
+        DNSdata.CAA.forEach(v => (!filteredCAAList.includes(v.issue || v.issuewild) && (v.issue || v.issuewild)) ? filteredCAAList.push(v.issue || v.issuewild) : null)
+        DNSdata.CAA = filteredCAAList.map(k => {
+            const CAARecords = DNSdata.CAA.filter(v => k == (v.issue || v.issuewild))
+            return { issuer: k, wild: CAARecords.some(v => Boolean(v.issuewild)), main: CAARecords.some(v => Boolean(v.issue)) }
+        }).concat([{ iodef: DNSdata.CAA.find(v => Boolean(v.iodef)).iodef }]).filter(v => v != null)
         res.status(200).json({
             whois: new WhoisData(
                 {
