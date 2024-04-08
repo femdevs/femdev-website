@@ -2807,7 +2807,7 @@ paths:
                 $ref: "#/components/schemas/WhoisData"
               example:
                 domainName: "THEFEMDEVS.COM"
-                registrar": "Cloudflare, Inc."
+                registrar: "Cloudflare, Inc."
                 creationDate: "Unknown"
                 expirationDate: "2024-07-17T14:59:48Z"
                 updatedDate: "2023-07-24T19:03:11Z"
@@ -2932,7 +2932,7 @@ paths:
               example:
                 whois:
                   domainName: "THEFEMDEVS.COM"
-                  registrar": "Cloudflare, Inc."
+                  registrar: "Cloudflare, Inc."
                   creationDate: "Unknown"
                   expirationDate: "2024-07-17T14:59:48Z"
                   updatedDate: "2023-07-24T19:03:11Z"
