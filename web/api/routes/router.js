@@ -19,6 +19,7 @@ const whois = require('./whois');
 const crypto = require('./crypto');
 const quotes = require('./quotes');
 const weather = require('./weather');
+const barcode = require('./barcode');
 const location = require('./location');
 const dictionary = require('./dictionary');
 const minecraft = require('./minecraft/router');
@@ -77,6 +78,7 @@ router
     .use('/crypto', crypto)
     .use('/quotes', quotes)
     .use('/weather', weather)
+    .use('/barcode', barcode)
     .use('/location', location)
     .use('/minecraft', minecraft)
     .use('/dictionary', dictionary)

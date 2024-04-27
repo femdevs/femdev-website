@@ -78,6 +78,9 @@ class UserPermissions {
             dns: new PermissionSet("Whois::DNS", 0, 9),
             whois: new PermissionSet("Whois::Whois", 1, 9),
             full: new PermissionSet("Whois::Full", 2, 9),
+        },
+        barcode: { // 10:x
+            generate: new PermissionSet("Barcode::Generate", 0, 10)
         }
     }
     static PBD = new Map()
@@ -120,6 +123,7 @@ class UserPermissions {
         .set("9:0", "Whois::DNS")
         .set("9:1", "Whois::Whois")
         .set("9:2", "Whois::Full")
+        .set("10:0", "Barcode::Generate")
 }
 
 class UserPermissionSet {

@@ -3073,6 +3073,119 @@ paths:
                     message: "You are blacklisted from accessing this resource"
       security:
         - APIToken: []
+  /barcode/gen/:codec:
+    get:
+      operationId: "GenerateBarcode"
+      description: |-
+        Generates a barcode with the given codec and data.
+        Returns the barcode if successful, otherwise returns an error.
+
+        Permissions Required: `Barcode::Generate`
+      summary: "Generate Barcode"
+      parameters:
+        - in: "path"
+          name: "codec"
+          description: "The codec to use for the barcode"
+          schema:
+            $ref: "#/components/schemas/BarcodeType"
+          example: "code128"
+          required: true
+        - in: query
+          name: "data"
+          description: "The data to encode in the barcode"
+          schema:
+            type: string
+          example: "Hello, World!"
+          required: true
+        - in: header
+          name: "x-format"
+          description: "The format to return the barcode in"
+          schema:
+            type: string
+            enum:
+              - png
+              - svg
+          example: "png"
+      responses:
+        200:
+          description: "The barcode for the given data"
+          content:
+            image/png:
+              schema:
+                type: string
+                format: binary
+            image/svg+xml:
+              schema:
+                type: string
+                format: binary
+        400:
+          description: "Missing barcode information"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-Query-Data:
+                  value:
+                    code: 6
+                    message: "Missing Query Parameter(s)"
+                Invalid-Query-Data:
+                  value:
+                    code: 7
+                    message: "Invalid Query Parameter(s)"
+                Missing-Header-Data:
+                  value:
+                    code: 8
+                    message: "Missing Header Parameter(s)"
+                Invalid-Header-Data:
+                  value:
+                    code: 9
+                    message: "Invalid Header Parameter(s)"
+        401:
+          description: "Invalid/Missing API Token"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-Token:
+                  summary: "Missing API Token"
+                  value:
+                    code: 3
+                    message: "No API key provided"
+                Invalid-Token:
+                  summary: "Invalid API Token"
+                  value:
+                    code: 4
+                    message: "Invalid API key provided"
+        403:
+          description: "Missing Permissions"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-Permissions:
+                  value:
+                    code: 1
+                    message: "You are not authorized to access this resource"
+                Blacklisted:
+                  value:
+                    code: 2
+                    message: "You are blacklisted from accessing this resource"
+        500:
+          description: "Unable to generate barcode"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                error:
+                  value:
+                    code: 0
+                    message: "Unknown error occurred"
+      security:
+        - APIToken: []
 components:
   securitySchemes:
     APIToken:
@@ -3118,6 +3231,7 @@ components:
         - `Whois::DNS` (9:0) - Ability to get the DNS Whois information for a domain using the `/whois/dns` endpoint
         - `Whois::Whois` (9:1) - Ability to get the Whois information for a domain using the `/whois/whois` endpoint
         - `Whois::Full` (9:2) - Ability to get the full Whois information for a domain using the `/whois/full` endpoint
+        - `Barcode::Generate` (10:0) - Ability to generate a barcode using the `/barcode/gen` endpoint
 
         Permission Roles:
         - `Global::Role.Developer` (0:3:0) - Full access to all endpoints
@@ -5023,3 +5137,119 @@ components:
         whois:
           type: object
           $ref: "#/components/schemas/WhoisData"
+    BarcodeType:
+      title: Barcode Type
+      description: |-
+        The type of barcode to be generated
+      type: string
+      enum:
+        - auspost
+        - azteccode
+        - azteccodecompact
+        - aztecrune
+        - bc412
+        - channelcode
+        - codablockf
+        - code11
+        - code128
+        - code16k
+        - code2of5
+        - code32
+        - code39
+        - code39ext
+        - code49
+        - code93
+        - code93ext
+        - codeone
+        - coop2of5
+        - daft
+        - databarexpanded
+        - databarexpandedcomposite
+        - databarexpandedstacked
+        - databarexpandedstackedcomposite
+        - databarlimited
+        - databarlimitedcomposite
+        - databaromni
+        - databaromnicomposite
+        - databarstacked
+        - databarstackedcomposite
+        - databarstackedomni
+        - databarstackedomnicomposite
+        - databartruncated
+        - databartruncatedcomposite
+        - datalogic2of5
+        - datamatrix
+        - datamatrixrectangular
+        - datamatrixrectangularextension
+        - dotcode
+        - ean13
+        - ean13composite
+        - ean14
+        - ean2
+        - ean5
+        - ean8
+        - ean8composite
+        - flattermarken
+        - gs1-128
+        - gs1-128composite
+        - gs1-cc
+        - gs1datamatrix
+        - gs1datamatrixrectangular
+        - gs1dldatamatrix
+        - gs1dlqrcode
+        - gs1dotcode
+        - gs1northamericancoupon
+        - gs1qrcode
+        - hanxin
+        - hibcazteccode
+        - hibccodablockf
+        - hibccode128
+        - hibccode39
+        - hibcdatamatrix
+        - hibcdatamatrixrectangular
+        - hibcmicropdf417
+        - hibcpdf417
+        - hibcqrcode
+        - iata2of5
+        - identcode
+        - industrial2of5
+        - interleaved2of5
+        - isbn
+        - ismn
+        - issn
+        - itf14
+        - japanpost
+        - kix
+        - leitcode
+        - mailmark
+        - mands
+        - matrix2of5
+        - maxicode
+        - micropdf417
+        - microqrcode
+        - msi
+        - onecode
+        - pdf417
+        - pdf417compact
+        - pharmacode
+        - pharmacode2
+        - planet
+        - plessey
+        - posicode
+        - postnet
+        - pzn
+        - qrcode
+        - rationalizedCodabar
+        - raw
+        - rectangularmicroqrcode
+        - royalmail
+        - sscc18
+        - swissqrcode
+        - symbol
+        - telepen
+        - telepennumeric
+        - ultracode
+        - upca
+        - upcacomposite
+        - upce
+        - upcecomposite

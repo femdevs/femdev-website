@@ -128,7 +128,7 @@ app
             new PermissionPolicy('payment', { self: true, domains: [].concat(WebSecurity.CD('thefemdevs.com'), WebSecurity.CD('stripe.com')) }),
             new PermissionPolicy('geolocation', { self: true, domains: [].concat(WebSecurity.CD('google.com'), WebSecurity.CD('googleapis.com'), WebSecurity.CD('thefemdevs.com')) }),
         ),
-        ReportingEndpoints: WebSecurity.ReportingEndpoints(...(['csp-ep', 'csp/new', 'doc-ep', 'doc/new', 'default', 'report/new'].map((g, i, a) => !(i % 2) ? null : new ReportingEndpoint(g, `${a[i + 1]}`)).filter(v => v !== null))),
+        ReportingEndpoints: WebSecurity.ReportingEndpoints(...Array.of(['csp-ep', 'csp/new'], ['doc-ep', 'doc/new'], ['default', 'report/new']).map(g => new ReportingEndpoint(...g))),
         HSTS: WebSecurity.HSTS({ ma: 31536000, iSD: true, pl: true }),
         ReportTo: WebSecurity.ReportTo(new ReportToGroup('csp-ep', 31536000, ['csp', 'report'].map(g => `https://security.thefemdevs.com/${g}/new`)))
     }))
