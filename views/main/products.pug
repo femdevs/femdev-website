@@ -28,4 +28,11 @@ html(lang='en-us')
               +servicesabout('Hosting', 'We can host your applications, websites, and much more on our secure servers for a low price.')
             .flex.flex-col.space-y-3.rounded-lg.bg-white.p-8.drop-shadow-xl(class='lg:col-span-2')
               +servicesabout('Support', 'Our support team is available 24/7 to help you with any issues you may have with your software or service.')
+          //- Create a contact form here
+          form.flex.flex-col.items-center.space-y-4
+            h2.select-none.font-poppins.text-2xl.font-medium.text-neutral-900 Contact Us
+            input.bg-white.border-2.border-neutral-300.p-2.placeholder-neutral-500.rounded-md.text-neutral-900(type='text', placeholder='Name')
+            input.bg-white.border-2.border-neutral-300.p-2.placeholder-neutral-500.rounded-md.text-neutral-900(type='email', placeholder='Email')
+            textarea.bg-white.border-2.border-neutral-300.h-32.p-2.placeholder-neutral-500.rounded-md.text-neutral-900(type='text', placeholder='Message')
+            button.bg-brand-primary-dark.p-2.rounded-md.text-neutral-50.transition-all(type='submit') Send Message
     include ../defaults/footer.pug

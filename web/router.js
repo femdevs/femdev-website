@@ -14,6 +14,7 @@ router
     .use(vhost('pay.thefemdevs.com', require('./payment/')))
     .use(vhost('legal.thefemdevs.com', require('./legal/')))
     .use(vhost('errors.thefemdevs.com', require('./errors/')))
+    .use(vhost('discord.thefemdevs.com', require('./discord/')))
     .use(vhost('security.thefemdevs.com', require('./security/')))
     .use(vhost('localhost', require(`./${process.env.LOCALHOST_PAGE || 'core'}`)));
 

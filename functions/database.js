@@ -29,17 +29,6 @@ class PGDatabase extends events.EventEmitter {
         this.ipb = [];
 
         this
-            .on('access', (data) => {
-                const { ip, method, url, status, time, bytes } = data;
-                this.pool.connect().then(connection => {
-                    connection.query(SQL`
-INSERT INTO public.accesslogs
-(ipaddress, method, route, statuscode, timing, datatransferred)
-VALUES (${ip}, ${method}, ${url}, ${status}, ${time}, ${bytes})`
-                    ).catch(console.error)
-                    connection.release();
-                })
-            })
             .on('token', (data) => {
                 this.pool.connect().then(connection => {
                     connection.query(SQL`

@@ -8,10 +8,8 @@ const { WebSecurity, CSPObj, PermissionPolicy, ReportToGroup, ReportingEndpoint,
 //- Middleware
 const IPM = require('./middleware/IP'); //? IP Middleware
 const SM = require('./middleware/session'); //? Session Manager
-const RL = require('./middleware/routeLogger'); //? Route Logger
-const Headers = require('./middleware/headers'); //? Header Setter
 const errPages = require('./middleware/errpages'); //? Error Pages
-const TRACE = require('./middleware/traceHandler'); //? Tracing Middleware
+const wUtils = require('@therealbenpai/webutils');
 const reqLogs = [];
 /** @type {Map<String, Map<String, any>|String>} @desciption Used to store data throughout requests */
 const Persistance = new Map();
@@ -28,7 +26,6 @@ const AdminApp = Admin.initializeApp({
     databaseURL: `https://${FirebaseServiceAccount.projectId}-default-rtdb.firebaseio.com`
 })
 const db = new (require('./functions/database'))();
-setInterval(_ => (!reqLogs[0]) ? null : db.emit('access', reqLogs.shift()), 500)
 const nf = (req, res, _) => res.status(404).render(`misc/404.pug`, req.getErrPage(404, { path: req.path }))
 app
     .set('view engine', 'pug')
@@ -42,32 +39,23 @@ app
         })
         next();
     })
-    .use(RL)
+    .use(wUtils.Logger(console))
     .use(IPM.infoMiddleware)
     .use(SM)
     .use(IPM.checkLocation)
     .use((req, res, next) => {
         const
-            sf = 'base64url',
             lh = 'localhost',
             sip = req.ip || 'unknown',
             lif = x => x.replace('::ffff:', ''),
-            ht = 'id-rsassa-pkcs1-v1_5-with-sha3-512',
-            li = x => ['::1', '127.0.0.1'].includes(x);
+            ht = 'id-rsassa-pkcs1-v1_5-with-sha3-512'
         return (
-            db.ipb.some(
-                ipData =>
-                    ipData.hash === ch(ht)
-                        .update(gh().reduce(
-                            (x, y) => ch(y).update(x).digest(sf),
-                            li(lif(req.ip)) ? lh : lif(sip)
-                        )).digest(sf)
-            ))
+            db.ipb.some(({ hash: h }) => h === wUtils.Crypt.Crypto.completeHash(lif(req.ip) ? lh : lif(sip), ht)))
             ? res.status(403).render(`misc/403.pug`, errPages.get(403)({ path: req.path }))
             : next();
     })
-    .use(TRACE)
-    .use(Headers)
+    .use(wUtils.Trace)
+    .use(wUtils.Headers)
     .use(headers({
         CORS: WebSecurity.CORS({ maxAge: 86400, allowCredentials: true, allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'], allowHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'X-HTTP-Method-Override', 'Accept', 'Origin'] }, {}),
         CSP: WebSecurity.CSP(

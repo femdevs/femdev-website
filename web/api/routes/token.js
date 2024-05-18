@@ -1,6 +1,6 @@
 const router = require('express').Router();
-const TokenManager = require('../../../functions/crypto');
 const crypto = require('crypto');
+const wUtils = require('@therealbenpai/webutils');
 
 router
     .post('/create', async (req, res) => {
@@ -8,7 +8,7 @@ router
         const connection = await req.Database.pool.connect();
         const { firebaseuid } = req.body
         if (!firebaseuid) return res.status(400).json({ error: 'No firebaseuid provided' });
-        const generatedToken = TokenManager.generate(`${firebaseuid}.${userRows[0].displayname}:${crypto.randomBytes(16).toString('base64url')}`);
+        const generatedToken = wUtils.Crypt.Manual.encrypt(`${firebaseuid}.${userRows[0].displayname}:${crypto.randomBytes(16).toString('base64url')}`, process.env.C_IV, process.env.C_KEY);
         req.Database.emit('token', { generatedToken, firebaseuid });
         res.status(201).json({ token: generatedToken })
         connection.release();

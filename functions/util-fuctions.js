@@ -1,5 +1,5 @@
 class CustomMath {
-    static devideWithRemainder = (a, b) => !(a % b) ? { q: Math.floor(a / b), r: a % b } : { q: a / b, r: 0 }
+    static divideWithRemainder = (a, b) => !(a % b) ? { q: Math.floor(a / b), r: a % b } : { q: a / b, r: 0 }
     static collatz = (sn = 5, mi = 100) => {
         if (sn <= 0) throw new SyntaxError('Starting Number must be greater than 0');
         let mn = sn, cn = sn
@@ -12,7 +12,7 @@ class CustomMath {
 }
 
 class Timer {
-    static #timesettings = {
+    static #timeSettings = {
         locale: 'en-US',
         options: {
             year: "numeric",
@@ -26,7 +26,7 @@ class Timer {
             timeZoneName: "longGeneric",
         }
     }
-    static timestamp = v => new Intl.DateTimeFormat(this.#timesettings.locale, this.#timesettings.options).format(v)
+    static timestamp = v => new Intl.DateTimeFormat(this.#timeSettings.locale, this.#timeSettings.options).format(v)
     static elapsedTime = (timestamp) => isNaN(timestamp) ? TypeError("Timestamp must be a number") : Object.entries({ year: Math.floor(Math.floor(timestamp) / (60 * 60 * 24 * 30 * 12)), month: Math.floor(Math.floor(timestamp) / (60 * 60 * 24 * 30)) % 12, day: Math.floor(Math.floor(timestamp) / (60 * 60 * 24)) % 30, hour: Math.floor(Math.floor(timestamp) / (60 * 60)) % 24, minute: Math.floor(Math.floor(timestamp) / 60) % 60, second: Math.floor(timestamp) % 60 }).map(([key, value]) => value !== 0 ? `${value} ${key}${value == 1 ? '' : 's'}` : null).filter(value => value !== null).join(', ')
     static stringToMilliseconds = (timeString) => typeof timeString !== 'string' ? TypeError("Time String must be a string") : timeString.split(' ').map(value => { switch (value.slice(-1)) { case 'w': return value.slice(0, -1) * 604800000; case 'd': return value.slice(0, -1) * 86400000; case 'h': return value.slice(0, -1) * 3600000; case 'm': return value.slice(0, -1) * 60000; case 's': return value.slice(0, -1) * 1000; } }).reduce((a, b) => a + b, 0);
     static stringToSeconds = (timeString) => this.stringToMilliseconds(timeString) / 1000;
