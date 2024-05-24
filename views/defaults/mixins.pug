@@ -5,19 +5,17 @@ mixin statement(main, sub)
 mixin mainlink(href, text)
   a.select-none.font-poppins.text-lg.text-neutral-100.transition-all(class='hover:text-neutral-300' href=href)&attributes(attributes)= text
 mixin meta(ver, name, content)
-  unless ver == 0
-    - const fixedContent = content.replace(/%e%/gmi, '=')
   case ver
     when 0
-      meta(charset="UTF-8")
+      meta(charset='utf-8')
     when 1
-      meta(name=name content=fixedContent)
+      meta(name=name content=`${content.replace(/\%e\%/gmi, '=')}`)
     when 2
-      meta(property=name content=fixedContent)
+      meta(property=name content=`${content.replace(/\%e\%/gmi, '=')}`)
     when 3
-      meta(http-equiv=name content=fixedContent)
+      meta(http-equiv=name content=`${content.replace(/\%e\%/gmi, '=')}`)
     default
-      meta(name=name content=fixedContent)
+      meta(name=name content=`${content.replace(/\%e\%/gmi, '=')}`)
 mixin headerlink(href, rel, type)
   link(href=href rel=rel type=type, async='')&attributes(attributes)
 mixin navlink(href, text)
