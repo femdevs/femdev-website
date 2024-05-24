@@ -4,12 +4,20 @@ mixin statement(main, sub)
     h3.select-none.font-poppins.text-xl.text-neutral-900= sub
 mixin mainlink(href, text)
   a.select-none.font-poppins.text-lg.text-neutral-100.transition-all(class='hover:text-neutral-300' href=href)&attributes(attributes)= text
-mixin metav1(name, content)
-  - const fixedContent = content.replace(/%e%/gmi, '=')
-  meta(name=name content=fixedContent)
-mixin metav2(property, content)
-  - const fixedContent = content.replace(/%e%/gmi, '=')
-  meta(property=property content=content)
+mixin meta(ver, name, content)
+  unless ver == 0
+    - const fixedContent = content.replace(/%e%/gmi, '=')
+  case ver
+    when 0
+      meta(charset="UTF-8")
+    when 1
+      meta(name=name content=fixedContent)
+    when 2
+      meta(property=name content=fixedContent)
+    when 3
+      meta(http-equiv=name content=fixedContent)
+    default
+      meta(name=name content=fixedContent)
 mixin headerlink(href, rel, type)
   link(href=href rel=rel type=type, async='')&attributes(attributes)
 mixin navlink(href, text)
@@ -84,5 +92,5 @@ mixin socials(icon, link, title, color)
       - colorx = 'indigo'
   - if (['code', 'user', 'users', 'envelope'].includes(icon)) icontype = 'fas'
   .justify-evenly.size-full.flex.content-center(class="p-[3px]")
-    a(href=link title=title class=`hover:scale-110 hover:bg-${colorx}-500 fa-${icon} ${icontype}`).transition-all.duration-300.text-inherit.p-0.border-1.border-solid.border-transparent.rounded-3xl.no-underline.items-center.self-center.justify-center.size-28.flex.flex-col
-      p.font-nunito.p-0.m-0.font-normal= title
+    a(href=link target='_blank' class=`text-gray-700 hover:text-${colorx}-500hover:scale-110` title=title).transition-all.duration-300.text-inherit.p-0.border-1.border-solid.border-transparent.rounded-3xl.no-underline.items-center.self-center.justify-center.flex.flex-col.pt-4
+      i(class=`${icontype} fa-${icon} fa-3x`)

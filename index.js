@@ -34,7 +34,12 @@ app
     .set('x-powered-by', false)
     .use((req, _, next) => {
         Object.assign(req, {
-            reqLogs, Persistance, AdminApp, auth: AdminApp.auth(), Database: db, Formatter, RateLimitMem: RateLimiter,
+            reqLogs,
+            Persistance,
+            AdminApp,
+            auth: AdminApp.auth(),
+            Database: db, Formatter,
+            RateLimitMem: RateLimiter,
             getErrPage: (c, d) => errPages.get(c)(d)
         })
         next();
@@ -76,7 +81,7 @@ app
             new CSPObj('reportUri', false, [], false, false, ['https://security.thefemdevs.com/csp/new']),
             new CSPObj('baseUri', false, [], true, false, ['thefemdevs.com', 'security.thefemdevs.com', 'cdn.thefemdevs.com']),
             new CSPObj('scriptSrc', false, [], true, false, ['blob:', ...WebSecurity.CD('thefemdevs.com'), ...WebSecurity.CD('google.com'), ...WebSecurity.CD('fontawesome.com')]),
-            new CSPObj('styleSrc', false, [], true, false, [].concat(WebSecurity.CD('google.com'), WebSecurity.CD('googleapis.com'), WebSecurity.CD('thefemdevs.com'), WebSecurity.CD('fontawesome.com')),
+            new CSPObj('styleSrc', false, [], true, false, [].concat(WebSecurity.CD('google.com'), WebSecurity.CD('googleapis.com'), WebSecurity.CD('thefemdevs.com'), WebSecurity.CD('fontawesome.com'), WebSecurity.CD('cloudflare.com')),
             )),
         PermissionPolicy: WebSecurity.PermissionPolicy(
             new PermissionPolicy('hid', { none: true }),

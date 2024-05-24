@@ -2,12 +2,12 @@ include ../../defaults/mixins.pug
 doctype html 
 html(lang='en-us') 
   head 
-    meta(charset="utf-8")
-    +metav1('viewport', "width%e%device-width")
-    +metav2('og:url', "https://oblong101.com")
-    +metav2('og:title', 'Oblong\'s Website')
-    +metav2('og:description', 'Oblong\'s personal website')
-    +metav2('og:image', 'https://github.com/Oblong101.png')
+    +meta(0)
+    +meta(1, 'viewport', "width%e%device-width")
+    +meta(2, 'og:url', "https://oblong101.com")
+    +meta(2, 'og:title', 'Oblong\'s Website')
+    +meta(2, 'og:description', 'Oblong\'s personal website')
+    +meta(2, 'og:image', 'https://github.com/Oblong101.png')
     +headerlink('https://cdn.thefemdevs.com/assets/css/d', 'stylesheet', 'text/css')
     +headerlink('https://fonts.googleapis.com/css2?family=Inter&display=swap', 'stylesheet', 'text/css')
     +headerlink('https://ka-f.fontawesome.com/releases/v6.5.1/css/free.min.css?token=7cffc2ccb5', 'stylesheet', 'text/css')(crossorigin='anonymous')

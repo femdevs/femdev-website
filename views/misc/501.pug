@@ -1,9 +1,10 @@
+include ../defaults/mixins.pug
 doctype html
 html(lang="en")
   head
-    meta(charset="UTF-8")
-    meta(name="viewport", content="width=device-width, initial-scale=1.0")
-    meta(http-equiv="X-UA-Compatible", content="ie=edge")
+    +meta(0)
+    +meta(1, 'viewport', 'width%e%device-width, initial-scale%e%1.0')
+    +meta(3, 'X-UA-Compatible', "IE%e%edge")
     title= meta.title
     include ./errorcss.pug
   body
