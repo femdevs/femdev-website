@@ -1,8 +1,10 @@
+include ../defaults/mixins.pug
 doctype html
 html(lang='en-us')
-  include ../defaults/header.pug
+  head
+    +header()
   body.bg-neutral-200
-    include ../defaults/nav.pug
+    +nav()
     content.flex.flex-col.items-center.justify-center
       hero.flex.w-full.max-w-6xl.flex-row.items-center.justify-between.p-8(class='md:my-16')
         .flex.w-full.flex-col.space-y-8
@@ -20,4 +22,4 @@ html(lang='en-us')
               #[br]
               3. Upon creating the pull request, GitHub will automaticlly request a review from both the #[a.font-bold.text-cyan-700(href="https://github.com/orgs/femdevs/teams/admin" target="_blank") developers] and the #[a.font-bold.text-cyan-700(href="https://github.com/orgs/femdevs/teams/code-review" target="_blank") code reviewers] to #[em.select-none.font-poppins.text-xl.text-neutral-900.font-bold review] your code and pull request information and then decide if the code is ready and is of high enough quality to be merged.
             h3.select-none.font-poppins.text-xl.text-neutral-900.font-bold For more information, please contact us at #[a.font-bold.text-cyan-700(href="mailto:support@thefemdevs.com" target="_blank") this email address] and explain.
-    include ../defaults/footer.pug
+    +footer()

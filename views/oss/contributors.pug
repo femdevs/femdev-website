@@ -1,8 +1,10 @@
+include ../defaults/mixins.pug
 doctype html
 html(lang='en-us')
-  include ../defaults/header.pug
+  head
+    +header()
   body.bg-neutral-200
-    include ../defaults/nav.pug
+    +nav()
     content.flex.flex-col.items-center.justify-center
       hero.flex.w-full.max-w-6xl.flex-row.items-center.justify-between.p-8(class='md:my-16')
         .flex.w-full.flex-col.space-y-8
@@ -12,4 +14,4 @@ html(lang='en-us')
             h2.select-none.font-poppins.text-3xl.font-bold.text-neutral-900 The following people have contributed to the website
             for contributor in contributors
               h3.select-none.font-poppins.text-xl.text-neutral-900 #[a.font-bold(href=`https://github.com/${contributor.github}` target="_blank").text-cyan-700= contributor.name] - #{contributor.description}
-    include ../defaults/footer.pug
+    +footer()

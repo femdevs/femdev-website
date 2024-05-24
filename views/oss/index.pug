@@ -1,9 +1,10 @@
+include ../defaults/mixins.pug
 doctype html
 html(lang='en-us')
   head
-    include ../defaults/header.pug
+    +header()
   body.bg-neutral-200
-    include ../defaults/nav.pug
+    +nav()
     content.flex.flex-col.items-center.justify-center
       hero.flex.w-full.max-w-6xl.flex-row.items-center.justify-between.p-8(class='md:my-16')
         .flex.w-full.flex-col.space-y-4
@@ -17,4 +18,4 @@ html(lang='en-us')
             Open-sourced codebases have been shown to be more updated and in reality secure than propriatary codebases which don't allow users to view the code and create public bug fixes. Along with that, it also can help new developers learn how to program. For these reasons and many more, we have made this website open-source on GitHub.
             #[br]
             To access it, head to our #[a(href='https://github.com/femdevs/femdev-website' target='_blank').text-cyan-700 official website repository] and follow our guide on #[a(href='https://oss.thefemdevs.com/contributing').text-cyan-700 how to contributing to our open source repository].
-    include ../defaults/footer.pug
+    +footer()`;

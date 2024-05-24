@@ -1,9 +1,10 @@
 include ../defaults/mixins.pug
 doctype html
 html(lang='en-us')
-  include ../defaults/header.pug
+  head
+    +header()
   body.bg-neutral-200
-    include ../defaults/nav.pug
+    +nav()
     content.flex.flex-col.items-center.justify-center
       hero.flex.w-full.max-w-6xl.flex-row.items-center.justify-between.p-8(class='md:my-16')
         .flex.w-full.flex-col.space-y-8
@@ -23,4 +24,4 @@ html(lang='en-us')
             +statement('10. Changes to the Terms of Service', 'We reserve the right, at our sole discretion, to modify or replace these Terms of Service at any time. If a revision is material we will try to provide at least 30 days notice prior to any new terms taking effect. What constitutes a material change will be determined at our sole discretion.')
             h2.select-none.font-poppins.text-3xl.font-medium.text-neutral-900 11. Contact Us
             include ./defaults/ldis.pug
-    include ../defaults/footer.pug
+    +footer()

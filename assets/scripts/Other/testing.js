@@ -3,7 +3,7 @@ class CustomMath {
     static collatz = (sn = 5, mi = 100) => {
         if (sn <= 0) throw new SyntaxError('Starting Number must be greater than 0');
         let i = 0, f = false, mn = sn, cn = sn
-       while (i < mi) {
+        while (i < mi) {
             cn = (cn % 2 == 1) ? (cn * 3) + 1 : cn / 2;
             ++i;
             mn = Math.max(mn, cn);
@@ -481,9 +481,9 @@ class SortingAlgoritms {
     }
     static heapSort(t) {
         let e = (t, e, r) => {
-                let l = t[e];
-                t[e] = t[r], t[r] = l
-            },
+            let l = t[e];
+            t[e] = t[r], t[r] = l
+        },
             r = (t, r, l) => {
                 let o = r,
                     n = 2 * o + 1,
@@ -496,9 +496,9 @@ class SortingAlgoritms {
             l = t.length,
             o = l - 1;
         for (((t, e) => {
-                let l = Math.floor((e - 2) / 2);
-                for (; l >= 0;) r(t, l--, e - 1)
-            })(t, l); o > 0;) e(t, o--, 0), r(t, 0, o);
+            let l = Math.floor((e - 2) / 2);
+            for (; l >= 0;) r(t, l--, e - 1)
+        })(t, l); o > 0;) e(t, o--, 0), r(t, 0, o);
         return t
     }
     static coingSort(t) {
@@ -566,7 +566,7 @@ class SortingAlgoritms {
                 if (t[f] > t[f + 1]) {
                     let i = t[f];
                     t[f] = t[f + 1], t[f + 1] = i, e = !0
-                }++ r
+                } ++r
         }
         return t
     }
@@ -644,25 +644,25 @@ class SortingAlgoritms {
     }
     static bogoSort(t) {
         for (; ! function (t) {
-                for (let e = 1; e < t.length; e++)
-                    if (t[e - 1] > t[e]) return !1;
-                return !0
-            }(t);) t = t.sort(() => Math.random() - .5);
+            for (let e = 1; e < t.length; e++)
+                if (t[e - 1] > t[e]) return !1;
+            return !0
+        }(t);) t = t.sort(() => Math.random() - .5);
         return t
     }
     static timSort(t) {
         let e = (t, e, r) => {
-                for (let l = e + 1; l <= r; l++) {
-                    let o = l,
-                        n = t[l];
-                    for (; o > e && t[o - 1] > n;) t[o] = t[--o];
-                    t[o] = n
-                }
-                return t
-            },
+            for (let l = e + 1; l <= r; l++) {
+                let o = l,
+                    n = t[l];
+                for (; o > e && t[o - 1] > n;) t[o] = t[--o];
+                t[o] = n
+            }
+            return t
+        },
             r = (t, e, r, l) => {
-                let e = Array(r - e + 1),
-                    l = Array(l - r);
+                e = Array(r - e + 1);
+                l = Array(l - r);
                 for (let o = 0; o < r - e + 1; o++) e[o] = t[e + o];
                 for (let n = 0; n < l - r; n++) l[n] = t[r + 1 + n];
                 let f = 0,
@@ -731,15 +731,15 @@ class SortingAlgoritms {
     }
     static strandSort(t) {
         let e = t => {
-                if (1 == t.length) return t;
-                let r = [],
-                    l = [];
-                for (let o = 0; o < t.length; o++) {
-                    let n = t[o];
-                    0 == r.length || n >= r[r.length - 1] ? r.push(n) : (l = l.concat(e(r)), r = [], --o)
-                }
-                return l.concat(e(r))
-            },
+            if (1 == t.length) return t;
+            let r = [],
+                l = [];
+            for (let o = 0; o < t.length; o++) {
+                let n = t[o];
+                0 == r.length || n >= r[r.length - 1] ? r.push(n) : (l = l.concat(e(r)), r = [], --o)
+            }
+            return l.concat(e(r))
+        },
             r = [],
             l = [];
         for (let o = 0; o < t.length; o++) {
@@ -832,7 +832,7 @@ class SortingAlgoritms {
                 if (t[f] > t[f + 1]) {
                     let i = t[f];
                     t[f] = t[f + 1], t[f + 1] = i, e = !0
-                }++ r
+                } ++r
         }
         return t
     }

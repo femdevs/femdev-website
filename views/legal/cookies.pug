@@ -1,9 +1,10 @@
 include ../defaults/mixins.pug
 doctype html
 html(lang='en-us')
-  include ../defaults/header.pug
+  head
+    +header()
   body.bg-neutral-200
-    include ../defaults/nav.pug
+    +nav()
     content.flex.flex-col.items-center.justify-center
       hero.flex.w-full.max-w-6xl.flex-row.items-center.justify-between.p-8(class='md:my-16')
         .flex.w-full.flex-col.space-y-8
@@ -19,4 +20,4 @@ html(lang='en-us')
             +statement('6. Updates to this policy', 'We may update this Cookie Policy from time to time in order to reflect changes to the cookies we use or for other operational, legal, or regulatory reasons. Please revisit this Cookie Policy regularly to stay informed about our use of cookies and related technologies.')
             h2.select-none.font-poppins.text-3xl.font-medium.text-neutral-900 7. Contact Us
             include ./defaults/ldis.pug
-    include ../defaults/footer.pug
+    +footer()

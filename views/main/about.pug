@@ -1,9 +1,10 @@
+include ../defaults/mixins.pug
 doctype html
 html(lang='en-us')
   head
-    include ../defaults/header.pug
+    +header()
   body.bg-neutral-200
-    include ../defaults/nav.pug
+    +nav()
     content.flex.flex-col.items-center.justify-center
       hero.flex.w-full.max-w-6xl.flex-row.items-center.justify-between.p-8(class='md:my-16')
         .flex.w-full.flex-col.space-y-4
@@ -14,4 +15,4 @@ html(lang='en-us')
           h2.select-none.font-poppins.text-3xl.font-medium.text-neutral-900 FemDevs
           h3.select-none.font-poppins.text-xl.text-neutral-900 In March 2023, we started developing discord bot to manage a discord server for the Kingdom of Candia. This would be the first project we would work on together. We would both learn a lot from this project, and we would both learn a lot about each other. We would both learn a lot about the open source community, and we would both learn a lot about the software development industry. This would be the project that would create the foundation of the FemDevs.
           h3.select-none.font-poppins.text-xl.text-neutral-900 As of July 2023, we have helped over 12,000 people and started to sell high quality products. The future is bright for the FemDevs, and we are excited to see what the future holds.
-    include ../defaults/footer.pug
+    +footer()

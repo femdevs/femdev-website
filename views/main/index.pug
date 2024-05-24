@@ -2,9 +2,9 @@ include ../defaults/mixins.pug
 doctype html
 html(lang='en-us')
   head
-    include ../defaults/header.pug
+    +header()
   body.bg-neutral-200
-    include ../defaults/nav.pug
+    +nav()
     content.flex.flex-col.items-center.justify-center
       main
         hero.flex.w-full.max-w-6xl.flex-row.items-center.justify-between.p-8(class='md:my-16')
@@ -65,4 +65,4 @@ html(lang='en-us')
         .w-full.max-w-6xl.space-y-8.px-8
           .flex.grid.grid-cols-1.items-center.justify-center.gap-4(class='md:grid-cols-2')
             +lowerFooter(['13,000+', 'Active Clients'], ['99.7%', 'Service Uptime'])
-    include ../defaults/footer.pug
+    +footer()

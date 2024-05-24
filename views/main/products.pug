@@ -2,9 +2,9 @@ include ../defaults/mixins.pug
 doctype html
 html(lang='en-us')
   head
-    include ../defaults/header.pug
+    +header()
   body.bg-neutral-200
-    include ../defaults/nav.pug
+    +nav()
     content.flex.flex-col.items-center.justify-center
       hero.flex.w-full.max-w-6xl.flex-row.items-center.justify-between.p-8(class='md:my-16')
         .flex.w-full.flex-col.space-y-8
@@ -35,4 +35,4 @@ html(lang='en-us')
             input.bg-white.border-2.border-neutral-300.p-2.placeholder-neutral-500.rounded-md.text-neutral-900(type='email', placeholder='Email')
             textarea.bg-white.border-2.border-neutral-300.h-32.p-2.placeholder-neutral-500.rounded-md.text-neutral-900(type='text', placeholder='Message')
             button.bg-brand-primary-dark.p-2.rounded-md.text-neutral-50.transition-all(type='submit') Send Message
-    include ../defaults/footer.pug
+    +footer()

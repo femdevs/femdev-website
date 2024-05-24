@@ -1,6 +1,6 @@
 const router = require('express').Router();
 
 router
-    .use('/', require('./core'))
+	.use('/', require('./core'));
 
 module.exports = router;

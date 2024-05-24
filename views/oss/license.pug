@@ -1,8 +1,10 @@
-doctype html 
+include ../defaults/mixins.pug
+doctype html
 html(lang='en-us')
-  include ../defaults/header.pug
+  head
+    +header()
   body.bg-neutral-200
-    include ../defaults/nav.pug
+    +nav()
     content.flex.flex-col.items-center.justify-center
       hero.flex.w-full.max-w-6xl.flex-row.items-center.justify-between.p-8(class='md:my-16')
         .flex.w-full.flex-col.space-y-8
@@ -219,4 +221,4 @@ html(lang='en-us')
             h3.select-none.font-poppins.text-lg.text-neutral-900.
               If the disclaimer of warranty and limitation of liability provided above cannot be given local legal effect according to their terms, reviewing courts shall apply local law that most closely approximates an absolute waiver of all civil liability in connection with the Program, unless a warranty or assumption of liability accompanies a copy of the Program in return for a fee.
             h3.select-none.font-poppins.text-2xl.text-neutral-900.font-bold END OF TERMS AND CONDITIONS
-    include ../defaults/footer.pug
+    +footer()
