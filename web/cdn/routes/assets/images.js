@@ -42,6 +42,14 @@ router
             .setHeader(`Content-Type`, `image/png`)
             .send(imgBuffer)
     })
+    .get('/grav/:hash', async (req, res) => {
+        const imgArrayBuffer = await fetch(`https://www.gravatar.com/avatar/${req.params.hash}?s=800&d=mp&r=x`).then(r => r.arrayBuffer());
+        const imgBuffer = Buffer.from(imgArrayBuffer);
+        res
+            .setHeader('Cache-Control', 'public, max-age 10800, max-stale 10800, stale-if-error 86400, no-transform, immutable')
+            .setHeader(`Content-Type`, `image/png`)
+            .send(imgBuffer)
+    })
     .get('/static/:file', (req, res) => {
         res.sendFile(`${process.cwd()}/assets/media/images/${req.params.file}`);
     })
