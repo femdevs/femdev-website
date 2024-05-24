@@ -1,6 +1,3 @@
-import globals from "globals";
-import tsPlugin from "@typescript-eslint/eslint-plugin";
-import TSParser from "@typescript-eslint/parser";
 import jsDoc from "eslint-plugin-jsdoc";
 
 const configs = {
