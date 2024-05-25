@@ -4,7 +4,6 @@ const router = require('express').Router();
 const css = require('./css');
 const images = require('./images');
 const javascript = require('./javascript');
-const font = require('./font');
 const audio = require('./audio');
 const misc = require('./misc');
 
@@ -12,7 +11,6 @@ router
 	.use('/css', css)
 	.use('/images', images)
 	.use('/js', javascript)
-	.use('/f', font)
 	.use('/audio', audio)
 	.use('/misc', misc)
 	.use((req, res, next) => {
