@@ -1,13 +1,18 @@
 const router = require('express').Router();
 const fs = require("fs");
+const CCSS = new (require("clean-css"))({
+	compatibility: 'ie9',
+	fetch: true,
+	level: 2,
+	rebase: true,
+});
 
 router
-	.get(`/d`, (req, res) => {
-		const data = fs.readFileSync(`${process.cwd()}/assets/stylesheets/styles.css`);
-		res.send(data);
-	})
-	.get(`/f/:file`, (req, res) => {
-		res.sendFile(`${process.cwd()}/assets/stylesheets/file-specific/${req.params.file}.css`);
+	.get(`/d`, async (req, res) => {
+		const output = await CCSS.minify(fs.readFileSync(`${process.cwd()}/assets/styles/Default.css`, 'utf8'));
+		res
+			.setHeader('Content-Type', 'text/css')
+			.send(output.styles);
 	})
 	.use((req, res, next) => {
 		const { path } = req;

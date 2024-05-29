@@ -5,7 +5,7 @@
   "readme": "README.md",
   "types": "@types/defs.d.ts",
   "scripts": {
-    "build": "npx postcss ./assets/stylesheets/tailwind.css -o ./assets/stylesheets/styles.css",
+    "build": "npx postcss ./static/tailwind.css -o ./static/styles.css",
     "dev": "nodemon .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -58,6 +58,7 @@
     "axios": "^1.6.8",
     "bwip-js": "^4.3.2",
     "chalk": "^3.0.0",
+    "clean-css": "^5.3.3",
     "cssnano": "^6.0.1",
     "dotenv": "^16.3.1",
     "eslint-plugin-jsdoc": "^48.2.6",
@@ -83,6 +84,7 @@
     "sql-template-strings": "^2.2.2",
     "stripe": "^14.1.0",
     "tailwindcss": "^3.3.3",
+    "uglify-js": "^3.17.4",
     "vhost": "^3.0.2",
     "whoiser": "^1.17.3"
   },

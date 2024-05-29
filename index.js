@@ -104,13 +104,14 @@ app
 			new CSPObj('requireTrustedTypesFor', false, ['script'], false, false, []),
 			new CSPObj('reportUri', false, [], false, false, ['https://security.thefemdevs.com/csp/new']),
 			new CSPObj('baseUri', false, [], true, false, ['thefemdevs.com', 'security.thefemdevs.com', 'cdn.thefemdevs.com']),
-			new CSPObj('scriptSrc', false, [], true, false, [
+			new CSPObj('scriptSrc', false, [], true, false, Array.of(
 				'blob:',
-				...WebSecurity.CD('thefemdevs.com'),
-				...WebSecurity.CD('google.com'),
-				...WebSecurity.CD('fontawesome.com'),
-			]),
-			new CSPObj('styleSrc', false, [], true, false, Array.of(
+				WebSecurity.CD('thefemdevs.com'),
+				WebSecurity.CD('google.com'),
+				WebSecurity.CD('fontawesome.com'),
+			).flat(1),
+			),
+			new CSPObj('styleSrc', false, ['unsafe-inline'], true, false, Array.of(
 				WebSecurity.CD('google.com'),
 				WebSecurity.CD('googleapis.com'),
 				WebSecurity.CD('thefemdevs.com'),

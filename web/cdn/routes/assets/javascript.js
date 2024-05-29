@@ -1,20 +1,42 @@
 const router = require('express').Router();
+const UJS = require('uglify-js');
+
+const UglifyConfig = {
+	mangle: { toplevel: true, eval: true },
+	compress: { hoist_vars: true, keep_fargs: 'strict', keep_fnames: true, keep_infinity: true, passes: 3, pure_getters: true, unsafe: true },
+	output: { comments: false, semicolons: true, ascii_only: true, quote_style: 2 },
+	toplevel: true,
+};
 
 router
 	.get('/ga', (req, res) => {
+		const output = UJS.minify(`${process.cwd()}/assets/scripts/Other/GoogleAnalytics.js`, UglifyConfig);
 		res
-			.setHeader('Content-Type', 'application/javascript')
 			.setHeader('Cache-Control', 'public, max-age=31536000')
-			.sendFile(`${process.cwd()}/assets/scripts/Other/GoogleAnalytics.min.js`);
+			.setHeader('Content-Type', 'application/javascript')
+			.send(output.code);
 	})
 	.get(`/fs/:file`, (req, res) => {
-		res.sendFile(`${process.cwd()}/assets/scripts/File-Specific/${req.params.file}`);
+		const { file } = req.params;
+		const output = UJS.minify(`${process.cwd()}/assets/scripts/File-Specific/${file}`, UglifyConfig);
+		res
+			.setHeader('Content-Type', 'application/javascript')
+			.send(output.code);
 	})
 	.get(`/cg/:file`, (req, res) => {
-		res.sendFile(`${process.cwd()}/assets/scripts/CoG/${req.params.file}`);
+		const { file } = req.params;
+
+		const output = UJS.minify(`${process.cwd()}/assets/scripts/CoG/${file}`, UglifyConfig);
+		res
+			.setHeader('Content-Type', 'application/javascript')
+			.send(output.code);
 	})
 	.get(`/o/:file`, (req, res) => {
-		res.sendFile(`${process.cwd()}/assets/scripts/Other/${req.params.file}`);
+		const { file } = req.params;
+		const output = UJS.minify(`${process.cwd()}/assets/scripts/Other/${file}`, UglifyConfig);
+		res
+			.setHeader('Content-Type', 'application/javascript')
+			.send(output.code);
 	})
 	.use((req, res, next) => {
 		const { path } = req;
