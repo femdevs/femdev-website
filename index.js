@@ -116,6 +116,7 @@ app
 				WebSecurity.CD('thefemdevs.com'),
 				WebSecurity.CD('fontawesome.com'),
 				WebSecurity.CD('cloudflare.com'),
+				WebSecurity.CD('githubusercontent.com'),
 			).flat(1),
 			)),
 		PermissionPolicy: WebSecurity.PermissionPolicy(
