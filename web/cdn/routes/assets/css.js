@@ -5,11 +5,40 @@ const CCSS = new (require("clean-css"))({
 	fetch: true,
 	level: 2,
 	rebase: true,
+	format: {
+		semicolonAfterLastProperty: true,
+		breaks: {
+			afterAtRule: false,
+			afterBlockBegins: false,
+			afterBlockEnds: false,
+			afterComment: false,
+			afterProperty: false,
+			afterRuleBegins: false,
+			afterRuleEnds: false,
+			beforeBlockEnds: false,
+			betweenSelectors: false,
+		},
+		indentWith: "tab",
+		indentBy: 0,
+		spaces: {
+			aroundSelectorRelation: false,
+			beforeBlockBegins: false,
+			beforeValue: false,
+		},
+	},
+	level: {
+		'1': {
+			all: true,
+		},
+		'2': {
+			all: true,
+		},
+	},
 });
 
 router
 	.get(`/d`, async (req, res) => {
-		const output = await CCSS.minify(fs.readFileSync(`${process.cwd()}/assets/styles/Default.css`, 'utf8'));
+		const output = await CCSS.minify(fs.readFileSync(`${process.cwd()}/static/styles.css`));
 		res
 			.setHeader('Content-Type', 'text/css')
 			.send(output.styles);
