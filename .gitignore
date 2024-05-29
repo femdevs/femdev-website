@@ -58,7 +58,6 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
-assets/stylesheets/styles.css
 .vscode/*
 package-lock.json
 logs
