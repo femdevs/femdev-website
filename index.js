@@ -4,6 +4,7 @@ const app = require('express')();
 const Admin = require('firebase-admin');
 const { RateLimiterMemory } = require('rate-limiter-flexible');
 const { WebSecurity, CSPObj, PermissionPolicy, ReportToGroup, ReportingEndpoint, Headers: headers } = require('@therealbenpai/zdcors');
+const csl = console;
 //- Middleware
 const IPM = require('./middleware/IP'); //? IP Middleware
 const SM = require('./middleware/session'); //? Session Manager
@@ -63,7 +64,7 @@ app
 		});
 		next();
 	})
-	.use(wUtils.Logger(console))
+	.use(wUtils.Logger(csl))
 	.use(IPM.infoMiddleware)
 	.use(SM)
 	.use(IPM.checkLocation)
@@ -191,7 +192,4 @@ app
 	.use(nf);
 http
 	.createServer(app)
-	.listen(process.env.PORT || 3000, _ =>
-		// eslint-disable-next-line no-console
-		console.log("HTTP Server is UP"),
-	);
+	.listen(process.env.PORT || 3000, () => csl.log("HTTP Server is UP"));

@@ -29,7 +29,6 @@ const configs = {
     'jsdoc/require-description': 'error',
     'key-spacing': 'error',
     'keyword-spacing': 'error',
-    'linebreak-style': 'error',
     'max-len': ['error', { 'code': 150 }],
     'no-console': 'error',
     'prefer-const': 'error',
