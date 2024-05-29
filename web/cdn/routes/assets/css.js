@@ -1,8 +1,10 @@
 const router = require('express').Router();
+const fs = require("fs");
 
 router
 	.get(`/d`, (req, res) => {
-		res.sendFile(`${process.cwd()}/assets/stylesheets/styles.css`);
+		const data = fs.readFileSync(`${process.cwd()}/assets/stylesheets/styles.css`);
+		res.send(data);
 	})
 	.get(`/f/:file`, (req, res) => {
 		res.sendFile(`${process.cwd()}/assets/stylesheets/file-specific/${req.params.file}.css`);
