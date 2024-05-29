@@ -7,7 +7,7 @@ router
 	.use((req, res, next) =>
 		req.RateLimitMem.consume(req.ip, 2)
 			.then(
-				({ remainingPoints: r, consumedPoints: c, msBeforeNext: m } = data) => {
+				({ remainingPoints: r, consumedPoints: c, msBeforeNext: m }) => {
 					[['Limit', r + c], ['Remaining', r], ['Reset', m]].forEach(v => res.setHeader(`X-RateLimit-${v[0]}`, v[1]));
 					next();
 				},
