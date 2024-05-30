@@ -1,36 +1,11 @@
 const router = require('express').Router();
 const fs = require("fs");
-const CCSS = new (require("clean-css"))({
-	fetch: true,
-	format: {
-		semicolonAfterLastProperty: true,
-		breaks: {
-			afterAtRule: false,
-			afterBlockBegins: false,
-			afterBlockEnds: false,
-			afterComment: false,
-			afterProperty: false,
-			afterRuleBegins: false,
-			afterRuleEnds: false,
-			beforeBlockEnds: false,
-			betweenSelectors: false,
-		},
-		indentWith: "tab",
-		indentBy: 0,
-		spaces: {
-			aroundSelectorRelation: true,
-			beforeBlockBegins: false,
-			beforeValue: false,
-		},
-	},
-});
 
 router
 	.get(`/d`, async (req, res) => {
-		const output = await CCSS.minify(fs.readFileSync(`${process.cwd()}/static/styles.css`));
 		res
 			.setHeader('Content-Type', 'text/css')
-			.send(output.styles);
+			.send(fs.readFileSync(`${process.cwd()}/static/styles.css`));
 	})
 	.use((req, res, next) => {
 		const { path } = req;
