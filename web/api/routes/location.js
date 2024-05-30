@@ -28,7 +28,7 @@ const
 					country: info.address_components.filter(({ types }) => types.includes('country'))[0].long_name,
 					postalCode: info.address_components.filter(({ types }) => types.includes('postal_code'))[0].long_name,
 				},
-				pluscode: (data?.plus_code)?.global_code,
+				pluscode: info?.plus_code?.global_code,
 				coords: info.geometry.location,
 			},
 		);

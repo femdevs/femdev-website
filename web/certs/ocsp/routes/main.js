@@ -102,7 +102,7 @@ class Server {
 	}
 }
 
-const srv = new Server({ key: OCSPUtils.toDER(key, 'RSA PRIVATE KEY'), cert: OCSPUtils.toDER(cert, 'CERTIFICATE') });
+const srv = new Server({ key: OCSPUtils.toDER(undefined, 'RSA PRIVATE KEY'), cert: OCSPUtils.toDER(undefined, 'CERTIFICATE') });
 
 const middleware = (req, res) => {
 	if (req.method !== 'POST' || req.headers['content-type'] !== 'application/ocsp-request') return res.status(400).send();

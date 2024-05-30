@@ -3,7 +3,6 @@ const router = require('express').Router();
 router
 	.all('*', async (req, res, _) => {
 		if (!(await req.checkPermissions(req, res, { multi: false, perm: 'Global::Role.Developer', allowMgr: true }))) return;
-		connection.release();
 		res.sendError(24);
 	})
 	.use((req, res, next) => {

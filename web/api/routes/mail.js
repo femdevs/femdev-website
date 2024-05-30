@@ -53,12 +53,10 @@ class MailReqProcessor {
 					].join(','),
 				).forEach(element => element.remove());
 				if (url.hostname === 'thefemdevs.com')
-					dom.querySelector('head')
-						.insertAdjacentHTML('beforeend', `<style>${(
-							await fetch('https://cdn.thefemdevs.com/assets/css/d').then(res => res.text())
-						)
-							.replace(HTMLSanatize, '')}</style>`,
-						);
+					dom.querySelector('head').insertAdjacentHTML(
+						'beforeend',
+						`<style>${await fetch('https://cdn.thefemdevs.com/assets/css/d').then(res => res.text())}</style>`,
+					);
 				return htmlMinifier.minify(dom.toString(), {
 					collapseBooleanAttributes: true,
 					collapseInlineTagWhitespace: true,

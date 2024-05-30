@@ -3,7 +3,6 @@ const router = require('express').Router();
 router
 	.get('/current', async (req, res) => {
 		if (!(await req.checkPermissions(req, res, { multi: false, perm: 'Weather::Current', allowMgr: true }))) return;
-		connection.release();
 		let lat, lon;
 		if (req.headers['x-city']) {
 			const AxiosRes = await req.axiosReq("/json", {

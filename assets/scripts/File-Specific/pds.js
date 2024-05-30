@@ -68,7 +68,7 @@ class Game {
 			this.timeLeft.element.innerText = `Time Left: ${this.timeLeft.value}`;
 
 			if (this.timeLeft.value <= 0) {
-				clearInterval(timerInterval);
+				clearInterval(this.timers.mainTimer);
 				this.state.over = true;
 				this.state.started = false;
 				this.toggleElements();

@@ -26,7 +26,6 @@ router
 		const { path, method } = req;
 		const methodUsed = method.toUpperCase();
 		let allowedMethods = router.stack.filter(routerData => routerData.route && routerData.route.path === path);
-		if (allowedMethods.length === 0) return next();
 		allowedMethods.map(routerData => routerData.route.stack[0]);
 		allowedMethods = { ...allowedMethods[0] };
 		allowedMethods = allowedMethods.route.methods;

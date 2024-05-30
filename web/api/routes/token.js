@@ -8,6 +8,7 @@ router
 		const connection = await req.Database.pool.connect();
 		const { firebaseuid } = req.body;
 		if (!firebaseuid) return res.status(400).json({ error: 'No firebaseuid provided' });
+        const { rows: userRows } = await connection.query(`SELECT * FROM public.users WHERE firebaseuid = '${firebaseuid}'`);
 		const generatedToken = wUtils.Crypt.Manual
 			.encrypt(
 				`${firebaseuid}.${userRows[0].displayname}:${crypto.randomBytes(16).toString('base64url')}`,

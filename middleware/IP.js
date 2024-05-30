@@ -19,7 +19,7 @@ module.exports = {
 	checkLocation: async (req, res, next) => (req.ipinfo.bogon)
 		? next()
 		: (req.ipinfo.error)
-			? new Error(error)
+			? new Error(req.ipinfo.error)
 			: (['RU', 'CN', 'KP'].includes(req.ipinfo.country) || (req.ipinfo.country === 'US' && req.ipinfo.region === 'California'))
 				? res.render("misc/location_denial.pug", req.getErrPage(451, { path: req.path }))
 				: next(),
