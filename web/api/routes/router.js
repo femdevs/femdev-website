@@ -41,7 +41,7 @@ const axiosReq = async (url, cfgs) => {
 router
 	.use((req, res, next) => {
 		const sendClose = (res, code) => {
-			res.status(errorResponse(code).httpCode).json({ code: errorResponse(code).code, message: errorResponse(code).message }); (code);
+			res.status(errorResponse(code).httpCode).json({ code: errorResponse(code).code, message: errorResponse(code).message }); 
 			return false;
 		};
 		const checkPermissions = async (req, res, permData) => {
