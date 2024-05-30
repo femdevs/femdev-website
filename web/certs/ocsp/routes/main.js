@@ -97,7 +97,7 @@ class Server {
 			certId: rqcert,
 			certStatus: this.certs[rqcert.serialNumber.toString(16)] || { type: 'unknown', value: null },
 			thisUpdate: new Date(),
-			nextUpdate: new Date(+new Date() + this.options.nextUpdate),
+			nextUpdate: new Date(Number(new Date()) + this.options.nextUpdate),
 		});
 	}
 }
