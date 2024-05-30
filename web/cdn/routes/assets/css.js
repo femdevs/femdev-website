@@ -3,7 +3,6 @@ const fs = require("fs");
 const CCSS = new (require("clean-css"))({
 	compatibility: 'ie9',
 	fetch: true,
-	level: 2,
 	rebase: true,
 	format: {
 		semicolonAfterLastProperty: true,
@@ -24,14 +23,6 @@ const CCSS = new (require("clean-css"))({
 			aroundSelectorRelation: false,
 			beforeBlockBegins: false,
 			beforeValue: false,
-		},
-	},
-	level: {
-		'1': {
-			all: true,
-		},
-		'2': {
-			all: true,
 		},
 	},
 });
