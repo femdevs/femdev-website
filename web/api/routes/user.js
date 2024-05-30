@@ -50,23 +50,23 @@ router
 		for (const [key, value] of Object.entries(req.body)) {
 			switch (key) {
 			default: if (res.headersSent) return; //! If the response has already been sent, returns to prevent an error
-			case `displayname`:
+			case "displayname":
 				req.auth.updateUser(uid, { displayName: value || null })
 					.catch(_ => req.sendError(16));
 				connection
 					.query(`UPDATE public.users SET displayname = '${value}' WHERE firebaseuid = '${uid}'`);
 				break;
-			case `email`:
+			case "email":
 				req.auth.updateUser(uid, { email: value })
 					.catch(_ => req.sendError(16));
 				connection
 					.query(`UPDATE public.users SET email = '${value}' WHERE firebaseuid = '${uid}'`);
 				break;
-			case `password`:
+			case "password":
 				req.auth.updateUser(uid, { password: value })
 					.catch(_ => req.sendError(16));
 				break;
-			case `perms`:
+			case "perms":
 				connection
 					.query(`UPDATE public.users SET permissions = '${value}' WHERE firebaseuid = '${uid}'`)
 					.catch(_ => req.sendError(16));
@@ -115,7 +115,7 @@ router
 				.send();
 		if (allowedMethods[methodUsed]) return next();
 		return res.status(405).render(
-			`misc/405.pug`,
+			"misc/405.pug",
 			req.getErrPage(405, { path, allowedMethods, methodUsed }),
 		);
 	});

@@ -7,7 +7,7 @@ router
 			.setHeader('Cache-Control', 'public')
 			.setHeader('Content-Type', 'text/html; charset=utf-8')
 			.render(
-				`legal/privacy.pug`,
+				"legal/privacy.pug",
 				{
 					status: (await req.Database.getServerStatus()),
 					meta: {
@@ -24,7 +24,7 @@ router
 			.setHeader('Cache-Control', 'public')
 			.setHeader('Content-Type', 'text/html; charset=utf-8')
 			.render(
-				`legal/TaC.pug`,
+				"legal/TaC.pug",
 				{
 					status: (await req.Database.getServerStatus()),
 					meta: {
@@ -41,7 +41,7 @@ router
 			.setHeader('Cache-Control', 'public')
 			.setHeader('Content-Type', 'text/html; charset=utf-8')
 			.render(
-				`legal/cookies.pug`,
+				"legal/cookies.pug",
 				{
 					status: (await req.Database.getServerStatus()),
 					meta: {
@@ -68,7 +68,7 @@ router
 				.send();
 		if (allowedMethods[methodUsed]) return next();
 		return res.status(405).render(
-			`misc/405.pug`,
+			"misc/405.pug",
 			req.getErrPage(405, { path, allowedMethods, methodUsed }),
 		);
 	});

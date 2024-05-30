@@ -38,7 +38,7 @@ router
 	.get('/list', async (req, res) => {
 		if (!(await req.checkPermissions(req, res, { multi: false, perm: 'Global::Token.ReadAll', allowMgr: true }))) return;
 		const connection = await req.Database.pool.connect();
-		const { rows: tokens } = (await connection.query(`SELECT * FROM public.APITokens`));
+		const { rows: tokens } = (await connection.query("SELECT * FROM public.APITokens"));
 		const formattedTokens = [];
 		for (const tokenData of tokens) {
 			const { rows: [user] } = (
@@ -84,7 +84,7 @@ router
 				.send();
 		if (allowedMethods[methodUsed]) return next();
 		return res.status(405).render(
-			`misc/405.pug`,
+			"misc/405.pug",
 			req.getErrPage(405, { path, allowedMethods, methodUsed }),
 		);
 	});

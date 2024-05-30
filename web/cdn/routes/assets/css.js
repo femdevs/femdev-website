@@ -2,7 +2,7 @@ const router = require('express').Router();
 const fs = require("fs");
 
 router
-	.get(`/d`, async (req, res) => {
+	.get("/d", async (req, res) => {
 		res
 			.setHeader('Content-Type', 'text/css')
 			.send(fs.readFileSync(`${process.cwd()}/static/styles.css`));
@@ -23,7 +23,7 @@ router
 				.send();
 		if (allowedMethods[methodUsed]) return next();
 		return res.status(405).render(
-			`misc/405.pug`,
+			"misc/405.pug",
 			req.getErrPage(405, { path, allowedMethods, methodUsed }),
 		);
 	});

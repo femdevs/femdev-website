@@ -1,16 +1,16 @@
 const router = require('express').Router();
 
 router
-	.get(`/robots.txt`, (req, res) => {
+	.get("/robots.txt", (req, res) => {
 		res
 			.sendFile(`${process.cwd()}/metadata/robots.txt`);
 	})
-	.get(`/sitemap`, (req, res) => {
+	.get("/sitemap", (req, res) => {
 		res
-			.setHeader(`Content-Type`, `text/xml`)
+			.setHeader("Content-Type", "text/xml")
 			.sendFile(`${process.cwd()}/metadata/sitemap.xml`);
 	})
-	.get(`/thumbnail`, (req, res) => {
+	.get("/thumbnail", (req, res) => {
 		res
 			.setHeader('Cache-Control', 'no-cache')
 			.sendFile(`${process.cwd()}/assets/media/images/thumbnail.png`);
@@ -31,7 +31,7 @@ router
 				.send();
 		if (allowedMethods[methodUsed]) return next();
 		return res.status(405).render(
-			`misc/405.pug`,
+			"misc/405.pug",
 			req.getErrPage(405, { path, allowedMethods, methodUsed }),
 		);
 	});

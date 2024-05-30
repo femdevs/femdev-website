@@ -45,7 +45,7 @@ const AdminApp = Admin.initializeApp({
 	databaseURL: `https://${FirebaseServiceAccount.projectId}-default-rtdb.firebaseio.com`,
 });
 const db = new (require('./functions/database'))();
-const nf = (req, res, _) => res.status(404).render(`misc/404.pug`, req.getErrPage(404, { path: req.path }));
+const nf = (req, res, _) => res.status(404).render("misc/404.pug", req.getErrPage(404, { path: req.path }));
 app
 	.set('view engine', 'pug')
 	.set('case sensitive routing', false)
@@ -76,7 +76,7 @@ app
 			ht = 'id-rsassa-pkcs1-v1_5-with-sha3-512';
 		return (
 			db.ipb.some(({ hash }) => hash === wUtils.Crypt.Crypto.completeHash(lif(req.ip) ? lh : lif(sip), ht)))
-			? res.status(403).render(`misc/403.pug`, errPages.get(403)({ path: req.path }))
+			? res.status(403).render("misc/403.pug", errPages.get(403)({ path: req.path }))
 			: next();
 	})
 	.use(wUtils.Trace)
@@ -181,13 +181,13 @@ app
 				.status(204).send();
 		}
 		if (am[mu]) return next();
-		return res.status(405).render(`misc/405.pug`, errPages.get(405)({ path, allowedMethod: am, methodUsed: mu }));
+		return res.status(405).render("misc/405.pug", errPages.get(405)({ path, allowedMethod: am, methodUsed: mu }));
 	})
 	.use((err, _, res, __) => {
 		res
 			.status(501)
 			.setHeader('X-Error-ID', '')
-			.render(`misc/501.pug`, errPages.get(501)({ errorId: '' }));
+			.render("misc/501.pug", errPages.get(501)({ errorId: '' }));
 	})
 	.use(nf);
 http

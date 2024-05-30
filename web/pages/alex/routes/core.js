@@ -18,10 +18,10 @@ router
 				.send();
 		if (allowedMethods[methodUsed]) return next();
 		return res.status(405).render(
-			`misc/405.pug`,
+			"misc/405.pug",
 			req.getErrPage(405, { path, allowedMethods, methodUsed }),
 		);
 	})
-	.use((req, res, _) => res.status(404).render(`misc/404.pug`, req.getErrPage(404, { path: req.path })));
+	.use((req, res, _) => res.status(404).render("misc/404.pug", req.getErrPage(404, { path: req.path })));
 
 module.exports = router;
