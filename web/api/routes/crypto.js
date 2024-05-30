@@ -7,7 +7,7 @@ router
 		if (!req.query) return res.sendError(6);
 		const { query: { data } } = req;
 		if (!data) return res.sendError(6);
-		return new Promise((ok, _) => ok(webUtils.Crypt.Auto.encrypt(data))).then(
+		return Promise.resolve(webUtils.Crypt.Auto.encrypt(data)).then(
 			data => res.status(200).send(data),
 			err => res.sendError(12),
 		);
@@ -17,7 +17,7 @@ router
 		if (!req.query) return res.sendError(6);
 		const { query: { data } } = req;
 		if (!data) return res.sendError(6);
-		return new Promise((ok, _) => ok(webUtils.Crypt.Auto.decrypt(data)))
+		return Promise.resolve(webUtils.Crypt.Auto.decrypt(data))
 			.then(
 				data => res.status(200).send(data),
 				err => res.sendError(13),
