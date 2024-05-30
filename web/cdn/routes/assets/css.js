@@ -1,9 +1,7 @@
 const router = require('express').Router();
 const fs = require("fs");
 const CCSS = new (require("clean-css"))({
-	compatibility: 'ie9',
 	fetch: true,
-	rebase: true,
 	format: {
 		semicolonAfterLastProperty: true,
 		breaks: {
@@ -20,7 +18,7 @@ const CCSS = new (require("clean-css"))({
 		indentWith: "tab",
 		indentBy: 0,
 		spaces: {
-			aroundSelectorRelation: false,
+			aroundSelectorRelation: true,
 			beforeBlockBegins: false,
 			beforeValue: false,
 		},
