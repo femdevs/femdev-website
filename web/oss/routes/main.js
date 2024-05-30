@@ -3,7 +3,7 @@ const router = require('express').Router();
 router
 	.get('/code-of-conduct', async (req, res) => {
 		res.render(
-			`oss/codeOfConduct.pug`,
+			"oss/codeOfConduct.pug",
 			{
 				status: (await req.Database.getServerStatus()),
 				meta: {
@@ -16,7 +16,7 @@ router
 	})
 	.get('/contributing', async (req, res) => {
 		res.render(
-			`oss/contributing.pug`,
+			"oss/contributing.pug",
 			{
 				status: (await req.Database.getServerStatus()),
 				meta: {
@@ -29,7 +29,7 @@ router
 	})
 	.get('/license', async (req, res) => {
 		res.render(
-			`oss/license.pug`,
+			"oss/license.pug",
 			{
 				status: (await req.Database.getServerStatus()),
 				meta: {
@@ -42,7 +42,7 @@ router
 	})
 	.get('/security', async (req, res) => {
 		res.render(
-			`oss/security.pug`,
+			"oss/security.pug",
 			{
 				status: (await req.Database.getServerStatus()),
 				meta: {
@@ -58,7 +58,7 @@ router
 		const { rows } = await connection.query('SELECT * FROM public.contributors');
 		connection.release();
 		res.render(
-			`oss/contributors.pug`,
+			"oss/contributors.pug",
 			{
 				contributors: rows,
 				status: (await req.Database.getServerStatus()),
@@ -72,7 +72,7 @@ router
 	})
 	.get('/', async (req, res) => {
 		res.render(
-			`oss/index.pug`,
+			"oss/index.pug",
 			{
 				status: (await req.Database.getServerStatus()),
 				meta: {
@@ -99,7 +99,7 @@ router
 				.send();
 		if (allowedMethods[methodUsed]) return next();
 		return res.status(405).render(
-			`misc/405.pug`,
+			"misc/405.pug",
 			req.getErrPage(405, { path, allowedMethods, methodUsed }),
 		);
 	});

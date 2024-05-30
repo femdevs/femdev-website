@@ -58,7 +58,7 @@ VALUES (${uid}, ${dn}, ${fn}, ${ln}, ${email}, ${perms})`,
 			})
 			.on('updateBlacklist', () => {
 				this.pool.connect().then(connection => {
-					connection.query(`SELECT * FROM public.websiteblacklist WHERE active = TRUE`).then(({ rows }) => {
+					connection.query("SELECT * FROM public.websiteblacklist WHERE active = TRUE").then(({ rows }) => {
 						this.ipb = rows.map(row => ({ hash: row.iphash, reason: row.reason }));
 					}).catch();
 					connection.release();

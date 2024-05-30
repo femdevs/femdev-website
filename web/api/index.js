@@ -33,7 +33,7 @@ router
 				.send();
 		if (allowedMethods[methodUsed]) return next();
 		return res.status(405).render(
-			`misc/405.pug`,
+			"misc/405.pug",
 			req.getErrPage(405, { path, allowedMethods, methodUsed }),
 		);
 	})
@@ -42,10 +42,10 @@ router
 			.status(501)
 			.setHeader('X-Error-ID', '')
 			.render(
-				`misc/501.pug`,
+				"misc/501.pug",
 				req.getErrPage(501, { errorId: '' }),
 			);
 	})
-	.use((req, res, _) => res.status(404).render(`misc/404.pug`, req.getErrPage(404, { path: req.path })));
+	.use((req, res, _) => res.status(404).render("misc/404.pug", req.getErrPage(404, { path: req.path })));
 
 module.exports = router;

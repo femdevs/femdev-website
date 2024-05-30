@@ -25,7 +25,7 @@ class RandomGenerators {
 	static customNumberGenerator(min = 0, max = 100) {
 		if ([min, max].some(v => v <= 0)) throw new RangeError("Both min and max need to be above 0");
 		if (min >= max) throw new RangeError("min must be less than max");
-		if (max > 100_000) throw new RangeError(`max must be less than 100,000`);
+		if (max > 100_000) throw new RangeError("max must be less than 100,000");
 		return Math.round(Math.random() * Number(max) - Number(min)) + Number(min);
 	}
 }

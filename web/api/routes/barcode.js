@@ -22,7 +22,7 @@ router
 				color: '000000',
 				barcolor: '000000',
 			});
-			if (BCDO instanceof Buffer) res.setHeader('Content-Disposition', `inline; filename="barcode.png"`);
+			if (BCDO instanceof Buffer) res.setHeader('Content-Disposition', 'inline; filename="barcode.png"');
 			res
 				.setHeader('Content-Type', `image/${fmat ? 'svg+xml' : 'png'}`)
 				.send(BCDO);
@@ -46,7 +46,7 @@ router
 				.send();
 		if (allowedMethods[methodUsed]) return next();
 		return res.status(405).render(
-			`misc/405.pug`,
+			"misc/405.pug",
 			req.getErrPage(405, { path, allowedMethods, methodUsed }),
 		);
 	});

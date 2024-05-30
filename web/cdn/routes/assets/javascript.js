@@ -16,14 +16,14 @@ router
 			.setHeader('Content-Type', 'application/javascript')
 			.send(output.code);
 	})
-	.get(`/fs/:file`, (req, res) => {
+	.get("/fs/:file", (req, res) => {
 		const { file } = req.params;
 		const output = UJS.minify(`${process.cwd()}/assets/scripts/File-Specific/${file}`, UglifyConfig);
 		res
 			.setHeader('Content-Type', 'application/javascript')
 			.send(output.code);
 	})
-	.get(`/cg/:file`, (req, res) => {
+	.get("/cg/:file", (req, res) => {
 		const { file } = req.params;
 
 		const output = UJS.minify(`${process.cwd()}/assets/scripts/CoG/${file}`, UglifyConfig);
@@ -31,7 +31,7 @@ router
 			.setHeader('Content-Type', 'application/javascript')
 			.send(output.code);
 	})
-	.get(`/o/:file`, (req, res) => {
+	.get("/o/:file", (req, res) => {
 		const { file } = req.params;
 		const output = UJS.minify(`${process.cwd()}/assets/scripts/Other/${file}`, UglifyConfig);
 		res
@@ -54,7 +54,7 @@ router
 				.send();
 		if (allowedMethods[methodUsed]) return next();
 		return res.status(405).render(
-			`misc/405.pug`,
+			"misc/405.pug",
 			req.getErrPage(405, { path, allowedMethods, methodUsed }),
 		);
 	});

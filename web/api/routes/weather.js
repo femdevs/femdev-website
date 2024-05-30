@@ -6,7 +6,7 @@ router
 		connection.release();
 		let lat, lon;
 		if (req.headers['x-city']) {
-			const AxiosRes = await req.axiosReq(`/json`, {
+			const AxiosRes = await req.axiosReq("/json", {
 				baseURL: 'https://maps.googleapis.com/maps/api/geocode',
 				params: {
 					address: req.headers['x-city'],
@@ -19,7 +19,7 @@ router
 			lon = data.results[0].geometry.location.lng;
 		} else if (req.query.lat && req.query.lon) [lat, lon] = req.headers['x-coords'].split(',');
 		else return res.sendError(6);
-		const AxiosRes = await req.axiosReq(`/weather`, {
+		const AxiosRes = await req.axiosReq("/weather", {
 			baseURL: 'https://api.openweathermap.org/data/2.5',
 			params: {
 				appid: process.env.OPEN_WEATHER_API_KEY,
@@ -48,7 +48,7 @@ router
 				.send();
 		if (allowedMethods[methodUsed]) return next();
 		return res.status(405).render(
-			`misc/405.pug`,
+			"misc/405.pug",
 			req.getErrPage(405, { path, allowedMethods, methodUsed }),
 		);
 	});

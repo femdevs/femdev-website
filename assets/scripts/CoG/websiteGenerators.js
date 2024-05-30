@@ -22,7 +22,7 @@ async function genwin(version, width, height) {
 		6: [150, 150],
 	};
 	if (width < mindem[version][0] || height < mindem[version][1]) throw new RangeError("Dimensions value is invalid");
-	const nw = window.open('about:blank', '', `height:500,width:500`);
+	const nw = window.open('about:blank', '', "height:500,width:500");
 	nw.resizeTo(width, height);
 	const { style: bodyareastyle } = nw.document.body;
 	// Writes Styleing Function

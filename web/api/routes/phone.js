@@ -5,7 +5,7 @@ router
 	.get('/details', async (req, res) => {
 		if (!(await req.checkPermissions(req, res, { multi: false, perm: 'Phone::Lookup', allowMgr: true }))) return;
 		const numericalNumber = req.headers['x-number'].replace(/[^0-9]/gm, '');
-		const AxiosRes = await req.axiosReq(`/verify`,
+		const AxiosRes = await req.axiosReq("/verify",
 			{
 				baseURL: 'https://api.veriphone.io/v2',
 				params: {
@@ -34,7 +34,7 @@ router
 				.send();
 		if (allowedMethods[methodUsed]) return next();
 		return res.status(405).render(
-			`misc/405.pug`,
+			"misc/405.pug",
 			req.getErrPage(405, { path, allowedMethods, methodUsed }),
 		);
 	});

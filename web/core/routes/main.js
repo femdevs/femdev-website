@@ -14,7 +14,7 @@ router
 		));
 		Object.keys(staffRoles).forEach(role => staffRoles[role].title = role);
 		res.render(
-			`main/team.pug`,
+			"main/team.pug",
 			{
 				staff: staffRoles,
 				status: (await req.Database.getServerStatus()),
@@ -29,7 +29,7 @@ router
 	})
 	.get('/careers', async (req, res) => {
 		res.render(
-			`main/careers.pug`,
+			"main/careers.pug",
 			{
 				status: (await req.Database.getServerStatus()),
 				meta: {
@@ -42,7 +42,7 @@ router
 	})
 	.get('/branding', async (req, res) => {
 		res.render(
-			`main/branding.pug`,
+			"main/branding.pug",
 			{
 				status: (await req.Database.getServerStatus()),
 				meta: {
@@ -55,7 +55,7 @@ router
 	})
 	.get('/products', async (req, res) => {
 		res.render(
-			`main/products.pug`,
+			"main/products.pug",
 			{
 				status: (await req.Database.getServerStatus()),
 				meta: {
@@ -68,7 +68,7 @@ router
 	})
 	.get('/about', async (req, res) => {
 		res.render(
-			`main/about.pug`,
+			"main/about.pug",
 			{
 				status: (await req.Database.getServerStatus()),
 				meta: {
@@ -81,7 +81,7 @@ router
 	})
 	.get('/pds', async (req, res) => {
 		res.render(
-			`main/poland.pug`,
+			"main/poland.pug",
 			{
 				file: 'pds',
 				status: (await req.Database.getServerStatus()),
@@ -95,7 +95,7 @@ router
 	})
 	.get('/index', async (req, res) => {
 		res.render(
-			`main/index.pug`,
+			"main/index.pug",
 			{
 				status: (await req.Database.getServerStatus()).toString(),
 				meta: {
@@ -123,9 +123,9 @@ router
 		if (!allowedHosts.some(host => new URL(dest).hostname === host)) return res.status(400).send('Invalid destination URL');
 		res.redirect(dest);
 	})
-	.get(`/`, async (req, res) => {
+	.get("/", async (req, res) => {
 		res.render(
-			`main/index.pug`,
+			"main/index.pug",
 			{
 				status: (await req.Database.getServerStatus()),
 				meta: {
@@ -152,7 +152,7 @@ router
 				.send();
 		if (allowedMethods[methodUsed]) return next();
 		return res.status(405).render(
-			`misc/405.pug`,
+			"misc/405.pug",
 			req.getErrPage(405, { path, allowedMethods, methodUsed }),
 		);
 	});
