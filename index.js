@@ -87,7 +87,11 @@ app
 			allowCredentials: true,
 			allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
 			allowHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'X-HTTP-Method-Override', 'Accept', 'Origin'],
-		}, {}),
+		}, {
+			embedderPolicy: 'unsafe-none',
+			resourcePolicy: 'cross-origin',
+			openerPolicy: 'same-origin',
+		}),
 		CSP: WebSecurity.CSP(
 			new CSPObj('imgSrc', false, [], false, true, []),
 			new CSPObj('fontSrc', false, [], false, true, []),
@@ -106,12 +110,8 @@ app
 			new CSPObj('requireTrustedTypesFor', false, ['script'], false, false, []),
 			new CSPObj('reportUri', false, [], false, false, ['https://security.thefemdevs.com/csp/new']),
 			new CSPObj('baseUri', false, [], true, false, ['thefemdevs.com', 'security.thefemdevs.com', 'cdn.thefemdevs.com']),
-			new CSPObj('scriptSrc', false, [], true, false, Array.of(
-				'blob:',
-				WebSecurity.CD('thefemdevs.com'),
-				WebSecurity.CD('google.com'),
-				WebSecurity.CD('fontawesome.com'),
-			).flat(1),
+			new CSPObj('scriptSrc', false, [], true, false,
+				['blob:', ['thefemdevs.com', 'google.com', 'fontawesome.com'].map(WebSecurity.CD)].flat(2),
 			),
 		),
 		PermissionPolicy: WebSecurity.PermissionPolicy(
@@ -149,17 +149,11 @@ app
 			new PermissionPolicy('identityCredentialsGet', { self: true, domains: WebSecurity.CD('thefemdevs.com') }),
 			new PermissionPolicy('publickeyCredentialsGet', { self: true, domains: WebSecurity.CD('thefemdevs.com') }),
 			new PermissionPolicy('publickeyCredentialsCreate', { self: true, domains: WebSecurity.CD('thefemdevs.com') }),
-			new PermissionPolicy('payment', { self: true, domains: Array.of(WebSecurity.CD('thefemdevs.com'), WebSecurity.CD('stripe.com')) }),
-			new PermissionPolicy('geolocation', {
-				self: true, domains: Array.of(
-					WebSecurity.CD('google.com'),
-					WebSecurity.CD('googleapis.com'),
-					WebSecurity.CD('thefemdevs.com'),
-				),
-			}),
+			new PermissionPolicy('geolocation', { self: true, domains: ['googleapis.com', 'thefemdevs.com'].map(WebSecurity.CD) }),
+			new PermissionPolicy('payment', { self: true, domains: [WebSecurity.CD('thefemdevs.com'), WebSecurity.CD('stripe.com')] }),
 		),
 		ReportingEndpoints: WebSecurity.ReportingEndpoints(
-			...Array.of(['csp-ep', 'csp/new'], ['doc-ep', 'doc/new'], ['default', 'report/new']).map(data => new ReportingEndpoint(data[0], data[1])),
+			...Array.of(['csp-ep', 'csp/new'], ['doc-ep', 'doc/new'], ['default', 'report/new']).map(([v1, v2]) => new ReportingEndpoint(v1, v2)),
 		),
 		HSTS: WebSecurity.HSTS({ ma: 31536000, iSD: true, pl: true }),
 		ReportTo: WebSecurity.ReportTo(
@@ -183,7 +177,7 @@ app
 		if (am[mu]) return next();
 		return res.status(405).render("misc/405.pug", errPages.get(405)({ path, allowedMethod: am, methodUsed: mu }));
 	})
-	.use((err, _, res, __) => {
+	.use((err, req, res, next) => {
 		res
 			.status(501)
 			.setHeader('X-Error-ID', '')
