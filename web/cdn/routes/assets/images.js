@@ -35,20 +35,18 @@ router
 			.sendFile(`${process.cwd()}/assets/media/images/custom-icon.png`);
 	})
 	.get('/team/:id', async (req, res) => {
-		const imgArrayBuffer = await fetch(`https://api.daad.wtf/discord/user/${req.params.id}/avatar`).then(res => res.arrayBuffer());
-		const imgBuffer = Buffer.from(imgArrayBuffer);
+		const { id } = req.params;
 		res
 			.setHeader('Cache-Control', 'public, max-age 10800, max-stale 10800, stale-if-error 86400, no-transform, immutable')
 			.setHeader("Content-Type", "image/png")
-			.send(imgBuffer);
+			.send(Buffer.from(await fetch(`https://api.daad.wtf/discord/user/${id}/avatar`).then(res => res.arrayBuffer())));
 	})
 	.get('/grav/:hash', async (req, res) => {
-		const imgArrayBuffer = await fetch(`https://www.gravatar.com/avatar/${req.params.hash}?s=800&d=mp&r=x`).then(res => res.arrayBuffer());
-		const imgBuffer = Buffer.from(imgArrayBuffer);
+		const { hash } = req.params;
 		res
 			.setHeader('Cache-Control', 'public, max-age 10800, max-stale 10800, stale-if-error 86400, no-transform, immutable')
 			.setHeader("Content-Type", "image/png")
-			.send(imgBuffer);
+			.send(Buffer.from(await fetch(`https://www.gravatar.com/avatar/${hash}?s=800&d=mp&r=x`).then(res => res.arrayBuffer())));
 	})
 	.get('/static/:file', (req, res) => {
 		res.sendFile(`${process.cwd()}/assets/media/images/${req.params.file}`);
