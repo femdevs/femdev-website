@@ -184,6 +184,7 @@ app
 			.render("misc/501.pug", errPages.get(501)({ errorId: '' }));
 	})
 	.use(nf);
-http
-	.createServer(app)
+
+const server = http.createServer(app);
+server
 	.listen(process.env.PORT || 3000, () => csl.log("HTTP Server is UP"));

@@ -1,7 +1,7 @@
 const router = require('express').Router();
 
 router
-	.use('/', require('./core'))
-	.use('/cdn', require('./cdn'));
+	.use('/cdn', require('./cdn'))
+	.use('/', require('./core'));
 
 module.exports = router;
