@@ -1,8 +1,11 @@
 /** @type {Map<string, HTMLElement>} */
-const Elements = new Map();
-
-Elements
+const Elements = new Map()
+    .set('spotifyTrack', document.getElementById('spotifytrack'))
+    .set('spotifyArtist', document.getElementById('spotifyartist'))
+    .set('spotifyAlbum', document.getElementById('spotifyalbum'))
     .set('spotify', document.getElementById('spotify'))
+    .set('discordStatus', document.getElementById('discordstatus'))
+    .set('discordActivity', document.getElementById('discordactivity'))
     .set('discord', document.getElementById('discord'));
 
 class Discord {
@@ -11,7 +14,22 @@ class Discord {
         this.activities = [];
     }
     getString() {
-        return `${this.status} - ${this.activities[0]?.state || 'No Activities'}`;
+        const customStatus = this.activities.find(item => item.type === 4);
+        return [
+            `Status: ${this.status}`,
+            `Activity: "${customStatus ? customStatus.state : this.activities[0]?.name || 'Nothing'}"`,
+        ];
+    }
+    setStatus(status) {
+        switch (status) {
+            case 'online': return Object.assign(this, { status: 'Online' });
+            case 'dnd': return Object.assign(this, { status: 'Do Not Disturb' });
+            case 'idle': return Object.assign(this, { status: 'Idle' });
+            default: return Object.assign(this, { status: 'Offline' });
+        }
+    }
+    setActivities(activities) {
+        return Object.assign(this, { activities });
     }
 }
 
@@ -26,41 +44,50 @@ class Spotify {
         };
     }
     getString() {
-        return this.playing
-            ? `${this.track.name} by ${this.track.artists.slice(0, 2).join(', ')}`
-            : 'Not Playing';
+        const LF = new Intl.ListFormat('en-US', { style: 'long', type: 'conjunction' });
+        const NoFeatRegex = / *\(.*(ft|feat|with).*\)/gmi;
+        return [
+            `Track: ${this.track.name.replace(NoFeatRegex, '') || 'Nothing'}`,
+            `Artist(s): ${LF.format(this.track.artists).replace(NoFeatRegex, '') || 'None'}`,
+            `Album: ${this.track.album.replace(NoFeatRegex, '') || 'None'}`,
+        ];
+    }
+    setPlaying(playing) {
+        return Object.assign(this, { playing });
+    }
+    setTrack(track) {
+        return Object.assign(this, { track });
     }
 }
 
 const load = async () => {
     const req = await fetch('https://api.lanyard.rest/v1/users/1158220643616182445');
     if (req.status === 200) {
-        const discord = new Discord();
-        const spotify = new Spotify();
-        const { data } = await req.json();
-        switch (data.discord_status) {
-            case 'online':
-                discord.status = 'Online';
-                break;
-            case 'dnd':
-                discord.status = 'Do Not Disturb';
-                break;
-            case 'idle':
-                discord.status = 'Idle';
-                break;
-            default:
-                discord.status = 'Offline';
-                break;
-        }
-        discord.activities = data.activities.filter(item => item.id !== 'spotify:1');
-        const spotifyData = await fetch('https://ben.thefemdevs.com/api/now-playing').then(res => res.json());
-        spotify.playing = spotifyData.isPlaying;
-        spotify.track = spotifyData.song ?? {};
-        Elements.get('discord').innerText = discord.getString();
-        Elements.get('spotify').innerText = spotify.getString();
+        const
+            discord = new Discord(),
+            spotify = new Spotify(),
+            { data } = await req.json(),
+            spotifyData = await fetch('https://ben.thefemdevs.com/api/now-playing').then(res => res.json());
+        discord
+            .setStatus(data.discord_status)
+            .setActivities(data.activities);
+        spotify
+            .setPlaying(spotifyData.isPlaying)
+            .setTrack(spotifyData.song);
+        const
+            DiscordString = discord.getString(),
+            SpotifyString = spotify.getString();
+        ['Status', 'Activity']
+            .forEach((item, index) => Elements.get(`discord${item}`).innerText = DiscordString[index]);
+        ['Track', 'Artist', 'Album']
+            .forEach((item, index) => Elements.get(`spotify${item}`).innerText = SpotifyString[index]);
+        Elements.get('discord').style.cursor = 'pointer';
+        Elements.get('discord').onclick = () => window.open('https://discord.com/users/1158220643616182445', '_blank');
+        Elements.get('spotify').style.cursor = SpotifyString[0] === 'Track: Nothing' ? 'default' : 'pointer';
+        Elements.get('spotify').onclick = () => window.open(spotify.track.url, '_blank');
     };
 };
 
 load();
 
-setInterval(async () => await load(), 5e3);
+setInterval(async () => await load(), 1e3);
