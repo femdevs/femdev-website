@@ -1,7 +1,28 @@
 const router = require('express').Router();
 
 router
-	.get('/', (_, res) => res.render('pages/alex/index.pug'))
+	.get('/', async (req, res) => res.render(
+		'pages/alex/index.pug',
+		{
+			status: (await req.Database.getServerStatus()),
+			meta: {
+				title: 'Alex\'s Official Website',
+				desc: 'The official website of Alex!',
+				url: 'https://alex.thefemdevs.com',
+			},
+		},
+	))
+	.get('/test', async (req, res) => res.render(
+		'pages/alex/index2.pug',
+		{
+			status: (await req.Database.getServerStatus()),
+			meta: {
+				title: 'Alex\'s Official Website',
+				desc: 'The official website of Alex!',
+				url: 'https://alex.thefemdevs.com',
+			},
+		},
+	))
 	.use((req, res, next) => {
 		const { path } = req;
 		const methodUsed = req.method.toUpperCase();
