@@ -12,17 +12,6 @@ router
 			},
 		},
 	))
-	.get('/test', async (req, res) => res.render(
-		'pages/alex/index2.pug',
-		{
-			status: (await req.Database.getServerStatus()),
-			meta: {
-				title: 'Alex\'s Official Website',
-				desc: 'The official website of Alex!',
-				url: 'https://alex.thefemdevs.com',
-			},
-		},
-	))
 	.use((req, res, next) => {
 		const { path } = req;
 		const methodUsed = req.method.toUpperCase();
