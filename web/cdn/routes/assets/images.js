@@ -43,10 +43,12 @@ router
 	})
 	.get('/grav/:hash', async (req, res) => {
 		const { hash } = req.params;
+		const url = new URL(`/avatar/${hash}`, 'https://www.gravatar.com');
+		url.search = (new URLSearchParams([['size', '800'], ['d', 'mp'], ['r', 'x'], ['d', 'retro']])).toString();
 		res
-			.setHeader('Cache-Control', 'public, max-age 10800, max-stale 10800, stale-if-error 86400, no-transform, immutable')
+			.setHeader('Cache-Control', 'no-store')
 			.setHeader("Content-Type", "image/png")
-			.send(Buffer.from(await fetch(`https://www.gravatar.com/avatar/${hash}?s=800&d=mp&r=x`).then(res => res.arrayBuffer())));
+			.send(Buffer.from(await fetch(url).then(res => res.arrayBuffer())));
 	})
 	.get('/static/:file', (req, res) => {
 		res.sendFile(`${process.cwd()}/assets/media/images/${req.params.file}`);
