@@ -10,6 +10,7 @@ router
 					title: 'Code of Conduct',
 					desc: 'FemDevs Website Code of Conduct',
 					url: 'https://oss.thefemdevs.com/code-of-conduct',
+					canonical: 'https://oss.thefemdevs.com/code-of-conduct',
 				},
 			},
 		);
@@ -23,6 +24,7 @@ router
 					title: 'Contributing',
 					desc: 'How to Contribute to the FemDevs Website',
 					url: 'https://oss.thefemdevs.com/contributing',
+					canonical: 'https://oss.thefemdevs.com/contributing',
 				},
 			},
 		);
@@ -36,6 +38,7 @@ router
 					title: 'License',
 					desc: 'FemDevs Website License',
 					url: 'https://oss.thefemdevs.com/license',
+					canonical: 'https://oss.thefemdevs.com/license',
 				},
 			},
 		);
@@ -49,6 +52,7 @@ router
 					title: 'Security',
 					desc: 'FemDevs Website Security Policy',
 					url: 'https://oss.thefemdevs.com/security',
+					canonical: 'https://oss.thefemdevs.com/security',
 				},
 			},
 		);
@@ -66,6 +70,7 @@ router
 					title: 'Contributors',
 					desc: 'Contributors to the FemDevs Website',
 					url: 'https://oss.thefemdevs.com/contributors',
+					canonical: 'https://oss.thefemdevs.com/contributors',
 				},
 			},
 		);
@@ -79,6 +84,7 @@ router
 					title: 'Open Source Software',
 					desc: 'FemDevs Open Source Software Homepage',
 					url: 'https://oss.thefemdevs.com/',
+					canonical: 'https://oss.thefemdevs.com/',
 				},
 			},
 		);

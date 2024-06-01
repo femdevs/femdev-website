@@ -2,14 +2,31 @@ include ../../defaults/mixins.pug
 doctype html
 html(lang="en")
   head
-    title About Me
+		title= meta.title
     +meta(0)
-    +meta(1, 'viewport', "width%e%device-width,initial-scale%e%1.0")
-    +meta(2, 'og:url', "https://ben.thefemdevs.com/")
-    +meta(2, 'og:title', 'Ben\'s Website')
-    +meta(2, 'og:description', 'Welcome to my website, I hope you enjoy it!')
+    +canonical(meta.canonical)
+    +meta(3, 'X-UA-Compatible', "IE%e%edge")
+    +meta(3, 'Content-Type', 'text/html; charset%e%utf-8')
+    +meta(1, 'viewport', 'width%e%device-width, initial-scale%e%1.0')
+    +meta(1, 'google', 'nositelinkssearchbox')
+    +meta(1, 'title', meta.title)
+		+meta(1, 'description', meta.desc)
+		+meta(2, 'og:url', meta.url)
+		+meta(2, 'og:title', meta.title)
+		+meta(2, 'og:description', meta.desc)
+		+meta(2, 'twitter:url', meta.url)
+		+meta(2, 'twitter:title', meta.title)
+		+meta(2, 'twitter:description', meta.desc)
     +meta(2, 'og:image', 'https://cdn.thefemdevs.com/assets/images/grav/329f481757ca49ce98d31d9041285a11')
     +meta(2, 'og:type', 'website')
+    +meta(1, 'language', 'en-us')
+    +meta(1, 'revisit-after', '2 days')
+    +meta(2, 'twitter:card', 'summary_large_image')
+    +meta(2, 'twitter:image', 'https://cdn.thefemdevs.com/assets/images/grav/329f481757ca49ce98d31d9041285a11')
+    +meta(1, 'apple-mobile-web-app-status-bar-style', 'black')
+    +meta(1, 'apple-mobile-web-app-title', 'The FemDevs Website')
+    +meta(1, 'google-adsense-account', 'ca-pub-1906373468377810')
+    +headerlink('https://cdn.thefemdevs.com/assets/images/grav/329f481757ca49ce98d31d9041285a11', 'apple-touch-icon', 'image/png')
     +headerlink('https://cdn.thefemdevs.com/assets/images/grav/329f481757ca49ce98d31d9041285a11', 'icon', 'image/png')
     +headerlink('https://cdn.thefemdevs.com/assets/css/d', 'stylesheet', 'text/css')
     +headerlink('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css', 'stylesheet', 'text/css')
@@ -22,7 +39,7 @@ html(lang="en")
         "@type": "Person",
         "name": "Benjamin",
         "url": "https://ben.thefemdevs.com",
-        "image": "",
+        "image": "https://cdn.thefemdevs.com/assets/images/grav/329f481757ca49ce98d31d9041285a11",
         "sameAs": [
           "https://github.com/therealbenpai",
           "https://gitlab.com/benshawmean",

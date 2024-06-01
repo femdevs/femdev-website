@@ -11,6 +11,7 @@ router
 				title: 'Benpai\'s Official Website',
 				desc: 'The official website of Benpai!',
 				url: 'https://ben.thefemdevs.com',
+				canonical: 'https://ben.thefemdevs.com',
 			},
 		},
 	))

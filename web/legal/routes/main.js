@@ -14,6 +14,7 @@ router
 						title: 'Privacy Policy',
 						desc: 'Privacy Policy',
 						url: 'https://thefemdevs.com/legal/privacy',
+						canonical: 'https://thefemdevs.com/legal/privacy',
 					},
 				},
 			);
@@ -31,6 +32,7 @@ router
 						title: 'Terms and Conditions',
 						desc: 'Terms and Conditions',
 						url: 'https://thefemdevs.com/legal/terms',
+						canonical: 'https://thefemdevs.com/legal/terms',
 					},
 				},
 			);
@@ -48,6 +50,7 @@ router
 						title: 'Cookie Policy',
 						desc: 'Cookie Policy',
 						url: 'https://thefemdevs.com/legal/cookies',
+						canonical: 'https://thefemdevs.com/legal/cookies',
 					},
 				},
 			);

@@ -4,6 +4,8 @@ mixin statement(main, sub)
 		h3.select-none.font-poppins.text-xl.text-neutral-900= sub
 mixin mainlink(href, text)
 	a.select-none.font-poppins.text-lg.text-neutral-100.transition-all(class='hover:text-neutral-300' href=href)&attributes(attributes)= text
+mixin canonical(url)
+	link(rel='canonical' href=url)
 mixin meta(ver, name, content)
 	case ver
 		when 0
@@ -142,6 +144,7 @@ mixin footer()
 mixin header()
 	script(defer src='https://cdn.thefemdevs.com/assets/js/ga')
 	+meta(0)
+	+canonical(meta.canonical)
 	+meta(3, 'X-UA-Compatible', "IE%e%edge")
 	+meta(3, 'Content-Type', 'text/html; charset%e%utf-8')
 	+meta(1, 'viewport', 'width%e%device-width, initial-scale%e%1.0')

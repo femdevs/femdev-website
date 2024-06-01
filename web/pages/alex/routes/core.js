@@ -9,6 +9,7 @@ router
 				title: 'Alex\'s Official Website',
 				desc: 'The official website of Alex!',
 				url: 'https://alex.thefemdevs.com',
+				canonical: 'https://alex.thefemdevs.com',
 			},
 		},
 	))

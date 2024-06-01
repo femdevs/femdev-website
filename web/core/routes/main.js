@@ -22,6 +22,7 @@ router
 					title: 'FemDev Staff Team',
 					desc: 'A complete and comprehensive list of the entire FemDev Staff Team!',
 					url: 'https://thefemdevs.com/team',
+					canonical: 'https://thefemdevs.com/team',
 				},
 			},
 		);
@@ -36,6 +37,7 @@ router
 					title: 'FemDev Careers',
 					desc: 'Join the FemDev Team!',
 					url: 'https://thefemdevs.com/careers',
+					canonical: 'https://thefemdevs.com/careers',
 				},
 			},
 		);
@@ -49,6 +51,7 @@ router
 					title: 'FemDev Branding',
 					desc: 'The branding assets of the FemDevs!',
 					url: 'https://thefemdevs.com/branding',
+					canonical: 'https://thefemdevs.com/branding',
 				},
 			},
 		);
@@ -62,6 +65,7 @@ router
 					title: 'FemDev Products',
 					desc: 'The products we offer here at FemDevs!',
 					url: 'https://thefemdevs.com/products',
+					canonical: 'https://thefemdevs.com/products',
 				},
 			},
 		);
@@ -75,6 +79,7 @@ router
 					title: 'About FemDev',
 					desc: 'About us, the FemDevs!',
 					url: 'https://thefemdevs.com/about',
+					canonical: 'https://thefemdevs.com/about',
 				},
 			},
 		);
@@ -89,6 +94,7 @@ router
 					title: 'Poland Destruction Simulator',
 					desc: 'Poland Destruction Simulator Game',
 					url: 'https://thefemdevs.com/pds',
+					canonical: 'https://thefemdevs.com/pds',
 				},
 			},
 		);
@@ -102,6 +108,7 @@ router
 					title: 'FemDevs Home Page',
 					desc: 'The home of the FemDevs!',
 					url: 'https://thefemdevs.com',
+					canonical: 'https://thefemdevs.com',
 				},
 			},
 		);
@@ -129,9 +136,10 @@ router
 			{
 				status: (await req.Database.getServerStatus()),
 				meta: {
-					title: 'FemDevs Home Page',
-					desc: 'The home of the FemDevs!',
+					title: 'The Offical Home Page of The FemDevs',
+					desc: 'The homepage of the Femdevs organization! Where Programming and Femboys meet!',
 					url: 'https://thefemdevs.com',
+					canonical: 'https://thefemdevs.com',
 				},
 			},
 		);
