@@ -107,7 +107,6 @@ app
 			new CSPObj('reportTo', false, [], false, false, ['csp-ep']),
 			new CSPObj('blockAllMixedContent', false, [], false, false, []),
 			new CSPObj('upgradeInsecureRequests', false, [], false, false, []),
-			new CSPObj('requireTrustedTypesFor', false, ['script'], false, false, []),
 			new CSPObj('reportUri', false, [], false, false, ['https://security.thefemdevs.com/csp/new']),
 			new CSPObj('baseUri', false, [], true, false, ['thefemdevs.com', 'security.thefemdevs.com', 'cdn.thefemdevs.com']),
 			new CSPObj('scriptSrc', false, [], true, false,
