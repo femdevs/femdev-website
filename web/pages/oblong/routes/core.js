@@ -2,13 +2,13 @@ const router = require('express').Router();
 
 router
 	.get('/', async (req, res) => res.render(
-		'pages/nezha/index.pug',
+		'pages/ne/index.pug',
 		{
 			status: (await req.Database.getServerStatus()),
 			meta: {
-				title: 'Nezha\'s Official Website',
-				desc: 'The official website for Nezha!',
-				url: 'https://nezha.thefemdevs.com',
+				title: 'Oblongs\'s Official Website',
+				desc: 'The official website of Oblong!',
+				url: 'https://oblong.thefemdevs.com',
 			},
 		},
 	))
