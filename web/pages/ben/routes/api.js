@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 const router = require('express').Router();
 const SpotifyWebApi = require("spotify-web-api-node");
 const spotifyApi = new SpotifyWebApi({
@@ -7,7 +8,9 @@ const spotifyApi = new SpotifyWebApi({
 });
 spotifyApi.setAccessToken(process.env.SPOTIFY_ACCESS_TOKEN);
 spotifyApi.setRefreshToken(process.env.SPOTIFY_REFRESH_TOKEN);
-setInterval(() => spotifyApi.refreshAccessToken().then(({ body: { access_token } }) => spotifyApi.setAccessToken(access_token)), 3e5);
+const refresh = () => spotifyApi.refreshAccessToken().then(({ body: { access_token } }) => spotifyApi.setAccessToken(access_token));
+setInterval(refresh, 3e5);
+refresh();
 router
     .get("/now-playing", async (req, res) => {
         res.json(await spotifyApi.getMyCurrentPlaybackState({}).then(data => {
