@@ -4,9 +4,8 @@ router
 	.get('/', async (req, res) => res.render(
 		'pages/alex/index.pug',
 		{
-			status: (await req.Database.getServerStatus()),
 			meta: {
-				title: 'Alex\'s Official Website',
+				title: "Alex's Official Website",
 				desc: 'The official website of Alex!',
 				url: 'https://alex.thefemdevs.com',
 				canonical: 'https://alex.thefemdevs.com',

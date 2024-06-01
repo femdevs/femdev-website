@@ -48,7 +48,7 @@
     "npm": ">=10.0.0"
   },
   "dependencies": {
-    "@therealbenpai/webutils": "^1.1.8",
+    "@therealbenpai/webutils": "^1.2.0",
     "@therealbenpai/zdcors": "^1.3.0",
     "asn1.js": "^5.4.1",
     "asn1.js-rfc2560": "^5.0.1",

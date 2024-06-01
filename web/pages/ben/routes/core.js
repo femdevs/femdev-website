@@ -3,18 +3,19 @@ const router = require('express').Router();
 
 
 router
-	.get('/', async (req, res) => res.render(
-		'pages/ben/index.pug',
-		{
-			status: (await req.Database.getServerStatus()),
-			meta: {
-				title: 'Benpai\'s Official Website',
-				desc: 'The official website of Benpai!',
-				url: 'https://ben.thefemdevs.com',
-				canonical: 'https://ben.thefemdevs.com',
+	.get('/', async (req, res) => {
+		res.render(
+			'pages/ben/index.pug',
+			{
+				meta: {
+					title: "Benpai's Official Website",
+					desc: 'The official website of Benpai!',
+					url: 'https://ben.thefemdevs.com',
+					canonical: 'https://ben.thefemdevs.com',
+				},
 			},
-		},
-	))
+		);
+	})
 	.get('/message', async (req, res) => {
 		res
 			.setHeader('x-pubkey', 'https://keys.openpgp.org/vks/v1/by-fingerprint/AA9B0130E794BF62C0FA240CE9469FAA8B44BB16')
