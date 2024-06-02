@@ -67,7 +67,7 @@ const load = async () => {
             discord = new Discord(),
             spotify = new Spotify(),
             { data } = await req.json(),
-            spotifyData = await fetch('https://ben.thefemdevs.com/api/now-playing').then(res => res.json());
+            spotifyData = await fetch('https://spotify.thefemdevs.com/playing/ben').then(res => res.json());
         discord
             .setStatus(data.discord_status)
             .setActivities(data.activities);

@@ -1,18 +1,34 @@
 /* eslint-disable camelcase */
 const router = require('express').Router();
 const SpotifyWebApi = require("spotify-web-api-node");
+const { SQL } = require('sql-template-strings');
 const spotifyApi = new SpotifyWebApi({
     clientId: process.env.SPOTIFY_CLIENT_ID,
     clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
     redirectUri: process.env.SPOTIFY_REDIRECT_URI,
 });
-spotifyApi.setAccessToken(process.env.SPOTIFY_ACCESS_TOKEN);
-spotifyApi.setRefreshToken(process.env.SPOTIFY_REFRESH_TOKEN);
-const refresh = () => spotifyApi.refreshAccessToken().then(({ body: { access_token } }) => spotifyApi.setAccessToken(access_token));
-setInterval(refresh, 3e5);
-refresh();
+const scopes = ["user-read-private", "user-read-currently-playing", "user-read-playback-state", "user-read-email"];
+const authorizeURL = spotifyApi.createAuthorizeURL(scopes);
+
 router
-    .get("/now-playing", async (req, res) => {
+    .use('/auth', async (req, res) => {
+        if (req.query.code)
+            await spotifyApi.authorizationCodeGrant(req.query.code).then(data => res.json(data.body));
+        else
+            res.redirect(authorizeURL);
+    })
+    .get("/playing/:user", async (req, res) => {
+        const { user } = req.params;
+        const connection = await req.Database.pool.connect();
+        const { rows: userRows } = await connection.query(`SELECT * FROM public.spotify;`);
+        connection.release();
+        const spotifyUser = userRows.find(row => row.user === user);
+        if (!spotifyUser) return res.status(404).json({ error: 'User not found' });
+        const { access, refresh } = spotifyUser;
+        spotifyApi.setAccessToken(access);
+        spotifyApi.setRefreshToken(refresh);
+        const { body: { access_token: newAccess } } = await spotifyApi.refreshAccessToken();
+        spotifyApi.setAccessToken(newAccess);
         res.json(await spotifyApi.getMyCurrentPlaybackState({}).then(data => {
             const { body } = data;
             if (!new Object(body).hasOwnProperty('item')) return { isPlaying: false };
