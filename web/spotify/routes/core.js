@@ -31,17 +31,24 @@ router
         spotifyApi.setAccessToken(newAccess);
         res.json(await spotifyApi.getMyCurrentPlaybackState({}).then(data => {
             const { body } = data;
-            if (!new Object(body).hasOwnProperty('item')) return { isPlaying: false };
-            const { name, album, artists, external_urls } = body.item;
-            const song = {
-                name,
-                album: album.name,
-                artists: artists.map(artist => artist.name),
-                url: external_urls.spotify,
+            if (!new Object(body).hasOwnProperty('item')) return {
+                isPlaying: false,
+                song: {
+                    name: 'Nothing',
+                    album: 'Nothing',
+                    artists: ['None'],
+                    url: 'https://open.spotify.com',
+                },
             };
+            const { name, album, artists, external_urls } = body.item;
             return {
                 isPlaying: true,
-                song,
+                song: {
+                    name: name,
+                    album: album.name,
+                    artists: artists.map(artist => artist.name),
+                    url: external_urls.spotify,
+                },
             };
         }));
     })
