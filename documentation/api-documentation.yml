@@ -1,6 +1,6 @@
 openapi: "3.0.0"
 info:
-  version: "3.3.0"
+  version: "4.0.0"
   title: "FemDevs API Documentation"
   description: |-
     The documentation for the FemDevs API.

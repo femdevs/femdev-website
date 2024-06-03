@@ -1,6 +1,4 @@
 
-const http = require('http');
-const async = require('async');
 const crypto = require('crypto');
 const { OCSPRequest, OCSPResponse, ResponseData, BasicOCSPResponse } = require('asn1.js-rfc2560');
 const { Certificate: Cert, Name } = require('asn1.js-rfc5280');
@@ -51,7 +49,7 @@ class Server {
 		this.certs[serial.toString(16)] = { type: status, value: info };
 	}
 	getResponses(req, cb) {
-		async.map(
+		Promise.all(
 			req.tbsRequest.requestList,
 			(req, cb) => this.getResponse(req, cb),
 			(err, responses) => {

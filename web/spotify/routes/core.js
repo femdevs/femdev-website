@@ -1,7 +1,6 @@
 /* eslint-disable camelcase */
 const router = require('express').Router();
 const SpotifyWebApi = require("spotify-web-api-node");
-const { SQL } = require('sql-template-strings');
 const spotifyApi = new SpotifyWebApi({
     clientId: process.env.SPOTIFY_CLIENT_ID,
     clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
