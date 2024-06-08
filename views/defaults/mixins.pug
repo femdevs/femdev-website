@@ -91,7 +91,7 @@ mixin socials(icon, link, title, color)
 			- colorx = 'indigo'
 	- if (['code', 'user', 'users', 'envelope'].includes(icon)) icontype = 'fas'
 	.justify-evenly.size-full.flex.content-center.p-2
-		a(href=link target='_blank' class=`hover:text-${colorx}-500 hover:scale-110 ${icontype} fa-${icon}` title=title).transition-all.duration-300.text-inherit.p-0.border-1.border-solid.border-transparent.rounded-3xl.no-underline.items-center.self-center.justify-center.flex.flex-col.pt-4.fa-3x.text-gray-700
+		a(href=link target='_blank' class=`hover:text-${colorx}-500 hover:scale-110 ${icontype} fa-${icon}` title=title rel='me').transition-all.duration-300.text-inherit.p-0.border-1.border-solid.border-transparent.rounded-3xl.no-underline.items-center.self-center.justify-center.flex.flex-col.pt-4.fa-3x.text-gray-700
 mixin nav()
 	.sticky.top-0.z-30.flex.flex-row.items-center.justify-center.bg-white
 		.flex.w-full.max-w-6xl.flex-row.items-center.justify-between.p-8
