@@ -8,7 +8,9 @@ const oblong = require('./oblong/');
 
 router
 	.use(vhost('ben.thefemdevs.com', ben))
+    .use(vhost('sparty18.com', ben))
 	.use(vhost('alex.thefemdevs.com', alex))
+    .use(vhost('auxiliaryfrfr.com', alex))
 	.use(vhost('nezha.thefemdevs.com', nezha))
 	.use(vhost('oblong.thefemdevs.com', oblong));
 
