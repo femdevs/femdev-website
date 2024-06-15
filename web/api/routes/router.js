@@ -50,8 +50,8 @@ router
 			const [_, token] = req.headers['authorization'].split(' ');
 			const { rows } = await connection.query(`SELECT * FROM public.apitokens WHERE token = '${token}' LIMIT 1;`);
 			if (rows.length < 1) return sendClose(res, 4);
-			if (rows[0].disabled !== true) return sendClose(res, 5);
-			if (rows[0].blocked !== true) return sendClose(res, 2);
+			if (rows[0].disabled === true) return sendClose(res, 5);
+			if (rows[0].blocked === true) return sendClose(res, 2);
 			const { rows: userRows } = await connection.query(`SELECT * FROM public.users WHERE firebaseuid = '${rows[0].associatedfirebaseuid}'`);
 			connection.release();
 			if (userRows.length === 0) return sendClose(res, 0);
