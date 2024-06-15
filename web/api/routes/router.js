@@ -48,7 +48,7 @@ router
 			const { multi, perm, allowMgr } = permData;
 			const connection = await req.Database.pool.connect();
 			if (!req.headers['authorization']) return sendClose(res, 3);
-			const [_, token] = req.headers['Authorization'].split(' ');
+			const [_, token] = req.headers['authorization'].split(' ');
 			if (!token) return sendClose(res, 4);
 			const { rows } = await connection.query(`SELECT * FROM public.apitokens WHERE token = '${token}' LIMIT 1;`);
 			if (rows.length < 1) return sendClose(res, 4);
