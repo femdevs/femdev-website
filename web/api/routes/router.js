@@ -49,7 +49,7 @@ router
 			const connection = await req.Database.pool.connect();
 			if (!req.headers['authorization']) return sendClose(res, 3);
 			const [_, token] = req.headers['authorization'].split(' ');
-			const { rows } = await connection.query(`SELECT * FROM public.APITokens WHERE token = '${token}'`);
+			const { rows } = await connection.query(`SELECT * FROM public.apitokens WHERE token = '${token}'`);
 			if (rows.length === 0) return sendClose(res, 4);
 			if (rows[0].disabled) return sendClose(res, 5);
 			if (rows[0].blocked) return sendClose(res, 2);
