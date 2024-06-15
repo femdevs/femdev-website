@@ -3091,7 +3091,7 @@ paths:
           example: "code128"
           required: true
         - in: query
-          name: "data"
+          name: "content"
           description: "The data to encode in the barcode"
           schema:
             type: string
