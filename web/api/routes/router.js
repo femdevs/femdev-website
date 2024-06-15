@@ -47,14 +47,11 @@ router
 		const checkPermissions = async (req, res, permData) => {
 			const { multi, perm, allowMgr } = permData;
 			const connection = await req.Database.pool.connect();
-			if (!req.headers['authorization']) return sendClose(res, 3);
 			const [_, token] = req.headers['authorization'].split(' ');
-			if (!token) return sendClose(res, 4);
 			const { rows } = await connection.query(`SELECT * FROM public.apitokens WHERE token = '${token}' LIMIT 1;`);
 			if (rows.length < 1) return sendClose(res, 4);
 			if (rows[0].disabled !== true) return sendClose(res, 5);
 			if (rows[0].blocked !== true) return sendClose(res, 2);
-			await connection.query(`UPDATE public.apiUsage SET totaluses = totaluses + 1 WHERE apitoken = '${token}'`);
 			const { rows: userRows } = await connection.query(`SELECT * FROM public.users WHERE firebaseuid = '${rows[0].associatedfirebaseuid}'`);
 			connection.release();
 			if (userRows.length === 0) return sendClose(res, 0);
