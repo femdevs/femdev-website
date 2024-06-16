@@ -1,7 +1,7 @@
 mixin statement(main, sub)
 	h2.select-none.font-poppins.text-3xl.font-medium.text-neutral-900= main
 	unless sub == ''
-		h3.select-none.font-poppins.text-xl.text-neutral-900= sub
+		p.select-none.font-poppins.text-xl.text-neutral-900= sub
 mixin mainlink(href, text)
 	a.select-none.font-poppins.text-lg.text-neutral-100.transition-all(class='hover:text-neutral-300' href=href)&attributes(attributes)= text
 mixin canonical(url)
@@ -56,8 +56,8 @@ mixin 3br()
 	br
 mixin enforcement(section, impact, consequence)
 	h3.select-none.font-poppins.text-2xl.font-bold.text-neutral-900 #{section}
-	h3.select-none.font-poppins.text-xl.text-neutral-900 #[.font-semibold.underline Community Impact:] #{impact}
-	h3.select-none.font-poppins.text-xl.text-neutral-900 #[.font-semibold.underline Consequence:] #{consequence}
+	p.select-none.font-poppins.text-xl.text-neutral-900 #[.font-semibold.underline Community Impact:] #{impact}
+	p.select-none.font-poppins.text-xl.text-neutral-900 #[.font-semibold.underline Consequence:] #{consequence}
 mixin support(version, supported, type=0)
 	- var sym = ''
 	case type
