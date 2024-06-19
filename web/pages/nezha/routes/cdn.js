@@ -44,7 +44,7 @@ router
 	.get('/font/:file', (req, res) =>
 		res
 			.setHeader('Content-Type', 'font/ttf')
-			.send(fs.readFileSync(`${__dirname}/../assets/fonts/${req.params.file}.ttf`, 'utf8'));
+			.send(fs.readFileSync(`${__dirname}/../assets/fonts/${req.params.file}.ttf`, 'utf8'))
 	);
 
 module.exports = router;
