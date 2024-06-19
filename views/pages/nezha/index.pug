@@ -1,12 +1,99 @@
 include ../../defaults/mixins.pug
 doctype html
-html(lang='en-us')
+html
   head
-    +header()
-  body.bg-neutral-200
-    +nav()
-    content.flex.flex-col.items-center.justify-center
-      hero.flex.w-full.max-w-6xl.flex-row.items-center.justify-between.p-8(class='md:my-16')
-        .flex.w-full.flex-col.space-y-4
-          h1.text-9xl.font-black.text-neutral-900.text-center Coming Soon
-    +footer()
+    link(rel='stylesheet', href='/cdn/css/index')
+    link(rel='icon', href='/cdn/imgs/me.png', type='image/x-icon')
+    script(src='/cdn/js/index')
+    title Nezha&apos;s Website
+  body
+    div
+      h1.top
+        span.ScrollingASCII ! !
+        i Waiting for the end to come.. 
+        span.ScrollingASCII ! !
+      h1
+    div
+      h1.Introduction-title
+        u Who am I?
+    .image-1
+      img.image-1(src='/cdn/imgs/me.png')
+      .text
+        p
+          | I&apos;m Nezha. I have been learning the HTML/CSS/JS cluster recently and I&apos;m quite inexperienced, but I&apos;m learning.
+          | I&apos;m interested in a wide variety of games, mainly Minecraft, Warfame, and Tom Clancy&apos;s The Division 2. I am currently 15.
+    .grid-container
+      #container1.grid-item
+        ul.list
+          .list-title-container
+            p.list-title
+              u Courses
+          li Cambridge National Level 2 IT
+          li GCSE OCR Computer Science (Target 9)
+          li GCSE AQA 3D Design
+          li GCSE AQA Geography
+          li GCSE AQA English Language + Literature
+          li GCSE AQA Maths + Considering taking Further Maths in September
+          li GCSE AQA Combined Science
+      #container2.grid-item
+        ul.list
+          .list-title-container
+            p.list-title
+              u Interests
+          li Programming
+          li Gaming
+          li Exploring new ideas and concepts
+          li Learning new things
+          li Athena (super cute)
+          li 80s Pop music
+          li 00s Nu Metal
+      #3.grid-item
+        .list-title-container
+          p.list-title
+            u Socials
+        .button-grid-container
+          button.button(href='')
+            a(href='https://discordapp.com/users/1109887155720945664') Discord
+          button.button
+            a(href='mailto:letukasjosh77@gmail.com') Email
+          button.button
+            a(href='https://steamcommunity.com/id/AcidToast76/') Steam
+          button.button
+            a(href='https://open.spotify.com/user/hpjv09y99ucx7adf3jb6qijvp?si=16a245fc990549bf') Spotify
+          button.button
+            a(href='https://www.thefemdevs.com/') The FemDevs
+          button.button
+            a(href='https://www.last.fm/user/AcidToast76') Last.fm
+    .grid-container2
+      #container4.grid-item
+        ul.list
+          .list-title-container
+            p.list-title
+              u Do Not Interact If:
+          li You are weird
+          li Your name is Binkle
+          li Basic DNI Criteria
+          li You are overly annoying
+          li You deliberately shit on my hobbies
+          li You have no respect for others&apos; opinions
+          li You are under 13 or over 24
+      #container5.grid-item
+        img.item4(src='/cdn/imgs/200w.gif')
+      #6.grid-item
+        ul
+          div
+            p.list-title
+              u Music Tracks I Love:
+          li Modjo - Lady
+          li Linkin Park - Waiting For The End
+          li The Maccabees - Unknow
+          li Jimmy Eat World - Just Tonight
+          li Muse - Time Is Running Out
+          li Linkin Park - Pushing Me Away
+      #container7.grid-item
+        img.image3(src='assets/1aa2008c04d15f46d38b797cb1452ed4.gif')
+    .text2
+      span.ScrollingASCII     
+      p
+        i Currently Listening To: Warframe Bops
+      span.ScrollingASCII

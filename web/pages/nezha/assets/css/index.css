@@ -1,0 +1,325 @@
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+html {
+    box-sizing: border-box;
+    background-color: black;
+    color: rgba(171, 35, 255, 0.742);
+    font-family: "lucida console", monospace;
+    animation: fadeIn 2s ease-in-out;
+    border: 3px solid rgba(171, 35, 255, 0.742);
+    border-radius: 10px;
+    box-shadow: 0px 0px 2px 2px rgba(171, 35, 255, 0.742);
+    margin: 5px;
+    padding: 5px;
+    min-height: 100%;
+}
+
+h1.top {
+    text-align: center;
+    font-size: 40px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+h1.Introduction-title {
+    align-items: left;
+    display: flex;
+    margin-left: 20px;
+}
+
+div.image-1 {
+    display: flex;
+    justify-content: left;
+    margin: 20px;
+    margin-bottom: 5px;
+    text-align: left;
+    font-size: 20px
+}
+
+img.image-1 {
+    width: 140px;
+    height: 140px;
+    border: 3px solid rgba(171, 35, 255, 0.742);
+    border-radius: 10px;
+    box-shadow: 0px 0px 2px 2px rgba(171, 35, 255, 0.742);
+    margin-right: 20px;
+}
+
+p.text {
+    margin: 20px;
+    text-align: left;
+    font-size: 20px;
+}
+
+div.text {
+    display: block;
+    align-items: left;
+    justify-content: left;
+    text-align: left;
+    font-size: 20px;
+    border: 3px solid rgba(171, 35, 255, 0.742);
+    box-shadow: 0px 0px 2px 2px rgba(171, 35, 255, 0.742);
+    border-radius: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 5px;
+    padding-bottom: 10px;
+}
+
+ul.image-1 {
+    display: flex;
+    text-align: left;
+}
+
+
+ul.list {
+    padding-top: 0px;
+}
+div.list-title-container {
+    display: block;
+    text-align: left;
+    padding-top: 0px;
+}
+
+p.list-title {
+    font-size: 20px;
+    margin-top: 20px;
+    padding-left: 20px;
+}
+
+div.list-title-container {
+    display: block;
+    text-align: left;
+
+}
+
+button.button {
+    background-color: black;
+    color: rgba(171, 35, 255, 0.742);
+    border: 3px solid rgba(171, 35, 255, 0.742);
+    border-radius: 10px;
+    box-shadow: 0px 0px 2px 2px rgba(171, 35, 255, 0.742);
+    padding: 10px;
+    margin: 20px;
+    font-size: 20px;
+    font-family: "lucida console", monospace;
+}
+
+div.grid-container {
+    display: grid;
+    grid-template-columns: 40% 30% 30%;
+    grid-gap: 0px;
+}
+
+div.grid-container2 {
+    display: grid;
+    grid-template-columns: 30% 15% 30% 25%;
+    margin-top: 10px;
+}
+
+div.grid-item {
+    border: 3px solid rgba(171, 35, 255, 0.742);
+    border-radius: 10px;
+    box-shadow: 0px 0px 2px 2px rgba(171, 35, 255, 0.742);
+    padding: 5px;
+    padding-left: 20px;
+    padding-right: 10px;
+    margin: 20px;
+    margin-top: 20px;
+    margin-bottom: 0px;
+    margin-left: 20px;
+    font-size: 20px;
+    font-family: "lucida console", monospace;
+    text-align: left;
+    background-color: black;
+    color: rgba(171, 35, 255, 0.742);
+    display: subgrid;
+    justify-content: left;
+    align-items: left;
+}
+
+#container1 {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+#container2 {
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+#container4 {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+#container7 {
+    margin-left: 10px;
+    margin-right: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+#container5 {
+    position: relative;
+    overflow: hidden; /* Add this to prevent the image from overflowing its container */
+    margin: 10px;
+    margin-top: 20px; 
+    margin-bottom: 0px;   
+}
+
+img.item4 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    max-width: 100%; /* Change this to limit the width of the image to its container */
+    max-width: 100%; /* Change this to limit the height of the image to its container */
+    object-fit: cover;
+    padding: 0px;
+    margin: 0px;
+    width: 100%;
+    height: 100%;
+}
+
+img.image3 {
+
+    position: absolute;
+    top: 0;
+    left: 0;
+    max-width: 100%; /* Change this to limit the width of the image to its container */
+    max-width: 100%; /* Change this to limit the height of the image to its container */
+    object-fit: cover;
+    padding: 0px;
+    margin: 0px;
+    width: 100%;
+    height: 100%;
+    
+}
+
+div.button-grid-container {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    grid-gap: 5px;
+    grid-template-rows: auto auto;
+    margin-top: 20px;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+    padding-top: 0px;
+}
+
+
+a {
+    color: rgba(171, 35, 255, 0.742);
+    text-decoration: none;
+}
+
+span.ScrollingASCII {
+    font-size: 40px;
+}
+
+
+div.text2 {
+    display: block;
+    align-items: left;
+    justify-content: left;
+    text-align: left;
+    font-size: 20px;
+    border: 3px solid rgba(171, 35, 255, 0.742);
+    box-shadow: 0px 0px 2px 2px rgba(171, 35, 255, 0.742);
+    border-radius: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 5px;
+    padding-bottom: 10px;
+    margin-top: 20px;
+    font-size: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+    text-align: center;
+}
+
+@media screen and (max-width: 1600px) {
+    div.grid-container {
+        display: grid;
+        grid-template-columns: auto;
+        grid-template-rows: auto auto auto;
+    }
+
+    div#container2.grid-item {
+        margin: 20px;
+        margin-top: 30px;
+        margin-bottom: 10px;
+        margin-left: 20px;
+        padding: 10px;
+    }
+
+    div.text2 {
+        margin-bottom: 35px;
+    }
+
+    div#container5.grid-item {
+        margin: 20px;
+        margin-top: 20px;
+        margin-bottom: 0px;
+        height: 250px;
+    }
+    div#container7.grid-item {
+        margin: 20px;
+        margin-top: 20px;
+        margin-bottom: 0px;
+        height: 200px;
+    }
+    
+    div.grid-container2 {
+        display: grid;
+        grid-template-columns: auto;
+        grid-template-rows: auto auto auto auto;
+    }
+}
+
+@media screen and (max-width: 2100px) {
+    div.button-grid-container {
+        display: grid;
+        grid-template-columns: auto auto auto;
+        grid-template-rows: auto auto;
+    }
+}
+
+@media screen and (max-width: 1200px) {
+    div.button-grid-container {
+        display: grid;
+        grid-template-columns: auto auto auto;
+        grid-template-rows: auto auto;
+        gap: 10px;
+    }
+    div#container1.grid-item {
+        margin: 20px;
+        margin-top: 30px;
+        margin-bottom: 20px;
+        padding: 10px;
+    }
+    
+    div#3.grid-item {
+        margin: 20px;
+        margin-top: 20px;
+        margin-bottom: 0px;
+        margin-left: 40px;
+        padding-left: 20%;
+        padding-right: 20%;
+    }
+    div.list-container-item {
+        margin: 20px;
+        margin-top: 20px;
+        margin-bottom: 0px;
+        margin-left: 40px;
+        padding-left: 0px;
+    }
+}
