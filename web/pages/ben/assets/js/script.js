@@ -1,5 +1,3 @@
-import load from 'https://cdn.thefemdevs.com/assets/js/o/spotify';
+await t('ben', '1158220643616182445');
 
-await load('ben', '1158220643616182445');
-
-setInterval(async () => await load('ben', '1158220643616182445'), 1e3);
+setInterval(async () => await t('ben', '1158220643616182445'), 1e3);
