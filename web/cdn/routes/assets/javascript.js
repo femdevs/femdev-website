@@ -3,9 +3,7 @@ const UJS = require('uglify-js');
 
 const UglifyConfig = {
 	mangle: { toplevel: true, eval: true },
-	compress: { hoist_vars: true, keep_fargs: 'strict', keep_fnames: true, keep_infinity: true, passes: 3, pure_getters: true, unsafe: true },
 	output: { comments: false, semicolons: true, ascii_only: true, quote_style: 2 },
-	toplevel: true,
 };
 
 router
@@ -18,7 +16,7 @@ router
 	})
 	.get("/fs/:file", (req, res) => {
 		const { file } = req.params;
-		const output = UJS.minify(`${process.cwd()}/assets/scripts/File-Specific/${file}`, UglifyConfig);
+		const output = UJS.minify(`${process.cwd()}/assets/scripts/File-Specific/${file}.js`, UglifyConfig);
 		res
 			.setHeader('Content-Type', 'application/javascript')
 			.send(output.code);
@@ -26,14 +24,14 @@ router
 	.get("/cg/:file", (req, res) => {
 		const { file } = req.params;
 
-		const output = UJS.minify(`${process.cwd()}/assets/scripts/CoG/${file}`, UglifyConfig);
+		const output = UJS.minify(`${process.cwd()}/assets/scripts/CoG/${file}.js`, UglifyConfig);
 		res
 			.setHeader('Content-Type', 'application/javascript')
 			.send(output.code);
 	})
 	.get("/o/:file", (req, res) => {
 		const { file } = req.params;
-		const output = UJS.minify(`${process.cwd()}/assets/scripts/Other/${file}`, UglifyConfig);
+		const output = UJS.minify(`${process.cwd()}/assets/scripts/Other/${file}.js`, UglifyConfig);
 		res
 			.setHeader('Content-Type', 'application/javascript')
 			.send(output.code);
