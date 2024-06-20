@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const UJS = require('uglify-js');
+const fs = require('fs');
 
 const UglifyConfig = {
 	mangle: { toplevel: true, eval: true },
