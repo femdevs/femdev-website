@@ -6,7 +6,7 @@ router
 		{
 			status: (await req.Database.getServerStatus()),
 			meta: {
-				title: 'Nezha\'s Official Website',
+				title: 'Nezha\'s Website',
 				desc: 'The official website for Nezha!',
 				url: 'https://nezha.thefemdevs.com',
 			},
