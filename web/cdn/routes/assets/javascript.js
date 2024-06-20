@@ -8,7 +8,7 @@ const UglifyConfig = {
 
 router
 	.get('/ga', (req, res) => {
-		const output = UJS.minify(`${process.cwd()}/assets/scripts/Other/GoogleAnalytics.js`, UglifyConfig);
+		const output = UJS.minify(fs.readFileSync(`${process.cwd()}/assets/scripts/Other/GoogleAnalytics.js`, 'utf8'), UglifyConfig);
 		res
 			.setHeader('Cache-Control', 'public, max-age=31536000')
 			.setHeader('Content-Type', 'application/javascript')
@@ -16,7 +16,7 @@ router
 	})
 	.get("/fs/:file", (req, res) => {
 		const { file } = req.params;
-		const output = UJS.minify(`${process.cwd()}/assets/scripts/File-Specific/${file}.js`, UglifyConfig);
+		const output = UJS.minify(fs.readFileSync(`${process.cwd()}/assets/scripts/File-Specific/${file}.js`, 'utf8'), UglifyConfig);
 		res
 			.setHeader('Content-Type', 'application/javascript')
 			.send(output.code);
@@ -24,14 +24,14 @@ router
 	.get("/cg/:file", (req, res) => {
 		const { file } = req.params;
 
-		const output = UJS.minify(`${process.cwd()}/assets/scripts/CoG/${file}.js`, UglifyConfig);
+		const output = UJS.minify(fs.readFileSync`${process.cwd()}/assets/scripts/CoG/${file}.js`, 'utf8'), UglifyConfig);
 		res
 			.setHeader('Content-Type', 'application/javascript')
 			.send(output.code);
 	})
 	.get("/o/:file", (req, res) => {
 		const { file } = req.params;
-		const output = UJS.minify(`${process.cwd()}/assets/scripts/Other/${file}.js`, UglifyConfig);
+		const output = UJS.minify(fs.readFileSync(`${process.cwd()}/assets/scripts/Other/${file}.js`, 'utf8'), UglifyConfig);
 		res
 			.setHeader('Content-Type', 'application/javascript')
 			.send(output.code);
