@@ -25,7 +25,7 @@ router
 	.get("/cg/:file", (req, res) => {
 		const { file } = req.params;
 
-		const output = UJS.minify(fs.readFileSync`${process.cwd()}/assets/scripts/CoG/${file}.js`, 'utf8'), UglifyConfig);
+		const output = UJS.minify(fs.readFileSync(`${process.cwd()}/assets/scripts/CoG/${file}.js`, 'utf8'), UglifyConfig);
 		res
 			.setHeader('Content-Type', 'application/javascript')
 			.send(output.code);
