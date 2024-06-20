@@ -1,16 +1,15 @@
 const router = require('express').Router();
 const UJS = require('uglify-js');
+const fs = require('fs');
 
 const UglifyConfig = {
 	mangle: { toplevel: true, eval: true },
-	compress: { hoist_vars: true, keep_fargs: 'strict', keep_fnames: true, keep_infinity: true, passes: 3, pure_getters: true, unsafe: true },
 	output: { comments: false, semicolons: true, ascii_only: true, quote_style: 2 },
-	toplevel: true,
 };
 
 router
 	.get('/ga', (req, res) => {
-		const output = UJS.minify(`${process.cwd()}/assets/scripts/Other/GoogleAnalytics.js`, UglifyConfig);
+		const output = UJS.minify(fs.readFileSync(`${process.cwd()}/assets/scripts/Other/GoogleAnalytics.js`, 'utf8'), UglifyConfig);
 		res
 			.setHeader('Cache-Control', 'public, max-age=31536000')
 			.setHeader('Content-Type', 'application/javascript')
@@ -18,7 +17,7 @@ router
 	})
 	.get("/fs/:file", (req, res) => {
 		const { file } = req.params;
-		const output = UJS.minify(`${process.cwd()}/assets/scripts/File-Specific/${file}`, UglifyConfig);
+		const output = UJS.minify(fs.readFileSync(`${process.cwd()}/assets/scripts/File-Specific/${file}.js`, 'utf8'), UglifyConfig);
 		res
 			.setHeader('Content-Type', 'application/javascript')
 			.send(output.code);
@@ -26,14 +25,14 @@ router
 	.get("/cg/:file", (req, res) => {
 		const { file } = req.params;
 
-		const output = UJS.minify(`${process.cwd()}/assets/scripts/CoG/${file}`, UglifyConfig);
+		const output = UJS.minify(fs.readFileSync(`${process.cwd()}/assets/scripts/CoG/${file}.js`, 'utf8'), UglifyConfig);
 		res
 			.setHeader('Content-Type', 'application/javascript')
 			.send(output.code);
 	})
 	.get("/o/:file", (req, res) => {
 		const { file } = req.params;
-		const output = UJS.minify(`${process.cwd()}/assets/scripts/Other/${file}`, UglifyConfig);
+		const output = UJS.minify(fs.readFileSync(`${process.cwd()}/assets/scripts/Other/${file}.js`, 'utf8'), UglifyConfig);
 		res
 			.setHeader('Content-Type', 'application/javascript')
 			.send(output.code);
