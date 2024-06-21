@@ -1,5 +1,7 @@
 /** @type {Map<string, HTMLElement>} */
-const Elements = new Map()
+const Elements = new Map();
+
+Elements
     .set('spotifyTrack', document.getElementById('spotifytrack'))
     .set('spotifyArtist', document.getElementById('spotifyartist'))
     .set('spotifyAlbum', document.getElementById('spotifyalbum'))
@@ -60,7 +62,7 @@ class Spotify {
     }
 }
 
-const load = async (user, id) => {
+export const LoadData = async (user, id) => {
     const req = await fetch(`https://api.lanyard.rest/v1/users/${id}`);
     const spotifyReq = await fetch(`https://spotify.thefemdevs.com/playing/${user}`);
         const
@@ -86,5 +88,3 @@ const load = async (user, id) => {
         Elements.get('spotify').style.cursor = SpotifyString[0] === 'Track: Nothing' ? 'default' : 'pointer';
         Elements.get('spotify').onclick = () => window.open(spotify.track.url, '_blank');
 };
-
-export default load;

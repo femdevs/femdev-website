@@ -1,4 +1,4 @@
-import load from 'https://cdn.thefemdevs.com/assets/js/o/spotify';
+import { LoadData as load } from "https://cdn.thefemdevs.com/assets/js/o/spotify";
 
 await load('ben', '1158220643616182445');
 
