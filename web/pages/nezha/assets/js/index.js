@@ -1,3 +1,9 @@
+import { LoadData as load } from "https://cdn.thefemdevs.com/assets/js/o/spotify";
+
+await load('nezha', '1109887155720945664');
+
+setInterval(async () => await load('nezha', '1109887155720945664'), 1e3);
+
 const startCharCode = 32; // Start with ASCII code 32 (space)
 const endCharCode = 126; // End with ASCII code 126 (tilde)
 
@@ -17,6 +23,5 @@ function updateAsciiElements() {
         element.textContent = newText;
     });
 }
-
 // Change character every 100 milliseconds
 setInterval(updateAsciiElements, 5);
