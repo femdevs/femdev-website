@@ -86,13 +86,13 @@ html(lang="en")
 					.text-gray-700.mb-4.grid.grid-cols-1.grid-rows-2.justify-evenly.place-items-center
 						div#discord.m-4.grid.justify-center.place-items-center
 							p Discord: 
-							p#discordstatus.font-semibold.text-center
-							p#discordactivity.font-semibold.text-center
+							p.text-center Status: #[strong#discordstatus.font-semibold]
+							p.text-center Activity: #[strong#discordactivity.font-semibold]
 						div#spotify.m-4.grid.justify-center.place-items-center
 							p Spotify: 
-							p#spotifytrack.font-semibold.text-center
-							p#spotifyartist.font-semibold.text-center
-							p#spotifyalbum.font-semibold.text-center
+							p.text-center Track: #[strong#spotifytrack.font-semibold]
+							p.text-center Artist(s): #[strong#spotifyartist.font-semibold]
+							p.text-center Album: #[strong#spotifyalbum.font-semibold]
 					h2(class='text-2xl font-semibold mb-4 text-gray-800') Social Media
 					.grid.grid-cols-2.grid-rows-6.justify-evenly.place-items-center(class="md:grid-cols-6 md:grid-rows-2 sm:grid-cols-4 sm:grid-rows-3")
 						+socials("discord", "https://discord.com/users/1112774630416076850", "Discord", "alex")
