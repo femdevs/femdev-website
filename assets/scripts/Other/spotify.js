@@ -18,8 +18,8 @@ class Discord {
     getString() {
         const customStatus = this.activities.find(item => item.type === 4);
         return [
-            `Status: ${this.status}`,
-            `Activity: "${customStatus ? customStatus.state : this.activities[0]?.name || 'Nothing'}"`,
+            this.status,
+            customStatus ? customStatus.state : this.activities[0]?.name || 'Nothing',
         ];
     }
     setStatus(status) {
@@ -49,9 +49,9 @@ class Spotify {
         const LF = new Intl.ListFormat('en-US', { style: 'long', type: 'conjunction' });
         const NoFeatRegex = / *\(.*(ft|feat|with).*\)/gmi;
         return [
-            `Track: ${this.track.name.replace(NoFeatRegex, '') || 'Nothing'}`,
-            `Artist(s): ${LF.format(this.track.artists).replace(NoFeatRegex, '') || 'None'}`,
-            `Album: ${this.track.album.replace(NoFeatRegex, '') || 'None'}`,
+            this.track.name.replace(NoFeatRegex, '') || 'Nothing',
+            LF.format(this.track.artists).replace(NoFeatRegex, '') || 'None',
+            this.track.album.replace(NoFeatRegex, '') || 'None',
         ];
     }
     setPlaying(playing) {
