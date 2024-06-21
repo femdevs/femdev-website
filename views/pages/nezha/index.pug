@@ -4,7 +4,7 @@ html
   head
     link(rel='stylesheet', href='/cdn/css/index')
     link(rel='icon', href='/cdn/img/me.png', type='image/x-icon')
-    script(src='/cdn/js/index')
+    script(src='/cdn/js/index' type='module')
     title Nezha&apos;s Website
   body
     div
@@ -95,25 +95,13 @@ html
         img.image3(src='/cdn/img/1aa2008c04d15f46d38b797cb1452ed4.gif')
     .text2
       span.ScrollingASCII    
-      span
+      span#spotify
         p
-          i Currently Listening To:  
-        span#spotifyTrack 
-          i
-        span
-          p 
-            i by
-        span#spotifyArtist
-          i 
-        span 
-          p 
-            i on
-        span#spotifyAlbum 
+          i Currently Listening To: #[span#spotifytrack] by #[span#spotifyartist] on #[span#spotifyalbum]
       br
       span.ScrollingASCII    
-      span
+      span#discord
         p.discordtext
-          i Currently Doing: 
-      p#discordActivity
-        i 
+          i Currently Doing: #[#discordactivity]
+        #discordstatus(style="display:none;")
       span.ScrollingASCII
