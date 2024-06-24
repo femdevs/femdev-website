@@ -28,28 +28,81 @@ router
         spotifyApi.setRefreshToken(refresh);
         const { body: { access_token: newAccess } } = await spotifyApi.refreshAccessToken();
         spotifyApi.setAccessToken(newAccess);
-        res.json(await spotifyApi.getMyCurrentPlaybackState({}).then(data => {
-            const { body } = data;
-            if (!new Object(body).hasOwnProperty('item')) return {
+        const { body } = await spotifyApi.getMyCurrentPlaybackState({ market: 'US' });
+        if (!new Object(body).hasOwnProperty('item')) return res.json({
+            isPlaying: false,
+            playing: {
                 isPlaying: false,
-                song: {
-                    name: 'Nothing',
-                    album: 'Nothing',
-                    artists: ['None'],
-                    url: 'https://open.spotify.com',
+                playing: {
+                    track: {
+                        title: 'Nothing playing',
+                        url: null,
+                    },
+                    album: {
+                        title: 'Nothing playing',
+                        artists: [],
+                        image: null,
+                    },
+                    artists: [],
+                    meta: {
+                        progress: {
+                            start: 0,
+                            end: 0,
+                            current: 0,
+                            percentage: 0,
+                        },
+                    },
                 },
-            };
-            const { name, album, artists, external_urls } = body.item;
-            return {
-                isPlaying: true,
-                song: {
-                    name: name,
-                    album: album.name,
-                    artists: artists.map(artist => artist.name),
-                    url: external_urls.spotify,
+            },
+        });
+        /** @type {SpotifyApi.TrackObjectFull} */
+        const item = body.item;
+        const { name, album, artists, external_urls } = item;
+        const data = {
+            track: {
+                title: name,
+                url: external_urls.spotify,
+            },
+            album: {
+                title: album.name,
+                artists: [],
+                image: album.images.find(sDat => sDat.width === 64e1).url,
+            },
+            artists: [],
+            meta: {
+                progress: {
+                    start: Date.now() - body.progress_ms,
+                    end: Date.now() + (body.item.duration_ms - body.progress_ms),
+                    current: body.progress_ms,
+                    percentage: (body.progress_ms / body.item.duration_ms) * 1e2,
                 },
-            };
-        }));
+            },
+        };
+        for (const artist of artists) {
+            data.artists.push(
+                await spotifyApi.getArtist(artist.id)
+                    .then(dat => ({
+                        name: dat.body.name,
+                        image: dat.body.images.find(({ width }) => width === 64e1).url,
+                        url: dat.body.external_urls.spotify,
+                    })),
+            );
+        }
+        for (const albumArtist of album.artists) {
+            data.album.artists.push(
+                await spotifyApi.getArtist(albumArtist.id)
+                    .then(dat => ({
+                        name: dat.body.name,
+                        image: dat.body.images.find(({ width }) => width === 64e1).url,
+                        url: dat.body.external_urls.spotify,
+                    })),
+            );
+        }
+        const returnData = {
+            isPlaying: true,
+            playing: data,
+        };
+        res.json(returnData);
     })
     .use((req, res, next) => {
         const { path } = req;

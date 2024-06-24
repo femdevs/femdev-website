@@ -82,7 +82,15 @@ STRIPE=''
 STRIPE_WH_SECRET=''
 C_IV=''
 C_KEY=''
+DISCORD_CLIENT_ID=''
+DISCORD_CLIENT_SECRET=''
+DISCORD_REDIRECT_URI=''
 LOCALHOST_PAGE=''
+SPOTIFY_CLIENT_ID=''
+SPOTIFY_CLIENT_SECRET=''
+SPOTIFY_REDIRECT_URI=''
+SPOTIFY_REFRESH_TOKEN=''
+SPOTIFY_ACCESS_TOKEN=''
 ```
 
 Then, launch the server with the following command:
@@ -92,6 +100,24 @@ npm start
 ```
 
 The Webpage will be available at `http://localhost:3000`. (Note; CDNs, assets, and APIs are automatically setup to pull from the official server (`XXX.thefemdevs.com`), and therefore will not work regualarly on localhost. You will need to make additional modifications to the code to be able to access said resources locally, such as setting the `LOCALHOST_PAGE` enviornment variable.)
+
+## Contributing
+
+If you would like to contribute to the project, please read the Contributing Guidelines at <https://oss.thefemdevs.com/contributing>.
+
+We have a list of contributors at <https://oss.thefemdevs.com/contributors>.
+
+## License
+
+This project is licensed under the Affero General Public License v3.0 - see the License at <https://oss.thefemdevs.com/license> for details.
+
+## Code of Conduct
+
+Please read the Code Of Conduct at <https://oss.thefemdevs.com/code-of-conduct> for details on our code of conduct.
+
+## Contact
+
+If you have any questions, please feel free to reach out to us at <contact@thefemdevs.com>.
 
 ## List of Tools
 
@@ -115,22 +141,11 @@ The Webpage will be available at `http://localhost:3000`. (Note; CDNs, assets, a
 - [node-html-parser](https://npmjs.com/package/node-html-parser) => Fast and forgiving HTML/XML parser
 - [html-minifier](https://npmjs.com/package/html-minifier) => A tool to minify HTML
 - [@therealbenpai/zdcors](https://npmjs.com/package/@therealbenpai/zdcors) => A simple zero-dependency Web Security middleware for Express.js
+- [Spotify Web API](https://developer.spotify.com/documentation/web-api/) => A set of web APIs to access Spotify music catalog
+- [Open Weather Map API](https://openweathermap.org/api) => A set of APIs to access weather data
+- [Google Maps API](https://developers.google.com/maps) => A set of APIs to access Google Maps data
+- [Discord API](https://discord.com/developers/docs/intro) => A set of APIs to access Discord data
+- [Stripe API](https://stripe.com/docs/api) => A set of APIs to access Stripe data
+- [GitHub API](https://docs.github.com/en/rest) => A set of APIs to access GitHub data
+- [Veriphone API](https://veriphone.io/) => A set of APIs to access phone number data
 - [Free APIs](https://free-apis.github.io/) => Free APIs for developers
-
-## Contributing
-
-If you would like to contribute to the project, please read the Contributing Guidelines at <https://oss.thefemdevs.com/contributing>.
-
-We have a list of contributors at <https://oss.thefemdevs.com/contributors>.
-
-## License
-
-This project is licensed under the Affero General Public License v3.0 - see the License at <https://oss.thefemdevs.com/license> for details.
-
-## Code of Conduct
-
-Please read the Code Of Conduct at <https://oss.thefemdevs.com/code-of-conduct> for details on our code of conduct.
-
-## Contact
-
-If you have any questions, please feel free to reach out to us at <contact@thefemdevs.com>.
