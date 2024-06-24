@@ -91,13 +91,19 @@ export const LoadData = async (user, id) => {
         SpotifyString = spotify.getString();
     if (Elements.get('discord')) {
         ['Status', 'Activity']
-            .forEach((item, index) => Elements.get(`discord${item}`).innerText = DiscordString[index]);
+            .forEach((item, index) => {
+                if (Elements.get(`discord${item}`).innerText === DiscordString[index]) return;
+                Elements.get(`discord${item}`).innerText = DiscordString[index];
+            });
         Elements.get('discord').style.cursor = 'pointer';
         Elements.get('discord').onclick = () => window.open(`https://discord.com/users/${id}`, '_blank');
     }
     if (Elements.get('spotify')) {
         ['Track', 'Artist', 'Album']
-            .forEach((item, index) => Elements.get(`spotify${item}`).innerText = SpotifyString[index]);
+            .forEach((item, index) => {
+                if (Elements.get(`spotify${item}`).innerText === SpotifyString[index]) return;
+                Elements.get(`spotify${item}`).innerText = SpotifyString[index];
+            });
         Elements.get('spotify').style.cursor = SpotifyString[0] === 'Nothing' ? 'default' : 'pointer';
         Elements.get('spotify').onclick = () => window.open(spotify.song.track.url, '_blank');
     }
