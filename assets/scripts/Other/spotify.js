@@ -85,7 +85,7 @@ export const LoadData = async (user, id) => {
         .setActivities(data.activities);
     spotify
         .setPlaying(spotifyData.isPlaying)
-        .setTrack(spotifyData.song);
+        .setTrack(spotifyData.playing);
     const
         DiscordString = discord.getString(),
         SpotifyString = spotify.getString();
