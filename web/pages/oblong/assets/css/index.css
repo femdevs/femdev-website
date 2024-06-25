@@ -2,7 +2,7 @@
 
 @font-face {
     font-family: "RPGSystem";
-    src: url("/cdn/fonts/rpgsystem.ttf");
+    src: url("/cdn/font/rpgsystem");
 }
 
 :root {
@@ -17,7 +17,7 @@ html {
 }
 
 body {
-    background-image: url("/cdn/imgs/checkerboard-background.png");
+    background-image: url("/cdn/img/checkerboard-background.png");
     background-color: #eee;
     background-repeat: repeat;
     color: black;
