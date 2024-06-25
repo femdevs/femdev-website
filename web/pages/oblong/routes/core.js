@@ -2,9 +2,9 @@ const router = require('express').Router();
 
 router
 	.get('/', async (req, res) => res.render(
-		'pages/ne/index.pug',
+		'pages/oblong/index.pug',
 		{
-			status: (await req.Database.getServerStatus()),
+			// status: (await req.Database.getServerStatus()),
 			meta: {
 				title: 'Oblongs\'s Official Website',
 				desc: 'The official website of Oblong!',

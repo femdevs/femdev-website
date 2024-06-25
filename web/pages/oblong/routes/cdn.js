@@ -6,26 +6,26 @@ router
 		let mime = '',
 			enc = undefined;
 		switch (req.params.file.split('.').at(-1)) {
-		case 'gif':
-			mime = 'image/gif';
-			break;
-		case 'jpg':
-		case 'jpeg':
-			mime = 'image/jpeg';
-			break;
-		case 'svg':
-			mime = 'image/svg+xml';
-			enc = 'utf8';
-		case 'png':
-			mime = 'image/png';
-			break;
-		case 'ico':
-			mime = 'image/vnd.microsoft.icon';
-			break;
-		default:
-			mime = 'text/plain';
-			enc = 'utf8';
-			break;
+			case 'gif':
+				mime = 'image/gif';
+				break;
+			case 'jpg':
+			case 'jpeg':
+				mime = 'image/jpeg';
+				break;
+			case 'svg':
+				mime = 'image/svg+xml';
+				enc = 'utf8';
+			case 'png':
+				mime = 'image/png';
+				break;
+			case 'ico':
+				mime = 'image/vnd.microsoft.icon';
+				break;
+			default:
+				mime = 'text/plain';
+				enc = 'utf8';
+				break;
 		}
 		res
 			.setHeader('Content-Type', mime)
@@ -40,6 +40,11 @@ router
 		res
 			.setHeader('Content-Type', 'text/css')
 			.send(fs.readFileSync(`${__dirname}/../assets/css/${req.params.file}.css`, 'utf8')),
+	)
+	.get('/font/:file', (req, res) =>
+		res
+			.setHeader('Content-Type', 'font/ttf')
+			.send(fs.readFileSync(`${__dirname}/../assets/fonts/${req.params.file}.ttf`, 'utf8')),
 	);
 
 module.exports = router;
