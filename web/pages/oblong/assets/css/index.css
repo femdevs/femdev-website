@@ -1,4 +1,4 @@
-/* MARGIN AND PADDING = TOP, RIGHT, BOTTOM, LEFT */
+@import url("./window-styling.css");
 
 @font-face {
     font-family: "RPGSystem";
@@ -35,10 +35,11 @@ main {
     flex-direction: column;
 }
 
-main>div {
+main div {
     display: flex;
     flex-direction: row;
     gap: 35px;
+    flex-wrap: wrap;
 }
 
 nav {
