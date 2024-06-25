@@ -32,25 +32,22 @@ router
         if (!new Object(body).hasOwnProperty('item')) return res.json({
             isPlaying: false,
             playing: {
-                isPlaying: false,
-                playing: {
-                    track: {
-                        title: 'Nothing playing',
-                        url: null,
-                    },
-                    album: {
-                        title: 'Nothing playing',
-                        artists: [],
-                        image: null,
-                    },
+                track: {
+                    title: 'Nothing playing',
+                    url: null,
+                },
+                album: {
+                    title: 'Nothing playing',
                     artists: [],
-                    meta: {
-                        progress: {
-                            start: 0,
-                            end: 0,
-                            current: 0,
-                            percentage: 0,
-                        },
+                    image: null,
+                },
+                artists: [],
+                meta: {
+                    progress: {
+                        start: 0,
+                        end: 0,
+                        current: 0,
+                        percentage: 0,
                     },
                 },
             },
