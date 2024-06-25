@@ -67,11 +67,11 @@ body:
       label: Legal Agreements
       description: By submitting this issue, you agree to follow our Policies and Code of Conduct.
       options:
-        - label: I agree to follow this project's Code of Conduct
+        - label: I agree to follow this project's [Code of Conduct](https://oss.thefemdevs.com/code-of-conduct)
           required: true
-        - label: I agree to follow this project's Terms of Service
+        - label: I agree to follow this project's [Terms of Service](https://legal.thefemdevs.com/terms)
           required: true
-        - label: I agree to follow this project's Privacy Policy
+        - label: I agree to follow this project's [Privacy Policy](https://legal.thefemdevs.com/privacy)
           required: true
-        - label: I agree to follow this project's Security Policy
+        - label: I agree to follow this project's [Security Policy](https://oss.thefemdevs.com/security)
           required: true
