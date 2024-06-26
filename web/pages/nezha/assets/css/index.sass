@@ -1,0 +1,211 @@
+$purple: rgba(171, 35, 255, 0.742)
+
+@keyframes fadeIn
+    from
+        opacity: 0
+    to
+        opacity: 1
+html
+    box-sizing: border-box
+    background-color: black
+    color: $purple
+    font-family: "lucida console", monospace
+    animation: fadeIn 2s ease-in-out
+    border: 3px solid $purple
+    border-radius: 10px
+    box-shadow: 0px 0px 2px 2px $purple
+    margin: 5px
+    padding: 5px
+    min-height: 100%
+h1
+    &.top
+        text-align: center
+        font-size: 40px
+        margin: 20px auto
+    &.Introduction-title
+        align-items: left
+        display: flex
+        margin-left: 20px
+div
+    &.image-1
+        display: flex
+        justify-content: left
+        margin: 20px
+        margin-bottom: 5px
+        text-align: left
+        font-size: 20px
+    &.text
+        display: block
+        align-items: left
+        justify-content: left
+        text-align: left
+        font-size: 20px
+        border: 3px solid $purple
+        box-shadow: 0px 0px 2px 2px $purple
+        border-radius: 10px
+        padding: 5px 20px 10px
+    &.list-title-container
+        display: block
+        text-align: left
+        padding-top: 0px
+    &.list-title-container
+        display: block
+        text-align: left
+    &.grid-container
+        display: grid
+        grid-template-columns: 40% 30% 30%
+        grid-gap: 0px
+    &.grid-container2
+        display: grid
+        grid-template-columns: 30% 15% 30% 25%
+        margin-top: 10px
+    &.grid-item
+        border: 3px solid $purple
+        border-radius: 10px
+        box-shadow: 0px 0px 2px 2px $purple
+        padding: 5px 10px 5px 20px
+        margin: 20px auto 0px 20px
+        font-size: 20px
+        font-family: "lucida console", monospace
+        text-align: left
+        background-color: black
+        color: $purple
+        display: subgrid
+        justify-content: left
+        align-items: left
+    &.button-grid-container
+        display: grid
+        grid-template-columns: auto auto auto
+        grid-gap: 5px
+        grid-template-rows: auto auto
+        margin: 20px auto auto auto
+        align-items: center
+        justify-content: center
+        padding: 0 15px 15px 15px
+    &.text2
+        display: block
+        align-items: left
+        justify-content: left
+        border: 3px solid $purple
+        box-shadow: 0px 0px 2px 2px $purple
+        border-radius: 10px
+        padding: 5px 20px 10px
+        margin: 20px 20px auto
+        font-size: 20px
+        text-align: center
+#container1, #container4
+    margin: auto 20px
+#container2
+    margin: auto 0
+#container7
+    margin: auto 20px auto 10px
+    position: relative
+    overflow: hidden
+#container5
+    position: relative
+    overflow: hidden /* Add this to prevent the image from overflowing its container */
+    margin: 20px 10px 0
+img
+    &.image-1
+        width: 140px
+        height: 140px
+        border: 3px solid $purple
+        border-radius: 10px
+        box-shadow: 0px 0px 2px 2px $purple
+        margin-right: 20px
+    &.item4, &.image3
+        position: absolute
+        top: 0
+        left: 0
+        max-width: 100% /* Change this to limit the width of the image to its container */
+        max-width: 100% /* Change this to limit the height of the image to its container */
+        object-fit: cover
+        padding: 0px
+        margin: 0px
+        width: 100%
+        height: 100%
+p
+    &.text
+        margin: 20px
+        text-align: left
+        font-size: 20px
+    &.list-title
+        font-size: 20px
+        margin: 20px auto auto 20px
+ul
+    &.image-1
+        display: flex
+        text-align: left
+    &.list
+        padding-top: 0px
+button
+    &.button
+        background-color: black
+        color: $purple
+        border: 3px solid $purple
+        border-radius: 10px
+        box-shadow: 0px 0px 2px 2px $purple
+        padding: 10px
+        margin: 20px
+        font-size: 20px
+        font-family: "lucida console", monospace
+
+a
+    color: $purple
+    text-decoration: none
+
+span
+    &.ScrollingASCII
+        font-size: 40px
+
+@media screen and (max-width: 1600px)
+    div
+        &.grid-container
+            display: grid
+            grid-template-columns: auto
+            grid-template-rows: auto auto auto
+        &#container2.grid-item
+            margin: 30px 20px 10px
+            padding: 10px
+        &.text2
+            margin-bottom: 35px
+
+        &#container5.grid-item
+            margin: 20px 20px 0px
+            height: 250px
+
+        &#container7.grid-item
+            margin: 20px 20px 0px
+            height: 200px
+
+        &.grid-container2
+            display: grid
+            grid-template-columns: auto
+            grid-template-rows: auto auto auto auto
+
+@media screen and (max-width: 2100px)
+    div
+        &.button-grid-container
+            display: grid
+            grid-template-columns: auto auto auto
+            grid-template-rows: auto auto
+
+@media screen and (max-width: 1200px)
+    div
+        &.button-grid-container
+            display: grid
+            grid-template-columns: auto auto auto
+            grid-template-rows: auto auto
+            gap: 10px
+        &#container1.grid-item
+            margin: 30px 20px 20px
+            padding: 10px
+        &#sect3.grid-item
+            margin: 20px 20px 0 40px
+            padding: auto 20%
+        &.list-container-item
+            margin: 20px 20px 0 40px
+            margin-top: 20px
+            margin-bottom: 0px
+            margin-left: 40px
+            padding-left: 0px

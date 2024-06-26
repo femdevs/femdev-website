@@ -3,12 +3,54 @@ mixin button(href, text)
 	button.button
 		a(href=href)= text
 doctype html
-html
+html(lang="en")
 	head
-		link(rel='stylesheet' href='/cdn/css/index')
-		link(rel='icon' href='/cdn/img/me.png' type='image/x-icon')
-		script(src='/cdn/js/index' type='module')
+		+meta(0)
+		+canonical(meta.canonical)
+		+meta(3, 'X-UA-Compatible', "IE%e%edge")
+		+meta(3, 'Content-Type', 'text/html; charset%e%utf-8')
+		+meta(1, 'viewport', 'width%e%device-width, initial-scale%e%1.0')
+		+meta(1, 'google', 'nositelinkssearchbox')
+		+meta(2, 'og:url', meta.url)
+		+meta(1, 'title', meta.title)
+		+meta(2, 'og:title', meta.title)
+		+meta(2, 'twitter:url', meta.url)
+		+meta(1, 'description', meta.desc)
+		+meta(2, 'twitter:title', meta.title)
+		+meta(2, 'og:description', meta.desc)
+		+meta(2, 'twitter:description', meta.desc)
+		+meta(2, 'og:image', '/cdn/img/me.png')
+		+meta(2, 'og:type', 'website')
+		+meta(1, 'language', 'en-us')
+		+meta(1, 'revisit-after', '2 days')
+		+meta(2, 'twitter:card', 'summary_large_image')
+		+meta(2, 'twitter:image', '/cdn/img/me.png')
+		+meta(1, 'apple-mobile-web-app-status-bar-style', 'black')
+		+meta(1, 'apple-mobile-web-app-title', 'The FemDevs Website')
+		+meta(1, 'google-adsense-account', 'ca-pub-1906373468377810')
+		+headerlink('/cdn/img/me.png', 'apple-touch-icon', 'image/png')
+		+headerlink('/cdn/img/me.png', 'icon', 'image/png')
+		+headerlink('/cdn/css/index', 'stylesheet', 'text/css')
 		title= meta.title
+		script(type="application/ld+json").
+			{
+				"@context": "https://schema.org/",
+				"@type": "Person",
+				"name": "Nezha",
+				"url": "https://nezha.thefemdevs.com",
+				"image": "https://nezha.thefemdevs.com/cdn/img/me.png",
+				"sameAs": [
+					"https://github.com/AcidToast76",
+					"https://en.pronouns.page/@acidtoast76",
+					"https://nezha.thefemdevs.com"
+				],
+				"jobTitle": "Developer",
+				"worksFor": {
+					"@type": "Organization",
+					"name": "The FemDevs"
+				}
+			}
+		script(src='/cdn/js/index' type='module')
 	body
 		div
 			h1.top
@@ -47,7 +89,7 @@ html
 					li Athena (super cute)
 					li 80s Pop music
 					li 00s Nu Metal
-			#3.grid-item
+			#sect3.grid-item
 				.list-title-container: p.list-title: u Socials
 				.button-grid-container
 					+button('https://discord.com/users/1109887155720945664', 'Discord')

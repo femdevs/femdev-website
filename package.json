@@ -7,7 +7,8 @@
   "scripts": {
     "build": "npx postcss ./static/tailwind.css -o ./static/styles.css",
     "dev": "nodemon .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "sass": "node compileSass.js"
   },
   "author": {
     "name": "Benjamin",
@@ -83,6 +84,7 @@
     "pug": "^3.0.2",
     "rate-limiter-flexible": "^3.0.0",
     "response-time": "^2.3.2",
+    "sass": "^1.77.6",
     "spotify-web-api-node": "^5.0.2",
     "sql-template-strings": "^2.2.2",
     "stripe": "^14.1.0",
