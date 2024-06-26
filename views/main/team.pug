@@ -1,15 +1,17 @@
-include ../defaults/mixins.pug
+include ../mixins.pug
 doctype html
 html(lang='en-us')
-  head
-    +header()
-  body.bg-neutral-200
-    +nav()
-    content.flex.flex-col.items-center.justify-center
-      hero.flex.w-full.max-w-6xl.flex-col.space-y-8.p-8(class='md:my-16')
-        .flex.w-full.flex-col.space-y-4
-          h1.select-none.font-poppins.text-5xl.font-medium.text-neutral-900 The Team
-          h2.select-none.font-poppins.text-xl.text-neutral-900 FemDevs would not be possible without the help of a number of people. We would like to thank the following people for their contributions to FemDevs.
-        each section in staff
-          +staffsegment(section.title, section)
-    +footer()
+	head
+		+header()
+	body.bg-neutral-200
+		+nav()
+		content.flex.flex-col.items-center.justify-center
+			hero.flex.w-full.max-w-6xl.flex-col.space-y-8.p-8(class='md:my-16')
+				.flex.w-full.flex-col.space-y-4
+					h1.select-none.font-poppins.text-5xl.font-medium.text-neutral-900 The Team
+					h2.select-none.font-poppins.text-xl.text-neutral-900.
+						FemDevs would not be possible without the help of a number of people.
+						We would like to thank the following people for their contributions to FemDevs.
+				each section in staff
+					+staffsegment(section.title, section)
+		+footer()

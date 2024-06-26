@@ -1,12 +1,12 @@
-include ../defaults/mixins.pug
+include ../mixins.pug
 doctype html
 html(lang='en-us')
-  head
-    +header()
-  body.bg-neutral-200
-    +nav()
-    content.flex.flex-col.items-center.justify-center
-      hero.flex.w-full.max-w-6xl.flex-row.items-center.justify-between.p-8(class='md:my-16')
-        .flex.w-full.flex-col.space-y-4
-          h1.text-9xl.font-black.text-neutral-900.text-center Coming Soon
-    +footer()
+	head
+		+header()
+	body.bg-neutral-200
+		+nav()
+		content.flex.flex-col.items-center.justify-center
+			hero.flex.w-full.max-w-6xl.flex-row.items-center.justify-between.p-8(class='md:my-16')
+				.flex.w-full.flex-col.space-y-4
+					h1.text-9xl.font-black.text-neutral-900.text-center Coming Soon
+		+footer()

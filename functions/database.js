@@ -4,8 +4,6 @@ const SQL = require('sql-template-strings');
 const events = require('events');
 require('dotenv').config();
 
-const CSPData = require('./security');
-
 class PGDatabase extends events.EventEmitter {
 	constructor() {
 		super({ captureRejections: true });

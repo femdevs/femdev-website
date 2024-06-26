@@ -1,24 +1,36 @@
-include ../../defaults/mixins.pug
-doctype html 
-html(lang='en-us') 
-  head 
-    +meta(0)
-    +meta(1, 'viewport', "width%e%device-width")
-    +meta(2, 'og:url', "https://oblong101.com")
-    +meta(2, 'og:title', 'Oblong\'s Website')
-    +meta(2, 'og:description', 'Oblong\'s personal website')
-    +meta(2, 'og:image', 'https://github.com/Oblong101.png')
-    +headerlink('https://cdn.thefemdevs.com/assets/css/d', 'stylesheet', 'text/css')
-    +headerlink('https://fonts.googleapis.com/css2?family=Inter&display=swap', 'stylesheet', 'text/css')
-    +headerlink('https://ka-f.fontawesome.com/releases/v6.5.1/css/free.min.css?token=7cffc2ccb5', 'stylesheet', 'text/css')(crossorigin='anonymous')
-    +headerlink('https://ka-f.fontawesome.com/releases/v6.5.1/css/free-v5-font-face.min.css?token=7cffc2ccb5', 'stylesheet', 'text/css')(crossorigin='anonymous')
-  body.font-inter
-    section: h1 Hey, I&#39;m Oblong
-    section: p I am an artist, a web developer, and I&#39;m dabbling in game development.
-    section
-      p If you&#39;re interested, you can find me in these places: 
-      div
-        div: i.fa-regular.fa-envelope
-        div: i.fa-brands.fa-discord
-
-      
+include ../../mixins.pug
+doctype html
+html(lang='en-us')
+	head
+		+meta(0)
+		+meta(1, 'viewport', "width%e%device-width")
+		+meta(2, 'og:url', "https://oblong101.com")
+		+meta(2, 'og:title', 'Oblong\'s Website')
+		+meta(2, 'og:description', 'Oblong\'s personal website')
+		+meta(2, 'og:image', 'https://github.com/Oblong101.png')
+		+headerlink(href="/cdn/css/index" rel="stylesheet" type="text/css")
+		+headerlink(href="/cdn/css/window-styling" rel="stylesheet" type="text/css")
+		+headerlink(href="/cdn/img/site-icon.png" rel="icon" type="image/png")
+		title Oblong's Page
+	body
+	nav
+		a(href="/")
+			img(src="/cdn/img/house-icon.png" alt="macOS-esque house icon that links to the homepage" width="16" height="16")
+		p Safari
+		p File
+		p Edit
+		p View
+		p Help
+	main
+		div
+			.window-container
+				.window-titlebar
+					.titlebar-title
+						.window-title
+							p About
+				.window-content
+					p.
+						Hi, im Oblong, a developer from the UK. I mainly create websites with the standard HTML, CSS, and JS stack,
+						but I also have experience creating desktop applications and CLI apps using languages like Swift, Java, and
+						Python just to name a few. Other things im interested in are gaming, art, retro computers and software, maths,
+						physics, and space.

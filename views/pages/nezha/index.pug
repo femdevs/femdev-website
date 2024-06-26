@@ -1,110 +1,130 @@
-include ../../defaults/mixins.pug
+include ../../mixins.pug
+mixin button(href, text)
+	button.button
+		a(href=href)= text
 doctype html
-html
-  head
-    link(rel='stylesheet', href='/cdn/css/index')
-    link(rel='icon', href='/cdn/img/me.png', type='image/x-icon')
-    script(src='/cdn/js/index' type='module')
-    title Nezha&apos;s Website
-  body
-    div
-      h1.top 
-        i 
-          span.ScrollingASCII !!
-          span  
-          span#discordactivity 
-          span  
-          span.ScrollingASCII !!
-      h1
-    div
-      h1.Introduction-title
-        u Who am I?
-    .image-1
-      img.image-1(src='/cdn/img/me.png')
-      .text
-        p
-          | I&apos;m Nezha. I have been learning the HTML/CSS/JS cluster recently and I&apos;m quite inexperienced, but I&apos;m learning.
-          | I&apos;m interested in a wide variety of games, mainly Minecraft, Warfame, and Tom Clancy&apos;s The Division 2. I am currently 15.
-    .grid-container
-      #container1.grid-item
-        ul.list
-          .list-title-container
-            p.list-title
-              u Courses
-          li Cambridge National Level 2 IT
-          li GCSE OCR Computer Science (Target 9)
-          li GCSE AQA 3D Design
-          li GCSE AQA Geography
-          li GCSE AQA English Language + Literature
-          li GCSE AQA Maths + Considering taking Further Maths in September
-          li GCSE AQA Combined Science
-      #container2.grid-item
-        ul.list
-          .list-title-container
-            p.list-title
-              u Interests
-          li Programming
-          li Gaming
-          li Exploring new ideas and concepts
-          li Learning new things
-          li Athena (super cute)
-          li 80s Pop music
-          li 00s Nu Metal
-      #3.grid-item
-        .list-title-container
-          p.list-title
-            u Socials
-        .button-grid-container
-          button.button(href='')
-            a(href='https://discordapp.com/users/1109887155720945664') Discord
-          button.button
-            a(href='mailto:letukasjosh77@gmail.com') Email
-          button.button
-            a(href='https://steamcommunity.com/id/AcidToast76/') Steam
-          button.button
-            a(href='https://open.spotify.com/user/hpjv09y99ucx7adf3jb6qijvp?si=16a245fc990549bf') Spotify
-          button.button
-            a(href='https://www.thefemdevs.com/') The FemDevs
-          button.button
-            a(href='https://www.last.fm/user/AcidToast76') Last.fm
-    .grid-container2
-      #container4.grid-item
-        ul.list
-          .list-title-container
-            p.list-title
-              u Do Not Interact If:
-          li You are weird
-          li Your name is Binkle
-          li Basic DNI Criteria
-          li You are overly annoying
-          li You deliberately shit on my hobbies
-          li You have no respect for others&apos; opinions
-          li You are under 13 or over 24
-      #container5.grid-item
-        img.item4(src='/cdn/img/200w.gif')
-      #6.grid-item
-        ul
-          div
-            p.list-title
-              u Music Tracks I Love:
-          li Modjo - Lady
-          li Linkin Park - Waiting For The End
-          li The Maccabees - Unknow
-          li Jimmy Eat World - Just Tonight
-          li Muse - Time Is Running Out
-          li Linkin Park - Pushing Me Away
-      #container7.grid-item
-        img.image3(src='/cdn/img/1aa2008c04d15f46d38b797cb1452ed4.gif')
-    .text2
-      span.ScrollingASCII    
-      span#spotify
-        p
-          i Currently Listening To: 
-        p
-          i #[span#spotifytrack] by #[span#spotifyartist] on #[span#spotifyalbum]
-      br
-      span.ScrollingASCII    
-      span#discord
-        p.discordtext
-          i Currently: #[#discordstatus]
-        
+html(lang="en")
+	head
+		+meta(0)
+		+canonical(meta.canonical)
+		+meta(3, 'X-UA-Compatible', "IE%e%edge")
+		+meta(3, 'Content-Type', 'text/html; charset%e%utf-8')
+		+meta(1, 'viewport', 'width%e%device-width, initial-scale%e%1.0')
+		+meta(1, 'google', 'nositelinkssearchbox')
+		+meta(2, 'og:url', meta.url)
+		+meta(1, 'title', meta.title)
+		+meta(2, 'og:title', meta.title)
+		+meta(2, 'twitter:url', meta.url)
+		+meta(1, 'description', meta.desc)
+		+meta(2, 'twitter:title', meta.title)
+		+meta(2, 'og:description', meta.desc)
+		+meta(2, 'twitter:description', meta.desc)
+		+meta(2, 'og:image', '/cdn/img/me.png')
+		+meta(2, 'og:type', 'website')
+		+meta(1, 'language', 'en-us')
+		+meta(1, 'revisit-after', '2 days')
+		+meta(2, 'twitter:card', 'summary_large_image')
+		+meta(2, 'twitter:image', '/cdn/img/me.png')
+		+meta(1, 'apple-mobile-web-app-status-bar-style', 'black')
+		+meta(1, 'apple-mobile-web-app-title', 'The FemDevs Website')
+		+meta(1, 'google-adsense-account', 'ca-pub-1906373468377810')
+		+headerlink('/cdn/img/me.png', 'apple-touch-icon', 'image/png')
+		+headerlink('/cdn/img/me.png', 'icon', 'image/png')
+		+headerlink('/cdn/css/index', 'stylesheet', 'text/css')
+		title= meta.title
+		script(type="application/ld+json").
+			{
+				"@context": "https://schema.org/",
+				"@type": "Person",
+				"name": "Nezha",
+				"url": "https://nezha.thefemdevs.com",
+				"image": "https://nezha.thefemdevs.com/cdn/img/me.png",
+				"sameAs": [
+					"https://github.com/AcidToast76",
+					"https://en.pronouns.page/@acidtoast76",
+					"https://nezha.thefemdevs.com"
+				],
+				"jobTitle": "Developer",
+				"worksFor": {
+					"@type": "Organization",
+					"name": "The FemDevs"
+				}
+			}
+		script(src='/cdn/js/index' type='module')
+	body
+		div
+			h1.top
+				i
+					span.ScrollingASCII !!
+					span  
+					span#discordactivity 
+					span  
+					span.ScrollingASCII !!
+			br
+		div: h1.Introduction-title: u Who am I?
+		.image-1
+			img.image-1(src='/cdn/img/me.png')
+			.text
+				p.
+					I'm Nezha. I have been learning the HTML/CSS/JS cluster recently and I'm quite inexperienced, but I'm learning.
+					I'm interested in a wide variety of games, mainly Minecraft, Warfame, and Tom Clancy's The Division 2. I am currently 15.
+		.grid-container
+			#container1.grid-item
+				ul.list
+					.list-title-container: p.list-title: u Courses
+					li Cambridge National Level 2 IT
+					li GCSE OCR Computer Science (Target 9)
+					li GCSE AQA 3D Design
+					li GCSE AQA Geography
+					li GCSE AQA English Language + Literature
+					li GCSE AQA Maths + Considering taking Further Maths in September
+					li GCSE AQA Combined Science
+			#container2.grid-item
+				ul.list
+					.list-title-container: p.list-title: u Interests
+					li Programming
+					li Gaming
+					li Exploring new ideas and concepts
+					li Learning new things
+					li Athena (super cute)
+					li 80s Pop music
+					li 00s Nu Metal
+			#sect3.grid-item
+				.list-title-container: p.list-title: u Socials
+				.button-grid-container
+					+button('https://discord.com/users/1109887155720945664', 'Discord')
+					+button('mailto:nezha@thefemdevs.com', 'Email')
+					+button('https://steamcommunity.com/id/AcidToast76', 'Steam')
+					+button('https://open.spotify.com/user/hpjv09y99ucx7adf3jb6qijvp?si=16a245fc990549bf', 'Spotify')
+					+button('https://www.thefemdevs.com/', 'The FemDevs')
+					+button('https://www.last.fm/user/AcidToast76', 'Last.fm')
+		.grid-container2
+			#container4.grid-item
+				ul.list
+					.list-title-container: p.list-title: u Do Not Interact If:
+					li You are weird
+					li Your name is Binkle
+					li Basic DNI Criteria
+					li You are overly annoying
+					li You deliberately shit on my hobbies
+					li You have no respect for others&apos; opinions
+					li You are under 13 or over 24
+			#container5.grid-item: img.item4(src='/cdn/img/200w.gif')
+			#6.grid-item
+				ul
+					div: p.list-title: u Music Tracks I Love:
+					li Modjo - Lady
+					li Linkin Park - Waiting For The End
+					li The Maccabees - Unknow
+					li Jimmy Eat World - Just Tonight
+					li Muse - Time Is Running Out
+					li Linkin Park - Pushing Me Away
+			#container7.grid-item: img.image3(src='/cdn/img/1aa2008c04d15f46d38b797cb1452ed4.gif')
+		.text2
+			span.ScrollingASCII    
+			span#spotify
+				p: i Currently Listening To: 
+				p: i #[span#spotifytrack] by #[span#spotifyartist] on #[span#spotifyalbum]
+			br
+			span.ScrollingASCII    
+			span#discord: p.discordtext: i Currently: #[#discordstatus]

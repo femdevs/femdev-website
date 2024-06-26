@@ -60,60 +60,55 @@ const getOAuthUrl = () => {
 		client_id: configs.get("DiscordClientId"),
 		redirect_uri: configs.get("DiscordRedirectUri"),
 		response_type: "code",
-		scope: Array.of(
-			"role_connections.write",
-			"identify",
-			"email",
-			"connections",
-			"guilds",
-		).join(" "),
+		scope: ["role_connections.write", "identify", "email", "connections", "guilds"].join(" "),
 		prompt: "consent",
 	}).toString();
-	return { url: url.toString() };
+	return url.toString();
 };
 const getOAuthTokens = async code =>
 	new TokenSet(
-		await Axios.post(
-			new URL("/api/v10/oauth2/token", "https://discord.com"),
-			new URLSearchParams(
-				new Request("authorization_code", {
-					code,
-					redirect_uri: configs.get("DiscordRedirectUri"),
-				}),
-			),
-		).then(res => res.data),
+		await Axios
+			.post(
+				new URL("/api/v10/oauth2/token", "https://discord.com"),
+				new URLSearchParams(
+					new Request("authorization_code", {
+						code,
+						redirect_uri: configs.get("DiscordRedirectUri"),
+					}),
+				),
+			)
+			.then(res => res.data),
 	);
 const getUserData = async req =>
-	await Axios.get("oauth2/@me", {
-		headers: { Authorization: `Bearer ${await req.session.token.access()}` },
-	}).then(res => res.data);
+	await Axios
+		.get("oauth2/@me", { headers: { Authorization: `Bearer ${await req.session.token.access()}` } })
+		.then(res => res.data);
 const updateMetadata = async req => {
-	const data = {
-		isvolunteer: 0,
-		isowner: 0,
-	};
 	const connection = await req.Database.pool.connect();
-	const { rows: StaffRows } = await connection.query(
-		SQL`SELECT * FROM public.staff WHERE userid = ${req.session.userId}`,
-	);
-	if (StaffRows.length > 0) data.isvolunteer = 1;
-	if (data.isvolunteer && StaffRows[0].role === "Owner") data.isowner = 1;
-	await Axios.put(
-		`users/@me/applications/${configs.get("DiscordClientId")}/role-connection`,
-		{ platform_name: "FemDevs Internals", metadata: data },
-		{
-			headers: {
-				Authorization: `Bearer ${await req.session.token.access()}`,
-				"Content-Type": "application/json",
+	const { rows: StaffRows } = await connection.query(SQL`SELECT * FROM public.staff WHERE userid = ${req.session.userId}`);
+	await Axios
+		.put(
+			`users/@me/applications/${configs.get("DiscordClientId")}/role-connection`,
+			{
+				platform_name: "FemDevs Internals",
+				platform_username: StaffRows[0]?.displayname,
+				metadata: {
+					isvolunteer: String(Number(StaffRows.length > 0)),
+					isowner: String(Number(StaffRows.length > 0 && StaffRows[0].role === "Owner")),
+				},
 			},
-		},
-	);
+			{
+				headers: {
+					Authorization: `Bearer ${await req.session.token.access()}`,
+					"Content-Type": "application/json",
+				},
+			},
+		);
 };
 
 router
 	.get("/lr", async (req, res) => {
-		const { url } = getOAuthUrl();
-		res.redirect(url);
+		res.redirect(getOAuthUrl());
 	})
 	.get("/oauth2", async (req, res) => {
 		try {

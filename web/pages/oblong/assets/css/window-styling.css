@@ -1,0 +1,45 @@
+.window-container {
+    background: white;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    outline: black solid var(--outline-width);
+    box-shadow: 4px 4px black;
+    width: 100%;
+    height: 100%;
+}
+
+.window-content {
+    padding: 12px;
+}
+
+.window-titlebar {
+    border-bottom: var(--outline-width) solid black;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 2px 0 2px 0;
+    width: 100%;
+    background: url("/cdn/img/window-titlebar-pattern.png");
+    background-repeat: repeat-x;
+    background-size: contain;
+    background-color: white;
+}
+
+.titlebar-title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.window-titlebar p {
+    font-size: 1.11em;
+    padding: 1px 8px;
+    background-color: white;
+}
+
+.subcontainer {
+    display: flex;
+    flex-direction: column;
+}
