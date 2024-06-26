@@ -7,7 +7,7 @@ document.addEventListener(
         await load('nezha', '1109887155720945664');
         setInterval(async () => await load('nezha', '1109887155720945664'), 1e3);
         const charCodes = {
-            start: 32, // Start: 32 (space)
+            start: 33, // Start: 32 (space)
             end: 126, // End: 126 (tilde)
             rand() { return floor(random() * (this.start - this.end + 1)) + this.start; },
         };
@@ -21,6 +21,6 @@ document.addEventListener(
                 }
                 element.textContent = newText;
             }
-        }), 1e2);
+        }), 10);
     },
 );
