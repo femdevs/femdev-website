@@ -13,6 +13,7 @@ To install Node, either download it from [nodejs.org](https://nodejs.org/), or r
 commands depending on your operating system:
 
 ### Windows
+
 ```powershell
 # Install Git
 winget install --id Git.Git -e --source winget
@@ -24,14 +25,14 @@ iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/in
 choco install nodejs
 ```
 
-### MacOS:
+### MacOS
 
 ```bash
 # you can download Homebrew from https://brew.sh/
 brew install node npm git
 ```
 
-### Linux:
+### Linux
 
 ```bash
 # Ubuntu
