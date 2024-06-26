@@ -132,7 +132,7 @@ If you have any questions, please feel free to reach out to us at <contact@thefe
 - [Dotenv](https://npmjs.com/package/dotenv) => A zero-dependency module that loads environment variables from a .env file into process.env
 - [Express-Session](https://npmjs.com/package/express-session) => Create a session middleware
 - [Firebase](https://firebase.google.com/) => A platform developed by Google for creating mobile and web applications
-- [IP Info](https://ipinfo.io/) => A free IP geolocation API
+- [IP Info](https://ipinfo.io/) => A free IP geo-location API
 - [Axios](https://npmjs.com/package/axios) => Promise based HTTP client for the browser and node.js
 - [Postgres](https://www.postgresql.org/) => A powerful, open source object-relational database system
 - [Response Time](https://npmjs.com/package/response-time) => Response time header for Node.js
