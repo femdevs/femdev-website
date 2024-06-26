@@ -1,9 +1,10 @@
-const router = require('express').Router();
+const express = require('express');
+const router = express.Router();
 
 const CSPData = require('../../../functions/security');
 
 router
-	.use(require('express').json({ type: ['application/csp-report', 'application/reports+json'], inflate: true, strict: false, limit: '10mb' }))
+	.use(express.json({ type: ['application/csp-report', 'application/reports+json'], inflate: true, strict: false, limit: '10mb' }))
 	.post('/new', (req, res) => {
 		switch (req.headers['content-type']) {
 		case 'application/csp-report':
