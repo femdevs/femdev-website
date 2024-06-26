@@ -1,7 +1,7 @@
 # FemDevs Homepage
 
 This is the codebase for the official FemDevs homepage. It is built in Node.js using the Express framework.
-Frontend code is writen in Pug.js and TailwindCSS.
+Frontend code is written in Pug.js and TailwindCSS.
 
 For information on exactly what is used, please see the [List of Tools](#list-of-tools) section below.
 
@@ -9,10 +9,10 @@ For information on exactly what is used, please see the [List of Tools](#list-of
 
 First, you need to install [Node.js](https://nodejs.org/) and [npm](https://npmjs.com).
 
-To install node, run the following command:
+To install Node, either download it from [nodejs.org](https://nodejs.org/), or run one of the following
+commands depending on your operating system:
 
-Windows:
-
+### Windows
 ```powershell
 # Install Git
 winget install --id Git.Git -e --source winget
@@ -24,17 +24,18 @@ iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/in
 choco install nodejs
 ```
 
-MacOS:
+### MacOS:
 
 ```bash
+# you can download Homebrew from https://brew.sh/
 brew install node npm git
 ```
 
-Linux:
+### Linux:
 
 ```bash
 # Ubuntu
-sudo apt update
+sudo apt update && sudo apt upgrade
 sudo apt install nodejs npm git -y
 # Fedora / Red Hat
 sudo dnf install nodejs npm git -y
@@ -46,11 +47,11 @@ sudo zypper install nodejs npm git -y
 sudo yum install nodejs npm git -y
 ```
 
-Then, clone the repository and run the following commands:
+Then clone the repository and run the following commands:
 
 ```bash
 # cloning the repository
-git clone
+git clone "https://github.com/femdevs/femdev-website"
 cd femdevs-website
 # installing dependencies
 npm install
@@ -93,13 +94,13 @@ SPOTIFY_REFRESH_TOKEN=''
 SPOTIFY_ACCESS_TOKEN=''
 ```
 
-Then, launch the server with the following command:
+Then, launch the development server with the following command:
 
 ```bash
-npm start
+npm run dev
 ```
 
-The Webpage will be available at `http://localhost:3000`. (Note; CDNs, assets, and APIs are automatically setup to pull from the official server (`XXX.thefemdevs.com`), and therefore will not work regualarly on localhost. You will need to make additional modifications to the code to be able to access said resources locally, such as setting the `LOCALHOST_PAGE` enviornment variable.)
+The Webpage will be available at `http://localhost:3000`. (Note; CDNs, assets, and APIs are automatically setup to pull from the official server (`XXX.thefemdevs.com`), and therefore will not work regularly on localhost. You will need to make additional modifications to the code to be able to access said resources locally, such as setting the `LOCALHOST_PAGE` environment variable.)
 
 ## Contributing
 
