@@ -63,7 +63,7 @@ const getOAuthUrl = () => {
 		scope: ["role_connections.write", "identify", "email", "connections", "guilds"].join(" "),
 		prompt: "consent",
 	}).toString();
-	return { url: url.toString() };
+	return url.toString();
 };
 const getOAuthTokens = async code =>
 	new TokenSet(
@@ -108,8 +108,7 @@ const updateMetadata = async req => {
 
 router
 	.get("/lr", async (req, res) => {
-		const { url } = getOAuthUrl();
-		res.redirect(url);
+		res.redirect(getOAuthUrl());
 	})
 	.get("/oauth2", async (req, res) => {
 		try {
