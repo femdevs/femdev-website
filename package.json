@@ -85,6 +85,7 @@
     "rate-limiter-flexible": "^3.0.0",
     "response-time": "^2.3.2",
     "sass": "^1.77.6",
+    "socket.io": "^4.7.5",
     "spotify-web-api-node": "^5.0.2",
     "sql-template-strings": "^2.2.2",
     "stripe": "^14.1.0",
