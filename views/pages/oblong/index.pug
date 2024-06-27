@@ -1,5 +1,4 @@
 include ../../mixins.pug
-include ./oblongMixins.pug
 
 doctype html
 html(lang='en-us')
@@ -16,13 +15,25 @@ html(lang='en-us')
 		title Oblong's Page
 	body
 
-	+menuBar()
+	nav
+		a(href="/")
+			img(src="/cdn/img/house-icon.png" alt="macOS-esque house icon that links to the homepage" width="16" height="16")
+		p Safari
+		p File
+		p Edit
+		p View
+		p Help
 
 	main
 		div
-			+windowElement(title="About")
-				p.
-					Hi, im Oblong, a developer from the UK. I mainly create websites with the standard HTML, CSS, and JS stack,
-					but I also have experience creating desktop applications and CLI apps using languages like Swift, Java, and
-					Python just to name a few. Other things im interested in are gaming, art, retro computers and software, maths,
-					physics, and space.
+            .window-container
+                .window-titlebar
+                    .titlebar-title
+             			.window-title
+            				p About
+                .window-content
+    				p.
+       					Hi, im Oblong, a developer from the UK. I mainly create websites with the standard HTML, CSS, and JS stack,
+       					but I also have experience creating desktop applications and CLI apps using languages like Swift, Java, and
+       					Python just to name a few. Other things im interested in are gaming, art, retro computers and software, maths,
+       					physics, and space.
