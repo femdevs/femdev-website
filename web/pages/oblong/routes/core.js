@@ -11,15 +11,6 @@ router
             },
         }),
     )
-    .get("/blog", async (req, res) =>
-        res.render("pages/oblong/blog.pug", {
-            meta: {
-                title: "Test",
-                desc: "Test desc",
-                url: "https://oblong.thefemdevs.com/blog",
-            },
-        }),
-    )
     .use((req, res, next) => {
         const { path } = req;
         const methodUsed = req.method.toUpperCase();
