@@ -82,6 +82,9 @@ class UserPermissions {
 		barcode: { // 10:x
 			generate: new PermissionSet("Barcode::Generate", 0, 10),
 		},
+		password: { // 11:x
+			generate: new PermissionSet("Password::Generate", 0, 11),
+		},
 	};
 	static PBD = new Map()
 		.set("0:0:0", "Global::Data.Read")
@@ -123,7 +126,8 @@ class UserPermissions {
 		.set("9:0", "Whois::DNS")
 		.set("9:1", "Whois::Whois")
 		.set("9:2", "Whois::Full")
-		.set("10:0", "Barcode::Generate");
+		.set("10:0", "Barcode::Generate")
+		.set("11:0", "Password::Generate");
 }
 
 class UserPermissionSet {

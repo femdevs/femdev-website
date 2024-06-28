@@ -21,6 +21,7 @@ const quotes = require('./quotes');
 const weather = require('./weather');
 const barcode = require('./barcode');
 const location = require('./location');
+const password = require('./password');
 const dictionary = require('./dictionary');
 const minecraft = require('./minecraft/router');
 
@@ -87,6 +88,7 @@ router
 	.use('/weather', weather)
 	.use('/barcode', barcode)
 	.use('/location', location)
+	.use('/password', password)
 	.use('/minecraft', minecraft)
 	.use('/dictionary', dictionary)
 	.use((req, res, next) => {
