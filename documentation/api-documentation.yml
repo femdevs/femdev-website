@@ -1,6 +1,6 @@
 openapi: "3.0.0"
 info:
-  version: "4.0.0"
+  version: "4.2.0"
   title: "FemDevs API Documentation"
   description: |-
     The documentation for the FemDevs API.
@@ -25,6 +25,119 @@ servers:
   - url: "https://api.thefemdevs.com"
     description: "Production Server"
 paths:
+  /barcode/gen/:codec:
+    get:
+      operationId: "GenerateBarcode"
+      description: |-
+        Generates a barcode with the given codec and data.
+        Returns the barcode if successful, otherwise returns an error.
+
+        Permissions Required: `Barcode::Generate`
+      summary: "Generate Barcode"
+      parameters:
+        - in: "path"
+          name: "codec"
+          description: "The codec to use for the barcode"
+          schema:
+            $ref: "#/components/schemas/BarcodeType"
+          example: "code128"
+          required: true
+        - in: query
+          name: "content"
+          description: "The data to encode in the barcode"
+          schema:
+            type: string
+          example: "Hello, World!"
+          required: true
+        - in: header
+          name: "x-format"
+          description: "The format to return the barcode in"
+          schema:
+            type: string
+            enum:
+              - png
+              - svg
+          example: "png"
+      responses:
+        200:
+          description: "The barcode for the given data"
+          content:
+            image/png:
+              schema:
+                type: string
+                format: binary
+            image/svg+xml:
+              schema:
+                type: string
+                format: binary
+        400:
+          description: "Missing barcode information"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-Query-Data:
+                  value:
+                    code: 6
+                    message: "Missing Query Parameter(s)"
+                Invalid-Query-Data:
+                  value:
+                    code: 7
+                    message: "Invalid Query Parameter(s)"
+                Missing-Header-Data:
+                  value:
+                    code: 8
+                    message: "Missing Header Parameter(s)"
+                Invalid-Header-Data:
+                  value:
+                    code: 9
+                    message: "Invalid Header Parameter(s)"
+        401:
+          description: "Invalid/Missing API Token"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-Token:
+                  summary: "Missing API Token"
+                  value:
+                    code: 3
+                    message: "No API key provided"
+                Invalid-Token:
+                  summary: "Invalid API Token"
+                  value:
+                    code: 4
+                    message: "Invalid API key provided"
+        403:
+          description: "Missing Permissions"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-Permissions:
+                  value:
+                    code: 1
+                    message: "You are not authorized to access this resource"
+                Blacklisted:
+                  value:
+                    code: 2
+                    message: "You are blacklisted from accessing this resource"
+        500:
+          description: "Unable to generate barcode"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                error:
+                  value:
+                    code: 0
+                    message: "Unknown error occurred"
+      security:
+        - APIToken: []
   /crypto/enc:
     get:
       operationId: "CryptographyEnc"
@@ -1481,6 +1594,77 @@ paths:
                   value:
                     code: 22
                     message: "Unable to retreive requested information"
+      security:
+        - APIToken: []
+  /password/gen:
+    get:
+      operationId: "GeneratePassword"
+      description: |-
+        Generates a random password using default Apple syntax.
+
+        Permissions Required: `Password::Generate`
+      summary: "Generate a Password"
+      responses:
+        200:
+          description: "Ok Response"
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - password
+                properties:
+                  password:
+                    type: string
+                    nullable: false
+                    description: "The generated password"
+              examples:
+                Good:
+                  value:
+                    password: uskAcg-efm5bc-sbskot
+        401:
+          description: "Invalid/Missing API Token"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-Token:
+                  summary: "Missing API Token"
+                  value:
+                    code: 3
+                    message: "No API key provided"
+                Invalid-Token:
+                  summary: "Invalid API Token"
+                  value:
+                    code: 4
+                    message: "Invalid API key provided"
+        403:
+          description: "Missing Permissions"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                Missing-Permissions:
+                  value:
+                    code: 1
+                    message: "You are not authorized to access this resource"
+                Blacklisted:
+                  value:
+                    code: 2
+                    message: "You are blacklisted from accessing this resource"
+        500:
+          description: "Server Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorData"
+              examples:
+                error:
+                  value:
+                    code: 0
+                    message: "An unknown error occurred"
       security:
         - APIToken: []
   /phone/details:
@@ -3073,119 +3257,6 @@ paths:
                     message: "You are blacklisted from accessing this resource"
       security:
         - APIToken: []
-  /barcode/gen/:codec:
-    get:
-      operationId: "GenerateBarcode"
-      description: |-
-        Generates a barcode with the given codec and data.
-        Returns the barcode if successful, otherwise returns an error.
-
-        Permissions Required: `Barcode::Generate`
-      summary: "Generate Barcode"
-      parameters:
-        - in: "path"
-          name: "codec"
-          description: "The codec to use for the barcode"
-          schema:
-            $ref: "#/components/schemas/BarcodeType"
-          example: "code128"
-          required: true
-        - in: query
-          name: "content"
-          description: "The data to encode in the barcode"
-          schema:
-            type: string
-          example: "Hello, World!"
-          required: true
-        - in: header
-          name: "x-format"
-          description: "The format to return the barcode in"
-          schema:
-            type: string
-            enum:
-              - png
-              - svg
-          example: "png"
-      responses:
-        200:
-          description: "The barcode for the given data"
-          content:
-            image/png:
-              schema:
-                type: string
-                format: binary
-            image/svg+xml:
-              schema:
-                type: string
-                format: binary
-        400:
-          description: "Missing barcode information"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorData"
-              examples:
-                Missing-Query-Data:
-                  value:
-                    code: 6
-                    message: "Missing Query Parameter(s)"
-                Invalid-Query-Data:
-                  value:
-                    code: 7
-                    message: "Invalid Query Parameter(s)"
-                Missing-Header-Data:
-                  value:
-                    code: 8
-                    message: "Missing Header Parameter(s)"
-                Invalid-Header-Data:
-                  value:
-                    code: 9
-                    message: "Invalid Header Parameter(s)"
-        401:
-          description: "Invalid/Missing API Token"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorData"
-              examples:
-                Missing-Token:
-                  summary: "Missing API Token"
-                  value:
-                    code: 3
-                    message: "No API key provided"
-                Invalid-Token:
-                  summary: "Invalid API Token"
-                  value:
-                    code: 4
-                    message: "Invalid API key provided"
-        403:
-          description: "Missing Permissions"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorData"
-              examples:
-                Missing-Permissions:
-                  value:
-                    code: 1
-                    message: "You are not authorized to access this resource"
-                Blacklisted:
-                  value:
-                    code: 2
-                    message: "You are blacklisted from accessing this resource"
-        500:
-          description: "Unable to generate barcode"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorData"
-              examples:
-                error:
-                  value:
-                    code: 0
-                    message: "Unknown error occurred"
-      security:
-        - APIToken: []
 components:
   securitySchemes:
     APIToken:
@@ -3232,6 +3303,7 @@ components:
         - `Whois::Whois` (9:1) - Ability to get the Whois information for a domain using the `/whois/whois` endpoint
         - `Whois::Full` (9:2) - Ability to get the full Whois information for a domain using the `/whois/full` endpoint
         - `Barcode::Generate` (10:0) - Ability to generate a barcode using the `/barcode/gen` endpoint
+        - `Password::Generate` (11:0) - Ability to generate a password using the `/password/gen` endpoint
 
         Permission Roles:
         - `Global::Role.Developer` (0:3:0) - Full access to all endpoints

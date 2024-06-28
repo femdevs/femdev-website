@@ -1,6 +1,10 @@
 require('dotenv').config();
+const express = require('express');
+const app = express();
 const http = require('http');
-const app = require('express')();
+const server = http.createServer(app);
+const { Server } = require('socket.io');
+const io = new Server(server);
 const Admin = require('firebase-admin');
 const { RateLimiterMemory } = require('rate-limiter-flexible');
 const { WebSecurity, CSPObj, PermissionPolicy, ReportToGroup, ReportingEndpoint, Headers: headers } = require('@therealbenpai/zdcors');
@@ -200,6 +204,14 @@ app
 		nf,
 	);
 
-const server = http.createServer(app);
+io.on('connection', socket => {
+	if (!(
+		socket.handshake.headers.host.startsWith('chat') ||
+		socket.handshake.headers.host.startsWith('localhost')
+	)) return socket.disconnect(true);
+});
+
 server
 	.listen(process.env.PORT || 3000, () => csl.log("HTTP Server is UP"));
+
+module.exports = server;
