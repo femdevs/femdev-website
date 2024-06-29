@@ -2,7 +2,6 @@ require('dotenv').config();
 const express = require('express');
 const app = express();
 const http = require('http');
-const server = http.createServer(app);
 const Admin = require('firebase-admin');
 const { RateLimiterMemory } = require('rate-limiter-flexible');
 const { WebSecurity, CSPObj, PermissionPolicy, ReportToGroup, ReportingEndpoint, Headers: headers } = require('@therealbenpai/zdcors');
@@ -13,7 +12,7 @@ const SM = require('./middleware/session'); //? Session Manager
 const errPages = require('./middleware/errpages'); //? Error Pages
 const wUtils = require('@therealbenpai/webutils');
 const reqLogs = [];
-/** @type {Map<String, Map<String, any>|String>} @desciption Used to store data throughout requests */
+/** @type {Map<String, Map<String, any>|String>} @description Used to store data throughout requests */
 const Persistance = new Map();
 const RateLimiter = new RateLimiterMemory({ points: 2400, duration: 60 });
 class Formatter {
@@ -201,6 +200,8 @@ app
 		// -- Divider -- //
 		nf,
 	);
+
+const server = http.createServer(app);
 
 server
 	.listen(process.env.PORT || 3000, () => csl.log("HTTP Server is UP"));

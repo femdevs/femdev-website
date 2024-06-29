@@ -6,6 +6,7 @@ const spotifyApi = new SpotifyWebApi({
     clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
     redirectUri: process.env.SPOTIFY_REDIRECT_URI,
 });
+const SQL = require('sql-template-strings');
 const scopes = ["user-read-private", "user-read-currently-playing", "user-read-playback-state", "user-read-email"];
 const authorizeURL = spotifyApi.createAuthorizeURL(scopes);
 
@@ -20,14 +21,16 @@ router
         const { user } = req.params;
         const connection = await req.Database.pool.connect();
         const { rows: userRows } = await connection.query(`SELECT * FROM public.spotify;`);
-        connection.release();
         const spotifyUser = userRows.find(row => row.user === user);
         if (!spotifyUser) return res.status(404).json({ error: 'User not found' });
         const { access, refresh } = spotifyUser;
         spotifyApi.setAccessToken(access);
         spotifyApi.setRefreshToken(refresh);
-        const { body: { access_token: newAccess } } = await spotifyApi.refreshAccessToken();
+        const { body: { access_token: newAccess, refresh_token: newRefresh } } = await spotifyApi.refreshAccessToken();
         spotifyApi.setAccessToken(newAccess);
+        spotifyApi.setRefreshToken(newRefresh);
+        await connection.query(SQL`UPDATE public.spotify SET access = ${newAccess}, refresh = ${newRefresh} WHERE user = ${user};`);
+        connection.release();
         const { body } = await spotifyApi.getMyCurrentPlaybackState({ market: 'US' });
         if (!new Object(body).hasOwnProperty('item')) return res.json({
             isPlaying: false,
@@ -63,7 +66,7 @@ router
             album: {
                 title: album.name,
                 artists: [],
-                image: album.images.find(sDat => sDat.width === 64e1).url,
+                image: album.images.find(sDat => sDat.width === 64e1).url || 'https://via.placeholder.com/64',
             },
             artists: [],
             meta: {
