@@ -38,6 +38,7 @@ router
 		);
 	})
 	.use((err, req, res, _) => {
+		console.log(err);
 		res
 			.status(501)
 			.setHeader('X-Error-ID', '')

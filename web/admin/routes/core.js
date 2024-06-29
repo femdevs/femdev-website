@@ -1,12 +1,17 @@
 const router = require('express').Router();
 
 router
-	.get('/', (req, res) => {
+	.get('/', async (req, res) => {
 		res.render(
 			'admin/public/index.pug',
 			{
-				title: 'Admin',
-				description: 'FemDevs Admin Panel',
+				status: (await req.Database.getServerStatus()),
+				meta: {
+					title: 'Admin Panel',
+					desc: 'The admin panel for the FemDevs!',
+					url: 'https://adminthefemdevs.com',
+					canonical: 'https://admin.thefemdevs.com',
+				},
 			},
 		);
 	});

@@ -3,6 +3,8 @@ const express = require('express');
 const app = express();
 const http = require('http');
 const Admin = require('firebase-admin');
+const App = require('firebase/app');
+const Auth = require('firebase/auth');
 const { RateLimiterMemory } = require('rate-limiter-flexible');
 const { WebSecurity, CSPObj, PermissionPolicy, ReportToGroup, ReportingEndpoint, Headers: headers } = require('@therealbenpai/zdcors');
 const csl = console;
@@ -121,7 +123,7 @@ app
 				new CSPObj('reportUri', false, [], false, false, ['https://security.thefemdevs.com/csp/new']),
 				new CSPObj('baseUri', false, [], true, false, ['thefemdevs.com', 'security.thefemdevs.com', 'cdn.thefemdevs.com']),
 				new CSPObj('scriptSrc', false, [], true, false,
-					['blob:', ['thefemdevs.com', 'google.com', 'fontawesome.com'].map(WebSecurity.CD)].flat(2),
+					['blob:', ['thefemdevs.com', 'google.com', 'fontawesome.com', 'jsdelivr.net'].map(WebSecurity.CD)].flat(2),
 				),
 			),
 			PermissionPolicy: WebSecurity.PermissionPolicy(

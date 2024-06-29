@@ -1,9 +1,10 @@
+include ../../mixins.pug
 doctype html
 html(lang='en-us')
   head
-    include ../../defaults/header.pug
+    +header()
   body.bg-neutral-200
-    include ../../defaults/nav.pug
+    +nav()
     content.flex.flex-col.items-center.justify-center
       main
         hero.flex.w-full.max-w-6xl.flex-row.items-center.justify-between.p-8(class='md:my-16')
@@ -77,4 +78,4 @@ html(lang='en-us')
             .flex.flex-col.items-center
               h2.select-none.text-center.font-poppins.text-4xl.font-medium.text-neutral-900 99.7%
               h3.select-none.text-center.font-poppins.text-xl.text-neutral-900 Service Uptime
-    include ../../defaults/footer.pug
+    +footer()

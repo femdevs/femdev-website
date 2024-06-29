@@ -3,7 +3,7 @@ require("dotenv").config();
 const crypto = require("crypto");
 const axios = require("axios");
 const router = require("express").Router();
-const SQL = require("sql-template-strings");
+const { SQL } = require("sql-template-strings");
 /** @type {Map<string, TokenSet>} */
 const store = new Map();
 class TokenSet {

@@ -6,7 +6,7 @@ const spotifyApi = new SpotifyWebApi({
     clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
     redirectUri: process.env.SPOTIFY_REDIRECT_URI,
 });
-const SQL = require('sql-template-strings');
+const { SQL } = require('sql-template-strings');
 const scopes = ["user-read-private", "user-read-currently-playing", "user-read-playback-state", "user-read-email"];
 const authorizeURL = spotifyApi.createAuthorizeURL(scopes);
 

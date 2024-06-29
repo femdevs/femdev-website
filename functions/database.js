@@ -1,6 +1,6 @@
 const pg = require('pg');
 const cron = require('node-cron');
-const SQL = require('sql-template-strings');
+const { SQL } = require('sql-template-strings');
 const events = require('events');
 require('dotenv').config();
 

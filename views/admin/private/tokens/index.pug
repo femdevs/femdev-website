@@ -1,0 +1,39 @@
+include ../../../mixins.pug
+doctype html
+html(lang="en")
+  head
+    +header()
+  body
+    .container
+      .row
+        .col-12
+          h1 Tokens
+          a.btn.btn-primary(href="/admin/tokens/create") Create Token
+          table.table.table-striped.table-hover
+            thead
+              tr
+                th Token
+                th Associated User
+                th Disabled
+                th Blocked
+                th
+                th
+                th
+            tbody
+              each token in tokens
+                tr(id= token.id)
+                  td: p= token.token
+                  td: p= token.user.username
+                  td: p= token.disabled
+                  td: p= token.blocked
+                  td: p
+                    if token.disabled
+                      a.btn.btn-success(href=`/tokens/enable/${token.id}`) Enable
+                    else
+                      a.btn.btn-danger(href=`/tokens/disable/${token.id}`) Disable
+                  td: p
+                    if token.blocked
+                      a.btn.btn-success(href=`/tokens/unblock/${token.id}`) Unblock
+                    else
+                      a.btn.btn-danger(href=`/tokens/block/${token.id}`) Block
+                  td: p: a.btn.btn-danger(href=`/tokens/delete/${token.id}`) Delete

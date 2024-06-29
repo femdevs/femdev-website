@@ -1,0 +1,18 @@
+include ../../mixins.pug
+doctype html
+html(lang="en")
+  head
+    +header()
+  body
+    .container
+      .row
+        .col-12
+          h1 Login
+          form(action="/auth/login" method="post")
+            .form-group
+              label(for="username") Username
+              input#username.form-control(type="text" name="username")
+            .form-group
+              label(for="password") Password
+              input#password.form-control(type="password" name="password")
+            button.btn.btn-primary(type="submit") Login

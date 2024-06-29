@@ -1,7 +1,5 @@
-// const Cryptolens = require('cryptolens');
 require('dotenv').config();
 const webUtils = require('@therealbenpai/webutils');
-
 
 /**
  * Middleware to check if the request has a valid API token
