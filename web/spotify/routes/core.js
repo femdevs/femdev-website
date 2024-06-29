@@ -80,7 +80,7 @@ router
                 await spotifyApi.getArtist(artist.id)
                     .then(dat => ({
                         name: dat.body.name,
-                        image: dat.body.images.find(({ width }) => width === 64e1).url,
+                        image: dat.body.images.find(({ width }) => width === 64e1)?.url || 'https://via.placeholder.com/64',
                         url: dat.body.external_urls.spotify,
                     })),
             );
@@ -90,7 +90,7 @@ router
                 await spotifyApi.getArtist(albumArtist.id)
                     .then(dat => ({
                         name: dat.body.name,
-                        image: dat.body.images.find(({ width }) => width === 64e1).url,
+                        image: dat.body.images.find(({ width }) => width === 64e1)?.url || 'https://via.placeholder.com/64',
                         url: dat.body.external_urls.spotify,
                     })),
             );
