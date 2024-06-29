@@ -14,11 +14,11 @@ document.addEventListener(
             for (const element of elements) {
                 let newText = '', index = 0;
                 while (index < element.textContent.length) {
-                    newText += String.fromCharCode(getRandChar());
+                    newText += getRandChar();
                     index++;
                 }
                 element.textContent = newText;
             }
-        }), 50);
+        }), 67);
     },
 );

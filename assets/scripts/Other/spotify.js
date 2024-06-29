@@ -105,6 +105,6 @@ export const LoadData = async (user, id) => {
                 Elements.get(`spotify${item}`).innerText = SpotifyString[index];
             });
         Elements.get('spotify').style.cursor = SpotifyString[0] === 'Nothing' ? 'default' : 'pointer';
-        Elements.get('spotify').onclick = () => window.open(spotify.song.track.url, '_blank');
+        Elements.get('spotify').onclick = () => window.open(spotify.song.track.url || '/', '_blank');
     }
 };
