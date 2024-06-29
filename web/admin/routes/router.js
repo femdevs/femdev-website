@@ -20,9 +20,6 @@ router
 		});
 		next();
 	})
-	.all('*', (req, res, next) => {
-		res.send("This route is not implemented yet.");
-	})
 	.use('/', require('./core'))
 	.use('/auth', require('./auth'))
 	.use('/tokens', require('./tokens'))

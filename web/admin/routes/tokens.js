@@ -1,10 +1,12 @@
 const router = require('express').Router();
 const { SQL } = require('sql-template-strings');
+const User = require('../../../functions/userMgr');
 
 router
 	.get('/', async (req, res) => {
 		if (!req.session.user) return res.redirect('/auth/login');
-		if (!req.session.user.permissions.hasPermission("Global::Token.ReadAll", true)) return res.sendError(5);
+		const UserPermissions = User.fromFullPermissionBitString(req.session.user.permissions);
+		if (!UserPermissions.hasPermission('Global::Token.ReadAll', true)) return res.sendError(0);
 		const connection = await req.Database.pool.connect();
 		const { rows } = await connection.query('SELECT * FROM public.apitokens');
 		const { rows: users } = await connection.query('SELECT * FROM public.users');

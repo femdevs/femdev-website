@@ -22,18 +22,30 @@ html(lang="en")
             tbody
               each token in tokens
                 tr(id= token.id)
-                  td: p= token.token
-                  td: p= token.user.username
-                  td: p= token.disabled
-                  td: p= token.blocked
-                  td: p
+                  td: p.token= token.token
+                  td: p.user= token.user.username
+                  td
                     if token.disabled
-                      a.btn.btn-success(href=`/tokens/enable/${token.id}`) Enable
+                      p.disabled Disabled
                     else
-                      a.btn.btn-danger(href=`/tokens/disable/${token.id}`) Disable
-                  td: p
+                      p.disabled Enabled
+                  td
                     if token.blocked
-                      a.btn.btn-success(href=`/tokens/unblock/${token.id}`) Unblock
+                      p.blocked Blocked
                     else
-                      a.btn.btn-danger(href=`/tokens/block/${token.id}`) Block
-                  td: p: a.btn.btn-danger(href=`/tokens/delete/${token.id}`) Delete
+                      p.blocked Unblocked
+                  td
+                    p
+                      unless token.disabled
+                        .btn.btn-danger.disabled-btn Disable
+                      else
+                        .btn.btn-success.disabled-btn Enable
+                  td
+                    p
+                      unless token.blocked
+                        .btn.btn-danger.block-btn Block
+                      else
+                        .btn.btn-success.block-btn Unblock
+                  td: p: .btn.btn-danger.delete-btn Delete
+    script
+      include ./token.js

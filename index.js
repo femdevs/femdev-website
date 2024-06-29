@@ -47,6 +47,17 @@ const AdminApp = Admin.initializeApp({
 	credential: Admin.credential.cert(FirebaseServiceAccount),
 	databaseURL: `https://${FirebaseServiceAccount.projectId}-default-rtdb.firebaseio.com`,
 });
+
+const FirebaseApp = App.initializeApp({
+	apiKey: process.env.FIREBASE_API_KEY,
+	authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+	projectId: process.env.FIREBASE_PROJECT_ID,
+	appId: process.env.FIREBASE_APP_ID,
+	measurementId: process.env.FIREBASE_MEASUREMENT_ID,
+});
+
+const FirebaseAuth = Auth.getAuth(FirebaseApp);
+
 const db = new (require('./functions/database'))();
 const nf = (req, res, _) => res.status(404).render("misc/404.pug", req.getErrPage(404, { path: req.path }));
 app
@@ -61,7 +72,7 @@ app
 				reqLogs,
 				Persistance,
 				AdminApp,
-				auth: AdminApp.auth(),
+				auth: FirebaseAuth,
 				Database: db,
 				Formatter,
 				RateLimitMem: RateLimiter,
@@ -122,7 +133,7 @@ app
 				new CSPObj('upgradeInsecureRequests', false, [], false, false, []),
 				new CSPObj('reportUri', false, [], false, false, ['https://security.thefemdevs.com/csp/new']),
 				new CSPObj('baseUri', false, [], true, false, ['thefemdevs.com', 'security.thefemdevs.com', 'cdn.thefemdevs.com']),
-				new CSPObj('scriptSrc', false, [], true, false,
+				new CSPObj('scriptSrc', false, ['unsafe-inline'], true, false,
 					['blob:', ['thefemdevs.com', 'google.com', 'fontawesome.com', 'jsdelivr.net'].map(WebSecurity.CD)].flat(2),
 				),
 			),
