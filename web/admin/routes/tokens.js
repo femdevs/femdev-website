@@ -4,7 +4,7 @@ const User = require('../../../functions/userMgr');
 
 router
 	.get('/', async (req, res) => {
-		if (!req.session.user) return res.redirect('/auth/login');
+		if (!req.session.user?.uid) return res.redirect('/auth/login');
 		const currentUser = {
 			loggedIn: true,
 			user: {
