@@ -100,7 +100,7 @@ router
 		},
 	)
 	.get('/logout', (req, res) => {
-		req.session.user = {};
+		req.session = Object.assign(req.session, { user: {} });
 		res.redirect('/');
 	});
 
