@@ -23,7 +23,7 @@ router
 		async (req, res) => {
 			const { username, password } = req.body;
 			/** @type {Auth.UserCredential} */
-			const { user } = await Auth.signInWithEmailAndPassword(req.auth, username, password)
+			const firebaseRes = await Auth.signInWithEmailAndPassword(req.auth, username, password)
 				.catch(async error => {
 					switch (error.code) {
 						case 'auth/user-disabled': return res.render('admin/auth/login.pug', {
@@ -50,10 +50,22 @@ router
 								error: 'We couldn\'t find an account with that email address and password',
 							});
 						default:
+							// eslint-disable-next-line no-console
 							console.log(error);
-							return res.sendError(0);
+							return res.render('admin/auth/login.pug', {
+								status: (await req.Database.getServerStatus()),
+								meta: {
+									title: 'Login | Admin Panel',
+									desc: 'The admin panel for the FemDevs!',
+									url: 'https://admin.thefemdevs.com/login',
+									canonical: 'https://admin.thefemdevs.com/login',
+								},
+								error: 'An unknown error occurred',
+							});
 					}
 				});
+			if (!firebaseRes) return;
+			const { user } = firebaseRes;
 			if (!user) return;
 			const connection = await req.Database.pool.connect();
 			const { rows } = await connection.query(SQL`SELECT * FROM public.users WHERE firebaseuid = ${user.uid}`);

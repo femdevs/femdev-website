@@ -1,7 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
 	mode: "jit",
-	content: ["views/**/**/*.{js,ts,pug,html}"],
+	content: ["views/**/**/**/*.{js,ts,pug,html}"],
 	theme: {
 		extend: {
 			fontFamily: {
@@ -27,7 +27,10 @@ module.exports = {
 			},
 		},
 	},
-	plugins: [],
+	plugins: [
+		require('preline/plugin'),
+	],
 	experimental: { matchVariant: true, optimizeUniversalDefaults: true },
+	darkMode: 'media',
 };
 
