@@ -20,8 +20,8 @@ body {
 }
 
 .background .shape {
-	height: 200px;
-	width: 200px;
+	height: 20vh;
+	width: 20vh;
 	position: absolute;
 	border-radius: 50%;
 }
@@ -34,7 +34,7 @@ body {
 
 .shape:last-child {
 	background: linear-gradient(to right, #ff512f, #f09819);
-	right: -30px;
+	right: -80px;
 	bottom: -80px;
 }
 
