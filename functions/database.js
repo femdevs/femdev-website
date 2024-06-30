@@ -35,8 +35,8 @@ INSERT INTO public.apitokens
 (token, associatedfirebaseuid, stripesub)
 VALUES (${data.generatedToken}, ${data.firebaseuid}, ${data.sub ?? ''});
 
-INSERT INTO public.apiUsage
-(apiToken, totalUses)
+INSERT INTO public.apiusage
+(apitoken, totaluses)
 VALUES (${data.generatedToken}, 0)`,
 					).catch();
 					connection.release();

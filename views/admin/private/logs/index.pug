@@ -1,6 +1,9 @@
+include ../../../mixins.pug
 doctype html
 html(lang="en")
-  include ../../../defaults/header.pug
+  head
+    +header()
+    script(src="https://cdn.jsdelivr.net/npm/preline@latest/dist/index.js")
   body.scrollbar.bg-bsDarkGray.text-white
     .flex.h-screen.flex-row
       .scrollbar.flex.w-full.flex-col.space-y-4.overflow-x-auto.overflow-y-auto.bg-bsDarkGray.p-10
@@ -41,4 +44,3 @@ html(lang="en")
                       td.max-w-2xl.cursor-pointer= log.auditUserId || "N/A"
     script.
       const copy = (text) => navigator.clipboard.writeText((!text || text.length == 0) ? "N/A" : text)
-    include ../../defaults/firebase.pug

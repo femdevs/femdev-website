@@ -6,23 +6,23 @@ const
 for (const element of Array.from(elements)) {
 	if (element.id) {
 		const id = element.id;
-		element.querySelector("td .disable").onclick = function () {this.innerText === "Enable" ? enable(id) : disable(id);};
+		// element.querySelector("td .disable").onclick = function () {this.innerText === "Enable" ? enable(id) : disable(id);};
 		element.querySelector("td .delete").onclick = () => remove(id);
 	}
 }
 const enable = id => {
-	fetch(`/tokens/enable/${id}`);
+	fetch(`/users/enable/${id}`);
 	document.getElementById(id).querySelector("td .disable").innerText = "Disable";
 	document.getElementById(id).querySelector("td .e-text").innerText = "Enabled";
 	document.getElementById(id).querySelector("td .e-text").classList.value = `${baseClasses} ${goodClasses} e-text`;
 };
 const disable = id => {
-	fetch(`/tokens/disable/${id}`);
+	fetch(`/users/disable/${id}`);
 	document.getElementById(id).querySelector("td .disable").innerText = "Enable";
 	document.getElementById(id).querySelector("td .e-text").innerText = "Disabled";
 	document.getElementById(id).querySelector("td .e-text").classList.value = `${baseClasses} ${badClasses} e-text`;
 };
 const remove = id => {
-	fetch(`/tokens/delete/${id}`);
+	fetch(`/users/delete/${id}`);
 	document.getElementById(id).remove();
 };
