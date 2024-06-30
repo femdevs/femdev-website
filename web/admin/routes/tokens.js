@@ -5,6 +5,17 @@ const User = require('../../../functions/userMgr');
 router
 	.get('/', async (req, res) => {
 		if (!req.session.user) return res.redirect('/auth/login');
+		const currentUser = {
+			loggedIn: true,
+			user: {
+				name: {
+					first: req.session.user.name.first,
+					last: req.session.user.name.first,
+					display: req.session.user.name.display,
+				},
+				email: req.session.user.contact.email,
+			},
+		};
 		const UserPermissions = User.fromFullPermissionBitString(req.session.user.permissions);
 		if (!UserPermissions.hasPermission('Global::Token.ReadAll', true)) return res.sendError(0);
 		const connection = await req.Database.pool.connect();
@@ -15,8 +26,12 @@ router
 			const userObj = users.find(user => user.firebaseuid === token.associatedfirebaseuid);
 			formattedTokens.push(Object.assign({}, token, {
 				user: {
-					name: `${userObj.firstname} ${userObj.lastname}`,
-					username: userObj.displayname,
+					name: {
+						first: userObj.firstname,
+						last: userObj.lastname,
+						display: userObj.displayname,
+					},
+					email: userObj.email,
 				},
 			}));
 		}
@@ -32,6 +47,7 @@ router
 					url: 'https://admin.thefemdevs.com/tokens',
 					canonical: 'https://admin.thefemdevs.com/tokens',
 				},
+				currentUser,
 			},
 		);
 	})

@@ -134,7 +134,7 @@ app
 				new CSPObj('reportUri', false, [], false, false, ['https://security.thefemdevs.com/csp/new']),
 				new CSPObj('baseUri', false, [], true, false, ['thefemdevs.com', 'security.thefemdevs.com', 'cdn.thefemdevs.com']),
 				new CSPObj('scriptSrc', false, ['unsafe-inline'], true, false,
-					['blob:', ['thefemdevs.com', 'google.com', 'fontawesome.com', 'jsdelivr.net'].map(WebSecurity.CD)].flat(2),
+					['blob:', ['thefemdevs.com', 'google.com', 'fontawesome.com', 'jsdelivr.net', 'preline.co'].map(WebSecurity.CD)].flat(2),
 				),
 			),
 			PermissionPolicy: WebSecurity.PermissionPolicy(

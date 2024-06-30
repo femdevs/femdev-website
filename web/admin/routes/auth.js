@@ -100,7 +100,8 @@ router
 		},
 	)
 	.get('/logout', (req, res) => {
-		// Logout logic here
+		req.session.user = {};
+		res.redirect('/');
 	});
 
 module.exports = router;
