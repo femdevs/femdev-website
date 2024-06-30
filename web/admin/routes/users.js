@@ -58,10 +58,10 @@ router
 				users: formattedUsers.sort((userA, userB) => userA.id - userB.id),
 				status: (await req.Database.getServerStatus()),
 				meta: {
-					title: 'Tokens | Admin Panel',
+					title: 'Users | Admin Panel',
 					desc: 'The admin panel for the FemDevs!',
-					url: 'https://admin.thefemdevs.com/tokens',
-					canonical: 'https://admin.thefemdevs.com/tokens',
+					url: 'https://admin.thefemdevs.com/users',
+					canonical: 'https://admin.thefemdevs.com/users',
 				},
 				currentUser,
 			},
