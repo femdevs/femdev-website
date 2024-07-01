@@ -93,6 +93,11 @@ SPOTIFY_CLIENT_SECRET=''
 SPOTIFY_REDIRECT_URI=''
 SPOTIFY_REFRESH_TOKEN=''
 SPOTIFY_ACCESS_TOKEN=''
+FIREBASE_API_KEY=''
+FIREBASE_AUTH_DOMAIN=''
+FIREBASE_PROJECT_ID=''
+FIREBASE_APP_ID=''
+FIREBASE_MEASUREMENT_ID=''
 ```
 
 Then, launch the development server with the following command:
@@ -151,3 +156,7 @@ If you have any questions, please feel free to reach out to us at <contact@thefe
 - [GitHub API](https://docs.github.com/en/rest) => A set of APIs to access GitHub data
 - [Veriphone API](https://veriphone.io/) => A set of APIs to access phone number data
 - [Free APIs](https://free-apis.github.io/) => Free APIs for developers
+- [Preline](preline.co) => A TailwindCSS component library service with hundreds of components and templates for free
+- [GitGuardian](https://gitguardian.com/) => A tool to scan for secrets in your code
+- [DeepSource](https://deepsource.io/) => A tool to scan for code quality and security issues
+- [Eslint](https://eslint.org/) => A tool to find and fix problems in your JavaScript code

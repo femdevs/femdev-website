@@ -224,7 +224,5 @@ mixin adminNav()
 							| Log in
 					else
 						a(class="flex items-center gap-x-2 font-medium text-white/80 hover:text-white sm:border-s sm:border-white/30 py-2 md:py-0 sm:my-6 sm:ps-6" href="/auth/logout")
-							svg(class="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round")
-								path(d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2")
-								circle(cx="12" cy="7" r="4")
+							span(class="inline-flex items-center justify-center size-8 text-sm font-semibold leading-none rounded-full bg-pink-100 text-pink-800 border-solid border border-pink-500")= currentUser.user.name.initials
 							| #{currentUser.user.name.display}

@@ -21,6 +21,7 @@ router
 					first: user.name.first,
 					last: user.name.first,
 					display: user.name.display,
+					initials: user.name.first[0] + user.name.last[0],
 				},
 				email: user.contact.email,
 			};

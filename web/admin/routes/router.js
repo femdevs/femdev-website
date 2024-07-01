@@ -2,7 +2,6 @@ const router = require('express').Router();
 
 //- Functions
 const errorResponse = k => require('../../../functions/errorResponse').get(k);
-const User = require('../../../functions/userMgr');
 
 router
 	.use((req, res, next) => {

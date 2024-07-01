@@ -1,4 +1,5 @@
-const router = require('express').Router();
+const express = require('express');
+const router = express.Router();
 const { SQL } = require('sql-template-strings');
 const User = require('../../../functions/userMgr');
 
@@ -12,6 +13,7 @@ router
 					first: req.session.user.name.first,
 					last: req.session.user.name.first,
 					display: req.session.user.name.display,
+					initials: req.session.user.name.first[0] + req.session.user.name.last[0],
 				},
 				email: req.session.user.contact.email,
 			},
@@ -52,6 +54,7 @@ router
 		);
 	})
 	.get('/disable/:id', async (req, res) => {
+		if (!req.session.user?.uid) return res.redirect('/auth/login');
 		const connection = await req.Database.pool.connect();
 		const { id } = req.params;
 		if (!id) return res.sendError(10);
@@ -64,6 +67,7 @@ router
 		connection.release();
 	})
 	.get('/enable/:id', async (req, res) => {
+		if (!req.session.user?.uid) return res.redirect('/auth/login');
 		const connection = await req.Database.pool.connect();
 		const { id } = req.params;
 		if (!id) return res.sendError(10);
@@ -76,6 +80,7 @@ router
 		connection.release();
 	})
 	.get('/block/:id', async (req, res) => {
+		if (!req.session.user?.uid) return res.redirect('/auth/login');
 		const connection = await req.Database.pool.connect();
 		const { id } = req.params;
 		if (!id) return res.sendError(10);
@@ -88,6 +93,7 @@ router
 		connection.release();
 	})
 	.get('/unblock/:id', async (req, res) => {
+		if (!req.session.user?.uid) return res.redirect('/auth/login');
 		const connection = await req.Database.pool.connect();
 		const { id } = req.params;
 		if (!id) return res.sendError(10);
@@ -100,6 +106,7 @@ router
 		connection.release();
 	})
 	.get('/delete/:id', async (req, res) => {
+		if (!req.session.user?.uid) return res.redirect('/auth/login');
 		const connection = await req.Database.pool.connect();
 		const { id } = req.params;
 		if (!id) return res.sendError(10);
@@ -113,7 +120,30 @@ router
 		res.status(200).json({ message: 'Token deleted' });
 		connection.release();
 	})
-	.get('/create', (req, res) => { })
+	.get('/create', async (req, res) => {
+		if (!req.session.user?.uid) return res.redirect('/auth/login');
+		const UserPermissions = User.fromFullPermissionBitString(req.session.user.permissions);
+		if (!UserPermissions.hasPermission('Global::Token.Write', true)) return res.sendError(0);
+		res.render(
+			'admin/private/tokens/create.pug',
+			{
+				status: (await req.Database.getServerStatus()),
+				meta: {
+					title: 'Create Token | Admin Panel',
+					desc: 'The admin panel for the FemDevs!',
+					url: 'https://admin.thefemdevs.com/tokens/create',
+					canonical: 'https://admin.thefemdevs.com/tokens/create',
+				},
+			},
+		);
+	})
+	.post('/create',
+		express.urlencoded({
+			extended: true,
+			type: 'application/x-www-form-urlencoded',
+		}),
+		async (req, res) => {},
+	)
 	.use((req, res, next) => {
 		const { path } = req;
 		const methodUsed = req.method.toUpperCase();

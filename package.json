@@ -3,9 +3,9 @@
   "version": "4.2.0",
   "main": "index.js",
   "readme": "README.md",
-  "types": "@types/defs.d.ts",
   "scripts": {
     "build": "npx postcss ./static/tailwind.css -o ./static/styles.css",
+    "live": "npx postcss ./static/tailwind.css -o ./static/styles.css --watch",
     "dev": "nodemon .",
     "test": "echo \"Error: no test specified\" && exit 1",
     "sass": "node compileSass.js"

@@ -1,7 +1,9 @@
-const router = require('express').Router();
+const express = require('express');
+const router = express.Router();
 const { SQL } = require('sql-template-strings');
 const User = require('../../../functions/userMgr');
 const Admin = require('firebase-admin');
+const Auth = require('firebase/auth');
 
 router
 	.get('/', async (req, res) => {
@@ -13,6 +15,7 @@ router
 					first: req.session.user.name.first,
 					last: req.session.user.name.first,
 					display: req.session.user.name.display,
+					initials: req.session.user.name.first[0] + req.session.user.name.last[0],
 				},
 				email: req.session.user.contact.email,
 			},
@@ -68,7 +71,7 @@ router
 		);
 	})
 	.get('/delete/:id', async (req, res) => {
-		if (!req.session.user) return res.redirect('/auth/login');
+		if (!req.session.user?.uid) return res.redirect('/auth/login');
 		const UserPermissions = User.fromFullPermissionBitString(req.session.user.permissions);
 		if (!UserPermissions.hasPermission('Global::User.Delete', true)) return res.sendError(0);
 		const connection = await req.Database.pool.connect();
@@ -88,7 +91,7 @@ router
 		res.status(200).end();
 	})
 	.get('/disable/:id', async (req, res) => {
-		if (!req.session.user) return res.redirect('/auth/login');
+		if (!req.session.user?.uid) return res.redirect('/auth/login');
 		const UserPermissions = User.fromFullPermissionBitString(req.session.user.permissions);
 		if (!UserPermissions.hasPermission('Global::User.Write', true)) return res.sendError(0);
 		const connection = await req.Database.pool.connect();
@@ -102,7 +105,7 @@ router
 		res.status(200).end();
 	})
 	.get('/enable/:id', async (req, res) => {
-		if (!req.session.user) return res.redirect('/auth/login');
+		if (!req.session.user?.uid) return res.redirect('/auth/login');
 		const UserPermissions = User.fromFullPermissionBitString(req.session.user.permissions);
 		if (!UserPermissions.hasPermission('Global::User.Write', true)) return res.sendError(0);
 		const connection = await req.Database.pool.connect();
@@ -115,6 +118,108 @@ router
 		connection.release();
 		res.status(200).end();
 	})
+	.get('/create', async (req, res) => {
+		if (!req.session.user?.uid) return res.redirect('/auth/login');
+		const currentUser = {
+			loggedIn: true,
+			user: {
+				name: {
+					first: req.session.user.name.first,
+					last: req.session.user.name.first,
+					display: req.session.user.name.display,
+					initials: req.session.user.name.first[0] + req.session.user.name.last[0],
+				},
+				email: req.session.user.contact.email,
+			},
+		};
+		const UserPermissions = User.fromFullPermissionBitString(req.session.user.permissions);
+		if (!UserPermissions.hasPermission('Global::User.Create', true)) return res.sendError(0);
+		res.render(
+			'admin/private/users/create.pug',
+			{
+				status: (await req.Database.getServerStatus()),
+				meta: {
+					title: 'Create User | Admin Panel',
+					desc: 'The admin panel for the FemDevs!',
+					url: 'https://admin.thefemdevs.com/users/create',
+					canonical: 'https://admin.thefemdevs.com/users/create',
+				},
+				currentUser,
+			},
+		);
+	})
+	.post('/create',
+		express.urlencoded({
+			extended: true,
+			type: 'application/x-www-form-urlencoded',
+		}),
+		async (req, res) => {
+			if (!req.session.user?.uid) return res.redirect('/auth/login');
+			const { firstname, lastname, displayname, email, password, permissions } = req.body;
+			const phone = req.body?.phone || null;
+			/** @type {Auth.UserCredential} */
+			const firebaseRes = await Auth.createUserWithEmailAndPassword(req.auth, email, password)
+				.catch(async error => {
+					switch (error.code) {
+						case 'auth/user-disabled': return res.render('admin/auth/login.pug', {
+							status: (await req.Database.getServerStatus()),
+							meta: {
+								title: 'Login | Admin Panel',
+								desc: 'The admin panel for the FemDevs!',
+								url: 'https://admin.thefemdevs.com/login',
+								canonical: 'https://admin.thefemdevs.com/login',
+							},
+							error: 'Your account has been disabled',
+						});
+						case 'auth/user-not-found':
+						case 'auth/wrong-password':
+						case 'auth/invalid-credential':
+							return res.render('admin/auth/login.pug', {
+								status: (await req.Database.getServerStatus()),
+								meta: {
+									title: 'Login | Admin Panel',
+									desc: 'The admin panel for the FemDevs!',
+									url: 'https://admin.thefemdevs.com/login',
+									canonical: 'https://admin.thefemdevs.com/login',
+								},
+								error: 'We couldn\'t find an account with that email address and password',
+							});
+						default:
+							// eslint-disable-next-line no-console
+							console.log(error);
+							return res.render('admin/auth/login.pug', {
+								status: (await req.Database.getServerStatus()),
+								meta: {
+									title: 'Login | Admin Panel',
+									desc: 'The admin panel for the FemDevs!',
+									url: 'https://admin.thefemdevs.com/login',
+									canonical: 'https://admin.thefemdevs.com/login',
+								},
+								error: 'An unknown error occurred',
+							});
+					}
+				});
+			if (!firebaseRes) return;
+			const { user } = firebaseRes;
+			/** @type {Admin.auth.Auth} */
+			const AdminAuth = req.AdminApp.auth();
+			AdminAuth.updateUser(user.uid, 
+				{
+					displayName: displayname,
+					phoneNumber: phone || null,
+				},
+			);
+			if (!user) return;
+			const connection = await req.Database.pool.connect();
+			await connection.query(
+				SQL`INSERT INTO public.users
+				(firebaseuid, firstname, lastname, displayname, email, permissions)
+				VALUES (${user.uid}, ${firstname}, ${lastname}, ${displayname}, ${email}, ${permissions})`,
+			);
+			const { uid, photoURL, phoneNumber, emailVerified, disabled, metadata } = user;
+			return res.redirect('/users');
+		},
+	)
 	.use((req, res, next) => {
 		const { path } = req;
 		const methodUsed = req.method.toUpperCase();
