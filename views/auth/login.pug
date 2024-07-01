@@ -1,8 +1,10 @@
-include ../../mixins.pug
+include ../mixins.pug
 doctype html
 html(lang="en")
 	head
 		+header()
+		style
+			include ../../static/styles.css
 	body.bg-neutral-400
 		div.w-fit.min-w-96.mx-auto.my-10
 			div.bg-white.border.border-gray-200.rounded-xl.shadow-sm.mt-7(class="dark:bg-neutral-900 dark:border-neutral-700")
@@ -18,12 +20,14 @@ html(lang="en")
 								div
 									label.block.text-sm.mb-2(for="email" class="dark:text-white") Email address
 									div.relative
-										input.py-3.px-4.block.w-full.border-gray-200.rounded-lg.text-sm.border(type="email" id="email" name="username" class="focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600" required aria-describedby="email-error")
+										input.py-3.px-4.block.w-full.border-gray-200.rounded-lg.text-sm.border(type="email" id="email" name="username" class="focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600" required)
 								div
 									div.flex.justify-between.items-center
 										label.block.text-sm.mb-2(for="password" class="dark:text-white") Password
 									div.relative
-										input.py-3.px-4.block.w-full.border-gray-200.rounded-lg.text-sm.border(type="password" id="password" name="password" class="focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600" required aria-describedby="password-error")
+										input.py-3.px-4.block.w-full.border-gray-200.rounded-lg.text-sm.border(type="password" id="password" name="password" class="focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600" required)
+										p.text-sm.text-right.text-blue-600(class="dark:text-blue-400").
+											Forgot your password? #[a(href="/forgot" class="hover:underline") Reset it]
 									if error
 										div.mt-2.bg-red-100.border.border-red-200.text-sm.text-red-800.rounded-lg.p-4(class="dark:bg-red-800/10 dark:border-red-900 dark:text-red-500" role="alert") #[span.font-bold Danger] alert! #{error}
 								input.w-full.py-3.px-4.inline-flex.justify-center.items-center.gap-x-2.text-sm.font-semibold.rounded-lg.border.border-transparent.bg-blue-600.text-white(type="submit" class="hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none" value="Sign in")
