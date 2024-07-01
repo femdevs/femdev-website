@@ -133,7 +133,7 @@ app
 				new CSPObj('upgradeInsecureRequests', false, [], false, false, []),
 				new CSPObj('reportUri', false, [], false, false, ['https://security.thefemdevs.com/csp/new']),
 				new CSPObj('baseUri', false, [], true, false, ['thefemdevs.com', 'security.thefemdevs.com', 'cdn.thefemdevs.com']),
-				new CSPObj('scriptSrc', false, process.env.NODE_ENV === 'dev' ? ['unsafe-inline'] : [], true, false,
+				new CSPObj('scriptSrc', false, ['unsafe-inline'], true, false,
 					['blob:', ['thefemdevs.com', 'google.com', 'fontawesome.com', 'jsdelivr.net', 'preline.co'].map(WebSecurity.CD)].flat(2),
 				),
 			),
