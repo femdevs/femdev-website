@@ -124,7 +124,7 @@ app
 				new CSPObj('objectSrc', true, [], false, false, []),
 				new CSPObj('defaultSrc', false, [], false, true, []),
 				new CSPObj('connectSrc', false, [], false, true, []),
-				new CSPObj('formAction', false, [], true, false, []),
+				new CSPObj('formAction', false, [], false, true, []),
 				new CSPObj('prefetchSrc', false, [], false, true, []),
 				new CSPObj('manifestSrc', false, [], true, false, []),
 				new CSPObj('reportTo', false, [], false, false, ['csp-ep']),

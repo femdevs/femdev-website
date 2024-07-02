@@ -33,7 +33,7 @@ router
 				meta: {
 					title: 'Admin Panel',
 					desc: 'The admin panel for the FemDevs!',
-					url: 'https://adminthefemdevs.com',
+					url: 'https://admin.thefemdevs.com',
 					canonical: 'https://admin.thefemdevs.com',
 				},
 				currentUser,
