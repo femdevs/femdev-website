@@ -1,15 +1,15 @@
-/web/oss/ @femdevs/admin
-/web/auth/ @femdevs/admin
-/web/mail/ @femdevs/admin
-/web/admin/ @femdevs/admin
-/web/security/ @femdevs/admin
-/functions/database.js @femdevs/admin
-/functions/security.js @femdevs/admin
-CODEOWNERS @femdevs/admin
-CONTRIBUTING.md @femdevs/admin
-LICENSE @femdevs/admin
-README.md @femdevs/admin
-SECURITY.md @femdevs/admin
-.github/ @femdevs/admin
 * @femdevs/code-review @femdevs/dev
-**/meta/
+/web/oss/ @femdevs/admin @femdevs/code-review @femdevs/dev
+/web/auth/ @femdevs/admin @femdevs/code-review @femdevs/dev
+/web/mail/ @femdevs/admin @femdevs/code-review @femdevs/dev
+/web/admin/ @femdevs/admin @femdevs/code-review @femdevs/dev
+/web/security/ @femdevs/admin @femdevs/code-review @femdevs/dev
+/functions/database.js @femdevs/admin @femdevs/code-review @femdevs/dev
+/functions/security.js @femdevs/admin @femdevs/code-review @femdevs/dev
+**/meta/ @femdevs/admin @femdevs/code-review @femdevs/dev
+CODEOWNERS @femdevs/admin @femdevs/code-review @femdevs/dev
+CONTRIBUTING.md @femdevs/admin @femdevs/code-review @femdevs/dev
+LICENSE @femdevs/admin @femdevs/code-review @femdevs/dev
+README.md @femdevs/admin @femdevs/code-review @femdevs/dev
+SECURITY.md @femdevs/admin @femdevs/code-review @femdevs/dev
+.github/ @femdevs/admin @femdevs/code-review @femdevs/dev
