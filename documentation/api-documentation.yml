@@ -749,25 +749,25 @@ paths:
                     message: "You are blacklisted from accessing this resource"
       security:
         - APIToken: []
-  /facts/random:
+  /facts/chucknorris:
     get:
-      operationId: "GetRandomFact"
+      operationId: "GetChuckNorrisFact"
       description: |-
-        Gets a random fact.
+        Gets a random Chuck Norris fact.
         Returns the fact if successful, otherwise returns an error.
 
-        Permissions Required: `Facts::Random`
+        Permissions Required: `Facts::ChuckNorris`
       summary: "Get Random Fact"
       responses:
         200:
-          description: "The random fact"
+          description: "The random Chuck Norris fact"
           content:
             plain/text:
               schema:
                 type: string
               examples:
                 fact:
-                  value: "The average person spends 6 months of their lifetime waiting on a red light to turn green."
+                  value: "Chuck Norris can divide by zero."
         401:
           description: "Invalid/Missing API Token"
           content:
@@ -3287,7 +3287,7 @@ components:
         - `Dictionary::Antonym` (2:2) - Ability to get the antonyms of a word using the `/dict/ant` endpoint
         - `Facts::Dog` (3:0) - Ability to get a random dog fact using the `/facts/dog` endpoint
         - `Facts::Cat` (3:1) - Ability to get a random cat fact using the `/facts/cat` endpoint
-        - `Facts::Random` (3:2) - Ability to get a random fact using the `/facts/random` endpoint
+        - `Facts::ChuckNorris` (3:2) - Ability to get a random fact using the `/facts/chucknorris` endpoint
         - `Location::Coord` (4:0) - Ability to get the location of coordinates using the `/location/coords` endpoint
         - `Location::Pluscode` (4:1) - Ability to get the location of a pluscode using the `/location/pluscode` endpoint
         - `Location::Address` (4:2) - Ability to get the location of an address using the `/location/address` endpoint
