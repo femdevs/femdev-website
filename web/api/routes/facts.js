@@ -4,7 +4,7 @@ router
 	.get('/chucknorris', async (req, res) => {
 		if (!(await req.checkPermissions(req, res, { multi: false, perm: 'Facts::ChuckNorris', allowMgr: true }))) return;
 		const { data } = await req.axiosReq('https://api.chucknorris.io/jokes/random');
-		res.send(data.facts[0]);
+		res.send(data.value);
 	})
 	.get('/dogs', async (req, res) => {
 		if (!(await req.checkPermissions(req, res, { multi: false, perm: 'Facts::Dog', allowMgr: true }))) return;

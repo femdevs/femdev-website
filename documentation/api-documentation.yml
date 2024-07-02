@@ -757,7 +757,7 @@ paths:
         Returns the fact if successful, otherwise returns an error.
 
         Permissions Required: `Facts::ChuckNorris`
-      summary: "Get Random Fact"
+      summary: "Get Random Chuck Norris Fact"
       responses:
         200:
           description: "The random Chuck Norris fact"
