@@ -41,7 +41,7 @@ router
 						case 'auth/user-not-found':
 						case 'auth/wrong-password':
 						case 'auth/invalid-credential':
-							return res.render('admin/auth/login.pug', {
+							return res.render('auth/login.pug', {
 								status: (await req.Database.getServerStatus()),
 								meta: {
 									title: 'Login',
@@ -54,7 +54,7 @@ router
 						default:
 							// eslint-disable-next-line no-console
 							console.log(error);
-							return res.render('admin/auth/login.pug', {
+							return res.render('auth/login.pug', {
 								status: (await req.Database.getServerStatus()),
 								meta: {
 									title: 'Login',
@@ -135,19 +135,6 @@ router
 									canonical: 'https://auth.thefemdevs.com/register',
 								},
 								error: 'An account with that email address already exists',
-							});
-						case 'auth/user-not-found':
-						case 'auth/wrong-password':
-						case 'auth/invalid-credential':
-							return res.render('auth/register.pug', {
-								status: (await req.Database.getServerStatus()),
-								meta: {
-									title: 'Register',
-									desc: 'Join the FemDevs!',
-									url: 'https://auth.thefemdevs.com/register',
-									canonical: 'https://auth.thefemdevs.com/register',
-								},
-								error: 'We couldn\'t find an account with that email address and password',
 							});
 						default:
 							// eslint-disable-next-line no-console
@@ -264,7 +251,12 @@ router
 			extended: true,
 			type: 'application/x-www-form-urlencoded',
 		}),
-		async (req, res) => { },
+		async (req, res) => {
+			req.session = Object.assign(req.session, {
+				user: {},
+			});
+			res.redirect('https://thefemdevs.com/');
+		},
 	)
 	.get('/', async (req, res) => {
 		res.render('auth/index.pug', {
