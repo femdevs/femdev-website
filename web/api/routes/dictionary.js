@@ -27,7 +27,8 @@ router
 					key: process.env.TAK,
 				},
 			});
-		res.json({syns: JSON.parse(data)[0].meta.syns.reduce((acc, curr) => [...acc, ...curr], []).slice(0, 100)});
+		const resData = JSON.parse(data)[0];
+		res.json({syns: resData.meta.syns.reduce((acc, curr) => [...acc, ...curr], []).slice(0, 100)});
 	})
 	.get('/ant', async (req, res) => {
 		if (!(await req.checkPermissions(req, res, { multi: false, perm: 'Dictionary::Antonym', allowMgr: true }))) return;
@@ -40,7 +41,8 @@ router
 					key: process.env.TAK,
 				},
 			});
-		res.json({ants: JSON.parse(data)[0].meta.ants.reduce((acc, curr) => [...acc, ...curr], []).slice(0, 100)});
+		const resData = JSON.parse(data)[0];
+		res.json({ants: resData.meta.ants.reduce((acc, curr) => [...acc, ...curr], []).slice(0, 100)});
 	})
 	.use((req, res, next) => {
 		const { path } = req;
