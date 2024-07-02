@@ -100,7 +100,7 @@ router
 			req.session = Object.assign(req.session, {
 				user: userData,
 			});
-			return res.redirect('/');
+			return res.redirect(req.query.redirect || '/');
 		},
 	)
 	.get('/register', async (req, res) => {
@@ -161,7 +161,7 @@ router
 				(firebaseuid, firstname, lastname, displayname, email, permissions)
 				VALUES (${user.uid}, ${firstname}, ${lastname}, '', ${email}, '')`,
 			);
-			return res.redirect('/login');
+			return res.redirect(req.query.redirect || '/');
 		},
 	)
 	.get('/forgot', async (req, res) => {
@@ -220,6 +220,7 @@ router
 					url: 'https://auth.thefemdevs.com/forgot',
 					canonical: 'https://auth.thefemdevs.com/forgot',
 				},
+				returnURL: req.query.redirect || '/',
 			});
 		},
 	)
@@ -238,13 +239,14 @@ router
 				url: 'https://auth.thefemdevs.com/verify',
 				canonical: 'https://auth.thefemdevs.com/verify',
 			},
+			returnURL: req.query.redirect || '/',
 		});
 	})
 	.get('/logout', async (req, res) => {
 		req.session = Object.assign(req.session, {
 			user: {},
 		});
-		res.redirect('https://thefemdevs.com/');
+		res.redirect(req.query.redirect || '/');
 	})
 	.post('/logout',
 		express.urlencoded({
@@ -255,7 +257,7 @@ router
 			req.session = Object.assign(req.session, {
 				user: {},
 			});
-			res.redirect('https://thefemdevs.com/');
+			res.redirect(req.query.redirect || '/');
 		},
 	)
 	.get('/', async (req, res) => {

@@ -7,7 +7,8 @@ const Auth = require('firebase/auth');
 
 router
 	.get('/', async (req, res) => {
-		if (!req.session.user?.uid) return res.redirect('https://auth.thefemdevs.com/login');
+		if (!req.session.user?.uid)
+			return res.redirect(`https://auth.thefemdevs.com/login?redirect=${encodeURIComponent('https://admin.thefemdevs.com/users')}`);
 		const currentUser = {
 			loggedIn: true,
 			user: {
@@ -71,7 +72,8 @@ router
 		);
 	})
 	.get('/delete/:id', async (req, res) => {
-		if (!req.session.user?.uid) return res.redirect('https://auth.thefemdevs.com/login');
+		if (!req.session.user?.uid)
+			return res.redirect(`https://auth.thefemdevs.com/login?redirect=${encodeURIComponent('https://admin.thefemdevs.com/users')}`);
 		const UserPermissions = User.fromFullPermissionBitString(req.session.user.permissions);
 		if (!UserPermissions.hasPermission('Global::User.Delete', true)) return res.sendError(0);
 		const connection = await req.Database.pool.connect();
@@ -91,7 +93,8 @@ router
 		res.status(200).end();
 	})
 	.get('/disable/:id', async (req, res) => {
-		if (!req.session.user?.uid) return res.redirect('https://auth.thefemdevs.com/login');
+		if (!req.session.user?.uid)
+			return res.redirect(`https://auth.thefemdevs.com/login?redirect=${encodeURIComponent('https://admin.thefemdevs.com/users')}`);
 		const UserPermissions = User.fromFullPermissionBitString(req.session.user.permissions);
 		if (!UserPermissions.hasPermission('Global::User.Write', true)) return res.sendError(0);
 		const connection = await req.Database.pool.connect();
@@ -105,7 +108,8 @@ router
 		res.status(200).end();
 	})
 	.get('/enable/:id', async (req, res) => {
-		if (!req.session.user?.uid) return res.redirect('https://auth.thefemdevs.com/login');
+		if (!req.session.user?.uid)
+			return res.redirect(`https://auth.thefemdevs.com/login?redirect=${encodeURIComponent('https://admin.thefemdevs.com/users')}`);
 		const UserPermissions = User.fromFullPermissionBitString(req.session.user.permissions);
 		if (!UserPermissions.hasPermission('Global::User.Write', true)) return res.sendError(0);
 		const connection = await req.Database.pool.connect();
@@ -119,7 +123,8 @@ router
 		res.status(200).end();
 	})
 	.get('/create', async (req, res) => {
-		if (!req.session.user?.uid) return res.redirect('https://auth.thefemdevs.com/login');
+		if (!req.session.user?.uid)
+			return res.redirect(`https://auth.thefemdevs.com/login?redirect=${encodeURIComponent('https://admin.thefemdevs.com/users/create')}`);
 		const currentUser = {
 			loggedIn: true,
 			user: {
@@ -154,7 +159,8 @@ router
 			type: 'application/x-www-form-urlencoded',
 		}),
 		async (req, res) => {
-			if (!req.session.user?.uid) return res.redirect('https://auth.thefemdevs.com/login');
+			if (!req.session.user?.uid)
+				return res.redirect(`https://auth.thefemdevs.com/login?redirect=${encodeURIComponent('https://admin.thefemdevs.com/users/create')}`);
 			const { firstname, lastname, displayname, email, password, permissions } = req.body;
 			const phone = req.body?.phone || null;
 			/** @type {Auth.UserCredential} */
