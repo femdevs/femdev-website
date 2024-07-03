@@ -90,7 +90,6 @@ router
 	.use('/location', location)
 	.use('/password', password)
 	.use('/minecraft', minecraft)
-	.use('/dictionary', dictionary)
 	.use((req, res, next) => {
 		const { path } = req;
 		const methodUsed = req.method.toUpperCase();
