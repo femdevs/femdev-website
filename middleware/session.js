@@ -8,9 +8,9 @@ module.exports = session(
 		resave: false,
 		cookie: {
 			domain: process.env.NODE_ENV === 'production' ? 'thefemdevs.com' : 'localhost',
-			maxAge: 36e5,
+			maxAge: 864e5, // 1 day
 			secure: 'auto',
-			sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+			sameSite: 'lax',
 		},
 		store: new MemoryStore({ checkPeriod: 360_000, stale: false }),
 	},

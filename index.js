@@ -7,7 +7,6 @@ const App = require('firebase/app');
 const Auth = require('firebase/auth');
 const { RateLimiterMemory } = require('rate-limiter-flexible');
 const { WebSecurity, CSPObj, PermissionPolicy, ReportToGroup, ReportingEndpoint, Headers: headers } = require('@therealbenpai/zdcors');
-const csl = console;
 //- Middleware
 const IPM = require('./middleware/IP'); //? IP Middleware
 const SM = require('./middleware/session'); //? Session Manager
@@ -204,7 +203,6 @@ app
 		},
 		// -- Divider -- //
 		(err, req, res, next) => {
-			csl.error(err);
 			res
 				.status(501)
 				.setHeader('X-Error-ID', '')

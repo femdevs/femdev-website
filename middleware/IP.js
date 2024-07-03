@@ -6,11 +6,11 @@ module.exports = {
 	infoMiddleware: IPInfoExpress({
 		token: process.env.IPINFO_AT,
 		cache: new LruCache({
-			max: 1000,
-			ttl: 1000 * 60 * 60 * 24,
-			disposeAfter: 1000 * 60 * 60 * 24 * 7,
+			max: 1e3, // 1000 items
+			ttl: 864e5, // 1 day
+			disposeAfter: 6048e5, // 1 week
 		}),
-		timeout: 15_000,
+		timeout: 15e3, // 15 seconds
 	}),
 	/**
 	 * Check if the user is from a location that is not allowed to access the website
