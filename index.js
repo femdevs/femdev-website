@@ -80,7 +80,8 @@ app
 			next();
 		},
 		// -- Divider -- //
-		wUtils.Logger(csl),
+		/* eslint-disable-next-line no-console */
+		wUtils.Logger(console.log),
 		// -- Divider -- //
 		IPM.infoMiddleware,
 		// -- Divider -- //
