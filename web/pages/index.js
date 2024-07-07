@@ -10,6 +10,6 @@ router
 		vhost('nezha.thefemdevs.com', require('./nezha/')),
 		vhost('oblong.thefemdevs.com', require('./oblong/')),
 		vhost('mayuazael.thefemdevs.com', require('./mayuazael/')),
-	)
+	);
 
 module.exports = router;

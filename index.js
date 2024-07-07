@@ -216,6 +216,7 @@ app
 const server = http.createServer(app);
 
 server
-	.listen(process.env.PORT || 3000, () => csl.log("HTTP Server is UP"));
+	/* eslint-disable-next-line no-console */
+	.listen(process.env.PORT || 3000, () => console.log(`Server is running on port ${process.env.PORT || 3000}`));
 
 module.exports = server;
