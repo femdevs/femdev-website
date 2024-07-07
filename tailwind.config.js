@@ -1,17 +1,18 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-	mode: "jit",
+	mode: 'jit',
 	content: [
-		"node_modules/preline/dist/*.js",
-		"views/**/**/**/*.{js,ts,pug,html}",
+		'node_modules/preline/dist/*.js',
+		'views/**/**/**/*.{js,ts,pug,html}',
 	],
 	theme: {
 		extend: {
 			fontFamily: {
 				poppins: ['Poppins', 'sans-serif'],
 				roboto: ['Roboto', 'sans-serif'],
-				inner: ["Inner", "sans-serif"],
-				nunito: ["Nunito", "sans-serif"],
+				inner: ['Inner', 'sans-serif'],
+				nunito: ['Nunito', 'sans-serif'],
+				nanum: ['Nanum Gothic', 'sans-serif'],
 			},
 			colors: {
 				'brand-primary-light': '#4486cc',

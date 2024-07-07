@@ -1,0 +1,75 @@
+include ../../mixins.pug
+doctype html
+html.text-center.bg-cover.bg-no-repeat.bg-fixed.bg-center.text-white.font-nanum(class="text-[15px] bg-[url('cdn/img/background.jpg')] h-[97%]")
+  head
+    +meta(0)
+		+canonical(meta.canonical)
+		+meta(3, 'X-UA-Compatible', "IE%e%edge")
+		+meta(3, 'Content-Type', 'text/html; charset%e%utf-8')
+		+meta(1, 'viewport', 'width%e%device-width, initial-scale%e%1.0')
+		+meta(1, 'google', 'nositelinkssearchbox')
+		+meta(2, 'og:url', meta.url)
+		+meta(1, 'title', meta.title)
+		+meta(2, 'og:title', meta.title)
+		+meta(2, 'twitter:url', meta.url)
+		+meta(1, 'description', meta.desc)
+		+meta(2, 'twitter:title', meta.title)
+		+meta(2, 'og:description', meta.desc)
+		+meta(2, 'twitter:description', meta.desc)
+		+meta(2, 'og:image', '/cdn/img/profile.jpg')
+		+meta(2, 'og:type', 'website')
+		+meta(1, 'language', 'en-us')
+		+meta(1, 'revisit-after', '2 days')
+		+meta(2, 'twitter:card', 'summary_large_image')
+		+meta(2, 'twitter:image', '/cdn/img/profile.jpg')
+		+meta(1, 'apple-mobile-web-app-status-bar-style', 'black')
+		+meta(1, 'apple-mobile-web-app-title', 'The FemDevs Website')
+		+meta(1, 'google-adsense-account', 'ca-pub-1906373468377810')
+		+headerlink('https://cdn.thefemdevs.com/assets/css/d', 'stylesheet', 'text/css')
+		+headerlink('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css', 'stylesheet', 'text/css')
+		+headerlink('/cdn/img/profile.jpg', 'apple-touch-icon', 'image/png')
+		+headerlink('/cdn/img/profile.jpg', 'icon', 'image/png')
+		title= meta.title
+		script(type="application/ld+json").
+			{
+				"@context": "https://schema.org/",
+				"@type": "Person",
+				"name": "Mayuazael",
+				"url": "https://mayuazael.thefemdevs.com",
+				"image": "https://mayuazael.thefemdevs.com/cdn/img/profile.jpg",
+				"sameAs": [
+					"https://mayuazael.thefemdevs.com"
+				],
+			}
+  body.h-full
+    main
+      .middle(class="backdrop-blur-[10px] h-[98%] w-[500px] items-center self-center mb-[30px] m-auto p-2.5 rounded-[10px] border-[3px] border-solid border-white")
+        .everythingelse
+          div: img.profile-pic(src='/cdn/img/profile.jpg' class="w-[200px] h-[200px] mt-5 rounded-[50%] border-[5px] border-solid border-white")
+          div: h1 About Me
+          div
+            p: b Burnin' My Dread Since 2017
+            p: b 18, idgaf about pronouns
+          div
+            a(href='https://open.spotify.com/user/dthekid05?si=299639c81a5a4377')
+              button(class="bg-[#2f4e358c] text-white p-[5px] rounded-[10px] border-2 border-solid border-white font-nanum") #[i.fa-brands.fa-spotify] Spotify
+            a(href='https://steamcommunity.com/id/h_ithink/')
+              button(class="bg-[#2f4e358c] text-white p-[5px] rounded-[10px] border-2 border-solid border-white font-nanum") #[i.fa-brands.fa-steam] Steam
+            a(href='https://discord.com/users/1146551434154872863')
+              button(class="bg-[#2f4e358c] text-white p-[5px] rounded-[10px] border-2 border-solid border-white font-nanum") #[i.fa-brands.fa-discord] Discord
+            a(href='https://x.com/HDoesThings__')
+              button(class="bg-[#2f4e358c] text-white p-[5px] rounded-[10px] border-2 border-solid border-white font-nanum") #[i.fa-brands.fa-twitter] Twitter
+          .listbox(class="bg-[#2f4e358c] mt-5 mb-[30px] mx-[50px] p-2.5 rounded-[10px] border-2 border-solid border-white")
+            h2 Interests
+            ul(class="list-none py-2.5 p-[10%]")
+              li(class="p-2.5") Persona 3 Reload Soundtrack
+              li(class="p-2.5") BOCW/3 Zombies (Add me: Mayuazael#1104)
+              li(class="p-2.5") Project Zomboid
+              li(class="p-2.5") Minecraft
+              li(class="p-2.5") Rainbow Six
+          .listbox(class="bg-[#2f4e358c] mt-5 mb-[30px] mx-[50px] p-2.5 rounded-[10px] border-2 border-solid border-white")
+            h2 Don't talk to me if you are:
+            ul(class="list-none py-2.5 p-[10%]")
+              li(class="p-2.5") A Snake
+              li(class="p-2.5") Annoying
+              li(class="p-2.5") Binkle
