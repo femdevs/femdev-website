@@ -499,7 +499,7 @@ select{
   outline: 1px solid ButtonText;
   outline: 1px auto -webkit-focus-ring-color;
 }
-.transform, .hover\:scale-110{
+.-translate-x-1\/2, .transform, .hover\:scale-110{
   --tw-translate-x: 0;
   --tw-translate-y: 0;
   --tw-rotate: 0;
@@ -614,6 +614,9 @@ select{
 }
 .bottom-full{
   bottom: 100%;
+}
+.left-\[50\]{
+  left: 50;
 }
 .top-0{
   top: 0px;
@@ -865,6 +868,10 @@ select{
 }
 .border-separate{
   border-collapse: separate;
+}
+.-translate-x-1\/2{
+  --tw-translate-x: -50%;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 .transform{
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
