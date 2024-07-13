@@ -1244,8 +1244,8 @@ select{
 .bg-opacity-50{
   --tw-bg-opacity: 0.5;
 }
-.bg-\[url\(\'cdn\/img\/background\.jpg\'\)\]{
-  background-image: url('cdn/img/background.jpg');
+.bg-\[url\(\'https\:\/\/mayuazael\.thefemdevs\.com\/cdn\/img\/background\.jpg\'\)\]{
+  background-image: url('https://mayuazael.thefemdevs.com/cdn/img/background.jpg');
 }
 .bg-cover{
   background-size: cover;
