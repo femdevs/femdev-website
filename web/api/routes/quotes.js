@@ -1,25 +1,74 @@
 const router = require('express').Router();
+const QuoteFormatter = require('../../../modules/api/quote');
 
 router
 	.get('/kanye', async (req, res) => {
 		if (!(await req.checkPermissions(req, res, { multi: false, perm: 'Quote::Kanye', allowMgr: true }))) return;
 		const { data } = await req.axiosReq('https://api.kanye.rest');
-		res.send(JSON.parse(data).quote);
+		const fData = new QuoteFormatter({
+			quote: JSON.parse(data).quote,
+			author: 'Kanye West',
+			tags: [],
+		});
+		switch (req.query.type) {
+			case 'xml':
+				return res
+					.setHeader('Content-Type', 'application/xml')
+					.send(fData.XML);
+			case 'yaml':
+				return res
+					.setHeader('Content-Type', 'application/yaml')
+					.send(fData.YAML);
+			case 'json':
+			default:
+				return res.json(fData.JSON);
+		}
 	})
 	.get('/ronswanson', async (req, res) => {
 		if (!(await req.checkPermissions(req, res, { multi: false, perm: 'Quote::RonSwanson', allowMgr: true }))) return;
 		const { data } = await req.axiosReq('https://ron-swanson-quotes.herokuapp.com/v2/quotes');
-		res.send(JSON.parse(data)[0]);
+		// res.send(JSON.parse(data)[0]);
+		const fData = new QuoteFormatter({
+			quote: JSON.parse(data)[0],
+			author: 'Ron Swanson',
+			tags: [],
+		});
+		switch (req.query.type) {
+			case 'xml':
+				return res
+					.setHeader('Content-Type', 'application/xml')
+					.send(fData.XML);
+			case 'yaml':
+				return res
+					.setHeader('Content-Type', 'application/yaml')
+					.send(fData.YAML);
+			case 'json':
+			default:
+				return res.json(fData.JSON);
+		}
 	})
 	.get('/random', async (req, res) => {
 		if (!(await req.checkPermissions(req, res, { multi: false, perm: 'Quote::Random', allowMgr: true }))) return;
 		const { data } = await req.axiosReq('https://api.quotable.io/random');
 		const ResData = JSON.parse(data);
-		res.json({
-			content: ResData.content,
+		const fData = new QuoteFormatter({
+			quote: ResData.content,
 			author: ResData.author,
 			tags: ResData.tags,
 		});
+		switch (req.query.type) {
+			case 'xml':
+				return res
+					.setHeader('Content-Type', 'application/xml')
+					.send(fData.XML);
+			case 'yaml':
+				return res
+					.setHeader('Content-Type', 'application/yaml')
+					.send(fData.YAML);
+			case 'json':
+			default:
+				return res.json(fData.JSON);
+		}
 	})
 	.use((req, res, next) => {
 		const { path } = req;

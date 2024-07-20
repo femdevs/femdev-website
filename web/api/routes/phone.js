@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const PhoneFormatter = require('../../../modules/api/phone');
 require('dotenv').config();
 
 router
@@ -16,7 +17,20 @@ router
 				},
 			});
 		if (AxiosRes.status === 404) return res.sendError(22);
-		res.json(JSON.parse(AxiosRes.data));
+		const fData = new PhoneFormatter(AxiosRes.data);
+		switch (req.query.type) {
+			case 'xml':
+				return res
+					.setHeader('Content-Type', 'application/xml')
+					.send(fData.XML);
+			case 'yaml':
+				return res
+					.setHeader('Content-Type', 'application/yaml')
+					.send(fData.YAML);
+			case 'json':
+			default:
+				return res.json(fData.JSON);
+		}
 	})
 	.use((req, res, next) => {
 		const { path } = req;

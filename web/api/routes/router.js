@@ -10,15 +10,12 @@ const errorResponse = k => require('../../../functions/errorResponse').get(k);
 const User = require('../../../functions/userMgr');
 
 //- Routes
-const user = require('./user');
 const mail = require('./mail');
-const token = require('./token');
 const facts = require('./facts');
 const phone = require('./phone');
 const whois = require('./whois');
 const crypto = require('./crypto');
 const quotes = require('./quotes');
-const weather = require('./weather');
 const barcode = require('./barcode');
 const location = require('./location');
 const password = require('./password');
@@ -76,15 +73,12 @@ router
 	.get('/robots.txt', (_, res) => res.setHeader('Content-Type', 'text/plain; charset=utf8').sendFile(`${__dirname}/meta/robots.txt`))
 	.get('/sitemap', (_, res) => res.setHeader('Content-Type', 'text/xml; charset=utf8').sendFile(`${__dirname}/meta/sitemap.xml`))
 	.use(APIAuth, express.json())
-	.use('/user', user)
 	.use('/mail', mail)
-	.use('/token', token)
 	.use('/facts', facts)
 	.use('/phone', phone)
 	.use('/whois', whois)
 	.use('/crypto', crypto)
 	.use('/quotes', quotes)
-	.use('/weather', weather)
 	.use('/barcode', barcode)
 	.use('/location', location)
 	.use('/password', password)

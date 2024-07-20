@@ -1,5 +1,6 @@
 const
 	router = require('express').Router(),
+	LocationFormatter = require('../../../modules/api/location'),
 	fullDataToLocationData = ({ results: [info] }) =>
 		Object.assign(
 			{
@@ -46,7 +47,20 @@ router
 		});
 		const data = JSON.parse(results.data);
 		if (data.status === 'ZERO_RESULTS') return res.sendError(13);
-		res.json({ data: fullDataToLocationData(data) });
+		const fData = new LocationFormatter(fullDataToLocationData(data));
+		switch (req.query.type) {
+			case 'xml':
+				return res
+					.setHeader('Content-Type', 'application/xml')
+					.send(fData.XML);
+			case 'yaml':
+				return res
+					.setHeader('Content-Type', 'application/yaml')
+					.send(fData.YAML);
+			case 'json':
+			default:
+				return res.json(fData.JSON);
+		}
 	})
 	.get('/pluscode', async (req, res) => {
 		if (!(await req.checkPermissions(req, res, { multi: false, perm: 'Location::Pluscode', allowMgr: true }))) return;
@@ -61,7 +75,20 @@ router
 		});
 		const data = JSON.parse(results.data);
 		if (data.status === 'ZERO_RESULTS') return res.sendError(13);
-		res.json({ data: fullDataToLocationData(data) });
+		const fData = new LocationFormatter(fullDataToLocationData(data));
+		switch (req.query.type) {
+			case 'xml':
+				return res
+					.setHeader('Content-Type', 'application/xml')
+					.send(fData.XML);
+			case 'yaml':
+				return res
+					.setHeader('Content-Type', 'application/yaml')
+					.send(fData.YAML);
+			case 'json':
+			default:
+				return res.json(fData.JSON);
+		}
 	})
 	.get('/address', async (req, res) => {
 		if (!(await req.checkPermissions(req, res, { multi: false, perm: 'Location::Address', allowMgr: true }))) return;
@@ -76,7 +103,20 @@ router
 		});
 		const data = JSON.parse(results.data);
 		if (data.status === 'ZERO_RESULTS') return res.sendError(13);
-		res.json({ data: fullDataToLocationData(data) });
+		const fData = new LocationFormatter(fullDataToLocationData(data));
+		switch (req.query.type) {
+			case 'xml':
+				return res
+					.setHeader('Content-Type', 'application/xml')
+					.send(fData.XML);
+			case 'yaml':
+				return res
+					.setHeader('Content-Type', 'application/yaml')
+					.send(fData.YAML);
+			case 'json':
+			default:
+				return res.json(fData.JSON);
+		}
 	})
 	.use((req, res, next) => {
 		const { path } = req;
