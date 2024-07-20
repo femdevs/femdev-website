@@ -95,7 +95,8 @@
     "uglify-js": "^3.17.4",
     "vhost": "^3.0.2",
     "whoiser": "^1.17.3",
-    "ws": "^8.17.1"
+    "ws": "^8.17.1",
+    "xml": "^1.0.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.3.0",
@@ -106,6 +107,7 @@
     "@types/ranjs": "^1.22.7",
     "@types/spotify-api": "^0.0.25",
     "@types/stripe": "^8.0.417",
+    "@types/xml": "^1.0.11",
     "eslint": "^9.3.0",
     "uuid": "^9.0.1"
   },
