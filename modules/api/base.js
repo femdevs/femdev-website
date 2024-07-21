@@ -1,9 +1,6 @@
 class Response {
     constructor(type) {
-        this.header = [
-            new SimpleObj('Created', new Date().toISOString()),
-            new SimpleObj('Type', type),
-        ];
+        this.type = type;
         this.data = [];
     }
     add(obj) {
@@ -14,7 +11,10 @@ class Response {
         return {
             res: [
                 {
-                    header: this.header.map(obj => obj.XML),
+                    header: [
+                        new SimpleObj('Created', new Date().toISOString()).XML,
+                        new SimpleObj('Type', this.type).XML,
+                    ],
                 },
                 {
                     data: this.data,
