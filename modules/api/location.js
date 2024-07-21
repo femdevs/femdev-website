@@ -1,5 +1,6 @@
 const xml = require('xml');
 const yaml = require('yaml');
+const Base = require('./base');
 
 class Location {
     constructor(data) {
@@ -12,7 +13,7 @@ class Location {
             country: data.address.country || '',
             postalCode: data.address.postalCode || '',
         };
-        this.pluscode = data.pluscode || '';
+        this.plusCode = data.pluscode || '';
         this.coords = {
             lat: data.coords.lat || 0,
             lng: data.coords.lng || 0,
@@ -26,19 +27,23 @@ class Location {
         });
     }
     get XML() {
-        return xml({
-            address: [
-                { full: this.address.full },
-                { houseNumber: this.address.houseNumber },
-                { street: this.address.street },
-                { city: this.address.city },
-                { region: this.address.region },
-                { country: this.address.country },
-                { postalCode: this.address.postalCode },
-            ],
-            pluscode: this.pluscode,
-            coords: this.coords,
-        });
+        const res = new Base.Response('Location');
+        res
+            .add(new Base.ExtendedObj('address')
+                .add(new Base.SimpleObj('full', this.address.full))
+                .add(new Base.SimpleObj('houseNumber', this.address.houseNumber))
+                .add(new Base.SimpleObj('street', this.address.street))
+                .add(new Base.SimpleObj('city', this.address.city))
+                .add(new Base.SimpleObj('region', this.address.region))
+                .add(new Base.SimpleObj('country', this.address.country))
+                .add(new Base.SimpleObj('postalCode', this.address.postalCode)),
+            )
+            .add(new Base.SimpleObj('plusCode', this.plusCode))
+            .add(new Base.ExtendedObj('coords')
+                .add(new Base.SimpleObj('lat', this.coords.lat))
+                .add(new Base.SimpleObj('lng', this.coords.lng)),
+            );
+        return xml(res.XML);
     }
     get YAML() {
         return yaml.stringify({

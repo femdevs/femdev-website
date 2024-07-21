@@ -1,29 +1,31 @@
 const xml = require('xml');
 const yaml = require('yaml');
+const Base = require('./base');
 
 class Quote {
     constructor(data) {
-        this.quotes = data.quote;
+        this.quote = data.quote;
         this.author = data.author;
         this.tags = data.tags;
     }
     get JSON() {
         return JSON.stringify({
-            quotes: this.quotes,
+            quote: this.quote,
             author: this.author,
             tags: this.tags,
         });
     }
     get XML() {
-        return xml({
-            quotes: this.quotes,
-            author: this.author,
-            tags: this.tags,
-        });
+        const res = new Base.Response('Quote');
+        res
+            .add(new Base.SimpleObj('quote', this.quote))
+            .add(new Base.SimpleObj('author', this.author))
+            .add(new Base.SimpleObj('tags', this.tags.join(', ')));
+        return xml(res.XML);
     }
     get YAML() {
         return yaml.stringify({
-            quotes: this.quotes,
+            quote: this.quote,
             author: this.author,
             tags: this.tags,
         });

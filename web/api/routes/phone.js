@@ -17,7 +17,7 @@ router
 				},
 			});
 		if (AxiosRes.status === 404) return res.sendError(22);
-		const fData = new PhoneFormatter(AxiosRes.data);
+		const fData = new PhoneFormatter(JSON.parse(AxiosRes.data));
 		switch (req.query.type) {
 			case 'xml':
 				return res

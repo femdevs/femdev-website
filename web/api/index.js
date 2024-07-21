@@ -14,8 +14,6 @@ router
 				_ => res.setHeader('Retry-After', 1000).status(429).render('misc/429.pug', req.getErrPage(429, {})),
 			),
 	)
-	.get('/robots.txt', (req, res) => res.setHeader('Content-Type', 'text/plain; charset=utf8').sendFile(`${__dirname}/meta/robots.txt`))
-	.get('/sitemap', (req, res) => res.setHeader('Content-Type', 'text/xml; charset=utf8').sendFile(`${__dirname}/meta/sitemap.xml`))
 	.use(routes)
 	.use((req, res, next) => {
 		const { path } = req;

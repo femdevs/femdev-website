@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const vhost = require('vhost');
 require('dotenv').config();
+const os = require('os');
 
 router
 	.use(
@@ -22,6 +23,7 @@ router
 		vhost('security.thefemdevs.com', require('./security/')),
 		vhost('localhost', require(`./${process.env.LOCALHOST_PAGE || 'core'}`)),
 		vhost('127.0.0.1', require(`./${process.env.LOCALHOST_PAGE || 'core'}`)),
+		vhost('192.168.1.170', require(`./${process.env.LOCALHOST_PAGE || 'core'}`)),
 	);
 
 module.exports = router;

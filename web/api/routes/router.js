@@ -37,6 +37,7 @@ const axiosReq = async (url, cfgs) => {
 
 router
 	.use((req, res, next) => {
+		console.log("API Request");
 		const sendClose = (res, code) => {
 			const resp = errorResponse(code);
 			delete resp.httpCode;
