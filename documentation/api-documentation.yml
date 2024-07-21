@@ -4,7 +4,7 @@ info:
   title: "FemDevs API Documentation"
   description: |-
     The documentation for the FemDevs API.
-    Do note that some routes have permission-based requirements that your user must be quilified for in order to access them.
+    Do note that some routes have permission-based requirements that your user must be qualified for in order to access them.
     Check the description for each route in case you are unsure.
 
     Permissions Overrides:
@@ -13,6 +13,8 @@ info:
     * `Global::Role.Developer`
     * `Global::Role.Administrator`
     * `Global::Role.Owner`
+
+    It is also always recommended that you append a query parameter of `?type=json` to each request to ensure that all requests are returned as a JSON object
   termsOfService: "https://legal.thefemdevs.com/terms"
   contact:
     name: "FemDevs"
@@ -567,7 +569,7 @@ paths:
                 error:
                   value:
                     code: 22
-                    message: "Unable to retreive requested information"
+                    message: "Unable to retrieve requested information"
       security:
         - APIToken: []
   /location/pluscode:
@@ -664,7 +666,7 @@ paths:
                 error:
                   value:
                     code: 22
-                    message: "Unable to retreive requested information"
+                    message: "Unable to retrieve requested information"
       security:
         - APIToken: []
   /location/address:
@@ -761,7 +763,7 @@ paths:
                 error:
                   value:
                     code: 22
-                    message: "Unable to retreive requested information"
+                    message: "Unable to retrieve requested information"
       security:
         - APIToken: []
   /mail/send:
@@ -777,7 +779,7 @@ paths:
         - in: "header"
           name: 'x-user'
           required: true
-          description: "The Account Credentals used to send the email"
+          description: "The Account Credentials used to send the email"
           example: "XQGdt1KLapMtFZqGCdzyLw.xcWtsV5Xb4T-yEE0lHtLyC60JC4"
           schema:
             type: string
@@ -1118,7 +1120,7 @@ paths:
                 error:
                   value:
                     code: 22
-                    message: "Unable to retreive requested information"
+                    message: "Unable to retrieve requested information"
       security:
         - APIToken: []
   /minecraft/hive/maps:
@@ -1264,7 +1266,7 @@ paths:
                 error:
                   value:
                     code: 22
-                    message: "Unable to retreive requested information"
+                    message: "Unable to retrieve requested information"
       security:
         - APIToken: []
   /password/gen:
@@ -1292,7 +1294,7 @@ paths:
               examples:
                 Good:
                   value:
-                    password: uskAcg-efm5bc-sbskot
+                    password: uskAcg-efm5bc-sdsnot
         401:
           description: "Invalid/Missing API Token"
           content:
@@ -1433,7 +1435,7 @@ paths:
                 error:
                   value:
                     code: 22
-                    message: "Unable to retreive requested information"
+                    message: "Unable to retrieve requested information"
       security:
         - APIToken: []
   /quotes/kanye:
@@ -2246,9 +2248,9 @@ components:
           type: integer
           description: "The number of hiders the player has killed"
     MinecraftHivePlayerDeathrunStatistics:
-      title: Hive Player Deathrun Stats
+      title: Hive Player Death Run Stats
       description: |-
-        The Deathrun Statistics for the Hive Minecraft Server
+        The Death Run Statistics for the Hive Minecraft Server
       required:
         - xp
         - played
@@ -2888,7 +2890,7 @@ components:
           type: string
           description: "The postal code"
     LocationCoordData:
-      title: Cartesian Global Coordnates
+      title: Cartesian Global Coordinates
       description: |-
         The coordinates of the location
       required:
