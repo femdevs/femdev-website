@@ -57,15 +57,13 @@ class SimpleObj extends Obj {
     }
     get XML() {
         return {
-            object: [
-                {
-                    _attr: {
-                        type: 'simple',
-                        key: this.key,
-                        value: this.value,
-                    },
+            object: {
+                _attr: {
+                    type: 'simple',
+                    key: this.key,
+                    value: this.value,
                 },
-            ],
+            },
         };
     }
 }
