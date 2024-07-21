@@ -1,6 +1,6 @@
 {
   "name": "femdevs-website",
-  "version": "4.2.0",
+  "version": "4.3.0",
   "main": "index.js",
   "readme": "README.md",
   "scripts": {
@@ -48,7 +48,7 @@
     }
   ],
   "license": "AGPL-3.0-or-later",
-  "description": "The official source code for the Femdevs website including all the subdomains.",
+  "description": "The official source code for the FemDevs website including all the subdomains.",
   "engines": {
     "node": ">=20.0.0",
     "npm": ">=10.0.0"
