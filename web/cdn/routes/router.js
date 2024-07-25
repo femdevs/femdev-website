@@ -1,7 +1,7 @@
 const router = require('express').Router();
 require('dotenv').config();
 
-const cdn = require('./cdn');
+const cdn = require('./cdn/router');
 const assets = require('./assets/router');
 
 router

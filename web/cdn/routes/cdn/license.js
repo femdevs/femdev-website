@@ -1,7 +1,16 @@
 const router = require('express').Router();
+const fs = require('fs');
 
 router
-	.get('/discord', (req, res) => res.redirect('https://discord.gg/FgQvDW8jtr'))
+	.get('/terms/:id', (req, res) => {
+        const { id } = req.params;
+        if (!fs.existsSync(`${process.cwd()}/assets/documents/legal/terms/${id}.txt`))
+            return res.status(404).render(
+                "misc/404.pug",
+                req.getErrPage(404, { id }),
+            );
+        res.sendFile(`${process.cwd()}/assets/documents/legal/terms/${id}.txt`);
+    })
 	.use((req, res, next) => {
 		const { path } = req;
 		const methodUsed = req.method.toUpperCase();
