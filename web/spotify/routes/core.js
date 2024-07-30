@@ -113,11 +113,9 @@ router
                             url: dat.body.external_urls.spotify,
                         }),
                         () => ({
-                            body: {
-                                name: artist.name,
-                                images: [{ url: 'https://via.placeholder.com/64', width: 64e1 }],
-                                external_urls: { spotify: 'https://open.spotify.com' },
-                            },
+                            name: artist.name,
+                            images: 'https://via.placeholder.com/64',
+                            external_urls: 'https://open.spotify.com',
                         }),
                     ),
             );
@@ -132,11 +130,9 @@ router
                             url: dat.body.external_urls.spotify,
                         }),
                         () => ({
-                            body: {
-                                name: albumArtist.name,
-                                images: [{ url: 'https://via.placeholder.com/64', width: 64e1 }],
-                                external_urls: { spotify: 'https://open.spotify.com' },
-                            },
+                            name: albumArtist.name,
+                            images: 'https://via.placeholder.com/64',
+                            external_urls: 'https://open.spotify.com',
                         }),
                     ),
             );
