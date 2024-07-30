@@ -31,7 +31,32 @@ router
         spotifyApi.setRefreshToken(newRefresh);
         await connection.query(SQL`UPDATE public.spotify SET access = ${newAccess}, refresh = ${newRefresh} WHERE user = ${user};`);
         connection.release();
-        const { body } = await spotifyApi.getMyCurrentPlaybackState({ market: 'US' });
+        const MainSpotifyRes = await spotifyApi.getMyCurrentPlaybackState({ market: 'US' })
+            .catch(() => res.json({
+                isPlaying: false,
+                playing: {
+                    track: {
+                        title: 'Nothing playing',
+                        url: null,
+                    },
+                    album: {
+                        title: 'Nothing playing',
+                        artists: [],
+                        image: null,
+                    },
+                    artists: [],
+                    meta: {
+                        progress: {
+                            start: 0,
+                            end: 0,
+                            current: 0,
+                            percentage: 0,
+                        },
+                    },
+                },
+            }));
+        if (res.headersSent) return;
+        const { body } = MainSpotifyRes;
         if (!new Object(body).hasOwnProperty('item')) return res.json({
             isPlaying: false,
             playing: {
@@ -81,21 +106,39 @@ router
         for (const artist of artists) {
             data.artists.push(
                 await spotifyApi.getArtist(artist.id)
-                    .then(dat => ({
-                        name: dat.body.name,
-                        image: dat.body.images.find(({ width }) => width === 64e1)?.url || 'https://via.placeholder.com/64',
-                        url: dat.body.external_urls.spotify,
-                    })),
+                    .then(
+                        dat => ({
+                            name: dat.body.name,
+                            image: dat.body.images.find(({ width }) => width === 64e1)?.url || 'https://via.placeholder.com/64',
+                            url: dat.body.external_urls.spotify,
+                        }),
+                        () => ({
+                            body: {
+                                name: artist.name,
+                                images: [{ url: 'https://via.placeholder.com/64', width: 64e1 }],
+                                external_urls: { spotify: 'https://open.spotify.com' },
+                            },
+                        }),
+                    ),
             );
         }
         for (const albumArtist of album.artists) {
             data.album.artists.push(
                 await spotifyApi.getArtist(albumArtist.id)
-                    .then(dat => ({
-                        name: dat.body.name,
-                        image: dat.body.images.find(({ width }) => width === 64e1)?.url || 'https://via.placeholder.com/64',
-                        url: dat.body.external_urls.spotify,
-                    })),
+                    .then(
+                        dat => ({
+                            name: dat.body.name,
+                            image: dat.body.images.find(({ width }) => width === 64e1)?.url || 'https://via.placeholder.com/64',
+                            url: dat.body.external_urls.spotify,
+                        }),
+                        () => ({
+                            body: {
+                                name: albumArtist.name,
+                                images: [{ url: 'https://via.placeholder.com/64', width: 64e1 }],
+                                external_urls: { spotify: 'https://open.spotify.com' },
+                            },
+                        }),
+                    ),
             );
         }
         const returnData = {
