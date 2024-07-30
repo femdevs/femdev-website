@@ -60,7 +60,7 @@ class Spotify {
         const NoFeatRegex = / *\(.*(ft|feat|with).*\)/gmi;
         return [
             this.song.track.title.replace(NoFeatRegex, '') || 'Nothing',
-            LF.format(this.song.artists.map(art => art.name) || ['None']).replace(NoFeatRegex, ''),
+            LF.format(this.song.artists.map(art => art.name || 'None')).replace(NoFeatRegex, ''),
             this.song.album.title.replace(NoFeatRegex, '') || 'None',
         ];
     }
