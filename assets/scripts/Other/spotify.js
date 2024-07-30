@@ -19,16 +19,12 @@ class Discord {
             customStatus ? customStatus.state : this.activities[0]?.name || 'Nothing',
         ];
     }
-    setStatus = (status) =>
+    setStatus = (s) =>
         Object.assign(this, {
-            status:
-                status === 'online'
-                    ? 'Online'
-                    : status === 'dnd'
-                        ? 'Do Not Disturb'
-                        : status === 'idle'
-                            ? 'Idle'
-                            : 'Offline',
+            status: s === 'online'
+                ? 'Online' : s === 'dnd'
+                    ? 'Do Not Disturb' : s === 'idle'
+                        ? 'Idle' : 'Offline',
         })
     setActivities = (activities) => Object.assign(this, { activities });
 }
@@ -64,7 +60,7 @@ class Spotify {
         const NoFeatRegex = / *\(.*(ft|feat|with).*\)/gmi;
         return [
             this.song.track.title.replace(NoFeatRegex, '') || 'Nothing',
-            LF.format(this.song.artists.map(art => art.name)).replace(NoFeatRegex, '') || 'None',
+            LF.format(this.song.artists.map(art => art.name) || ['None']).replace(NoFeatRegex, ''),
             this.song.album.title.replace(NoFeatRegex, '') || 'None',
         ];
     }
@@ -73,13 +69,11 @@ class Spotify {
 }
 
 export const LoadData = async (user, id) => {
-    const req = await fetch(`https://api.lanyard.rest/v1/users/${id}`);
-    const spotifyReq = await fetch(`https://spotify.thefemdevs.com/playing/${user}`);
     const
         discord = new Discord(),
         spotify = new Spotify(),
-        { data } = await req.json(),
-        spotifyData = await spotifyReq.json();
+        { data } = await fetch(`https://api.lanyard.rest/v1/users/${id}`).then(res => res.json()),
+        spotifyData = await fetch(`https://spotify.thefemdevs.com/playing/${user}`).then(res => res.json());
     discord
         .setStatus(data.discord_status)
         .setActivities(data.activities);
