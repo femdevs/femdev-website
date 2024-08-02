@@ -9,50 +9,43 @@ on:
   schedule:
     - cron: '0 0 * * *'
 
+permissions:
+  actions: read
+  contents: read
+  security-events: write
+
 jobs:
   security:
     name: Security Scanning
-    permissions:
-      actions: read
-      contents: read
-      security-events: write
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@master
       - name: Setup Node version 20
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@master
         with:
           node-version: 20
-      - name: Install Dependencies
-        run: npm i
       - name: Prepare Snyk
         uses: snyk/actions/setup@master
-      - name: Run Snyk Code test
-        run: snyk code test --sarif > snyk-code.sarif
+      - name: Run Code Tests
+        run: |
+          npm i
+          mkdir cli-results
+          snyk code test --sarif > cli-results/snyk.sarif
+          npx eslint . --format @microsoft/eslint-formatter-sarif --output-file cli-results/eslint.sarif
         continue-on-error: true
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-      - name: Upload Snyk results to GitHub
-        uses: github/codeql-action/upload-sarif@v2
+      - name: Upload Results to GitHub
+        uses: github/codeql-action/upload-sarif@main
         with:
-          sarif_file: snyk-code.sarif
-          wait-for-processing: true
-      - name: Run ESLint
-        run: npx eslint .
-          --format @microsoft/eslint-formatter-sarif
-          --output-file eslint-results.sarif
-        continue-on-error: true
-      - name: Upload ESLint results to GitHub
-        uses: github/codeql-action/upload-sarif@v2
-        with:
-          sarif_file: eslint-results.sarif
+          sarif_file: cli-results
           wait-for-processing: true
       - name: Prepare CodeQL
-        uses: github/codeql-action/init@v2
+        uses: github/codeql-action/init@main
         with:
           languages: javascript
       - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v2
+        uses: github/codeql-action/analyze@main
         with:
           category: "/language:javascript"
