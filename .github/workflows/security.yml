@@ -31,11 +31,16 @@ jobs:
         run: |
           npm i
           mkdir cli-results
-          snyk code test --sarif > cli-results/snyk.sarif
-          npx eslint . --format @microsoft/eslint-formatter-sarif --output-file cli-results/eslint.sarif
+      - name: Run ESLint
+        run: npx eslint . --format @microsoft/eslint-formatter-sarif --output-file cli-results/eslint.sarif
+        continue-on-error: true
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/node@master
         continue-on-error: true
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: --sarif-file-output=cli-results/snyk.sarif
       - name: Upload Results to GitHub
         uses: github/codeql-action/upload-sarif@main
         with:
