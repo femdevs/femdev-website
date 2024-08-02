@@ -27,7 +27,7 @@ jobs:
           node-version: 20
       - name: Prepare Snyk
         uses: snyk/actions/setup@master
-      - name: Run Code Tests
+      - name: Prepare Dependencies
         run: |
           npm i
           mkdir cli-results
