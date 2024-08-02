@@ -6,7 +6,7 @@ The following versions of the website have accepted security policies
 
 | Version | Supported          |
 | ------- | ------------------ |
-| 3.0.0   | :white_check_mark: |
+| >= 3.3.0 | :white_check_mark: |
 | 3.0.0   | :white_check_mark: |
 | < 2.1.0 | :x:                |
 

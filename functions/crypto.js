@@ -23,7 +23,6 @@ class CryptographyData {
 
 class Cryptography {
 	static encrypt(inputData) {
-		
 		const data = new CryptographyData();
 		data.prehash = crypto.createHash(cd.ha).update(Buffer.from(inputData)).digest(cd.encoding);
 		data.iv = crypto.randomBytes(cd.crypt.ivLength).toString(cd.encoding);
