@@ -2,7 +2,7 @@ const
 	assert = require('assert'),
 	nodemailer = require('nodemailer'),
 	router = require('express').Router(),
-	htmlMinifier = require('html-minifier'),
+	htmlMinifier = require('html-minifier-terser'),
 	Auth = require('../../../functions/crypto'),
 	htmlProcessor = require('node-html-parser');
 
