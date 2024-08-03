@@ -32,7 +32,7 @@ jobs:
           npm i @microsoft/eslint-formatter-sarif
           mkdir cli-results
       - name: Run ESLint
-        run: npx eslint . --format @microsoft/eslint-formatter-sarif > cli-results/eslint.sarif
+        run: npx eslint . --format @microsoft/eslint-formatter-sarif > cli-results/eslint.sarif || true
         continue-on-error: true
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/node@master
