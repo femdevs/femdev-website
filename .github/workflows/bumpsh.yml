@@ -15,14 +15,14 @@ permissions:
 
 jobs:
   deploy-doc:
-    if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
+    if: ${{ github.event_name != 'pull_request' }}
     name: Deploy API documentation on Bump
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@main
       - name: Deploy API documentation
-        uses: bump-sh/github-action@v1
+        uses: bump-sh/github-action@master
         with:
           doc: 'e1e8a461-3b29-4d71-a8fc-010429c9761e'
           token: ${{secrets.BUMP_TOKEN}}
@@ -33,9 +33,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@main
       - name: Comment pull request with API diff
-        uses: bump-sh/github-action@v1
+        uses: bump-sh/github-action@master
         with:
           doc: 'e1e8a461-3b29-4d71-a8fc-010429c9761e'
           token: ${{secrets.BUMP_TOKEN}}

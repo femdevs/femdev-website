@@ -29,10 +29,10 @@ jobs:
         uses: snyk/actions/setup@master
       - name: Prepare Dependencies
         run: |
-          npm i
+          npm i @microsoft/eslint-formatter-sarif
           mkdir cli-results
       - name: Run ESLint
-        run: npx eslint . --format @microsoft/eslint-formatter-sarif --output-file cli-results/eslint.sarif
+        run: npx eslint . --format @microsoft/eslint-formatter-sarif > cli-results/eslint.sarif
         continue-on-error: true
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/node@master
