@@ -43,7 +43,7 @@ async function fetchNowPlaying() {
 
     const spotify = new Spotify();
     spotify.setPlaying(data.isPlaying);
-    spotify.setTrack(spotify.playing);
+    spotify.setTrack(data.playing);
 
     const AlbumCSS = `
 .album-cover::before {
