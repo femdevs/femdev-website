@@ -52,10 +52,10 @@ html(lang="en")
           "name": "The FemDevs"
         }
       }
+    style#bg
   body.text-white
     .flex.items-center.justify-center.min-h-screen
       .bg-gray-900.rounded-lg.shadow-lg.p-4.w-full.max-w-lg.flex.now-playing.gap-8(class="md:max-w-4xl")
-        //- Album Cover
         .album-cover
           img#album-cover(src="https://via.placeholder.com/300", alt="Album Cover").rounded-lg.w-full.object-cover
         .song-info.p-4.self-center
@@ -66,6 +66,6 @@ html(lang="en")
             .h-1.bg-gray-700.rounded-full.overflow-hidden
               div#progress-bar.h-full.bg-green-500
             .flex.justify-between.text-sm.text-gray-400.mt-1
-              span#current-time 0:00
-              span#duration-time 3:45
+              span#current-time --:--
+              span#duration-time --:--
     script(src="/cdn/js/player")
