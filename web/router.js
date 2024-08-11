@@ -17,6 +17,7 @@ router
 		vhost('chat.thefemdevs.com', require('./chat/')),
 		vhost('admin.thefemdevs.com', require('./admin/')),
 		vhost('legal.thefemdevs.com', require('./legal/')),
+		vhost('library.thefemdevs.com', require('./lib/')),
 		vhost('errors.thefemdevs.com', require('./errors/')),
 		vhost('spotify.thefemdevs.com', require('./spotify/')),
 		vhost('discord.thefemdevs.com', require('./discord/')),

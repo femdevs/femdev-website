@@ -1,11 +1,9 @@
 const router = require('express').Router();
 
 const discord = require('./discord');
-const license = require('./license');
 
 router
     .use('/discord', discord)
-    .use('/license', license)
 	.use((req, res, next) => {
 		const { path } = req;
 		const methodUsed = req.method.toUpperCase();

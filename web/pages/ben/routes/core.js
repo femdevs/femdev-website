@@ -16,11 +16,18 @@ router
 			},
 		);
 	})
-	.get('/message', async (req, res) => {
-		res
-			.setHeader('x-pubkey', 'https://keys.openpgp.org/vks/v1/by-fingerprint/AA9B0130E794BF62C0FA240CE9469FAA8B44BB16')
-			.setHeader('Content-Type', 'text/plain;charset=UTF-8')
-			.send(require('fs').readFileSync(`${__dirname}/../assets/docs/message.gpg`).toString());
+	.get('/player', async (req, res) => {
+		res.render(
+			'pages/ben/player.pug',
+			{
+				meta: {
+					title: "Benpai's Music Player",
+					desc: 'A live updating music player for what Benpai is currently listening to!',
+					url: 'https://ben.thefemdevs.com/player',
+					canonical: 'https://ben.thefemdevs.com/player',
+				},
+			},
+		);
 	})
 	.use((req, res, next) => {
 		const { path } = req;

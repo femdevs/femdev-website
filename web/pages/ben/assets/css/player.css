@@ -1,0 +1,40 @@
+.album-cover,
+.album-cover img {
+    position: relative;
+}
+
+@media (min-width:768px) {
+    .now-playing {
+        flex-direction: row;
+    }
+
+    .album-cover,
+    .song-info {
+        width: 50%;
+    }
+}
+
+@media (max-width:768px) {
+    .now-playing {
+        flex-direction: column;
+    }
+
+    .album-cover,
+    .song-info {
+        width: 100%;
+    }
+}
+
+body {
+    background-color: #a0a0a0;
+}
+
+.album-cover img {
+    z-index: 1;
+    width: 100%;
+}
+
+#progress-bar {
+    background-image: linear-gradient(135deg, rgba(0, 0, 0, .5) 25%, transparent 25%, transparent 50%, rgba(0, 0, 0, .5) 50%, rgba(0, 0, 0, .5) 75%, transparent 75%, transparent);
+    background-size: 20px 20px;
+}

@@ -1,0 +1,71 @@
+include ../../mixins.pug
+doctype html
+html(lang="en")
+  head
+    +meta(0)
+    +canonical(meta.canonical)
+    +meta(3, 'X-UA-Compatible', "IE%e%edge")
+    +meta(3, 'Content-Type', 'text/html; charset%e%utf-8')
+    +meta(1, 'viewport', 'width%e%device-width, initial-scale%e%1.0')
+    +meta(1, 'google', 'nositelinkssearchbox')
+    +meta(2, 'og:url', meta.url)
+    +meta(1, 'title', meta.title)
+    +meta(2, 'og:title', meta.title)
+    +meta(2, 'twitter:url', meta.url)
+    +meta(1, 'description', meta.desc)
+    +meta(2, 'twitter:title', meta.title)
+    +meta(2, 'og:description', meta.desc)
+    +meta(2, 'twitter:description', meta.desc)
+    +meta(2, 'og:image', 'https://cdn.thefemdevs.com/assets/images/grav/329f481757ca49ce98d31d9041285a11')
+    +meta(2, 'og:type', 'website')
+    +meta(1, 'language', 'en-us')
+    +meta(1, 'revisit-after', '2 days')
+    +meta(2, 'twitter:card', 'summary_large_image')
+    +meta(2, 'twitter:image', 'https://cdn.thefemdevs.com/assets/images/grav/329f481757ca49ce98d31d9041285a11')
+    +meta(1, 'apple-mobile-web-app-status-bar-style', 'black')
+    +meta(1, 'apple-mobile-web-app-title', 'The FemDevs Website')
+    +headerlink('https://cdn.thefemdevs.com/assets/images/grav/329f481757ca49ce98d31d9041285a11', 'apple-touch-icon', 'image/png')
+    +headerlink('https://cdn.thefemdevs.com/assets/images/grav/329f481757ca49ce98d31d9041285a11', 'icon', 'image/png')
+    +headerlink('https://cdn.thefemdevs.com/assets/css/d', 'stylesheet', 'text/css')
+    +headerlink('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css', 'stylesheet', 'text/css')
+    +headerlink('https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css', 'stylesheet', 'text/css')
+    +headerlink('https://fonts.googleapis.com/icon?family=Material+Icons', 'stylesheet', 'text/css')
+    +headerlink('/cdn/css/player', 'stylesheet', 'text/css')
+    title= meta.title
+    script(type="application/ld+json").
+      {
+        "@context": "https://schema.org/",
+        "@type": "Person",
+        "name": "Ben",
+        "url": "https://ben.thefemdevs.com",
+        "image": "https://cdn.thefemdevs.com/assets/images/grav/329f481757ca49ce98d31d9041285a11",
+        "sameAs": [
+          "https://github.com/therealbenpai",
+          "https://gitlab.com/benshawmean",
+          "https://en.pronouns.page/@therealbenpai",
+          "https://sparty18.com",
+          "https://ben.thefemdevs.com"
+        ],
+        "jobTitle": "Owner",
+        "worksFor": {
+          "@type": "Organization",
+          "name": "The FemDevs"
+        }
+      }
+  body.text-white
+    .flex.items-center.justify-center.min-h-screen
+      .bg-gray-900.rounded-lg.shadow-lg.p-4.w-full.max-w-lg.flex.now-playing.gap-8(class="md:max-w-4xl")
+        //- Album Cover
+        .album-cover
+          img#album-cover(src="https://via.placeholder.com/300", alt="Album Cover").rounded-lg.w-full.object-cover
+        .song-info.p-4.self-center
+          .text-center(class="md:text-left")
+            h2#song-title.text-xl.font-semibold Song Title
+            p#artist-name.text-gray-400 Artist Name
+          .my-4
+            .h-1.bg-gray-700.rounded-full.overflow-hidden
+              div#progress-bar.h-full.bg-green-500
+            .flex.justify-between.text-sm.text-gray-400.mt-1
+              span#current-time 0:00
+              span#duration-time 3:45
+    script(src="/cdn/js/player")
