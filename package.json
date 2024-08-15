@@ -61,7 +61,7 @@
     "asn1.js-rfc2560": "^5.0.1",
     "asn1.js-rfc5280": "^3.0.0",
     "autoprefixer": "^10.4.16",
-    "axios": "^1.6.8",
+    "axios": "^1.7.4",
     "bootstrap": "^5.3.3",
     "bwip-js": "^4.4.0",
     "chalk": "^3.0.0",
